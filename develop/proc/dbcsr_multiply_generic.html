@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for procedures.">368 statements</a>
+                 title=" 0.6% of total for procedures.">372 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -183,7 +183,7 @@ as well with the same epsilon value.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~9"></span>
+              <span class="anchor" id="variable-transa~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -201,7 +201,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~9"></span>
+              <span class="anchor" id="variable-transb~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -219,7 +219,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~39"></span>
+              <span class="anchor" id="variable-alpha~54"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -234,7 +234,7 @@ specifies the form of op( B ) to be used in the matrix multiplication transb = '
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~87"></span>
+              <span class="anchor" id="variable-matrix_a~119"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -250,7 +250,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~54"></span>
+              <span class="anchor" id="variable-matrix_b~72"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -266,7 +266,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~13"></span>
+              <span class="anchor" id="variable-beta~20"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -281,7 +281,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~16"></span>
+              <span class="anchor" id="variable-matrix_c~23"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -296,7 +296,7 @@ right BCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_row~9"></span>
+              <span class="anchor" id="variable-first_row~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -316,7 +316,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_row~10"></span>
+              <span class="anchor" id="variable-last_row~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -336,7 +336,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_column~9"></span>
+              <span class="anchor" id="variable-first_column~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -356,7 +356,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_column~13"></span>
+              <span class="anchor" id="variable-last_column~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -376,7 +376,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first_k~10"></span>
+              <span class="anchor" id="variable-first_k~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -396,7 +396,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-last_k~11"></span>
+              <span class="anchor" id="variable-last_k~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -416,7 +416,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~16"></span>
+              <span class="anchor" id="variable-retain_sparsity~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -431,7 +431,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~20"></span>
+              <span class="anchor" id="variable-filter_eps~25"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -446,7 +446,7 @@ last full column of limiting inner product</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~27"></span>
+              <span class="anchor" id="variable-flop~32"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1049,7 +1049,6 @@ last full column of limiting inner product</p>
 <span class="w">                          </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="k">         </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
-<span class="cp">#if defined (__DBCSR_ACC_G2G)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_real_8</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">val</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">            </span><span class="c">! If G2G is enabled, norms have to be calculated on the GPU.</span>
 <span class="w">            </span><span class="c">! Since the norms kernel expects only real_8 type data, we</span>
@@ -1064,13 +1063,7 @@ last full column of limiting inner product</p>
 <span class="w">                                     </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                     </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
-<span class="cp">#else</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">,</span><span class="w"> </span><span class="n">m2s_right</span><span class="p">,</span><span class="w"> </span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                              </span><span class="n">retain_sparsity</span><span class="o">=</span><span class="n">retain_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                              </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                              </span><span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">,</span><span class="w"> </span><span class="n">keep_product_data</span><span class="o">=</span><span class="n">keep_product_data</span><span class="p">)</span>
-<span class="cp">#endif</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">reshuffle</span><span class="o">=</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">)</span>
+<span class="k">         CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">reshuffle</span><span class="o">=</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">keep_sparsity</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="c">! RMA implementation algorithm has to synchronize at the end of each multiplication</span>

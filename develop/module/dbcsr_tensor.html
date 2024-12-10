@@ -113,7 +113,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen~38">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor.html#variable-modulen~63">moduleN</a>
         </div>
       </div>
     </div>
@@ -199,25 +199,25 @@ Support for arbitrary tensor contractions
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tensor_split.html'>dbcsr_tensor_split</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_io.html'>dbcsr_tensor_io</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
               </ul>
             </li>
         </ul>
@@ -242,7 +242,7 @@ Support for arbitrary tensor contractions
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~38"></span>
+              <span class="anchor" id="variable-modulen~63"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -320,7 +320,7 @@ and decide if tensor process grid needs to be optimized</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split~2"></span>
+              <span class="anchor" id="variable-split~4"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -425,7 +425,7 @@ and decide if tensor process grid needs to be optimized</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~173"></span>
+              <span class="anchor" id="variable-tensor~92"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -498,7 +498,7 @@ OR
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~14"></span>
+              <span class="anchor" id="variable-tensor_in~6"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -514,7 +514,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~13"></span>
+              <span class="anchor" id="variable-tensor_out~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -530,7 +530,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~9"></span>
+              <span class="anchor" id="variable-order~45"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -545,7 +545,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~37"></span>
+              <span class="anchor" id="variable-summation~51"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -560,7 +560,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds~4"></span>
+              <span class="anchor" id="variable-bounds"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -575,7 +575,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~16"></span>
+              <span class="anchor" id="variable-move_data~9"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -590,7 +590,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~16"></span>
+              <span class="anchor" id="variable-unit_nr~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -630,7 +630,7 @@ Target</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~15"></span>
+              <span class="anchor" id="variable-tensor_in~7"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -645,7 +645,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~14"></span>
+              <span class="anchor" id="variable-tensor_out~6"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -660,7 +660,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~10"></span>
+              <span class="anchor" id="variable-order~46"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -675,7 +675,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~38"></span>
+              <span class="anchor" id="variable-summation~52"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -690,7 +690,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds~5"></span>
+              <span class="anchor" id="variable-bounds~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -705,7 +705,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~17"></span>
+              <span class="anchor" id="variable-move_data~10"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -720,7 +720,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~17"></span>
+              <span class="anchor" id="variable-unit_nr~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -760,7 +760,7 @@ Target</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~16"></span>
+              <span class="anchor" id="variable-tensor_in~8"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -775,7 +775,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~15"></span>
+              <span class="anchor" id="variable-tensor_out~7"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -790,7 +790,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~39"></span>
+              <span class="anchor" id="variable-summation~53"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -830,7 +830,7 @@ Target</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~14"></span>
+              <span class="anchor" id="variable-matrix_in~15"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -845,7 +845,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~16"></span>
+              <span class="anchor" id="variable-tensor_out~8"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -860,7 +860,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~40"></span>
+              <span class="anchor" id="variable-summation~54"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -900,7 +900,7 @@ Target</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~17"></span>
+              <span class="anchor" id="variable-tensor_in~9"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -930,7 +930,7 @@ Target</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~41"></span>
+              <span class="anchor" id="variable-summation~55"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -973,7 +973,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~31"></span>
+              <span class="anchor" id="variable-alpha~47"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -988,7 +988,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_1~10"></span>
+              <span class="anchor" id="variable-tensor_1~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1003,7 +1003,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_2~10"></span>
+              <span class="anchor" id="variable-tensor_2~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1018,7 +1018,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~9"></span>
+              <span class="anchor" id="variable-beta~13"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1033,7 +1033,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_3~10"></span>
+              <span class="anchor" id="variable-tensor_3~2"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1138,7 +1138,7 @@ tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_1~12"></span>
+              <span class="anchor" id="variable-bounds_1~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1154,7 +1154,7 @@ which to contract. For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_2~12"></span>
+              <span class="anchor" id="variable-bounds_2~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1170,7 +1170,7 @@ For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_3~11"></span>
+              <span class="anchor" id="variable-bounds_3~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1186,7 +1186,7 @@ For use in batched contraction.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-optimize_dist~7"></span>
+              <span class="anchor" id="variable-optimize_dist~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1202,7 +1202,7 @@ only for dense matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_1~5"></span>
+              <span class="anchor" id="variable-pgrid_opt_1"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1219,7 +1219,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_2~5"></span>
+              <span class="anchor" id="variable-pgrid_opt_2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1234,7 +1234,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_3~5"></span>
+              <span class="anchor" id="variable-pgrid_opt_3"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1249,7 +1249,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~15"></span>
+              <span class="anchor" id="variable-filter_eps~18"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1264,7 +1264,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~16"></span>
+              <span class="anchor" id="variable-flop~26"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1279,7 +1279,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~18"></span>
+              <span class="anchor" id="variable-move_data~11"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1294,7 +1294,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~14"></span>
+              <span class="anchor" id="variable-retain_sparsity~13"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1309,7 +1309,7 @@ in this case the pointer is not associated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~18"></span>
+              <span class="anchor" id="variable-unit_nr~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1326,7 +1326,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-log_verbose~7"></span>
+              <span class="anchor" id="variable-log_verbose~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1366,7 +1366,7 @@ if 0 on ALL ranks, no output is written</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~32"></span>
+              <span class="anchor" id="variable-alpha~48"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1381,7 +1381,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_1~11"></span>
+              <span class="anchor" id="variable-tensor_1~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1396,7 +1396,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_2~11"></span>
+              <span class="anchor" id="variable-tensor_2~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1411,7 +1411,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~10"></span>
+              <span class="anchor" id="variable-beta~14"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1426,7 +1426,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_3~11"></span>
+              <span class="anchor" id="variable-tensor_3~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1531,7 +1531,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_1~13"></span>
+              <span class="anchor" id="variable-bounds_1~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1546,7 +1546,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_2~13"></span>
+              <span class="anchor" id="variable-bounds_2~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1561,7 +1561,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_3~12"></span>
+              <span class="anchor" id="variable-bounds_3~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1576,7 +1576,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-optimize_dist~8"></span>
+              <span class="anchor" id="variable-optimize_dist~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1591,7 +1591,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_1~6"></span>
+              <span class="anchor" id="variable-pgrid_opt_1~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1606,7 +1606,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_2~6"></span>
+              <span class="anchor" id="variable-pgrid_opt_2~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1621,7 +1621,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid_opt_3~6"></span>
+              <span class="anchor" id="variable-pgrid_opt_3~2"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(out),</td>
@@ -1636,7 +1636,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~16"></span>
+              <span class="anchor" id="variable-filter_eps~19"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1651,7 +1651,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~17"></span>
+              <span class="anchor" id="variable-flop~27"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1666,7 +1666,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~19"></span>
+              <span class="anchor" id="variable-move_data~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1681,7 +1681,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~15"></span>
+              <span class="anchor" id="variable-retain_sparsity~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1696,7 +1696,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks_local~5"></span>
+              <span class="anchor" id="variable-nblks_local~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1711,7 +1711,7 @@ if 0 on ALL ranks, no output is written</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result_index~6"></span>
+              <span class="anchor" id="variable-result_index~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1727,7 +1727,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~19"></span>
+              <span class="anchor" id="variable-unit_nr~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1742,7 +1742,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-log_verbose~8"></span>
+              <span class="anchor" id="variable-log_verbose~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1782,7 +1782,7 @@ this is an estimate based on block norm multiplication</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~18"></span>
+              <span class="anchor" id="variable-tensor_in~10"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1827,7 +1827,7 @@ this is an estimate based on block norm multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~17"></span>
+              <span class="anchor" id="variable-tensor_out~9"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1929,7 +1929,7 @@ is avoided if tensors already in a consistent layout.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor1~4"></span>
+              <span class="anchor" id="variable-tensor1~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1944,7 +1944,7 @@ is avoided if tensors already in a consistent layout.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor2~4"></span>
+              <span class="anchor" id="variable-tensor2~3"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2132,7 +2132,7 @@ whether a new tensor 2 was created</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata1~3"></span>
+              <span class="anchor" id="variable-nodata1~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2148,7 +2148,7 @@ don't copy data of tensor 2</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata2~3"></span>
+              <span class="anchor" id="variable-nodata2~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2196,7 +2196,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-optimize_dist~9"></span>
+              <span class="anchor" id="variable-optimize_dist~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2211,7 +2211,7 @@ memory optimization: transfer data s.t. tensor2 may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~20"></span>
+              <span class="anchor" id="variable-unit_nr~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2252,7 +2252,7 @@ matrix multiplication. This routine reshapes the smallest of the three tensors.<
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~19"></span>
+              <span class="anchor" id="variable-tensor_in~11"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2299,7 +2299,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~18"></span>
+              <span class="anchor" id="variable-tensor_out~10"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out),</td>
@@ -2344,7 +2344,7 @@ index that should be mapped to second matrix dimension</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata~10"></span>
+              <span class="anchor" id="variable-nodata~9"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2360,7 +2360,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~20"></span>
+              <span class="anchor" id="variable-move_data~13"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2376,7 +2376,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~21"></span>
+              <span class="anchor" id="variable-unit_nr~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2511,7 +2511,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~20"></span>
+              <span class="anchor" id="variable-tensor_in~12"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2526,7 +2526,7 @@ memory optimization: transfer data s.t. tensor_in may be empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map1_2d~13"></span>
+              <span class="anchor" id="variable-map1_2d~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2542,7 +2542,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-map2_2d~13"></span>
+              <span class="anchor" id="variable-map2_2d~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2558,7 +2558,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~19"></span>
+              <span class="anchor" id="variable-tensor_out~11"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2588,7 +2588,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist1~3"></span>
+              <span class="anchor" id="variable-dist1~2"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in),</td>
@@ -2603,7 +2603,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist2~3"></span>
+              <span class="anchor" id="variable-dist2~2"></span>
               type(<a href='../type/array_list.html'>array_list</a>),
             </td>
 <td>intent(in),</td>
@@ -2648,7 +2648,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~19"></span>
+              <span class="anchor" id="variable-name~38"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -2663,7 +2663,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata~11"></span>
+              <span class="anchor" id="variable-nodata~10"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2678,7 +2678,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~21"></span>
+              <span class="anchor" id="variable-move_data~14"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2718,7 +2718,7 @@ new index mapping</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~21"></span>
+              <span class="anchor" id="variable-tensor_in~13"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2733,7 +2733,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~20"></span>
+              <span class="anchor" id="variable-tensor_out~12"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2748,7 +2748,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~11"></span>
+              <span class="anchor" id="variable-order~47"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2788,7 +2788,7 @@ new index mapping</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~22"></span>
+              <span class="anchor" id="variable-tensor_in~14"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2803,7 +2803,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~21"></span>
+              <span class="anchor" id="variable-tensor_out~13"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2818,7 +2818,7 @@ new index mapping</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-order~12"></span>
+              <span class="anchor" id="variable-order~48"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2861,7 +2861,7 @@ See documentation of dbcsr_t_contract.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~33"></span>
+              <span class="anchor" id="variable-alpha~49"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2876,7 +2876,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_1~12"></span>
+              <span class="anchor" id="variable-tensor_1~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2891,7 +2891,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_2~12"></span>
+              <span class="anchor" id="variable-tensor_2~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2906,7 +2906,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~11"></span>
+              <span class="anchor" id="variable-beta~15"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2921,7 +2921,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_3~12"></span>
+              <span class="anchor" id="variable-tensor_3~4"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -3026,7 +3026,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_1~14"></span>
+              <span class="anchor" id="variable-bounds_1~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3041,7 +3041,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_2~14"></span>
+              <span class="anchor" id="variable-bounds_2~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3056,7 +3056,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_3~13"></span>
+              <span class="anchor" id="variable-bounds_3~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3071,7 +3071,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~17"></span>
+              <span class="anchor" id="variable-filter_eps~20"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -3086,7 +3086,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks_local~6"></span>
+              <span class="anchor" id="variable-nblks_local~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -3101,7 +3101,7 @@ See documentation of dbcsr_t_contract.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result_index~7"></span>
+              <span class="anchor" id="variable-result_index~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3143,7 +3143,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_1~13"></span>
+              <span class="anchor" id="variable-tensor_1~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3158,7 +3158,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_2~13"></span>
+              <span class="anchor" id="variable-tensor_2~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3263,7 +3263,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_1~15"></span>
+              <span class="anchor" id="variable-bounds_1~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3278,7 +3278,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_2~15"></span>
+              <span class="anchor" id="variable-bounds_2~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3293,7 +3293,7 @@ see dbcsr_t_contract for docu of dummy arguments</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bounds_3~14"></span>
+              <span class="anchor" id="variable-bounds_3~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3365,7 +3365,7 @@ whether tensor 2 should be cropped</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_1~14"></span>
+              <span class="anchor" id="variable-tensor_1~6"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3395,7 +3395,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_2~14"></span>
+              <span class="anchor" id="variable-tensor_2~6"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3425,7 +3425,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_3~13"></span>
+              <span class="anchor" id="variable-tensor_3~5"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3455,7 +3455,7 @@ whether tensor 2 should be cropped</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~22"></span>
+              <span class="anchor" id="variable-unit_nr~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3495,7 +3495,7 @@ whether tensor 2 should be cropped</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~174"></span>
+              <span class="anchor" id="variable-tensor~93"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3612,7 +3612,7 @@ contraction calls.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~175"></span>
+              <span class="anchor" id="variable-tensor~94"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3627,7 +3627,7 @@ contraction calls.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~23"></span>
+              <span class="anchor" id="variable-unit_nr~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3667,7 +3667,7 @@ contraction calls.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~176"></span>
+              <span class="anchor" id="variable-tensor~95"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3682,7 +3682,7 @@ contraction calls.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~34"></span>
+              <span class="anchor" id="variable-pgrid~38"></span>
               type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3773,7 +3773,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata~12"></span>
+              <span class="anchor" id="variable-nodata~11"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3803,7 +3803,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~24"></span>
+              <span class="anchor" id="variable-unit_nr~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3843,7 +3843,7 @@ block index plus one of the last block in the last range.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor~177"></span>
+              <span class="anchor" id="variable-tensor~96"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3858,7 +3858,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~33"></span>
+              <span class="anchor" id="variable-mp_comm~40"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3873,7 +3873,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pdims~16"></span>
+              <span class="anchor" id="variable-pdims~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3888,7 +3888,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nodata~13"></span>
+              <span class="anchor" id="variable-nodata~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3903,7 +3903,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~13"></span>
+              <span class="anchor" id="variable-nsplit~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3918,7 +3918,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dimsplit~5"></span>
+              <span class="anchor" id="variable-dimsplit~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3948,7 +3948,7 @@ block index plus one of the last block in the last range.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~25"></span>
+              <span class="anchor" id="variable-unit_nr~33"></span>
               integer,
             </td>
 <td>intent(in),</td>

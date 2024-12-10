@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for source files.">292 statements</a>
+                 title=" 0.4% of total for source files.">295 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -685,13 +685,16 @@
 <a id="ln-532" name="ln-532" href="#ln-532"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-533" name="ln-533" href="#ln-533"></a><span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-534" name="ln-534" href="#ln-534"></a><span class="w">      </span><span class="k">ELSE</span>
-<a id="ln-535" name="ln-535" href="#ln-535"></a><span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">do_gpu_c_redux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a id="ln-536" name="ln-536" href="#ln-536"></a><span class="w">      </span><span class="k">END IF</span>
-<a id="ln-537" name="ln-537" href="#ln-537"></a>
-<a id="ln-538" name="ln-538" href="#ln-538"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a id="ln-539" name="ln-539" href="#ln-539"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
+<a id="ln-535" name="ln-535" href="#ln-535"></a><span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<a id="ln-536" name="ln-536" href="#ln-536"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI G2G requires all kernels to be evaluated on the GPU!&quot;</span><span class="p">)</span>
+<a id="ln-537" name="ln-537" href="#ln-537"></a><span class="w">         </span><span class="k">END IF</span>
+<a id="ln-538" name="ln-538" href="#ln-538"></a><span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">do_gpu_c_redux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a id="ln-539" name="ln-539" href="#ln-539"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-540" name="ln-540" href="#ln-540"></a>
-<a id="ln-541" name="ln-541" href="#ln-541"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
+<a id="ln-541" name="ln-541" href="#ln-541"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a id="ln-542" name="ln-542" href="#ln-542"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
+<a id="ln-543" name="ln-543" href="#ln-543"></a>
+<a id="ln-544" name="ln-544" href="#ln-544"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
 </pre></div>
 
       </section>

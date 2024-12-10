@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">69 statements</a>
+                 title=" 0.1% of total for procedures.">65 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -263,7 +263,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-num_layers_3d~3"></span>
+              <span class="anchor" id="variable-num_layers_3d"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -608,11 +608,7 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">tas_split_factor</span><span class="p">)</span>
-<span class="cp">#if defined(__DBCSR_ACC_G2G)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">set</span><span class="p">(</span><span class="n">use_acc_g2g</span><span class="p">)</span>
-<span class="cp">#else</span>
-<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">use_acc_g2g</span><span class="p">)</span>
-<span class="cp">#endif</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nthreads</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>

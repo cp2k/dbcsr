@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 2.2% of total for derived types.</p>Including implementation: 25 statements,  1.5% of total for derived types.">25 statements</a>
+                 title="<p> 2.3% of total for derived types.</p>Including implementation: 26 statements,  1.5% of total for derived types.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -137,6 +137,7 @@
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mempools_cpu">USE_MEMPOOLS_CPU</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mpi_allocator">USE_MPI_ALLOCATOR</a>
             <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-tas_split_factor">TAS_SPLIT_FACTOR</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_acc_g2g">USE_ACC_G2G</a>
         </div>
       </div>
     </div>
@@ -580,6 +581,23 @@
                 
             </td>
         </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_acc_g2g"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_ACC_G2G</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_ACC_G2G&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
     </tbody>
   </table>
 
@@ -619,9 +637,7 @@
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_MEMPOOLS_CPU</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_MPI_ALLOCATOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">TAS_SPLIT_FACTOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_REAL</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">)</span>
-<span class="cp">#if defined(__DBCSR_ACC_G2G)</span>
-<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_ACC_G2G</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<span class="cp">#endif</span>
+<span class="w">      </span><span class="n">SET_PARAMETER_DEFAULT</span><span class="p">(</span><span class="n">USE_ACC_G2G</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_config_type</span>
 </pre></div>
 

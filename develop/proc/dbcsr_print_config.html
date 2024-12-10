@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">72 statements</a>
+                 title=" 0.1% of total for procedures.">73 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~38"></span>
+              <span class="anchor" id="variable-unit_nr~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -314,11 +314,9 @@
 <span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11,A4)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">            </span><span class="s2">&quot;DBCSR| ACC: Min. flop for processing&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span><span class="p">%</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span><span class="p">%</span><span class="n">print_source</span><span class="p">()</span>
-<span class="cp">#if defined(__DBCSR_ACC_G2G)</span>
 <span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1,A4)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">            </span><span class="s2">&quot;DBCSR| ACC: Use G2G algorithm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">print_source</span><span class="p">()</span>
-<span class="cp">#endif</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11,A4)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="s2">&quot;DBCSR| ACC: Min. flop for sorting&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_sort</span><span class="p">%</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

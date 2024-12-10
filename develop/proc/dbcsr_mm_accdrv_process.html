@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">59 statements</a>
+                 title=" 0.1% of total for procedures.">62 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~65"></span>
+              <span class="anchor" id="variable-this~34"></span>
               type(<a href='../type/dbcsr_mm_accdrv_type.html'>dbcsr_mm_accdrv_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -189,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~24"></span>
+              <span class="anchor" id="variable-right~23"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-params"></span>
+              <span class="anchor" id="variable-params~15"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -219,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_size~6"></span>
+              <span class="anchor" id="variable-stack_size~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -234,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~3"></span>
+              <span class="anchor" id="variable-stack_descr~7"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -249,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-success~5"></span>
+              <span class="anchor" id="variable-success~4"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -264,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-generated_acc_untuned~4"></span>
+              <span class="anchor" id="variable-generated_acc_untuned"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -395,6 +395,9 @@
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_acc_g2g</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI G2G requires all kernels to be evaluated on the GPU!&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">END IF</span>
 <span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">do_gpu_c_redux</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="w">      </span><span class="k">END IF</span>
 
