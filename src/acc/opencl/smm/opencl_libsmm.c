@@ -28,15 +28,20 @@
       libxsmm_gemm_descriptor_dinit(BLOB, PREC, M, N, K, LDA, LDB, LDC, 1.0, 1.0, FLAGS, PREFETCH)
 #  endif
 
-#  if !defined(OPENCL_LIBSMM_VALIDATE_TRANS) && defined(OPENCL_LIBSMM_VALIDATE) && \
-    (1 < OPENCL_LIBSMM_VALIDATE || 0 > OPENCL_LIBSMM_VALIDATE)
-#    define OPENCL_LIBSMM_VALIDATE_TRANS
-#  endif
-#  if !defined(OPENCL_LIBSMM_VALIDATE_SMM) && defined(OPENCL_LIBSMM_VALIDATE)
-#    define OPENCL_LIBSMM_VALIDATE_SMM
-#  endif
-#  if !defined(OPENCL_LIBSMM_VALIDATE_EXIT) && defined(OPENCL_LIBSMM_VALIDATE) && 1
-#    define OPENCL_LIBSMM_VALIDATE_EXIT
+#  if defined(OPENCL_LIBSMM_VALIDATE)
+#    if !defined(OPENCL_LIBSMM_VALIDATE_TRANS) && (1 < OPENCL_LIBSMM_VALIDATE || 0 > OPENCL_LIBSMM_VALIDATE)
+#      define OPENCL_LIBSMM_VALIDATE_TRANS
+#    endif
+#    if !defined(OPENCL_LIBSMM_VALIDATE_SMM)
+#      define OPENCL_LIBSMM_VALIDATE_SMM
+#    endif
+#    if !defined(OPENCL_LIBSMM_VALIDATE_EXIT) && 1
+#      define OPENCL_LIBSMM_VALIDATE_EXIT
+#    endif
+#    if !defined(OPENCL_LIBSMM_VALIDATE_SCRATCH)
+#      define OPENCL_LIBSMM_VALIDATE_SCRATCH(SIZE, ALIGN) /*libxsmm_aligned_scratch(SIZE, ALIGN)*/ malloc(SIZE)
+#      define OPENCL_LIBSMM_VALIDATE_FREE(PTR) /*libxsmm_free(PTR)*/ free(PTR)
+#    endif
 #  endif
 #  if !defined(OPENCL_LIBSMM_KERNELNAME_TRANS)
 #    define OPENCL_LIBSMM_KERNELNAME_TRANS "trans"
@@ -109,31 +114,6 @@ int opencl_libsmm_use_cmem(cl_device_id device) {
   return EXIT_FAILURE;
 #  endif
 }
-
-
-#  if defined(OPENCL_LIBSMM_VALIDATE) && (0 != OPENCL_LIBSMM_VALIDATE)
-void opencl_libsmm_print_matrix(FILE* ostream, const char* label, libsmm_acc_data_t type, const void* mat, int m, int n) {
-  int i, j;
-  const char* const s = (NULL != label ? label : "");
-  const int len = (int)strlen(s);
-  for (i = 0; i < m; ++i) {
-    if (0 < i) {
-      fprintf(ostream, "%*s", len, " ");
-    }
-    else {
-      fprintf(ostream, "%s", s);
-    }
-    for (j = 0; j < n; ++j) {
-      switch (type) {
-        case dbcsr_type_real_8: fprintf(ostream, "%.2f ", ((const double*)mat)[i * n + j]); break;
-        case dbcsr_type_real_4: fprintf(ostream, "%.2f ", ((const float*)mat)[i * n + j]); break;
-        default: fprintf(ostream, "? ");
-      }
-    }
-    fprintf(ostream, "\n");
-  }
-}
-#  endif
 
 
 int opencl_libsmm_write_trans_params(FILE* stream, int only_key, const opencl_libsmm_transkey_t* key,
@@ -209,7 +189,7 @@ int opencl_libsmm_read_smm_params(char* parambuf, opencl_libsmm_smmkey_t* key, o
   LIBXSMM_MEMZERO127(key); /* potentially heterogeneous key-data (alignment gaps) */
   memset(value, 0, sizeof(opencl_libsmm_smm_t));
   for (; NULL != s;
-       ++i, s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), ACC_OPENCL_DELIMS) : NULL) : s), c = consumed)
+    ++i, s = (c != consumed ? ((s + 1) < end ? strtok((s + 1) + strlen(s), ACC_OPENCL_DELIMS) : NULL) : s), c = consumed)
   {
     switch (i) {
       case 0:
@@ -521,7 +501,9 @@ int libsmm_acc_init(void) {
                     memcpy(config_init, &config, sizeof(config));
                   }
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-                  if (active_match == i && c_dbcsr_acc_opencl_config.device.uid != key.devuid) {
+                  if (active_match == i && 0 != c_dbcsr_acc_opencl_config.device.uid &&
+                      c_dbcsr_acc_opencl_config.device.uid != key.devuid)
+                  {
                     key.devuid = c_dbcsr_acc_opencl_config.device.uid;
                     config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key));
                     if (NULL == config_init && NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
@@ -786,7 +768,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         const size_t scratch_size = (sizeof(int) * offset_stack_size) /*stack*/
                                     + data_size /*imat*/ + data_size /*omat*/ + (mn * typesize) /*gold*/
                                     + 3 * (LIBXSMM_ALIGNMENT - 1) /*alignments*/;
-        scratch = libxsmm_aligned_scratch(scratch_size, LIBXSMM_ALIGNMENT);
+        scratch = OPENCL_LIBSMM_VALIDATE_SCRATCH(scratch_size, LIBXSMM_ALIGNMENT);
         if (NULL != scratch) {
           stack = (int*)scratch;
           imat = (char*)LIBXSMM_UP2((uintptr_t)stack + sizeof(int) * offset_stack_size, LIBXSMM_ALIGNMENT);
@@ -855,20 +837,15 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
       }
 #  if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
       ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_data, omat, data_size, stream), "transfer validation test", result);
-#  endif
-#  if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
       ACC_OPENCL_CHECK(c_dbcsr_acc_stream_sync(stream), "sync stream", result);
-#  endif
-#  if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
       if (EXIT_SUCCESS == result) {
-        int i, j;
-        LIBXSMM_STDIO_ACQUIRE();
+        char print_buffer[2048] = "";
+        int print_offset = 0, i, j;
         if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-          fprintf(stderr,
-            "libsmm_acc_transpose("
-            "offset=%i, size=%i, type=%s, m=%i, n=%i, max=%i, stream=%p)",
-            offset, stack_size, dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m, n,
-            max_kernel_dim, stream);
+          print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset,
+            "libsmm_acc_transpose(offset=%i, size=%i, type=%s, m=%i, n=%i, max=%i, stream=%p)", offset, stack_size,
+            dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m, n, max_kernel_dim,
+            stream);
         }
         for (i = offset; i < offset_stack_size; ++i) {
           const size_t index = stack[i];
@@ -879,20 +856,12 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           libxsmm_itrans(gold, typesize, m, n, m, n);
           if (0 != memcmp(gold, test, mn * typesize)) {
             if (0 == c_dbcsr_acc_opencl_config.verbosity) {
-              fprintf(stderr,
-                "libsmm_acc_transpose("
-                "offset=%i, size=%i, type=%s, m=%i, n=%i, max=%i, stream=%p)",
-                offset, stack_size, dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m,
-                n, max_kernel_dim, stream);
+              print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset,
+                "libsmm_acc_transpose(offset=%i, size=%i, type=%s, m=%i, n=%i, max=%i, stream=%p)", offset, stack_size,
+                dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m, n, max_kernel_dim,
+                stream);
             }
-            fprintf(stderr, " => ERROR\n");
-            if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-              fprintf(stderr, "stackposition = %i (index=%llu)\n", i, (unsigned long long)index);
-              opencl_libsmm_print_matrix(stderr, "orig = ", datatype, orig, m, n);
-              opencl_libsmm_print_matrix(stderr, "gold = ", datatype, gold, n, m);
-              opencl_libsmm_print_matrix(stderr, "test = ", datatype, test, n, m);
-              fprintf(stderr, "\n");
-            }
+            print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset, " => ERROR\n");
 #    if defined(OPENCL_LIBSMM_VALIDATE_EXIT)
             exit(EXIT_FAILURE);
 #    else
@@ -903,7 +872,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           for (j = offset; j < i; ++j) {
             const size_t duplicate = stack[j];
             if (index == duplicate) {
-              fprintf(stderr, " => ERROR\n");
+              print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset, " => ERROR\n");
 #    if defined(OPENCL_LIBSMM_VALIDATE_EXIT)
               exit(EXIT_FAILURE);
 #    else
@@ -915,8 +884,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           }
         }
         if (0 != c_dbcsr_acc_opencl_config.verbosity && EXIT_SUCCESS == result) {
-          fprintf(stderr, " => OK\n");
+          print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset, " => OK\n");
         }
+        LIBXSMM_STDIO_ACQUIRE();
+        fputs(print_buffer, stderr);
         LIBXSMM_STDIO_RELEASE();
       }
       libxsmm_free(scratch);
@@ -1113,7 +1084,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               (NULL == env_nz || '\0' == *env_nz) ? (0 != defaults ? /*default*/ 0 : config->nz) : atoi(env_nz), 0, 1);
             new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
               (NULL == env_al || '\0' == *env_al)
-                ? (0 == (32 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? 0 : config->al) : 0)
+                ? (0 == (64 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? 0 : config->al) : 0)
                 : atoi(env_al),
               0, 1);
             new_config.tb = LIBXSMM_CLMP(
@@ -1124,7 +1095,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               (NULL == env_ap || '\0' == *env_ap) ? (0 != defaults ? /*default*/ 0 : config->ap) : atoi(env_ap), 0, 1);
             new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
               (NULL == env_aa || '\0' == *env_aa) ? (0 != defaults ? default_aa : config->aa) : atoi(env_aa), 0,
-              (0 == (64 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+              (0 == (32 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
             new_config.ab = LIBXSMM_CLMP(
               (NULL == env_ab || '\0' == *env_ab) ? (0 != defaults ? default_ab : config->ab) : atoi(env_ab), 0, 2);
             new_config.ac = LIBXSMM_CLMP(
@@ -1342,7 +1313,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             &blob, precision, m_max, n_max, k_max, m_max, k_max, m_max, LIBXSMM_GEMM_FLAG_NONE, LIBXSMM_PREFETCH_NONE);
           const size_t scratch_size = psize + asize + bsize + csize + csize + k_max * n_max * typesize +
                                       5 * (LIBXSMM_ALIGNMENT - 1) /*alignments*/;
-          scratch = libxsmm_aligned_scratch(scratch_size, LIBXSMM_ALIGNMENT);
+          scratch = OPENCL_LIBSMM_VALIDATE_SCRATCH(scratch_size, LIBXSMM_ALIGNMENT);
           if (NULL != desc && NULL != scratch) {
             pinp = (int*)scratch;
             ainp = (char*)LIBXSMM_UP2((uintptr_t)pinp + psize, LIBXSMM_ALIGNMENT);
@@ -1429,10 +1400,12 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           const char* const env_tol = getenv("OPENCL_LIBSMM_SMM_TOLERANCE");
           const double tolerance = ((NULL == env_tol || '\0' == *env_tol) ? 1E-3 : atof(env_tol));
           const int* const params = pinp + (4 <= nparams ? (nparams - 4) : 0);
+          char print_buffer[2048] = "";
+          int print_offset = 0;
           size_t i;
-          LIBXSMM_STDIO_ACQUIRE();
           if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-            fprintf(stderr, "libsmm_acc_process(size=%i, type=%s, m=%i, n=%i, k=%i, max=%i, stream=%p)", stack_size,
+            print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset,
+              "libsmm_acc_process(size=%i, type=%s, m=%i, n=%i, k=%i, max=%i, stream=%p)", stack_size,
               dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m_max, n_max, k_max,
               max_kernel_dim, stream);
           }
@@ -1458,20 +1431,21 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 #    endif
             if (tolerance < epsilon) {
               if (0 == c_dbcsr_acc_opencl_config.verbosity) {
-                fprintf(stderr, "libsmm_acc_process(size=%i, type=%s, m=%i, n=%i, k=%i, max=%i, stream=%p)", stack_size,
+                print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset,
+                  "libsmm_acc_process(size=%i, type=%s, m=%i, n=%i, k=%i, max=%i, stream=%p)", stack_size,
                   dbcsr_type_real_8 == datatype ? "f64" : (dbcsr_type_real_4 == datatype ? "f32" : "unknown"), m_max, n_max, k_max,
                   max_kernel_dim, stream);
               }
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-              fprintf(stderr, " => ERROR diff=%g (%g != %g)\n", diff.linf_abs, diff.v_ref, diff.v_tst);
-#    else
-              fprintf(stderr, " => ERROR diff=%g\n", diff.linf_abs);
+              if (LIBXSMM_NOTNAN(diff.v_tst)) {
+                print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset,
+                  " => ERROR diff=%g (|%g-%g|=%g)\n", epsilon, diff.v_ref, diff.v_tst, diff.linf_abs);
+              }
+              else
 #    endif
-              if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-                fprintf(stderr, "stackposition = %llu (index=%llu)\n", (unsigned long long)i, (unsigned long long)ic);
-                opencl_libsmm_print_matrix(stderr, "gold = ", datatype, gold + ic, m_max, n_max);
-                opencl_libsmm_print_matrix(stderr, "test = ", datatype, test + ic, m_max, n_max);
-                fprintf(stderr, "\n");
+              {
+                print_offset += LIBXSMM_SNPRINTF(
+                  print_buffer + print_offset, sizeof(print_buffer) - print_offset, " => ERROR diff=%g\n", epsilon);
               }
 #    if defined(OPENCL_LIBSMM_VALIDATE_EXIT)
               exit(EXIT_FAILURE);
@@ -1482,8 +1456,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             }
           }
           if (0 != c_dbcsr_acc_opencl_config.verbosity && EXIT_SUCCESS == result) {
-            fprintf(stderr, " => OK\n");
+            print_offset += LIBXSMM_SNPRINTF(print_buffer + print_offset, sizeof(print_buffer) - print_offset, " => OK\n");
           }
+          LIBXSMM_STDIO_ACQUIRE();
+          fputs(print_buffer, stderr);
           LIBXSMM_STDIO_RELEASE();
         }
         libxsmm_free(scratch);

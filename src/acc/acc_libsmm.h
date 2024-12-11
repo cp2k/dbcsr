@@ -15,11 +15,11 @@
 #define DBCSR_TYPE_double dbcsr_type_real_8
 #define DBCSR_TYPE_float dbcsr_type_real_4
 
-#define LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STRPTR ((const char**)&libsmm_acc_transpose_routine_name_ptr)
+#define LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STRPTR ((const char**)((uintptr_t)&libsmm_acc_transpose_routine_name_ptr))
 #define LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_LENPTR (&libsmm_acc_transpose_routine_name_len)
 #define LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STR (libsmm_acc_transpose_routine_name_str)
 
-#define LIBSMM_ACC_PROCESS_ROUTINE_NAME_STRPTR ((const char**)&libsmm_acc_process_routine_name_ptr)
+#define LIBSMM_ACC_PROCESS_ROUTINE_NAME_STRPTR ((const char**)((uintptr_t)&libsmm_acc_process_routine_name_ptr))
 #define LIBSMM_ACC_PROCESS_ROUTINE_NAME_LENPTR (&libsmm_acc_process_routine_name_len)
 #define LIBSMM_ACC_PROCESS_ROUTINE_NAME_STR (libsmm_acc_process_routine_name_str)
 

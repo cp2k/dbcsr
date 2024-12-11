@@ -14,8 +14,7 @@ from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
-import tempfile
-import shutil
+import tempfile  # , shutil
 import copy
 import json
 import glob
@@ -123,6 +122,10 @@ class SmmTuner(MeasurementInterface):
             device = re.search(devicepat, str(self.run_result["stderr"]))
             self.ndevices = int(device.group(1)) if device and device.group(1) else 0
             self.device = device.group(2) if device and device.group(2) else ""
+            # idevice: make certain resources/names unique on a per-rank basis
+            envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
+            if envrank:
+                self.idevice = int(envrank) % self.ndevices
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
         if self.run_result and 0 == self.run_result["returncode"]:
@@ -198,14 +201,15 @@ class SmmTuner(MeasurementInterface):
             and (self.size and 0 < self.size)
         ):  # setup database (DB)
             if self.args.database is None:  # adjust DB-location
-                envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
                 tmpdir = os.path.join(tempfile.gettempdir(), "opentuner")
-                if envrank:
-                    self.idevice = int(envrank) % self.ndevices
+                if self.idevice is not None:
                     tmpdir += str(self.idevice)
-                if os.path.isdir(tmpdir):
-                    shutil.rmtree(tmpdir)
-                os.mkdir(tmpdir)
+                # if os.path.isdir(tmpdir):
+                # shutil.rmtree(tmpdir)
+                try:
+                    os.mkdir(tmpdir)
+                except:  # noqa: E722
+                    pass
                 self.args.database = "sqlite:///" + os.path.join(
                     tmpdir, "{}.db".format(os.getpid())
                 )
@@ -267,7 +271,7 @@ class SmmTuner(MeasurementInterface):
         if verbose is not None and 0 != int(verbose):
             msg = env_exe.replace("OPENCL_LIBSMM_SMM_", "")
             print("{}: {}".format("x".join(map(str, mnk)), msg))
-        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0"
+        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0 CUDA_CACHE_DISABLE=1"
         env_check = "CHECK={}".format(check if check is not None else 1)
         env_intrn = "{} {}".format(  # consider device-id
             "" if self.idevice is None else "ACC_OPENCL_DEVICE={}".format(self.idevice),
@@ -587,18 +591,15 @@ class SmmTuner(MeasurementInterface):
                 except:  # noqa: E722
                     pass
                 gflops = data["GFLOPS"] if data and "GFLOPS" in data else 0
-                filename = os.path.join(
-                    self.args.jsondir,
-                    (
-                        "{}-{}gflops.json".format(self.args.label, round(gflops))
-                        if 0 < gflops
-                        else "{}.json".format(self.args.label)
-                    ),
-                )
-                try:
-                    os.rename(filedot, filename)
-                except:  # noqa: E722
-                    pass
+                if 0 < gflops:
+                    filename = os.path.join(
+                        self.args.jsondir,
+                        "{}-{}gflops.json".format(self.args.label, round(gflops)),
+                    )
+                    try:
+                        os.rename(filedot, filename)
+                    except:  # noqa: E722
+                        pass
             # self.manipulator().save_to_file(config, filename)
             with open(filedot, "w") as file:
                 cfg = config
@@ -614,7 +615,7 @@ class SmmTuner(MeasurementInterface):
             mnk = "x".join(map(str, self.mnk))
             print("FAILED[{}] {}: {}".format(result, mnk, failed), flush=True)
             return
-        if final and os.path.exists(filedot):
+        if final and 0 < self.gflops and os.path.exists(filedot):
             filepattern = "{}-*.json".format(default_basename)
             fileglobs = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
@@ -905,8 +906,6 @@ if __name__ == "__main__":
     # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
     if os.getenv("OPENCL_LIBSMM_SMM_WS") not in default_enable_tune:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
-    if os.getenv("OPENCL_LIBSMM_SMM_AL") not in default_enable_tune:
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
@@ -932,7 +931,7 @@ if __name__ == "__main__":
                     line = file.readline()
                     if not line:
                         break
-                    args.mnk = line.strip()
+                    args.mnk, args.label = line.strip(), ""
                     if args.mnk:
                         start(args)
                         print("")
@@ -944,6 +943,4 @@ if __name__ == "__main__":
                     args.merge = -1
             start(args)
     else:
-        if not args.mnk:  # parse and sanitize kernel shape
-            args.mnk = default_mnk
         start(args)

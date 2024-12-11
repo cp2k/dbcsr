@@ -24,8 +24,6 @@ MODULE dbcsr_types
                           int_8
    USE dbcsr_mpiwrap, ONLY: mp_comm_type, mp_comm_null
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
-
    IMPLICIT NONE
    PRIVATE
 

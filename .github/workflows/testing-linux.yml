@@ -74,16 +74,16 @@ jobs:
         mv build/coverage.info build/coverage-Linux-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu.info
 
     - name: Upload coverage data
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: coverage-data
+        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-${{ matrix.mpi_suffix }}
         path: build/coverage-*.info
 
     - name: Upload coverage data (generated files)
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.use_smm == 'SMM=blas' && matrix.mpi_suffix == 'openmpi'
       with:
-        name: coverage-data
+        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-${{ matrix.mpi_suffix }}-generated-files
         path: |
           build/src/dbcsr.h
           build/src/tensors/dbcsr_tensor.h
@@ -200,9 +200,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download coverage data
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
-          name: coverage-data
+          pattern: coverage-data-*
+          merge-multiple: true
 
       - name: Combine coverage
         run: |
@@ -213,7 +214,7 @@ jobs:
           lcov --summary merged.info
 
       - name: Upload merged HTML report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: html-report
           path: htmlcov

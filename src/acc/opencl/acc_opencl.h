@@ -104,6 +104,9 @@
 #if !defined(ACC_OPENCL_ASYNC) && 1
 #  define ACC_OPENCL_ASYNC getenv("ACC_OPENCL_ASYNC")
 #endif
+#if !defined(ACC_OPENCL_XHINTS) && 1
+#  define ACC_OPENCL_XHINTS getenv("ACC_OPENCL_XHINTS")
+#endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 0
 #  if defined(CL_QUEUE_PRIORITY_KHR)
 #    define ACC_OPENCL_STREAM_PRIORITIES
@@ -121,7 +124,7 @@
 #  define ACC_OPENCL_ACTIVATE 0
 #endif
 /* Use DBCSR's profile for detailed timings */
-#if !defined(ACC_OPENCL_PROFILE) && 0
+#if !defined(ACC_OPENCL_PROFILE) && (defined(__OFFLOAD_PROFILING) || 0)
 #  define ACC_OPENCL_PROFILE
 #endif
 
@@ -359,7 +362,7 @@ typedef struct c_dbcsr_acc_opencl_config_t {
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** Determines host-pointer registration for modification. */
-c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
+c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
 /** Determines device-pointer registration for modification (internal). */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset);

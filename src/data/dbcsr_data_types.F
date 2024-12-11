@@ -15,7 +15,7 @@ MODULE dbcsr_data_types
    USE dbcsr_kinds, ONLY: &
       dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, real_8_size
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_lock_kind
+!$ USE OMP_LIB, ONLY: omp_lock_kind
 
 #include "base/dbcsr_base_uses.f90"
 

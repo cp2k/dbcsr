@@ -916,7 +916,7 @@ CONTAINS
          ! built/modified in a parallel environment
          nwms = SIZE(matrix%wms)
          spawn = .FALSE.
-!$       IF (.NOT. OMP_IN_PARALLEL()) THEN
+!$       IF (.NOT. omp_in_parallel()) THEN
 !$          IF (nwms .GT. 1) spawn = .TRUE.
 !$       END IF
          IF (spawn) THEN

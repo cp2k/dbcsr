@@ -56,8 +56,6 @@ MODULE dbcsr_lib
 
 #include "base/dbcsr_base_uses.f90"
 
-!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads
-
 #if defined (__DBCSR_ACC)
    USE ISO_C_BINDING, ONLY: C_INT
 #endif

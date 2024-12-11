@@ -22,8 +22,7 @@ MODULE dbcsr_mem_methods
                                dbcsr_memtype_type
    USE dbcsr_kinds, ONLY: dp
 
-!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &
-!$                    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock
+!$ USE OMP_LIB, ONLY: omp_set_lock, omp_unset_lock, omp_init_lock, omp_destroy_lock
 
 #include "base/dbcsr_base_uses.f90"
 
