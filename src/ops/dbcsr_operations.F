@@ -1479,6 +1479,9 @@ CONTAINS
          IF (.NOT. found) THEN
             CALL dbcsr_data_clear(dst_data)
          ELSE
+            IF (dbcsr_data_get_size(src_data) .NE. dbcsr_data_get_size(dst_data)) THEN
+               DBCSR_ABORT("Block sizes not equal!")
+            END IF
             IF (checker_tr(dst_row, dst_col)) THEN
                src_tr = .NOT. src_tr
                CALL swap(src_rs, src_cs)
