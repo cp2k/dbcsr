@@ -74,7 +74,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">48 statements</a>
+                 title=" 0.1% of total for procedures.">51 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -159,7 +159,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~17"></span>
+              <span class="anchor" id="variable-matrix_b~28"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -174,7 +174,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~24"></span>
+              <span class="anchor" id="variable-matrix_a~45"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -252,6 +252,9 @@
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
 <span class="w">         </span><span class="k">ELSE</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst_data</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Block sizes not equal!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">END IF</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">checker_tr</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span><span class="w"> </span><span class="n">dst_col</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">src_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">src_tr</span>
 <span class="w">               </span><span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">src_rs</span><span class="p">,</span><span class="w"> </span><span class="n">src_cs</span><span class="p">)</span>
@@ -295,7 +298,7 @@
           <div class="col">
             <p>
               DBCSR
- was developed by DBCSR Authors<br>              &copy; 2024 
+ was developed by DBCSR Authors<br>              &copy; 2025 
 </p>
           </div>
           <div class="col">

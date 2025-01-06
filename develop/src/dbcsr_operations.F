@@ -1552,6 +1552,9 @@ CONTAINS
          IF (.NOT. found) THEN
             CALL dbcsr_data_clear(dst_data)
          ELSE
+            IF (dbcsr_data_get_size(src_data) .NE. dbcsr_data_get_size(dst_data)) THEN
+               DBCSR_ABORT("Block sizes not equal!")
+            END IF
             IF (checker_tr(dst_row, dst_col)) THEN
                src_tr = .NOT. src_tr
                CALL swap(src_rs, src_cs)
@@ -2694,8 +2697,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 2619 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 2620 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2622 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_d (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3188,7 +3191,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_d
-# 2620 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_s (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3681,7 +3684,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_s
-# 2620 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_z (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4174,7 +4177,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_z
-# 2620 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_c (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4667,6 +4670,6 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_c
-# 3113 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3116 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations
