@@ -22,9 +22,11 @@ endif
 UNAME := $(shell uname)
 HEADERONLY ?= 0
 STATIC ?= 1
-INTEL ?= 0
-GNU ?= 0
 DEV ?= 0
+
+# Intel Compiler
+ICX := $(shell which icx 2>/dev/null)
+INTEL ?= $(if $(ICX),$(if $(filter-out 0,$(GNU)),0,2),0)
 
 # select from set of predefined triplet specifications
 SPECID ?= 0
@@ -200,11 +202,15 @@ else
     endif
   else ifeq (,$(OPENCL_INC))
     ifneq (,$(wildcard $(OPENCL_ROOT)/include/CL/cl.h))
+      LDFLAGS += -L$(OPENCL_ROOT)/$(if $(wildcard $(OPENCL_ROOT)/lib64),lib64,lib)
       OPENCL_INC := $(OPENCL_ROOT)/include
-      LDFLAGS += -L$(OPENCL_ROOT)/lib64
-    else ifneq (,$(wildcard $(OPENCL_ROOT)/include/sycl/CL/cl.h))
-      OPENCL_INC := $(OPENCL_ROOT)/include/sycl
-      LDFLAGS += -L$(OPENCL_ROOT)/compiler/lib/intel64 -lintlc
+    else ifneq (,$(ICX))
+      OPENCL_ROOT := $(abspath $(dir $(ICX))/..)
+      ifneq (,$(wildcard $(OPENCL_ROOT)/include/sycl/CL/cl.h))
+        LDFLAGS += -L$(OPENCL_ROOT)/$(if $(wildcard $(OPENCL_ROOT)/lib64),lib64,lib)
+        LDFLAGS += -L$(OPENCL_ROOT)/compiler/lib/intel64 -lintlc
+        OPENCL_INC := $(OPENCL_ROOT)/include/sycl
+      endif
     endif
   endif
   # OPENCL_INC: directory containing CL/cl.h.
