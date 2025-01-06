@@ -15,8 +15,6 @@ hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags) { return hi
 hipError_t hipFreeHost(void* ptr) { return hipHostFree(ptr); }
 #endif
 
-unsigned int hipHostAllocDefault = hipHostMallocDefault;
-
 hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code) { return hiprtcGetCode(prog, code); }
 
 hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t* codeSizeRet) { return hiprtcGetCodeSize(prog, codeSizeRet); }

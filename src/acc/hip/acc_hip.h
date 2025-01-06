@@ -90,8 +90,6 @@
   } while (0)
 
 extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
-extern hipError_t hipHostAlloc(void** ptr, size_t size, unsigned int flags);
-extern unsigned int hipHostAllocDefault;
 extern hipError_t hipFreeHost(void* ptr);
 extern hiprtcResult hiprtcGetLowLevelCode(hiprtcProgram prog, char* code);
 extern hiprtcResult hiprtcGetLowLevelCodeSize(hiprtcProgram prog, size_t* codeSizeRet);
