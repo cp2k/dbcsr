@@ -338,8 +338,12 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   c_dbcsr_acc_opencl_timer_t timer; /* c_dbcsr_acc_opencl_device_t? */
   /** Kernel-parameters are matched against device's UID */
   cl_uint devmatch;
+  /** Split devices into sub-devices (if possible) */
+  cl_int devsplit;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
+  /** Guessed number of ranks per node (local), and rank-ID. */
+  cl_int nranks, nrank;
   /** Non-zero if library is initialized (negative: no device). */
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */

@@ -451,6 +451,7 @@ int libsmm_acc_init(void) {
         }
 #  if defined(OPENCL_KERNELS_PARAMS_SMM) && defined(OPENCL_KERNELS_DEVICES)
         if (EXIT_SUCCESS == result && (0 == ntuned || 0 != key_direct_skip)) {
+          unsigned int default_uid = c_dbcsr_acc_opencl_config.device.uid;
           const char *line = OPENCL_KERNELS_PARAMS_SMM, *next;
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
           int active_match = -1;
@@ -458,13 +459,16 @@ int libsmm_acc_init(void) {
                                 NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 1))
           { /* determine best-matching parameters based on name of device */
             int i = 0, best = 0;
+            if (1 >= c_dbcsr_acc_opencl_config.devmatch) {
+              c_dbcsr_acc_opencl_device_uid(c_dbcsr_acc_opencl_config.device.id, bufname, &default_uid);
+            }
             for (; i < ndevices_params; ++i) {
               const int score = libxsmm_strimatch(bufname, OPENCL_KERNELS_DEVICES[i], NULL);
               unsigned int uid;
               if (best < score ||
                   ((best == score) &&
                     EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(NULL /*device*/, OPENCL_KERNELS_DEVICES[i], &uid) &&
-                    uid == c_dbcsr_acc_opencl_config.device.uid))
+                    uid == default_uid))
               {
                 active_match = i;
                 best = score;
@@ -489,22 +493,20 @@ int libsmm_acc_init(void) {
                   {
                     key.devuid = 0;
                   }
-                  config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key));
+                  config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key)); /* duplicate? */
                   if (NULL == config_init) {
-                    if (NULL == libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
+                    if (NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) ++ntuned;
+                    else { /* failed to register */
                       result = EXIT_FAILURE;
                       break;
                     }
-                    else ++ntuned;
                   }
                   else if (config_init->gflops < config.gflops) { /* update */
                     memcpy(config_init, &config, sizeof(config));
                   }
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-                  if (active_match == i && 0 != c_dbcsr_acc_opencl_config.device.uid &&
-                      c_dbcsr_acc_opencl_config.device.uid != key.devuid)
-                  {
-                    key.devuid = c_dbcsr_acc_opencl_config.device.uid;
+                  if (active_match == i && 0 != default_uid && default_uid != key.devuid) {
+                    key.devuid = default_uid;
                     config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key));
                     if (NULL == config_init && NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
                       static int info = 0;
@@ -532,7 +534,7 @@ int libsmm_acc_init(void) {
         }
 #  endif
 #  if defined(OPENCL_KERNELS_DEVICES)
-        if (EXIT_SUCCESS == result && 0 != ntuned &&
+        if (EXIT_SUCCESS == result && 0 != ntuned && 0 == c_dbcsr_acc_opencl_config.nrank &&
             (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
         {
           fprintf(stderr, "INFO ACC/LIBSMM: PARAMS in %i set%s loaded targeting ", ntuned, 1 != ntuned ? "s" : "");
@@ -1084,7 +1086,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               (NULL == env_nz || '\0' == *env_nz) ? (0 != defaults ? /*default*/ 0 : config->nz) : atoi(env_nz), 0, 1);
             new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
               (NULL == env_al || '\0' == *env_al)
-                ? (0 == (64 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? 0 : config->al) : 0)
+                ? (0 == (32 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? 0 : config->al) : 0)
                 : atoi(env_al),
               0, 1);
             new_config.tb = LIBXSMM_CLMP(
@@ -1095,7 +1097,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               (NULL == env_ap || '\0' == *env_ap) ? (0 != defaults ? /*default*/ 0 : config->ap) : atoi(env_ap), 0, 1);
             new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
               (NULL == env_aa || '\0' == *env_aa) ? (0 != defaults ? default_aa : config->aa) : atoi(env_aa), 0,
-              (0 == (32 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+              (0 == (16 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
             new_config.ab = LIBXSMM_CLMP(
               (NULL == env_ab || '\0' == *env_ab) ? (0 != defaults ? default_ab : config->ab) : atoi(env_ab), 0, 2);
             new_config.ac = LIBXSMM_CLMP(
