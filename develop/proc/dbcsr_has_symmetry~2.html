@@ -79,15 +79,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_methods.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_methods.f.html'>dbcsr_methods.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_has_symmetry</li>
           </ol>
         </nav>
@@ -143,6 +143,7 @@
 </h2>
     
 
+    <p>Whether matrix has symmetry</p>
 
 
     <h3>Arguments</h3>
@@ -158,8 +159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~362"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~249"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -168,7 +169,7 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                
+                <p>query this matrix</p>
             </td>
         </tr>
     </tbody>
@@ -180,7 +181,7 @@
           logical
         </small>
       </h3>
-      
+      <p>matrix has symmetry</p>
     <br>
 
 
@@ -196,10 +197,14 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">has_symmetry</span><span class="p">)</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
-<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">has_symmetry</span>
+<span class="w">      </span><span class="c">!! Whether matrix has symmetry</span>
 
-<span class="w">      </span><span class="n">has_symmetry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_has_symmetry_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">         </span><span class="c">!! query this matrix</span>
+<span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">has_symmetry</span>
+<span class="w">         </span><span class="c">!! matrix has symmetry</span>
+
+<span class="w">      </span><span class="n">has_symmetry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">symmetry</span>
 <span class="w">   </span><span class="k">END FUNCTION </span><span class="n">dbcsr_has_symmetry</span>
 </pre></div>
 
