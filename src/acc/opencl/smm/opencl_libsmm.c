@@ -519,7 +519,8 @@ int libsmm_acc_init(void) {
                             stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used for \"%s\"\n", OPENCL_KERNELS_DEVICES[i], bufname);
                         }
                         else {
-                          fprintf(stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used to instantiate kernels\n", OPENCL_KERNELS_DEVICES[i]);
+                          fprintf(
+                            stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used to instantiate kernels\n", OPENCL_KERNELS_DEVICES[i]);
                         }
                         info = 1;
                       }
