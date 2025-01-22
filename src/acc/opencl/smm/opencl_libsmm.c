@@ -505,16 +505,22 @@ int libsmm_acc_init(void) {
                     memcpy(config_init, &config, sizeof(config));
                   }
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
-                  if (active_match == i && 0 != default_uid && default_uid != key.devuid) {
+                  if (active_match == i && 0 != default_uid) {
                     key.devuid = default_uid;
                     config_init = (opencl_libsmm_smm_t*)libxsmm_xdispatch(&key, sizeof(key));
-                    if (NULL == config_init && NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
+                    if (NULL != config_init || NULL != libxsmm_xregister(&key, sizeof(key), sizeof(config), &config)) {
                       static int info = 0;
-                      if (0 == info && 0 != c_dbcsr_acc_opencl_config.verbosity &&
+                      if (0 == info && 0 == c_dbcsr_acc_opencl_config.nrank && 0 != c_dbcsr_acc_opencl_config.verbosity &&
                           EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(c_dbcsr_acc_opencl_config.device.id, bufname,
                                             ACC_OPENCL_BUFFERSIZE, NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 0))
                       {
-                        fprintf(stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used for \"%s\"\n", OPENCL_KERNELS_DEVICES[i], bufname);
+                        if (default_uid != key.devuid) {
+                          fprintf(/* print best-matching device */
+                            stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used for \"%s\"\n", OPENCL_KERNELS_DEVICES[i], bufname);
+                        }
+                        else {
+                          fprintf(stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used to instantiate kernels\n", OPENCL_KERNELS_DEVICES[i]);
+                        }
                         info = 1;
                       }
                     }
