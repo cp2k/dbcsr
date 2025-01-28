@@ -175,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~25"></span>
+              <span class="anchor" id="variable-array~49"></span>
               integer(kind=int_4),
             </td>
 <td></td>
@@ -192,6 +192,300 @@
             <td>
               <span class="anchor" id="variable-array_resize~5"></span>
               integer(kind=int_4),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~51"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~50"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~12"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~6"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_l"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~50"></span>
+              integer(kind=int_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~6"></span>
+              integer(kind=int_8),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~53"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~52"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factor~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~8"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~13"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~7"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_s"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~46"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~2"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td>optional,</td>            <td>
@@ -235,300 +529,6 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-factor~6"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~8"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~12"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~7"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_l"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_l</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~26"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~6"></span>
-              integer(kind=int_8),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~47"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~46"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~7"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~9"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~13"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~8"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_s"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_s</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~22"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~2"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~39"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~38"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
               <span class="anchor" id="variable-factor~3"></span>
               real(kind=dp),
             </td>
@@ -544,7 +544,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~5"></span>
+              <span class="anchor" id="variable-nocopy~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -575,7 +575,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~4"></span>
+              <span class="anchor" id="variable-zero_pad~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -616,7 +616,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~21"></span>
+              <span class="anchor" id="variable-array~45"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -633,153 +633,6 @@ zero new allocations; default is to write nothing</p>
             <td>
               <span class="anchor" id="variable-array_resize"></span>
               real(kind=real_8),
-            </td>
-<td></td>
-              <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>array_resize</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~37"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-<p>desired array lower bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~36"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-<p>desired array upper bound</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-factor~2"></span>
-              real(kind=dp),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>factor</strong></td>
-            <td>
-<p>factor by which to exaggerate enlargements</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-nocopy~4"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>nocopy</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-memory_type~8"></span>
-              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>memory_type</strong></td>
-            <td>
-<p>use special memory</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-zero_pad~3"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>zero_pad</strong></td>
-            <td>
-<p>copy array on enlargement; default is to copy
-zero new allocations; default is to write nothing</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_c"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Ensures that an array is appropriately large.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~24"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-<p>array to verify and possibly resize</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array_resize~4"></span>
-              complex(kind=real_4),
             </td>
 <td></td>
               <td>optional,</td>            <td>
@@ -823,6 +676,153 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-factor~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factor</strong></td>
+            <td>
+<p>factor by which to exaggerate enlargements</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nocopy~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>nocopy</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-memory_type~8"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>memory_type</strong></td>
+            <td>
+<p>use special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-zero_pad~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>zero_pad</strong></td>
+            <td>
+<p>copy array on enlargement; default is to copy
+zero new allocations; default is to write nothing</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-ensure_array_size_c"></span> <h3>private  subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_c</a>(array, array_resize, lb, ub, factor, nocopy, memory_type, zero_pad)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Ensures that an array is appropriately large.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array~48"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+<p>array to verify and possibly resize</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-array_resize~4"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>array_resize</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~49"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+<p>desired array lower bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~48"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+<p>desired array upper bound</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-factor~5"></span>
               real(kind=dp),
             </td>
@@ -838,7 +838,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~7"></span>
+              <span class="anchor" id="variable-nocopy~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -869,7 +869,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~6"></span>
+              <span class="anchor" id="variable-zero_pad~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -910,7 +910,7 @@ zero new allocations; default is to write nothing</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~23"></span>
+              <span class="anchor" id="variable-array~47"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -940,7 +940,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~41"></span>
+              <span class="anchor" id="variable-lb~47"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -955,7 +955,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~40"></span>
+              <span class="anchor" id="variable-ub~46"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -985,7 +985,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~6"></span>
+              <span class="anchor" id="variable-nocopy~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1016,7 +1016,7 @@ zero new allocations; default is to write nothing</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~5"></span>
+              <span class="anchor" id="variable-zero_pad~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
