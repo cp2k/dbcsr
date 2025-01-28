@@ -1211,18 +1211,28 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
 int c_dbcsr_acc_set_active_device(int device_id) {
   /* avoid ACC_OPENCL_PROFILE in this routine */
   int result = EXIT_SUCCESS;
-  if (0 <= device_id && device_id < c_dbcsr_acc_opencl_config.ndevices) {
-#  if defined(ACC_OPENCL_CACHE_DID)
-    if (c_dbcsr_acc_opencl_active_id != (device_id + 1))
-#  endif
-    {
-      result = c_dbcsr_acc_opencl_set_active_device(c_dbcsr_acc_opencl_config.lock_main, device_id);
-#  if defined(ACC_OPENCL_CACHE_DID)
-      if (EXIT_SUCCESS == result) c_dbcsr_acc_opencl_active_id = device_id + 1;
-#  endif
+  if (0 <= device_id) {
+#  if defined(__DBCSR_ACC) && defined(__OFFLOAD_OPENCL)
+    if (0 == c_dbcsr_acc_opencl_config.ndevices) { /* not initialized */
+      result = c_dbcsr_acc_init();
     }
+#  endif
   }
   else result = EXIT_FAILURE;
+  if (EXIT_SUCCESS == result) {
+    if (device_id < c_dbcsr_acc_opencl_config.ndevices) {
+#  if defined(ACC_OPENCL_CACHE_DID)
+      if (c_dbcsr_acc_opencl_active_id != (device_id + 1))
+#  endif
+      {
+        result = c_dbcsr_acc_opencl_set_active_device(c_dbcsr_acc_opencl_config.lock_main, device_id);
+#  if defined(ACC_OPENCL_CACHE_DID)
+        if (EXIT_SUCCESS == result) c_dbcsr_acc_opencl_active_id = device_id + 1;
+#  endif
+      }
+    }
+    else result = EXIT_FAILURE;
+  }
   ACC_OPENCL_RETURN(result);
 }
 
