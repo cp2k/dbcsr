@@ -113,8 +113,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-modulen~35">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-careful_mod~11">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-modulen~15">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-careful_mod~7">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#variable-debug_mod~4">debug_mod</a>
         </div>
       </div>
@@ -150,7 +150,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_coordinates~2">dbcsr_get_stored_coordinates</a>
+            <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_coordinates">dbcsr_get_stored_coordinates</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-get_stored_canonical">get_stored_canonical</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_block_index">dbcsr_get_block_index</a>
             <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_get_stored_block_info">dbcsr_get_stored_block_info</a>
@@ -188,14 +188,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_min_heap.html'>dbcsr_min_heap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -220,7 +220,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~35"></span>
+              <span class="anchor" id="variable-modulen~15"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -237,7 +237,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~11"></span>
+              <span class="anchor" id="variable-careful_mod~7"></span>
               logical,
             </td>
               <td>private,</td>
@@ -301,7 +301,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~112"></span>
+              <span class="anchor" id="variable-row~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -317,7 +317,7 @@ The absolute matrix column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~42"></span>
+              <span class="anchor" id="variable-column~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -363,7 +363,7 @@ The absolute matrix column.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~113"></span>
+              <span class="anchor" id="variable-row~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -379,7 +379,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~63"></span>
+              <span class="anchor" id="variable-col~22"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -395,7 +395,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~19"></span>
+              <span class="anchor" id="variable-pgrid"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -410,7 +410,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~17"></span>
+              <span class="anchor" id="variable-row_dist~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -426,7 +426,7 @@ column distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~17"></span>
+              <span class="anchor" id="variable-col_dist~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -472,7 +472,7 @@ column distribution</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~36"></span>
+              <span class="anchor" id="variable-blk_p~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -503,7 +503,7 @@ column distribution</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_stored_coordinates~2"></span> <h3>public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates~2.html'>dbcsr_get_stored_coordinates</a>(matrix, row, column, processor)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_stored_coordinates"></span> <h3>public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr_get_stored_coordinates</a>(matrix, row, column, processor)  
 </h3></div>
     <div class="card-body">
           
@@ -524,7 +524,7 @@ column.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~303"></span>
+              <span class="anchor" id="variable-matrix~19"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -539,7 +539,7 @@ column.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~114"></span>
+              <span class="anchor" id="variable-row~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -555,7 +555,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~43"></span>
+              <span class="anchor" id="variable-column~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -571,7 +571,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-processor~4"></span>
+              <span class="anchor" id="variable-processor"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -611,7 +611,7 @@ input is logical column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~304"></span>
+              <span class="anchor" id="variable-matrix~20"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -626,7 +626,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~115"></span>
+              <span class="anchor" id="variable-row~33"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -641,7 +641,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~44"></span>
+              <span class="anchor" id="variable-column~8"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -656,7 +656,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose~2"></span>
+              <span class="anchor" id="variable-transpose~3"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -671,7 +671,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-processor~5"></span>
+              <span class="anchor" id="variable-processor~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -711,7 +711,7 @@ input is logical column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~305"></span>
+              <span class="anchor" id="variable-matrix~21"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -726,7 +726,7 @@ input is logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~116"></span>
+              <span class="anchor" id="variable-row~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -742,7 +742,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~45"></span>
+              <span class="anchor" id="variable-column~9"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -758,7 +758,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stored_row~8"></span>
+              <span class="anchor" id="variable-stored_row"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -790,7 +790,7 @@ column where block is actually stored</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose~3"></span>
+              <span class="anchor" id="variable-transpose~4"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -806,7 +806,7 @@ whether the block was found</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~45"></span>
+              <span class="anchor" id="variable-found~4"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -822,7 +822,7 @@ whether the block was found</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~33"></span>
+              <span class="anchor" id="variable-block_number"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -878,7 +878,7 @@ column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~306"></span>
+              <span class="anchor" id="variable-matrix~22"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -893,7 +893,7 @@ column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~117"></span>
+              <span class="anchor" id="variable-row~35"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -909,7 +909,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~46"></span>
+              <span class="anchor" id="variable-column~10"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -925,7 +925,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~46"></span>
+              <span class="anchor" id="variable-found~5"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -940,7 +940,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~34"></span>
+              <span class="anchor" id="variable-block_number~2"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -985,7 +985,7 @@ input is logical column, output is lookup column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~60"></span>
+              <span class="anchor" id="variable-transposed~3"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1151,7 +1151,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~2"></span>
+              <span class="anchor" id="variable-images"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1303,7 +1303,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src_sizes"></span>
+              <span class="anchor" id="variable-src_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1319,7 +1319,7 @@ sizes of target blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst_sizes"></span>
+              <span class="anchor" id="variable-dst_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1414,7 +1414,7 @@ last block number in row</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~4"></span>
+              <span class="anchor" id="variable-col_i~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1430,7 +1430,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~35"></span>
+              <span class="anchor" id="variable-blk_p~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1446,7 +1446,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk~44"></span>
+              <span class="anchor" id="variable-blk~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1461,7 +1461,7 @@ block pointers</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~47"></span>
+              <span class="anchor" id="variable-found~6"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -1505,7 +1505,7 @@ look.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_elements~2"></span>
+              <span class="anchor" id="variable-local_elements"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(inout),</td>
@@ -1575,7 +1575,7 @@ look.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~46"></span>
+              <span class="anchor" id="variable-dist~11"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1590,7 +1590,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~7"></span>
+              <span class="anchor" id="variable-local_rows"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -1645,7 +1645,7 @@ look.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~47"></span>
+              <span class="anchor" id="variable-dist~12"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1660,7 +1660,7 @@ look.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~7"></span>
+              <span class="anchor" id="variable-local_cols"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(out)</td>
