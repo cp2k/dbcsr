@@ -149,14 +149,16 @@ if (USE_SMM MATCHES "libxsmm" OR USE_SMM MATCHES "auto")
       pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext-static)
     endif ()
     if (NOT LIBXSMMEXT_FOUND)
-      pkg_check_modules(LIBXSMMEXT ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL libxsmmext)
+      pkg_check_modules(LIBXSMMEXT ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
+                        libxsmmext)
     endif ()
   endif ()
   if (NOT USE_SMM MATCHES "libxsmm-shared")
     pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf-static)
   endif ()
   if (NOT LIBXSMM_FOUND)
-    pkg_check_modules(LIBXSMM ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL libxsmmf)
+    pkg_check_modules(LIBXSMM ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
+                      libxsmmf)
   endif ()
 endif ()
 
