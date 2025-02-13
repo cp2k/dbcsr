@@ -185,7 +185,7 @@ elseif (USE_ACCEL MATCHES "cuda")
                                          "${ACC_ARCH_NUMBER}")
 endif ()
 
-if (USE_SMM MATCHES "libxsmm")
+if (USE_SMM MATCHES "libxsmm" OR (USE_SMM MATCHES "auto" AND LIBXSMM_FOUND))
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
   target_link_directories(dbcsr PUBLIC ${LIBXSMM_LIBRARY_DIRS})
   if (USE_OPENMP)
