@@ -139,7 +139,7 @@ if (USE_OPENMP)
 endif ()
 
 # =================================== LIBXSMM (rely on pkg-config)
-if (USE_SMM MATCHES "libxsmm" OR USE_SMM MATCHES "auto")
+if (USE_SMM MATCHES "libxsmm|auto")
   if (USE_SMM MATCHES "libxsmm")
     set(LIBXSMM_REQUIRED "REQUIRED")
   endif ()
