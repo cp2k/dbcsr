@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 24 statements,  0.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 186 statements,  0.3% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_dot</li>
           </ol>
         </nav>
@@ -131,10 +131,10 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_d">dbcsr_dot_d</a>
             <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_s~2">dbcsr_dot_s</a>
-            <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_z~2">dbcsr_dot_z</a>
+            <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_sd">dbcsr_dot_sd</a>
             <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_c~2">dbcsr_dot_c</a>
+            <a class="list-group-item" href="../interface/dbcsr_dot~2.html#moduleprocedure-dbcsr_dot_z~2">dbcsr_dot_z</a>
         </div>
       </div>
     </div>
@@ -154,11 +154,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_d~2.html'>dbcsr_dot_d</a>(matrix_a, matrix_b, result)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_s~2.html'>dbcsr_dot_s</a>(matrix_a, matrix_b, trace)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Dot product of DBCSR matrices</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -173,8 +173,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~90"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~66"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -183,13 +183,14 @@
             <td>::</td>
             <td><strong>matrix_a</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~54"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~40"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -198,82 +199,13 @@
             <td>::</td>
             <td><strong>matrix_b</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>result</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_s~2.html'>dbcsr_dot_s</a>(matrix_a, matrix_b, result)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_a~96"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix_a</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_b~57"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix_b</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-result~2"></span>
+              <span class="anchor" id="variable-trace~11"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -281,9 +213,9 @@
               
             </td>
             <td>::</td>
-            <td><strong>result</strong></td>
+            <td><strong>trace</strong></td>
             <td>
-
+<p>the trace of the product of the matrices</p>
             </td>
         </tr>
     </tbody>
@@ -294,11 +226,12 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_z~2.html'>dbcsr_dot_z</a>(matrix_a, matrix_b, result)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_sd"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a, matrix_b, trace)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Dot product of DBCSR matrices
+\result    the dot product of the matrices</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -313,8 +246,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~102"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~58"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -323,13 +256,14 @@
             <td>::</td>
             <td><strong>matrix_a</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~60"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~36"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -338,20 +272,21 @@
             <td>::</td>
             <td><strong>matrix_b</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~3"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-trace~7"></span>
+              real(kind=real_8),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>result</strong></td>
+            <td><strong>trace</strong></td>
             <td>
 
             </td>
@@ -364,11 +299,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_c~2.html'>dbcsr_dot_c</a>(matrix_a, matrix_b, result)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_c~2.html'>dbcsr_dot_c</a>(matrix_a, matrix_b, trace)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Dot product of DBCSR matrices</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -383,8 +318,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~108"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~78"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -393,13 +328,14 @@
             <td>::</td>
             <td><strong>matrix_a</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~63"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_b~46"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -408,12 +344,13 @@
             <td>::</td>
             <td><strong>matrix_b</strong></td>
             <td>
-
+<p>DBCSR matrices
+DBCSR matrices</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-result~4"></span>
+              <span class="anchor" id="variable-trace~15"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -421,9 +358,81 @@
               
             </td>
             <td>::</td>
-            <td><strong>result</strong></td>
+            <td><strong>trace</strong></td>
             <td>
+<p>the trace of the product of the matrices</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
 
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_dot_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_dot_z~2.html'>dbcsr_dot_z</a>(matrix_a, matrix_b, trace)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Dot product of DBCSR matrices</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~72"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+<p>DBCSR matrices
+DBCSR matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_b~43"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_b</strong></td>
+            <td>
+<p>DBCSR matrices
+DBCSR matrices</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trace~13"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trace</strong></td>
+            <td>
+<p>the trace of the product of the matrices</p>
             </td>
         </tr>
     </tbody>
