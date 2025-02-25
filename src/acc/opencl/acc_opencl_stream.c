@@ -176,7 +176,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE)
   c_dbcsr_timestop(&routine_handle);
 #  endif
-  ACC_OPENCL_RETURN_CAUSE(result, name);
+  ACC_OPENCL_RETURN(result, name);
 }
 
 
@@ -224,11 +224,11 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     cl_platform_id platform = NULL;
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-    ACC_OPENCL_CHECK(
+    ACC_OPENCL_CHECK(result,
       clGetDeviceInfo(c_dbcsr_acc_opencl_config.device.id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
-      "retrieve platform associated with active device", result);
-    ACC_OPENCL_CHECK(clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
-      "retrieve platform extensions", result);
+      "retrieve platform associated with active device");
+    ACC_OPENCL_CHECK(result, clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
+      "retrieve platform extensions");
     if (EXIT_SUCCESS == result) {
       if (NULL != strstr(buffer, "cl_khr_priority_hints") ||
           EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(c_dbcsr_acc_opencl_config.device.id, "nvidia", 0 /*use_platform_name*/))

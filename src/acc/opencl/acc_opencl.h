@@ -78,6 +78,9 @@
 #else
 #  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile int
 #endif
+#if !defined(ACC_OPENCL_TLS)
+#  define ACC_OPENCL_TLS LIBXSMM_TLS
+#endif
 #if !defined(ACC_OPENCL_MAXALIGN)
 #  define ACC_OPENCL_MAXALIGN (2 << 20 /*2MB*/)
 #endif
@@ -186,66 +189,67 @@
 #  define LIBXSMM_STRISTR strstr
 #endif
 
-#if !defined(NDEBUG) && 1
-#  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
-    do { \
-      if (EXIT_SUCCESS == (RESULT)) { \
-        (RESULT) = (EXPR); \
-        assert((MSG) && *(MSG)); \
-        if (EXIT_SUCCESS != (RESULT)) { \
-          assert(EXIT_SUCCESS == EXIT_SUCCESS); \
-          if (-1001 != (RESULT)) { \
-            fprintf(stderr, "ERROR ACC/OpenCL: " MSG); \
-            if (EXIT_FAILURE != (RESULT)) { \
-              fprintf(stderr, " (code=%i)", RESULT); \
-            } \
-            fprintf(stderr, ".\n"); \
-            assert(EXIT_SUCCESS != (RESULT)); \
-          } \
-          else { \
-            fprintf(stderr, "ERROR ACC/OpenCL: incomplete installation (" MSG ").\n"); \
-          } \
-          assert(!MSG); \
-        } \
+#define ACC_OPENCL_ERROR() c_dbcsr_acc_opencl_config.device.error.code
+#define ACC_OPENCL_ERROR_NAME(CODE) \
+  ((EXIT_SUCCESS != c_dbcsr_acc_opencl_config.device.error.code && (CODE) == c_dbcsr_acc_opencl_config.device.error.code) \
+      ? c_dbcsr_acc_opencl_config.device.error.name \
+      : "")
+
+#define ACC_OPENCL_ERROR_REPORT(NAME) \
+  do { \
+    const char* const acc_opencl_error_report_name_ = (const char*)('\0' != *#NAME ? (uintptr_t)(NAME + 0) : 0); \
+    if (0 != c_dbcsr_acc_opencl_config.verbosity) { \
+      if (NULL != acc_opencl_error_report_name_ && '\0' != *acc_opencl_error_report_name_) { \
+        fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", acc_opencl_error_report_name_); \
       } \
-    } while (0)
-#  define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) \
-    do { \
-      const int acc_opencl_return_cause_result_ = (RESULT); \
-      if (EXIT_SUCCESS != acc_opencl_return_cause_result_) { \
-        if (NULL != (CAUSE) && '\0' != *(const char*)(CAUSE)) { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)CAUSE); \
-          assert(!"SUCCESS"); \
+      else if (0 != c_dbcsr_acc_opencl_config.device.error.code) { \
+        if (NULL != c_dbcsr_acc_opencl_config.device.error.name && '\0' != *c_dbcsr_acc_opencl_config.device.error.name) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: %s (code=%i)\n", c_dbcsr_acc_opencl_config.device.error.name, \
+            c_dbcsr_acc_opencl_config.device.error.code); \
         } \
-        else if (NULL != (LIBXSMM_FUNCNAME) && '\0' != *(const char*)(LIBXSMM_FUNCNAME)) { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)LIBXSMM_FUNCNAME); \
-          assert(!"SUCCESS"); \
+        else if (-1001 == c_dbcsr_acc_opencl_config.device.error.code) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: incomplete OpenCL installation?\n"); \
         } \
         else { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failure!\n"); \
-          assert(!"SUCCESS"); \
+          fprintf(stderr, "ERROR ACC/OpenCL: unknown error (code=%i)\n", c_dbcsr_acc_opencl_config.device.error.code); \
         } \
       } \
-      return acc_opencl_return_cause_result_; \
-    } while (0)
-#else
-#  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
-    do { \
-      if (EXIT_SUCCESS == (RESULT)) { \
-        (RESULT) = (EXPR); \
-        assert((MSG) && *(MSG)); \
-      } \
-    } while (0)
-#  define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) \
-    LIBXSMM_UNUSED(CAUSE); \
-    return RESULT
-#endif
-#define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, "")
+      memset(&c_dbcsr_acc_opencl_config.device.error, 0, sizeof(c_dbcsr_acc_opencl_config.device.error)); \
+    } \
+    assert(!"SUCCESS"); \
+  } while (0)
+
+#define ACC_OPENCL_CHECK(RESULT, CMD, MSG) \
+  do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      (RESULT) = (CMD); /* update result given code from cmd */ \
+      c_dbcsr_acc_opencl_config.device.error.name = (MSG); \
+      c_dbcsr_acc_opencl_config.device.error.code = (RESULT); \
+      assert(EXIT_SUCCESS == (RESULT)); \
+    } \
+    else ACC_OPENCL_ERROR_REPORT(); \
+  } while (0)
+
+#define ACC_OPENCL_RETURN(RESULT, ...) \
+  do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      assert(EXIT_SUCCESS == c_dbcsr_acc_opencl_config.device.error.code); \
+      memset(&c_dbcsr_acc_opencl_config.device.error, 0, sizeof(c_dbcsr_acc_opencl_config.device.error)); \
+    } \
+    else ACC_OPENCL_ERROR_REPORT(__VA_ARGS__); \
+    return (RESULT); \
+  } while (0)
 
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+/** Rich type denoting an error. */
+typedef struct c_dbcsr_acc_opencl_error_t {
+  const char* name;
+  int code;
+} c_dbcsr_acc_opencl_error_t;
 
 /** Information about streams (c_dbcsr_acc_stream_create). */
 typedef struct c_dbcsr_acc_opencl_stream_t {
@@ -265,6 +269,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
    * (ACC-interface) can be NULL (synchronous)
    */
   c_dbcsr_acc_opencl_stream_t stream;
+  /** Last error (not necessarily thread-safe/specific). */
+  c_dbcsr_acc_opencl_error_t error;
   /** OpenCL compiler flag (language standard). */
   char std_flag[16];
   /** OpenCL support-level (major and minor). */
@@ -319,7 +325,7 @@ typedef enum c_dbcsr_acc_opencl_atomic_fp_t {
 typedef struct c_dbcsr_acc_opencl_config_t {
   /** Table of ordered viable/discovered devices (matching criterion). */
   cl_device_id devices[ACC_OPENCL_MAXNDEVS];
-  /** Table of devices (thread-specific). */
+  /** Active device (per process). */
   c_dbcsr_acc_opencl_device_t device;
   /** Locks used by domain. */
   ACC_OPENCL_LOCKTYPE *lock_main, *lock_stream, *lock_event, *lock_memory;

@@ -104,10 +104,10 @@ int opencl_libsmm_use_cmem(cl_device_id device) {
 #  if defined(OPENCL_LIBSMM_CMEM)
   int result = EXIT_SUCCESS;
   cl_ulong size_maxalloc = 1, size_maxcmem = 0;
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE, sizeof(cl_ulong), &size_maxalloc, NULL),
-    "retrieve maximum size of memory allocation", result);
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, sizeof(cl_ulong), &size_maxcmem, NULL),
-    "retrieve maximum size of constant buffer", result);
+  ACC_OPENCL_CHECK(result, clGetDeviceInfo(device, CL_DEVICE_MAX_MEM_ALLOC_SIZE, sizeof(cl_ulong), &size_maxalloc, NULL),
+    "retrieve maximum size of memory allocation");
+  ACC_OPENCL_CHECK(result, clGetDeviceInfo(device, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, sizeof(cl_ulong), &size_maxcmem, NULL),
+    "retrieve maximum size of constant buffer");
   return (EXIT_SUCCESS == result ? (size_maxalloc <= size_maxcmem ? EXIT_SUCCESS : EXIT_FAILURE) : result);
 #  else
   LIBXSMM_UNUSED(device);
@@ -514,6 +514,7 @@ int libsmm_acc_init(void) {
                           EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(c_dbcsr_acc_opencl_config.device.id, bufname,
                                             ACC_OPENCL_BUFFERSIZE, NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 0))
                       {
+                        assert(i < ndevices_params);
                         if (default_uid != key.devuid) {
                           fprintf(/* print best-matching device */
                             stderr, "INFO ACC/LIBSMM: PARAMS of \"%s\" used for \"%s\"\n", OPENCL_KERNELS_DEVICES[i], bufname);
@@ -783,9 +784,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
           imat = (char*)LIBXSMM_UP2((uintptr_t)stack + sizeof(int) * offset_stack_size, LIBXSMM_ALIGNMENT);
           omat = (char*)LIBXSMM_UP2((uintptr_t)imat + data_size, LIBXSMM_ALIGNMENT);
           gold = (char*)LIBXSMM_UP2((uintptr_t)omat + data_size, LIBXSMM_ALIGNMENT);
-          ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_trs_stack, stack, sizeof(int) * offset_stack_size, stream),
-            "transfer validation stack", result);
-          ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_data, imat, data_size, stream), "transfer validation input", result);
+          ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_trs_stack, stack, sizeof(int) * offset_stack_size, stream),
+            "transfer validation stack");
+          ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_data, imat, data_size, stream), "transfer validation input");
         }
         else result = EXIT_FAILURE;
       }
@@ -805,24 +806,26 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
 #  endif
         ACC_OPENCL_ATOMIC_ACQUIRE(lock);
         ACC_OPENCL_CHECK(
-          clSetKernelArg(config->kernel, 0, sizeof(int), &offset), "set offset argument of transpose kernel", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel, 1, info_stack.memory),
-          "set batch-list argument of transpose kernel", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel, 2, info_mdata.memory),
-          "set matrix-data argument of transpose kernel", result);
-        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(str->queue, config->kernel, 1 /*work_dim*/, NULL /*offset*/, &work_size,
-                           &config->wgsize, 0, NULL, perf_event),
-          "launch transpose kernel", result);
+          result, clSetKernelArg(config->kernel, 0, sizeof(int), &offset), "set offset argument of transpose kernel");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel, 1, info_stack.memory),
+          "set batch-list argument of transpose kernel");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel, 2, info_mdata.memory),
+          "set matrix-data argument of transpose kernel");
+        ACC_OPENCL_CHECK(result,
+          clEnqueueNDRangeKernel(
+            str->queue, config->kernel, 1 /*work_dim*/, NULL /*offset*/, &work_size, &config->wgsize, 0, NULL, perf_event),
+          "launch transpose kernel");
         /* eventually update performance counters inside of locked region */
 #  if !defined(OPENCL_LIBSMM_VALIDATE_TRANS)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
           if (NULL != perf_event) {
             cl_ulong begin = 0, end = 0;
             clWaitForEvents(1, perf_event);
-            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-              "query kernel start time", result);
-            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-              "query kernel end time", result);
+            ACC_OPENCL_CHECK(result,
+              clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              "query kernel start time");
+            ACC_OPENCL_CHECK(result, clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+              "query kernel end time");
             duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
           }
           else {
@@ -845,8 +848,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         ACC_OPENCL_ATOMIC_RELEASE(lock);
       }
 #  if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
-      ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_data, omat, data_size, stream), "transfer validation test", result);
-      ACC_OPENCL_CHECK(c_dbcsr_acc_stream_sync(stream), "sync stream", result);
+      ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_data, omat, data_size, stream), "transfer validation test");
+      ACC_OPENCL_CHECK(result, c_dbcsr_acc_stream_sync(stream), "sync stream");
       if (EXIT_SUCCESS == result) {
         char print_buffer[2048] = "";
         int print_offset = 0, i, j;
@@ -1331,10 +1334,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             gold = (char*)LIBXSMM_UP2((uintptr_t)test + csize, LIBXSMM_ALIGNMENT);
             btrn = (char*)LIBXSMM_UP2((uintptr_t)gold + csize, LIBXSMM_ALIGNMENT);
             ACC_OPENCL_CHECK(
-              c_dbcsr_acc_memcpy_d2h(dev_param_stack, pinp, psize, stream), "transfer validation param-data", result);
-            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_a_data, ainp, asize, stream), "transfer validation a-data", result);
-            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_b_data, binp, bsize, stream), "transfer validation b-data", result);
-            ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, gold, csize, stream), "transfer validation c-data", result);
+              result, c_dbcsr_acc_memcpy_d2h(dev_param_stack, pinp, psize, stream), "transfer validation param-data");
+            ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_a_data, ainp, asize, stream), "transfer validation a-data");
+            ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_b_data, binp, bsize, stream), "transfer validation b-data");
+            ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_c_data, gold, csize, stream), "transfer validation c-data");
             kernel_cpu = libxsmm_xmmdispatch(desc);
             assert(NULL != kernel_cpu.xmm);
           }
@@ -1355,34 +1358,36 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         /* adjust launchsize according to intra-kernel batchsize */
         work_size = ((stack_size + bs - 1) / bs) * config->wgsize[kernel_idx];
         /* calling clSetKernelArg/clEnqueueNDRangeKernel must be consistent */
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 0, info_cdata.memory),
-          "set C-matrix argument of SMM-kernel", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 1, info_adata.memory),
-          "set A-matrix argument of SMM-kernel", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 2, info_bdata.memory),
-          "set B-matrix argument of SMM-kernel", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 3, info_stack.memory),
-          "set batch-list argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 0, info_cdata.memory),
+          "set C-matrix argument of SMM-kernel");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 1, info_adata.memory),
+          "set A-matrix argument of SMM-kernel");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 2, info_bdata.memory),
+          "set B-matrix argument of SMM-kernel");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 3, info_stack.memory),
+          "set batch-list argument of SMM-kernel");
         if (0 == kernel_idx) {
           assert(bs <= config->bs);
-          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
-            "set stacksize argument of SMM-kernel", result);
+          ACC_OPENCL_CHECK(result, clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
+            "set stacksize argument of SMM-kernel");
           ACC_OPENCL_CHECK(
-            clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel", result);
+            result, clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel");
         }
-        ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(str->queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL /*offset*/, &work_size,
-                           config->wgsize + kernel_idx, 0, NULL, perf_event),
-          "launch SMM-kernel", result);
+        ACC_OPENCL_CHECK(result,
+          clEnqueueNDRangeKernel(str->queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL /*offset*/, &work_size,
+            config->wgsize + kernel_idx, 0, NULL, perf_event),
+          "launch SMM-kernel");
         /* eventually update performance counters inside of locked region */
 #  if !defined(OPENCL_LIBSMM_VALIDATE_SMM)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
           if (NULL != perf_event) {
             cl_ulong begin = 0, end = 0;
             clWaitForEvents(1, perf_event);
-            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-              "query kernel start time", result);
-            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-              "query kernel end time", result);
+            ACC_OPENCL_CHECK(result,
+              clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              "query kernel start time");
+            ACC_OPENCL_CHECK(result, clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+              "query kernel end time");
             duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
           }
           else {
@@ -1403,8 +1408,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         }
 #  endif
 #  if defined(OPENCL_LIBSMM_VALIDATE_SMM)
-        ACC_OPENCL_CHECK(c_dbcsr_acc_memcpy_d2h(dev_c_data, test, csize, stream), "transfer validation test", result);
-        ACC_OPENCL_CHECK(c_dbcsr_acc_stream_sync(stream), "sync stream", result);
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_c_data, test, csize, stream), "transfer validation test");
+        ACC_OPENCL_CHECK(result, c_dbcsr_acc_stream_sync(stream), "sync stream");
         if (EXIT_SUCCESS == result) {
           const char* const env_tol = getenv("OPENCL_LIBSMM_SMM_TOLERANCE");
           const double tolerance = ((NULL == env_tol || '\0' == *env_tol) ? 1E-3 : atof(env_tol));
