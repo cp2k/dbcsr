@@ -103,7 +103,6 @@ ifneq (0,$(DEV))
     CFLAGS += -D__DBCSR_ACC
     CFLAGS += -Wno-deprecated -Werror
     ifneq (2,$(DEV))
-      $(info DEBUG: $(CC) $(CXX))
       ifneq (,$(findstring clang,$(CC) $(CXX)))
         override CC := clang++ --analyze
       else

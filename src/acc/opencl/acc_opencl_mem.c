@@ -738,16 +738,17 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device, size_t* mem_free, size_t
         size_free = size_page * (size_t)pages_free;
       }
 #  endif
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_total, NULL),
-    "retrieve amount of global memory", result);
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
-    "retrieve kind of local memory", result);
+  ACC_OPENCL_CHECK(result, clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_total, NULL),
+    "retrieve amount of global memory");
+  ACC_OPENCL_CHECK(result,
+    clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE, sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
+    "retrieve kind of local memory");
   if (CL_LOCAL == cl_local_type) {
-    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_local, NULL),
-      "retrieve amount of local memory", result);
+    ACC_OPENCL_CHECK(result, clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE, sizeof(cl_ulong), &cl_size_local, NULL),
+      "retrieve amount of local memory");
   }
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &cl_unified, NULL),
-    "retrieve if host memory is unified", result);
+  ACC_OPENCL_CHECK(result, clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool), &cl_unified, NULL),
+    "retrieve if host memory is unified");
   if (EXIT_SUCCESS == result) {
     if (cl_size_total < size_total) size_total = cl_size_total;
     if (size_total < size_free) size_free = size_total;
