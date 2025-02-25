@@ -174,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~165"></span>
+              <span class="anchor" id="variable-block~159"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(out)</td>
@@ -189,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~22"></span>
+              <span class="anchor" id="variable-sizes~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -204,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~61"></span>
+              <span class="anchor" id="variable-array~57"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -244,7 +244,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~166"></span>
+              <span class="anchor" id="variable-block~160"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(out)</td>
@@ -259,7 +259,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~23"></span>
+              <span class="anchor" id="variable-sizes~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -274,7 +274,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~62"></span>
+              <span class="anchor" id="variable-array~58"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -314,7 +314,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~167"></span>
+              <span class="anchor" id="variable-block~161"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(out)</td>
@@ -329,7 +329,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~24"></span>
+              <span class="anchor" id="variable-sizes~20"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -344,7 +344,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-array~63"></span>
+              <span class="anchor" id="variable-array~59"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -370,76 +370,6 @@
     <div class="card-body">
           
   <p>Create block from array, array can be n-dimensional.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~168"></span>
-              type(<a href='../type/block_nd.html'>block_nd</a>),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sizes~25"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:)
-            </td>
-            <td>::</td>
-            <td><strong>sizes</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-array~64"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(PRODUCT(sizes))
-            </td>
-            <td>::</td>
-            <td><strong>array</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-create_block_nodata"></span> <h3>private  subroutine <a href='../proc/create_block_nodata.html'>create_block_nodata</a>(block, sizes, data_type)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Create block without data</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -484,7 +414,77 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~95"></span>
+              <span class="anchor" id="variable-array~60"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(PRODUCT(sizes))
+            </td>
+            <td>::</td>
+            <td><strong>array</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-create_block_nodata"></span> <h3>private  subroutine <a href='../proc/create_block_nodata.html'>create_block_nodata</a>(block, sizes, data_type)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Create block without data</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~156"></span>
+              type(<a href='../type/block_nd.html'>block_nd</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sizes~17"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:)
+            </td>
+            <td>::</td>
+            <td><strong>sizes</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_type~58"></span>
               integer,
             </td>
 <td>intent(in)</td>

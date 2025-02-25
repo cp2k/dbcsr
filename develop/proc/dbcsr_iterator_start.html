@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">6 statements</a>
+                 title=" 0.1% of total for procedures.">75 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_iterator_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_iterator_operations.f.html'>dbcsr_iterator_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_iterator_start</li>
           </ol>
         </nav>
@@ -143,6 +143,43 @@
 </h2>
     
 
+    <p>Sets up an iterator</p>
+<p>Contiguous pointers
+Contiguous pointers may incur reallocation penalties but enable quick
+passing of arrays to routines with unspecified interfaces (i.e., direct
+calls to BLACS or MPI).</p>
+<p>Threading
+The TYPE(dbcsr_iterator) variable should be thread-private.</p>
+<p>The iterator has several modes of operation when used with
+OpenMP. Two options can be set to influence the behavior.</p>
+<p>Threading: shared vs. non-shared
+The "shared" flag specifies that several threads will be
+iterating through the same matrix.
+- Sharing is the default when called from an active parallel
+region. In the shared mode no two threads will receive the
+same block; i.e., the work is split among the threads.
+- If each (or one) thread needs to iterator through all blocks
+then shared should be set to .FALSE.. (E.g., when called
+from an enclosing MASTER region or when each thread has its
+own matrix.)
+- It is safe to use an iterator in non-shared mode with only
+one thread.  No thread synchronization constructs are used
+in this case)</p>
+<p>Threading in shared mode
+When in shared mode there are three possibilities to select
+how the blocks are distributed to the threads.</p>
+<DL>
+<DT>Thread distribution</DT>
+<DD>The default is to use the thread distribution. The thread
+distribution statically maps rows to threads and should be
+used whenever retaining a consistent mapping among
+subsequent iterations is important.</DD>
+<DT>Dynamic scheduling</DT>
+<DD>If the dynamic flag is .TRUE., then blocks are given to
+threads dynamically. By default the assignment is grouped
+by rows (to minimize synchronization); however, if the
+dynamic_byrows flag is .FALSE. then every block is
+assigned dynamically.</DD></DL>
 
 
     <h3>Arguments</h3>
@@ -158,8 +195,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~5"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+              <span class="anchor" id="variable-iterator~7"></span>
+              type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -168,13 +205,13 @@
             <td>::</td>
             <td><strong>iterator</strong></td>
             <td>
-                
+                <p>the iterator</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~86"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~94"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -183,12 +220,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                
+                <p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-shared~2"></span>
+              <span class="anchor" id="variable-shared"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -198,12 +235,16 @@
             <td>::</td>
             <td><strong>shared</strong></td>
             <td>
-                
+                <p>The matrix is shared between several iterators. Default is .TRUE.
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dynamic~2"></span>
+              <span class="anchor" id="variable-dynamic"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -213,12 +254,16 @@
             <td>::</td>
             <td><strong>dynamic</strong></td>
             <td>
-                
+                <p>The matrix is shared between several iterators. Default is .TRUE.
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dynamic_byrows~2"></span>
+              <span class="anchor" id="variable-dynamic_byrows"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -228,12 +273,16 @@
             <td>::</td>
             <td><strong>dynamic_byrows</strong></td>
             <td>
-                
+                <p>The matrix is shared between several iterators. Default is .TRUE.
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-contiguous_pointers~2"></span>
+              <span class="anchor" id="variable-contiguous_pointers"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -243,12 +292,16 @@
             <td>::</td>
             <td><strong>contiguous_pointers</strong></td>
             <td>
-                
+                <p>The matrix is shared between several iterators. Default is .TRUE.
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-read_only~2"></span>
+              <span class="anchor" id="variable-read_only"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -258,7 +311,11 @@
             <td>::</td>
             <td><strong>read_only</strong></td>
             <td>
-                
+                <p>The matrix is shared between several iterators. Default is .TRUE.
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p>
             </td>
         </tr>
     </tbody>
@@ -280,13 +337,180 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                   </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="p">)</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">iterator</span>
+<span class="w">      </span><span class="c">!! Sets up an iterator</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Contiguous pointers</span>
+<span class="w">      </span><span class="c">!! Contiguous pointers may incur reallocation penalties but enable quick</span>
+<span class="w">      </span><span class="c">!! passing of arrays to routines with unspecified interfaces (i.e., direct</span>
+<span class="w">      </span><span class="c">!! calls to BLACS or MPI).</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Threading</span>
+<span class="w">      </span><span class="c">!! The TYPE(dbcsr_iterator) variable should be thread-private.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! The iterator has several modes of operation when used with</span>
+<span class="w">      </span><span class="c">!! OpenMP. Two options can be set to influence the behavior.</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Threading: shared vs. non-shared</span>
+<span class="w">      </span><span class="c">!! The &quot;shared&quot; flag specifies that several threads will be</span>
+<span class="w">      </span><span class="c">!! iterating through the same matrix.</span>
+<span class="w">      </span><span class="c">!! - Sharing is the default when called from an active parallel</span>
+<span class="w">      </span><span class="c">!! region. In the shared mode no two threads will receive the</span>
+<span class="w">      </span><span class="c">!! same block; i.e., the work is split among the threads.</span>
+<span class="w">      </span><span class="c">!! - If each (or one) thread needs to iterator through all blocks</span>
+<span class="w">      </span><span class="c">!! then shared should be set to .FALSE.. (E.g., when called</span>
+<span class="w">      </span><span class="c">!! from an enclosing MASTER region or when each thread has its</span>
+<span class="w">      </span><span class="c">!! own matrix.)</span>
+<span class="w">      </span><span class="c">!! - It is safe to use an iterator in non-shared mode with only</span>
+<span class="w">      </span><span class="c">!! one thread.  No thread synchronization constructs are used</span>
+<span class="w">      </span><span class="c">!! in this case)</span>
+<span class="w">      </span><span class="c">!!</span>
+<span class="w">      </span><span class="c">!! Threading in shared mode</span>
+<span class="w">      </span><span class="c">!! When in shared mode there are three possibilities to select</span>
+<span class="w">      </span><span class="c">!! how the blocks are distributed to the threads.</span>
+<span class="w">      </span><span class="c">!! &lt;DL&gt;</span>
+<span class="w">      </span><span class="c">!! &lt;DT&gt;Thread distribution&lt;/DT&gt;</span>
+<span class="w">      </span><span class="c">!! &lt;DD&gt;The default is to use the thread distribution. The thread</span>
+<span class="w">      </span><span class="c">!! distribution statically maps rows to threads and should be</span>
+<span class="w">      </span><span class="c">!! used whenever retaining a consistent mapping among</span>
+<span class="w">      </span><span class="c">!! subsequent iterations is important.&lt;/DD&gt;</span>
+<span class="w">      </span><span class="c">!! &lt;DT&gt;Dynamic scheduling&lt;/DT&gt;</span>
+<span class="w">      </span><span class="c">!! &lt;DD&gt;If the dynamic flag is .TRUE., then blocks are given to</span>
+<span class="w">      </span><span class="c">!! threads dynamically. By default the assignment is grouped</span>
+<span class="w">      </span><span class="c">!! by rows (to minimize synchronization); however, if the</span>
+<span class="w">      </span><span class="c">!! dynamic_byrows flag is .FALSE. then every block is</span>
+<span class="w">      </span><span class="c">!! assigned dynamically.&lt;/DD&gt;&lt;/DL&gt;</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">iterator</span>
+<span class="w">         </span><span class="c">!! the iterator</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">         </span><span class="c">!! DBCSR matrix</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span>
+<span class="w">         </span><span class="c">!! The matrix is shared between several iterators. Default is .TRUE.</span>
+<span class="w">         </span><span class="c">!! Threads are given blocks regardless of the thread distribution; default is .FALSE.</span>
+<span class="w">         </span><span class="c">!! Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.</span>
+<span class="w">         </span><span class="c">!! Whether returned pointers need to be contiguous; default is FALSE.</span>
+<span class="w">         </span><span class="c">!! User promises not to change returned data; default is FALSE</span>
 
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_iterator_start_prv</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">shared</span><span class="p">,</span><span class="w"> </span><span class="n">dynamic</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                    </span><span class="n">dynamic_byrows</span><span class="p">,</span><span class="w"> </span><span class="n">contiguous_pointers</span><span class="p">,</span><span class="w"> </span><span class="n">read_only</span><span class="p">)</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_iterator_start&#39;</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">dynamic</span><span class="p">)</span><span class="w"> </span><span class="c">! only used with OMP</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="c">!$    iterator%shared = omp_in_parallel()</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shared</span><span class="p">))</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shared</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="c">!$    iterator%dynamic = .FALSE.</span>
+<span class="c">!$    IF (PRESENT(dynamic)) iterator%dynamic = dynamic</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dynamic_byrows</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic_byrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dynamic_byrows</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic_byrows</span><span class="p">)</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic_byrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span>
+<span class="c">!$       iterator%dynamic_byrows = iterator%dynamic</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="c">!$    IF (.NOT. iterator%shared) THEN</span>
+<span class="c">!$       iterator%dynamic = .FALSE.</span>
+<span class="c">!$    END IF</span>
+<span class="w">      </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c">!$    IF (.NOT. dbcsr_distribution_has_threads(dist)) &amp;</span>
+<span class="c">!$       DBCSR_WARN(&quot;Thread distribution should be defined for OpenMP.&quot;)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Thread distribution must be defined for non-dynamic iterator.&quot;</span><span class="p">)</span>
+<span class="c">!$    IF (omp_in_parallel() .AND. omp_get_num_threads() /= dbcsr_distribution_num_threads(dist)) &amp;</span>
+<span class="c">!$       CALL dbcsr_abort(__LOCATION__, &amp;</span>
+<span class="c">!$                        &quot;Number of threads has changed from &quot;// &amp;</span>
+<span class="c">!$                        stringify(dbcsr_distribution_num_threads(dist))// &amp;</span>
+<span class="c">!$                        &quot; to &quot;//stringify(omp_get_num_threads())//&quot;!&quot;)</span>
+<span class="w">      </span><span class="c">!Synchronize the positions</span>
+<span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">         </span><span class="c">! All threads point into the master thread&#39;s data space</span>
+<span class="w">         </span><span class="c">! (temporarily using the common_int_pointer variable). This is</span>
+<span class="w">         </span><span class="c">! not the nicest OpenMP way of doing this but it is also not</span>
+<span class="w">         </span><span class="c">! explicitly forbidden.</span>
+<span class="w">         </span><span class="c">!</span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="c">!$OMP        MASTER</span>
+<span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">)</span>
+<span class="w">         </span><span class="n">common_int_pointer</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span>
+<span class="w">         </span><span class="n">common_int_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="c">!$OMP        FLUSH (common_int_pointer)</span>
+<span class="c">!$OMP        END MASTER</span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">common_int_pointer</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="w">      </span><span class="c">!</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">contiguous_pointers</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">contiguous_pointers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contiguous_pointers</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">contiguous_pointers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">read_only</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_only</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">rbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">cbs</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">roff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">coff</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_offset</span><span class="p">)</span>
+
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">local_indexing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span>
+<span class="w">      </span><span class="c">!IF(iterator%local_indexing .AND. .NOT. iterator%dynamic) &amp;</span>
+<span class="w">      </span><span class="c">!   DBCSR_ABORT(&quot;Locally-indexed matrices can only have a dynamic iterator.&quot;)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_indexing</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">array_exists</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="s2">&quot;Local rows mapping array should exist when local indexing is used.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_indexing</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">array_exists</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="s2">&quot;Global rows mapping array should exist when local indexing is used.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">global_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
+
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="nb">transpose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span><span class="w"> </span><span class="c">!matrix%transpose</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="nb">transpose</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_total</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">col_i</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span>
+<span class="c">!$OMP     CRITICAL (crit_data)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
+<span class="c">!$OMP     END CRITICAL (crit_data)</span>
+<span class="w">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">tdist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">dbcsr_distribution_thread_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+<span class="w">      </span><span class="k">ELSE</span>
+<span class="k">         NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">tdist</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="c">!$    IF (iterator%dynamic) THEN</span>
+<span class="c">!$OMP           SINGLE</span>
+<span class="c">!$       IF (iterator%dynamic_byrows) THEN</span>
+<span class="c">!$          iterator%common_pos = omp_get_num_threads()</span>
+<span class="c">!$       END IF</span>
+<span class="c">!$OMP           END SINGLE</span>
+<span class="c">!$       CALL dbcsr_iterator_seek(iterator, omp_get_thread_num() + 1)</span>
+<span class="c">!$    ELSE</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_seek</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="c">!$    END IF</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_iterator_start</span>
 </pre></div>
 
