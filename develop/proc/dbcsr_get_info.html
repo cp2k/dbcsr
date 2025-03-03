@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">35 statements</a>
+                 title=" 0.0% of total for procedures.">16 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_operations.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_get_info</li>
           </ol>
         </nav>
@@ -139,11 +139,10 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine dbcsr_get_info(matrix, nblkrows_total, nblkcols_total, nfullrows_total, nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, my_prow, my_pcol, local_rows, local_cols, proc_row_dist, proc_col_dist, row_blk_size, col_blk_size, row_blk_offset, col_blk_offset, distribution, name, data_area, matrix_type, data_type, group)  
+    <h2>public  subroutine dbcsr_get_info(matrix, nblkrows_total, nblkcols_total, nfullrows_total, nfullcols_total, nblkrows_local, nblkcols_local, nfullrows_local, nfullcols_local, my_prow, my_pcol, local_rows, local_cols, proc_row_dist, proc_col_dist, row_blk_size, col_blk_size, row_blk_offset, col_blk_offset, distribution, name, matrix_type, data_type, group)  
 </h2>
     
 
-    <p>Gets information about a matrix</p>
 
 
     <h3>Arguments</h3>
@@ -159,8 +158,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~20"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~49"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -169,12 +168,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                <p>matrix to query</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows_total~2"></span>
+              <span class="anchor" id="variable-nblkrows_total~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -189,7 +188,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols_total~2"></span>
+              <span class="anchor" id="variable-nblkcols_total~7"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -204,7 +203,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullrows_total"></span>
+              <span class="anchor" id="variable-nfullrows_total~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -219,7 +218,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullcols_total"></span>
+              <span class="anchor" id="variable-nfullcols_total~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -234,7 +233,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows_local"></span>
+              <span class="anchor" id="variable-nblkrows_local~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -249,7 +248,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols_local"></span>
+              <span class="anchor" id="variable-nblkcols_local~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -264,7 +263,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullrows_local"></span>
+              <span class="anchor" id="variable-nfullrows_local~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -294,7 +293,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-my_prow~2"></span>
+              <span class="anchor" id="variable-my_prow"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -309,7 +308,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-my_pcol~2"></span>
+              <span class="anchor" id="variable-my_pcol"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -324,7 +323,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows"></span>
+              <span class="anchor" id="variable-local_rows~2"></span>
               integer,
             </td>
 <td></td>
@@ -339,7 +338,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols"></span>
+              <span class="anchor" id="variable-local_cols~2"></span>
               integer,
             </td>
 <td></td>
@@ -384,7 +383,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~2"></span>
+              <span class="anchor" id="variable-row_blk_size~11"></span>
               integer,
             </td>
 <td></td>
@@ -399,7 +398,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~2"></span>
+              <span class="anchor" id="variable-col_blk_size~11"></span>
               integer,
             </td>
 <td></td>
@@ -414,7 +413,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offset"></span>
+              <span class="anchor" id="variable-row_blk_offset~5"></span>
               integer,
             </td>
 <td></td>
@@ -429,7 +428,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offset"></span>
+              <span class="anchor" id="variable-col_blk_offset~4"></span>
               integer,
             </td>
 <td></td>
@@ -445,7 +444,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-distribution"></span>
-              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),
             </td>
 <td>intent(out),</td>
               <td>optional</td>            <td>
@@ -454,12 +453,12 @@
             <td>::</td>
             <td><strong>distribution</strong></td>
             <td>
-                <p>the data distribution of the matrix</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~3"></span>
+              <span class="anchor" id="variable-name~9"></span>
               character(len=*),
             </td>
 <td>intent(out),</td>
@@ -469,58 +468,43 @@
             <td>::</td>
             <td><strong>name</strong></td>
             <td>
-                <p>matrix name</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-matrix_type~5"></span>
+              character(len=1),
             </td>
 <td>intent(out),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>data_area</strong></td>
-            <td>
-                <p>data_area</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix_type~3"></span>
-              character(len=1),
-            </td>
-<td></td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
             <td><strong>matrix_type</strong></td>
             <td>
-                <p>matrix type (regular, symmetric, see dbcsr_types.F for values)</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~13"></span>
+              <span class="anchor" id="variable-data_type~24"></span>
               integer,
             </td>
-<td></td>
+<td>intent(out),</td>
               <td>optional</td>            <td>
               
             </td>
             <td>::</td>
             <td><strong>data_type</strong></td>
             <td>
-                <p>data type (single/double precision real/complex)</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~4"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+              <span class="anchor" id="variable-group~34"></span>
+              integer,
             </td>
 <td>intent(out),</td>
               <td>optional</td>            <td>
@@ -555,64 +539,57 @@
 <span class="w">                             </span><span class="n">nfullrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                             </span><span class="n">my_prow</span><span class="p">,</span><span class="w"> </span><span class="n">my_pcol</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                             </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">proc_col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                             </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">distribution</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                             </span><span class="n">matrix_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Gets information about a matrix</span>
-
+<span class="w">                             </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">distribution</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="n">group</span><span class="p">)</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
-<span class="w">         </span><span class="c">!! matrix to query</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                        </span><span class="n">nfullcols_total</span><span class="p">,</span><span class="w"> </span><span class="n">nblkrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">nblkcols_local</span><span class="p">,</span><span class="w"> </span><span class="n">nfullrows_local</span><span class="p">,</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                        </span><span class="n">my_prow</span><span class="p">,</span><span class="w"> </span><span class="n">my_pcol</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                  </span><span class="n">proc_col_dist</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offset</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                            </span><span class="n">proc_col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                            </span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                            </span><span class="n">row_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offset</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">distribution</span>
-<span class="w">         </span><span class="c">!! the data distribution of the matrix</span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
-<span class="w">         </span><span class="c">!! matrix name</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span>
-<span class="w">         </span><span class="c">!! data_area</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_type</span>
-<span class="w">         </span><span class="c">!! matrix type (regular, symmetric, see dbcsr_types.F for values)</span>
-<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span>
-<span class="w">         </span><span class="c">!! data type (single/double precision real/complex)</span>
-<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">group</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_type</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">group</span>
 
-<span class="c">!   ---------------------------------------------------------------------------</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_dist_prv_obj</span><span class="p">)</span><span class="w">                           </span><span class="kd">::</span><span class="w"> </span><span class="n">dist</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">my_group</span>
 
-<span class="w">      </span><span class="c">!vw avoid massive printing of warnings</span>
-<span class="w">      </span><span class="c">!DBCSR_WARN(&quot;Invalid matrix&quot;)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nblkrows_total</span><span class="p">))</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nblkcols_total</span><span class="p">))</span><span class="w"> </span><span class="n">nblkcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_total</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nfullrows_total</span><span class="p">))</span><span class="w"> </span><span class="n">nfullrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullrows_total</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nfullcols_total</span><span class="p">))</span><span class="w"> </span><span class="n">nfullcols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullcols_total</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nblkrows_local</span><span class="p">))</span><span class="w"> </span><span class="n">nblkrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nblkcols_local</span><span class="p">))</span><span class="w"> </span><span class="n">nblkcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_local</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nfullrows_local</span><span class="p">))</span><span class="w"> </span><span class="n">nfullrows_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullrows_local</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nfullcols_local</span><span class="p">))</span><span class="w"> </span><span class="n">nfullcols_local</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">nfullcols_local</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span><span class="w"> </span><span class="n">row_blk_size</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span><span class="w"> </span><span class="n">col_blk_size</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_offset</span><span class="p">))</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_offset</span><span class="p">))</span><span class="w"> </span><span class="n">col_blk_offset</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_offset</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">distribution</span><span class="p">))</span><span class="w"> </span><span class="n">distribution</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">name</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_area</span><span class="p">))</span><span class="w"> </span><span class="n">data_area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_type</span><span class="p">))</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_rows</span><span class="p">))</span><span class="w"> </span><span class="n">local_rows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_cols</span><span class="p">))</span><span class="w"> </span><span class="n">local_cols</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">proc_row_dist</span><span class="p">))</span><span class="w"> </span><span class="n">proc_row_dist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">proc_col_dist</span><span class="p">))</span><span class="w"> </span><span class="n">proc_col_dist</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">my_prow</span><span class="p">))</span><span class="w"> </span><span class="n">my_prow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">my_pcol</span><span class="p">))</span><span class="w"> </span><span class="n">my_pcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">matrix_type</span><span class="p">))</span><span class="w"> </span><span class="n">matrix_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_get_info_prv</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nblkrows_total</span><span class="o">=</span><span class="n">nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nblkcols_total</span><span class="o">=</span><span class="n">nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nfullrows_total</span><span class="o">=</span><span class="n">nfullrows_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nfullcols_total</span><span class="o">=</span><span class="n">nfullcols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nblkrows_local</span><span class="o">=</span><span class="n">nblkrows_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nblkcols_local</span><span class="o">=</span><span class="n">nblkcols_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nfullrows_local</span><span class="o">=</span><span class="n">nfullrows_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">nfullcols_local</span><span class="o">=</span><span class="n">nfullcols_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">my_prow</span><span class="o">=</span><span class="n">my_prow</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">my_pcol</span><span class="o">=</span><span class="n">my_pcol</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">local_rows</span><span class="o">=</span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">local_cols</span><span class="o">=</span><span class="n">local_cols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">proc_row_dist</span><span class="o">=</span><span class="n">proc_row_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">proc_col_dist</span><span class="o">=</span><span class="n">proc_col_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">row_blk_size</span><span class="o">=</span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">col_blk_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">row_blk_offset</span><span class="o">=</span><span class="n">row_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">col_blk_offset</span><span class="o">=</span><span class="n">col_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">distribution</span><span class="o">=</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">matrix_type</span><span class="o">=</span><span class="n">matrix_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                              </span><span class="n">group</span><span class="o">=</span><span class="n">my_group</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span><span class="w"> </span><span class="c">! a shortcut</span>
-<span class="w">      </span><span class="c">!IF (PRESENT(matrix_type)) THEN</span>
-<span class="w">      </span><span class="c">!   matrix_type = dbcsr_get_matrix_type(matrix)</span>
-<span class="w">      </span><span class="c">!   IF (matrix_type .EQ. dbcsr_type_invalid) &amp;</span>
-<span class="w">      </span><span class="c">!      DBCSR_ABORT(&quot;Incorrect symmetry&quot;)</span>
-<span class="w">      </span><span class="c">!ENDIF</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">distribution</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">distribution</span><span class="p">%</span><span class="n">prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist</span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_group</span><span class="p">%</span><span class="n">get_handle</span><span class="p">()</span>
+
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_info</span>
 </pre></div>
 

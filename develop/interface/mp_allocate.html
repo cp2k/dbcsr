@@ -175,78 +175,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~36"></span>
+              <span class="anchor" id="variable-data~5"></span>
               integer(kind=int_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER, CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>DATA</strong></td>
-            <td>
-<p>pointer to integer array to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-len~7"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>len</strong></td>
-            <td>
-<p>number of integers to allocate</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-stat~11"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>stat</strong></td>
-            <td>
-<p>allocation status result</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_l"></span> <h3>private  subroutine <a href='../proc/mp_allocate_l.html'>mp_allocate_l</a>(DATA, len, stat)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Allocates special parallel memory</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-data~38"></span>
-              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -296,7 +226,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_d"></span> <h3>private  subroutine <a href='../proc/mp_allocate_d.html'>mp_allocate_d</a>(DATA, len, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_l"></span> <h3>private  subroutine <a href='../proc/mp_allocate_l.html'>mp_allocate_l</a>(DATA, len, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -315,8 +245,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~40"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-data~7"></span>
+              integer(kind=int_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -366,7 +296,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_r"></span> <h3>private  subroutine <a href='../proc/mp_allocate_r.html'>mp_allocate_r</a>(DATA, len, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_d"></span> <h3>private  subroutine <a href='../proc/mp_allocate_d.html'>mp_allocate_d</a>(DATA, len, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -385,8 +315,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~42"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-data~9"></span>
+              real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -436,7 +366,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_z"></span> <h3>private  subroutine <a href='../proc/mp_allocate_z.html'>mp_allocate_z</a>(DATA, len, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_r"></span> <h3>private  subroutine <a href='../proc/mp_allocate_r.html'>mp_allocate_r</a>(DATA, len, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -455,8 +385,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~44"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-data~11"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
@@ -506,7 +436,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_c"></span> <h3>private  subroutine <a href='../proc/mp_allocate_c.html'>mp_allocate_c</a>(DATA, len, stat)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_z"></span> <h3>private  subroutine <a href='../proc/mp_allocate_z.html'>mp_allocate_z</a>(DATA, len, stat)  
 </h3></div>
     <div class="card-body">
           
@@ -525,8 +455,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~46"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-data~13"></span>
+              complex(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -556,6 +486,76 @@
         <tr>
             <td>
               <span class="anchor" id="variable-stat~21"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+<p>allocation status result</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_allocate_c"></span> <h3>private  subroutine <a href='../proc/mp_allocate_c.html'>mp_allocate_c</a>(DATA, len, stat)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Allocates special parallel memory</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data~15"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>DATA</strong></td>
+            <td>
+<p>pointer to integer array to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-len~13"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>len</strong></td>
+            <td>
+<p>number of integers to allocate</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
