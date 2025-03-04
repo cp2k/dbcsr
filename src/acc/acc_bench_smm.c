@@ -215,8 +215,20 @@ int main(int argc, char* argv[]) {
   const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
-#if defined(USE_LIBXSMM) && defined(VALIDATE)
+  const char* const env_h2d_repeat = getenv("H2D_NREPEAT");
+  const int h2d_nrepeat = (NULL == env_h2d_repeat ? 1 : MAX(atoi(env_h2d_repeat), 1));
+#if defined(USE_LIBXSMM)
+#  if defined(__OPENCL)
+  const char* const env_smm_repeat = getenv("SMM_NREPEAT");
+  const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
+#  else
+  const int smm_nrepeat = 1;
+#  endif
+#  if defined(VALIDATE)
   double maxdiff = 0;
+#  else
+  DBCSR_MARK_USED(check);
+#  endif
 #else
   DBCSR_MARK_USED(check);
 #endif
@@ -285,12 +297,6 @@ int main(int argc, char* argv[]) {
       libxsmm_timer_tickint start;
       int print_offset = 0;
       char print_buffer[1024] = "";
-#  if defined(__OPENCL)
-      const char* const env_smm_repeat = getenv("SMM_NREPEAT");
-      const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
-#  else
-      const int smm_nrepeat = 1;
-#  endif
 #  if defined(TRANSPOSE) && defined(VALIDATE)
       double transpose = 0;
 #  endif
@@ -389,10 +395,15 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
+      for (r = 1; r < h2d_nrepeat; ++r) {
+        CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
+        CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
+        CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
+      }
 #if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
-        const size_t size = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
+        const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size) * h2d_nrepeat;
         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
         PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration,
           size / (duration * (1ULL << 30)));
