@@ -167,17 +167,17 @@ make
 
 <p>This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-./acc_bench_smm<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
+./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
 </code></pre></div>
 
 <p>Tuned parameters can be also disabled at runtime like:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>./acc_bench_smm<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
 </code></pre></div>
 
 <p>By supplying a CSV-file at runtime, embedded parameters and defaults are overriden, and given parameters are applied even if the current device is different from what would match the given parameters:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span>opencl/smm/tune_multiply.csv<span class="w"> </span>./acc_bench_smm<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span>opencl/smm/tune_multiply.csv<span class="w"> </span>./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
 </code></pre></div>
 
 <p>To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh">tune_multiply.sh</a> wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (<code>opentuner.db</code>), allows to specify triplets, and splits work to auto-tune in parallel.</p>
