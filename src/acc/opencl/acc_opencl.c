@@ -1384,9 +1384,10 @@ int c_dbcsr_acc_opencl_flags(
   if (NULL != buffer) {
     const int std_clevel = 100 * devinfo->std_clevel[0] + 10 * devinfo->std_clevel[1];
     const int std_level = 100 * devinfo->std_level[0] + 10 * devinfo->std_level[1];
-    const int nchar = LIBXSMM_SNPRINTF(buffer, buffer_size, "%s -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s",
-      devinfo->std_flag, std_level, std_clevel, NULL != build_options ? build_options : "",
-      NULL != build_params ? build_params : "", NULL != try_build_options ? try_build_options : "");
+    const int nchar = LIBXSMM_SNPRINTF(buffer, buffer_size, "%s -DACC_OPENCL_VERSION=%u -DACC_OPENCL_C_VERSION=%u %s %s %s %s",
+      devinfo->std_flag, std_level, std_clevel, 0 != c_dbcsr_acc_opencl_config.debug ? "-DNDEBUG" : "",
+      NULL != build_options ? build_options : "", NULL != build_params ? build_params : "",
+      NULL != try_build_options ? try_build_options : "");
     if (0 < nchar && (int)buffer_size > nchar) {
       char* replace = strpbrk(buffer, "\""); /* more portable (system/cpp needs quotes to protect braces) */
       for (; NULL != replace; replace = strpbrk(replace + 1, "\"")) *replace = ' ';

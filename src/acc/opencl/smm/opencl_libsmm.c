@@ -1165,7 +1165,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             if (new_config.wgsize[kernel_idx] <= c_dbcsr_acc_opencl_config.device.wgsize[0]) { /* SMM can be handled by device */
               const char* const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(c_dbcsr_acc_opencl_config.device.id) ? "global"
                                                                                                                     : "constant");
-              const char* const env_nrepeat = getenv("SMM_NREPEAT");
+              const char* const env_nrepeat = getenv("NREPEAT_SMM");
               const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
               const int slm_a = (1 != new_config.aa ? 0 : (LIBXSMM_ISPOT(k_max * typesize) + 1));
               const int slm_b = (1 != new_config.ab ? 0 : (LIBXSMM_ISPOT(k_max * typesize) + 1));
