@@ -16,21 +16,21 @@ This way auto-tuned kernels just work and can be of course exercised using the a
 
 ```bash
 cd src/acc
-./acc_bench_smm 5 30000 13 5 7
+./acc_bench 5 30000 13 5 7
 ```
 
 Tuned parameters can be also disabled at runtime like:
 
 ```bash
 cd src/acc
-OPENCL_LIBSMM_SMM_PARAMS=0 ./acc_bench_smm 5 30000 13 5 7
+OPENCL_LIBSMM_SMM_PARAMS=0 ./acc_bench 5 30000 13 5 7
 ```
 
 By supplying a CSV-file at runtime, embedded parameters and defaults are overriden, and given parameters are applied even if the current device is different from what would match the given parameters:
 
 ```bash
 cd src/acc
-OPENCL_LIBSMM_SMM_PARAMS=opencl/smm/tune_multiply.csv ./acc_bench_smm 5 30000 13 5 7
+OPENCL_LIBSMM_SMM_PARAMS=opencl/smm/tune_multiply.csv ./acc_bench 5 30000 13 5 7
 ```
 
 To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the [tune_multiply.sh](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh) wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (`opentuner.db`), allows to specify triplets, and splits work to auto-tune in parallel.

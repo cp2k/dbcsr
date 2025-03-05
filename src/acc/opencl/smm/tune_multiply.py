@@ -89,9 +89,8 @@ class SmmTuner(MeasurementInterface):
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
         self.idevice = None
-        self.exename = "acc_bench_smm"
         self.exepath = os.path.join(
-            os.path.dirname(sys.argv[0]), "..", "..", self.exename
+            os.path.dirname(sys.argv[0]), "..", "..", "acc_bench"
         )
         runcmd = self.launch(["ACC_OPENCL_VERBOSE=2"], 0, nrep=1)
         self.run_result = (  # verbosity to capture device name and tuned parameters

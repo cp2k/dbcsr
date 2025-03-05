@@ -1,4 +1,4 @@
-# This Makefile builds the transpose and SMM benchmark drivers without building DBCSR.
+# This Makefile builds the SMM benchmark driver without building DBCSR.
 # It is for testing and comparison with other implementations.
 
 MAKDIR := $(subst //,,$(dir $(firstword $(MAKEFILE_LIST)))/)
@@ -41,7 +41,6 @@ SPECID ?= 0
 # limit shape in tests (zero or negative for unlimited)
 MAXEXT ?= 48
 # number of tests (zero or negative for unlimited)
-NTRANS ?= 10
 NSMMS ?= 10
 
 COMMAND := $(shell which command 2>/dev/null)
@@ -207,38 +206,18 @@ LDFLAGS += $(LIBPATHS) $(LIBSTUBS) -lcudart -lcublas -lnvrtc -lcuda
 CXXFLAGS += $(CXXSTD) $(CFLAGS)
 
 .PHONY: bench
-bench: $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans
+bench: $(ACCDIR)/acc_bench
 
 .PHONY: all
 all: bench $(ACCDIR)/dbcsr_acc_test
 
 .PHONY: test
-test: test-interface test-trans test-smm
+test: test-interface test-smm
 
 .PHONY: test-interface
 test-interface: $(ACCDIR)/dbcsr_acc_test
 	@echo "--- DBCSR Backend Interface"
 	$(ACCDIR)/dbcsr_acc_test
-
-.PHONY: test-trans
-test-trans: bench
-	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
-	@echo "--- DBCSR CUDA Transposes ($(words $(SHAPES)))"
-	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
-ifneq (,$(LD_PRELOAD))
-	@echo "LD_PRELOAD=${LD_PRELOAD}"
-endif
-	@echo "NVCC: $$($(NVCC) --version | head -n1)"
-	@echo "CXX: $$($(CXX) --version | head -n1)"
-	@echo "CC: $$($(CC) --version | head -n1)"
-	@echo "runtime libraries:"
-	@ldd $(ACCDIR)/acc_bench_trans
-	@echo "hostname: $$(hostname)"
-	@echo
-	@for SHAPE in $(SHAPES); do \
-		$(ACCDIR)/acc_bench_trans $${SHAPE} || exit 1; \
-		echo; \
-	done
 
 $(MAKDIR)/test-smm.log: bench
 	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
@@ -251,11 +230,11 @@ endif
 	@echo "CXX: $$($(CXX) --version | head -n1)"
 	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
-	@ldd $(ACCDIR)/acc_bench_smm
+	@ldd $(ACCDIR)/acc_bench
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | (CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L \
-		$(ACCDIR)/acc_bench_smm /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
+		$(ACCDIR)/acc_bench /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 
 .PHONY: test-smm
 test-smm: $(MAKDIR)/test-smm.log
@@ -300,22 +279,13 @@ $(ACCDIR)/cuda_hip/calculate_norms.o: $(ACCDIR)/cuda_hip/calculate_norms.cpp $(I
 	$(NVCC) $(DFLAGS) -allow-unsupported-compiler $(CXXSTD) -x cu \
 		--compiler-options="$(filter-out $(CXXSTD) -pedantic,$(CXXFLAGS)) $(CFLAGS_XSMM)" -c $< -o $@
 
-$(MAKDIR)/acc_bench_smm.o: $(ACCDIR)/acc_bench_smm.c $(MAKDIR)/Makefile
+$(MAKDIR)/acc_bench.o: $(ACCDIR)/acc_bench.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
 	$(CC) $(DFLAGS) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 else
 	$(CC) $(DFLAGS) $(CFLAGS) -c $< -o $@
 endif
-$(ACCDIR)/acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-$(MAKDIR)/acc_bench_trans.o: $(ACCDIR)/acc_bench_trans.c $(MAKDIR)/Makefile
-ifneq (0,$(LIBXSMM))
-	$(CC) $(DFLAGS) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
-else
-	$(CC) $(DFLAGS) $(CFLAGS) -c $< -o $@
-endif
-$(ACCDIR)/acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
+$(ACCDIR)/acc_bench: $(MAKDIR)/acc_bench.o $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/dbcsr_acc_test.o: $(ACCDIR)/../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
@@ -327,8 +297,7 @@ $(ACCDIR)/dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(ACCDIR)/dbcsr_acc.a $(ACC
 clean:
 	@rm -f $(OBJACC) $(OBJSMM)
 	@rm -f $(MAKDIR)/dbcsr_acc_test.o
-	@rm -f $(MAKDIR)/acc_bench_trans.o
-	@rm -f $(MAKDIR)/acc_bench_smm.o
+	@rm -f $(MAKDIR)/acc_bench.o
 	@rm -f $(DIRSMM)/parameters.h
 	@rm -f $(DIRSMM)/smm_acc_kernels.h
 	@rm -f $(MAKDIR)/test-smm.err
@@ -336,6 +305,6 @@ clean:
 .PHONY: realclean
 realclean: clean
 	@rm -f $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
-	@rm -f $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans
+	@rm -f $(ACCDIR)/acc_bench
 	@rm -f $(ACCDIR)/dbcsr_acc_test
 	@rm -f $(MAKDIR)/test-smm.log

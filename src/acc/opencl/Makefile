@@ -33,15 +33,7 @@ SPECID ?= 0
 # limit shape in tests (zero or negative for unlimited)
 MAXEXT ?= 48
 # number of tests (zero or negative for unlimited)
-NTRANS ?= 10
 NSMMS ?= 10
-
-MULTI ?= 0
-ifneq (0,$(MULTI))
-  ACC_BENCH_SMM := $(ACCDIR)/acc_bench_smm.sh
-else
-  ACC_BENCH_SMM := $(ACCDIR)/acc_bench_smm
-endif
 
 COMMAND := $(shell which command 2>/dev/null)
 ifneq (,$(COMMAND))
@@ -232,42 +224,22 @@ LIBSTUBS := $(foreach DIR,$(LD_LIBSTUB_PATH),$(if $(filter -L$(DIR),$(LDFLAGS)),
 LDFLAGS += $(LIBPATHS) $(LIBSTUBS)
 
 .PHONY: bench
-bench: $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans
+bench: $(ACCDIR)/acc_bench
 
 .PHONY: all
 all: bench $(ACCDIR)/dbcsr_acc_test
 
 .PHONY: test
-test: test-interface test-trans test-smm
+test: test-interface test-smm
 
 .PHONY: test-interface
 test-interface: $(ACCDIR)/dbcsr_acc_test
 	@echo "--- DBCSR Backend Interface"
 	$(ACCDIR)/dbcsr_acc_test
 
-.PHONY: test-trans
-test-trans: bench
-	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
-	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_trans 1 1 1 2>&1 >/dev/null))
-	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
-	@echo "$(DEVICE)"
-	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
-ifneq (,$(LD_PRELOAD))
-	@echo "LD_PRELOAD=${LD_PRELOAD}"
-endif
-	@echo "CC: $$($(CC) --version | head -n1)"
-	@echo "runtime libraries:"
-	@ldd $(ACCDIR)/acc_bench_trans
-	@echo "hostname: $$(hostname)"
-	@echo
-	@for SHAPE in $(SHAPES); do \
-		$(ACCDIR)/acc_bench_trans $${SHAPE} || exit 1; \
-		echo; \
-	done
-
 $(MAKDIR)/test-smm.log: bench
 	$(eval SHAPES = $(shell $(ACCDIR)/acc_triplets.sh -k $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
-	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench_smm 1 1 1 2>&1 >/dev/null)")
+	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(ACCDIR)/acc_bench 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
 	$(eval PARAMS = $(firstword $(wildcard $(PARAMDIR)/tune_multiply_$(WITH_GPU).csv)))
 	$(eval GPUENV = $(if $(OPENCL_LIBSMM_SMM_PARAMS),$(NULL),$(if $(PARAMS),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS))))
@@ -280,11 +252,11 @@ ifneq (,$(LD_PRELOAD))
 endif
 	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
-	@ldd $(ACCDIR)/acc_bench_smm
+	@ldd $(ACCDIR)/acc_bench
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | ($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L \
-		$(ACC_BENCH_SMM) /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
+		$(ACCDIR)/acc_bench /dev/stdin 2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 
 .PHONY: test-smm
 test-smm: $(MAKDIR)/test-smm.log
@@ -316,32 +288,18 @@ $(ACCDIR)/dbcsr_acc_smm.a: $(OBJSMM)
 %.o: %.c $(INCALL) $(MAKDIR)/Makefile
 	$(CC) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 
-$(MAKDIR)/acc_bench_smm.o: $(ACCDIR)/acc_bench_smm.c $(MAKDIR)/Makefile
+$(MAKDIR)/acc_bench.o: $(ACCDIR)/acc_bench.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
 	$(CC) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
 
-$(ACCDIR)/acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(ACCDIR)/dbcsr_acc_smm.a $(ACCDIR)/dbcsr_acc.a
+$(ACCDIR)/acc_bench: $(MAKDIR)/acc_bench.o $(ACCDIR)/dbcsr_acc_smm.a $(ACCDIR)/dbcsr_acc.a
 ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
 else
-.PHONY: $(ACCDIR)/acc_bench_smm
-endif
-
-$(MAKDIR)/acc_bench_trans.o: $(ACCDIR)/acc_bench_trans.c $(MAKDIR)/Makefile
-ifneq (0,$(LIBXSMM))
-	$(CC) $(CFLAGS) $(CFLAGS_XSMM) -c $< -o $@
-else
-	$(CC) $(CFLAGS) -c $< -o $@
-endif
-
-$(ACCDIR)/acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(ACCDIR)/dbcsr_acc_smm.a $(ACCDIR)/dbcsr_acc.a
-ifneq (,$(filter 0 1,$(DEV)))
-	$(CC) $^ $(LDFLAGS) -o $@
-else
-.PHONY: $(ACCDIR)/acc_bench_trans
+.PHONY: $(ACCDIR)/acc_bench
 endif
 
 $(MAKDIR)/dbcsr_acc_test.o: $(ACCDIR)/../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
@@ -358,14 +316,13 @@ endif
 clean:
 	@rm -f $(OBJACC) $(OBJSMM)
 	@rm -f $(MAKDIR)/dbcsr_acc_test.o
-	@rm -f $(MAKDIR)/acc_bench_trans.o
-	@rm -f $(MAKDIR)/acc_bench_smm.o
+	@rm -f $(MAKDIR)/acc_bench.o
 	@rm -f $(MAKDIR)/smm/opencl_kernels.h
 	@rm -f $(MAKDIR)/test-smm.err
 
 .PHONY: realclean
 realclean: clean
 	@rm -f $(ACCDIR)/dbcsr_acc.a $(ACCDIR)/dbcsr_acc_smm.a
-	@rm -f $(ACCDIR)/acc_bench_smm $(ACCDIR)/acc_bench_trans
+	@rm -f $(ACCDIR)/acc_bench
 	@rm -f $(ACCDIR)/dbcsr_acc_test
 	@rm -f $(MAKDIR)/test-smm.log
