@@ -74,7 +74,7 @@ set(DBCSR_TESTS_FTN
     dbcsr_test_csr_conversions)
 
 if (USE_ACCEL)
-  set(DBCSR_TESTS_BACKEND dbcsr_acc_test acc_bench_trans acc_bench_smm)
+  set(DBCSR_TESTS_BACKEND dbcsr_acc_test acc_bench)
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -92,8 +92,7 @@ set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 set(dbcsr_test_cpp_SRCS dbcsr_test.cpp)
 set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
 set(dbcsr_acc_test_SRCS dbcsr_acc_test.c)
-set(acc_bench_trans_SRCS ${CMAKE_SOURCE_DIR}/src/acc/acc_bench_trans.c)
-set(acc_bench_smm_SRCS ${CMAKE_SOURCE_DIR}/src/acc/acc_bench_smm.c)
+set(acc_bench_SRCS ${CMAKE_SOURCE_DIR}/src/acc/acc_bench.c)
 
 # Make a list of the source files of fortran tests
 set(DBCSR_TESTS_SRCS_FTN)
