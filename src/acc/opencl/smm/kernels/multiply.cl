@@ -71,9 +71,9 @@
 #define VM (SM % UM)
 
 
-__attribute__((reqd_work_group_size(SWG, 1, 1)))
-#if (0 < SGS)
-__attribute__((intel_reqd_sub_group_size(SGS)))
+__attribute__((reqd_work_group_size(WG, 1, 1)))
+#if (0 < SG)
+__attribute__((intel_reqd_sub_group_size(SG)))
 #endif
 kernel void
 FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* restrict bdata,
@@ -143,7 +143,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   int c0;
 #  if defined(SLM_C)
   local T cnm[SN][SM + SLM_C - 1]; /* tile in SLM */
-  for (SINT n = (SINT)idx; n < SN; n += SWG) {
+  for (SINT n = (SINT)idx; n < SN; n += WG) {
     UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) cnm[n][m] = ZERO;
   }
 #  elif (BM < SM || 1 != BN)
@@ -158,12 +158,12 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) cnm[m] = ZERO;
 #  endif
 #  if defined(SLM_P)
-  UNROLL_FORCE(3 * BS) for (int i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
+  UNROLL_FORCE(3 * BS) for (int i = idx; i < (3 * batchsize); i += WG) params[i] = pbase[i] - 1;
 #  endif
-#  if defined(BARRIER) && (MAX(1, SGS) < SWG) && (defined(SLM_C) || defined(SLM_P))
+#  if defined(BARRIER) && (MAX(1, SG) < WG) && (defined(SLM_C) || defined(SLM_P))
   BARRIER(CLK_LOCAL_MEM_FENCE);
 #  endif
-#  if (WRK < SWG)
+#  if (WRK < WG)
   if (WRK <= idx) return; /* WRK <= idx */
 #  endif
   c0 = params[2] - IDXBASE;
@@ -182,7 +182,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
     const int a0 = params[3 * i] - IDXBASE, b0 = params[3 * i + 1] - IDXBASE;
     const int c1 = ((i + 1) < batchsize ? (params[3 * i + 5] - IDXBASE) : -1);
 #else
-#  if (WRK < SWG)
+#  if (WRK < WG)
   if (WRK > idx) /* WRK > idx */
 #  endif
   {
@@ -240,7 +240,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
     }
 #endif
 
-#if defined(BARRIER) && (MAX(1, SGS) < SWG) && (defined(SLM_B) || ((1 != BK || BM < SM || 1 != BN) && defined(SLM_A)))
+#if defined(BARRIER) && (MAX(1, SG) < WG) && (defined(SLM_B) || ((1 != BK || BM < SM || 1 != BN) && defined(SLM_A)))
     /* finish transpose/copy */
     BARRIER(CLK_LOCAL_MEM_FENCE);
 #endif
@@ -447,14 +447,14 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    elif defined(REG_A)
         UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) amk[m] = ADX(m, k);
 #    endif
-#    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
+#    if defined(BARRIER) && (MAX(1, SG) < WG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #    endif
 #    if defined(ACC_OPENCL_VERSION) && (200 /*2.0*/ <= ACC_OPENCL_VERSION) && (!defined(GPU) || (0 != GPU)) && !defined(SLM_A) && \
-      !defined(REG_A) && (WRK == SM) && (SM <= SGS || SM <= SWG) /* use ACC_OPENCL_VERSION rather than ACC_OPENCL_C_VERSION */
+      !defined(REG_A) && (WRK == SM) && (SM <= SG || SM <= WG) /* use ACC_OPENCL_VERSION rather than ACC_OPENCL_C_VERSION */
         const T a = AMK(idx, k);
         UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) {
-#      if (SM <= SGS)
+#      if (SM <= SG)
           CNM(idx, m) = MAD(sub_group_broadcast(a, m), b, CNM(idx, m)); /* size of subgroup is sufficient */
 #      else
           CNM(idx, m) = MAD(work_group_broadcast(a, m), b, CNM(idx, m)); /* size of workgroup is sufficient */
@@ -463,7 +463,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    else
         UNROLL_FORCE(SM) for (SINT m = 0; m < SM; ++m) CNM(idx, m) = MAD(AMK(m, k), b, CNM(idx, m)); /* fallback */
 #    endif
-#    if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A)
+#    if defined(BARRIER) && (MAX(1, SG) < WG) && defined(SLM_A)
         BARRIER(CLK_LOCAL_MEM_FENCE);
 #    endif
       }
@@ -634,7 +634,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       c0 = c1;
     }
 #endif
-#if defined(BARRIER) && (MAX(1, SGS) < SWG) && defined(SLM_A) && (BM <= SM || 1 != BN || 1 != BK)
+#if defined(BARRIER) && (MAX(1, SG) < WG) && defined(SLM_A) && (BM <= SM || 1 != BN || 1 != BK)
     BARRIER(CLK_LOCAL_MEM_FENCE);
 #endif
   }

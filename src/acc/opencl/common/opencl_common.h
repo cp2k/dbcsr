@@ -38,6 +38,14 @@
 #  define UNROLL(N) UNROLL_FORCE(N)
 #endif
 
+#define BCST_NO(V, I) (V)
+#if defined(WG) && (0 < WG) && defined(GPU) && (200 <= ACC_OPENCL_VERSION)
+#  define BCST_WG(V, I) work_group_broadcast(V, I)
+#endif
+#if defined(SG) && (0 < SG) && defined(GPU) && (200 <= ACC_OPENCL_VERSION)
+#  define BCST_SG(V, I) sub_group_broadcast(V, I)
+#endif
+
 #if !defined(MIN)
 #  define MIN(A, B) ((A) < (B) ? (A) : (B))
 #endif

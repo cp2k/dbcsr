@@ -7,7 +7,7 @@
 /* SPDX-License-Identifier: BSD-3-Clause                                                          */
 /*------------------------------------------------------------------------------------------------*/
 
-__attribute__((reqd_work_group_size(SWG, 1, 1))) kernel void FN(
+__attribute__((reqd_work_group_size(WG, 1, 1))) kernel void FN(
   int trs_offset, GLOBAL const int* restrict trs_stack, global T* restrict matrix) {
   /* offset in the transpose-stack that this block ID should handle */
   const int offset = trs_stack[trs_offset + get_group_id(0)];
@@ -18,7 +18,7 @@ __attribute__((reqd_work_group_size(SWG, 1, 1))) kernel void FN(
   /* local memory buffer */
   local T buf[SM][SN];
 #endif
-#if (SWG == SM)
+#if (WG == SM)
   const int m = idx;
 #  if (SM != SN) || (0 == INPLACE)
   /* copy matrix elements into local buffer */
@@ -39,12 +39,12 @@ __attribute__((reqd_work_group_size(SWG, 1, 1))) kernel void FN(
   T prv[SN]; /* private buffer */
 #  if (SM != SN) || (0 == INPLACE)
   /* copy matrix elements into local buffer */
-  for (int m = idx; m < SM; m += SWG) {
+  for (int m = idx; m < SM; m += WG) {
     for (int n = 0; n < SN; ++n) buf[m][n] = mat[SM * n + m];
   }
   barrier(CLK_LOCAL_MEM_FENCE);
 #  endif
-  for (int m = idx; m < SM; m += SWG) {
+  for (int m = idx; m < SM; m += WG) {
 #  if (SM != SN) || (0 == INPLACE)
     for (int n = 0; n < SN; ++n) prv[n] = buf[m][n];
     /* overwrite matrix elements (gather) */
