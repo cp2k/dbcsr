@@ -74,20 +74,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">19 statements</a>
+                 title=" 0.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_operations.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_norm_scalar</li>
           </ol>
         </nav>
@@ -126,6 +126,12 @@
   
   
   
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/dbcsr_norm_scalar~2.html#src">dbcsr_norm_scalar</a>
+      </div>
+    </div>
 
 
   </div>
@@ -133,11 +139,10 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>public  subroutine dbcsr_norm_scalar(matrix, which_norm, norm_scalar)  
+    <h2>private  subroutine dbcsr_norm_scalar(matrix, which_norm, norm_scalar)  
 </h2>
     
 
-    <p>compute a norm of a dbcsr matrix</p>
 
 
     <h3>Arguments</h3>
@@ -153,22 +158,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~332"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~227"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              TARGET
             </td>
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                <p>the matrix</p>
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-which_norm~3"></span>
+              <span class="anchor" id="variable-which_norm~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -184,7 +189,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-norm_scalar~2"></span>
-              real(kind=real_8),
+              real(kind=dp),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -211,6 +216,20 @@
 
 
     
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_norm_scalar</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">which_norm</span><span class="p">,</span><span class="w"> </span><span class="n">norm_scalar</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">TARGET</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">which_norm</span>
+<span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">norm_scalar</span>
+
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_norm_scalar_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">which_norm</span><span class="p">,</span><span class="w"> </span><span class="n">norm_scalar</span><span class="p">)</span>
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_norm_scalar</span>
+</pre></div>
+
+    </section>
+    <br>
     
     </div>
   </div>
