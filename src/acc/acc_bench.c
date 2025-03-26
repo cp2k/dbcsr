@@ -54,9 +54,6 @@
 #if !defined(ELEM_TYPE)
 #  define ELEM_TYPE double
 #endif
-#if !defined(MAX_KERNEL_DIM)
-#  define MAX_KERNEL_DIM 80
-#endif
 #if !defined(ALIGNMENT)
 #  define ALIGNMENT 64
 #endif
@@ -291,6 +288,7 @@ int main(int argc, char* argv[]) {
 #else
       const int mn = m * n, mk = m * k, kn = k * n;
 #endif
+      const int max_kernel_dim = ceil(sqrt(m * n));
       int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
       ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
       ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
@@ -353,7 +351,7 @@ int main(int argc, char* argv[]) {
       PRINTF(
         "%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n, k, nc, na, nb);
       PRINTF("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
-      if (MAX_KERNEL_DIM < m || MAX_KERNEL_DIM < n || MAX_KERNEL_DIM < k) {
+      if (MAX_KERNEL_DIM < max_kernel_dim) {
         fprintf(stderr, "ERROR: Matrix shape exceeds MAX_KERNEL_DIM!\n");
         result = EXIT_FAILURE;
       }
@@ -364,7 +362,7 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&stack_hst, sizeof(int) * 3 * stack_size, stream), &result, check);
       CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&trans_hst, sizeof(int) * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check); /* ensure host-data is allocated */
-      if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst) {
+      if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
         init_stack(stack_hst, stack_size, NRAND, rnd, mn, mk, kn, nc, na, nb);
 #if defined(_OPENMP)
 #  pragma omp parallel
@@ -404,7 +402,7 @@ int main(int argc, char* argv[]) {
       }
 #if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
-      if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
+      if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
         const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size) * nrepeat_h2d;
         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
         perf_h2d = size / (duration * (1ULL << 30));
@@ -414,9 +412,9 @@ int main(int argc, char* argv[]) {
 #if defined(TRANSPOSE) && defined(VALIDATE)
       /* warmup execution and prebuild transpose-kernel */
       for (r = 0; r < warmup / 2; ++r) {
-        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream),
+        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, max_kernel_dim, stream),
           &result, check);
-        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), n, k, MAX_KERNEL_DIM, stream),
+        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), n, k, max_kernel_dim, stream),
           &result, check);
       }
 #  if defined(USE_LIBXSMM)
@@ -424,7 +422,7 @@ int main(int argc, char* argv[]) {
       start = libxsmm_timer_tick();
 #  endif
       /* to perform NN-SMMs on the device, all B-matrices are transposed upfront (SMM-kernel is limited to NT) */
-      CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream),
+      CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, max_kernel_dim, stream),
         &result, check);
 #  if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
@@ -434,7 +432,7 @@ int main(int argc, char* argv[]) {
       /* warmup execution and prebuild SMM-kernel */
       for (r = 0; r < warmup; ++r) {
         CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
-                MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
+                max_kernel_dim, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
@@ -445,28 +443,30 @@ int main(int argc, char* argv[]) {
       for (r = 0; r < nrepeat; ++r) {
         /* GPU-kernel is limited to C += Ai * Bi^T, i.e., NT (for NN, all Bi must be transposed upfront) */
         CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
-                MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
+                max_kernel_dim, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
 #if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      if (0 < duration && EXIT_SUCCESS == result) {
+      if (EXIT_SUCCESS == result) {
+        if (0 < duration) {
 #  if defined(TRANSPOSE) && defined(VALIDATE)
-        PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * nrepeat_smm),
-          1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / (duration + transpose));
+          PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * nrepeat_smm),
+            1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / (duration + transpose));
 #  endif
-        perf_dev = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
-        PRINTF("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_dev);
-      }
-      else {
+          perf_dev = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
+          PRINTF("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_dev);
+        }
+        else {
 #  if defined(TRANSPOSE)
-        PRINTF("transpose: 0 ms 0 GFLOPS/s\n");
+          PRINTF("transpose: 0 ms 0 GFLOPS/s\n");
 #  endif
-        PRINTF("device: 0 ms 0 GFLOPS/s\n");
+          PRINTF("device: 0 ms 0 GFLOPS/s\n");
+        }
       }
 #  if defined(VALIDATE)
-      {
+      if (EXIT_SUCCESS == result) {
         ELEM_TYPE* const gold_hst = (ELEM_TYPE*)(0 != check ? libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc) : NULL);
         /* determine host's performance independent of current result code/status */
         if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {

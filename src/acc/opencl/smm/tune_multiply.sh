@@ -28,6 +28,7 @@ fi
 if [ "${XARGS}" ] && [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && \
    [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ];
 then
+  EXTRA=""
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
@@ -80,7 +81,12 @@ then
       BATCHSIZE=$2
       shift 2;;
     *)
-      break;;
+      if [ "-" != "${1:0:1}" ]; then
+        break
+      else
+        EXTRA+=" $1"
+        shift
+      fi;;
     esac
   done
   # default/basic settings
@@ -237,7 +243,7 @@ then
       echo "[$((N+1))/${PARTSIZE}]${STEP}: auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf ./opentuner.db
-      eval "${HERE}/tune_multiply.py ${MNK} ${DELETE} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}"
+      eval "${HERE}/tune_multiply.py ${MNK} ${DELETE} -p ${JSONDIR} -s ${BATCHSIZE} -a ${TLEVEL} ${MAXTIME}${EXTRA}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
       # even if tune_multiply.py returned non-zero exit code

@@ -765,10 +765,11 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
     }
     assert((NULL != config && NULL != config->kernel && 0 < config->wgsize) || EXIT_SUCCESS != result);
     if (EXIT_SUCCESS == result) {
-      cl_event event, *const perf_event = ((c_dbcsr_acc_opencl_timer_host == c_dbcsr_acc_opencl_config.timer ||
-                                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
-                                             ? NULL
-                                             : &event);
+      cl_event event = NULL, *const perf_event =
+                               ((c_dbcsr_acc_opencl_timer_host == c_dbcsr_acc_opencl_config.timer ||
+                                  (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
+                                   ? NULL
+                                   : &event);
       const size_t work_size = config->wgsize * stack_size;
       const int typesize = OPENCL_LIBSMM_TYPESIZE(datatype);
 #  if defined(OPENCL_LIBSMM_VALIDATE_TRANS)
@@ -821,7 +822,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         /* eventually update performance counters inside of locked region */
 #  if !defined(OPENCL_LIBSMM_VALIDATE_TRANS)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-          if (NULL != perf_event) {
+          if (NULL != perf_event && NULL != *perf_event) {
             cl_ulong begin = 0, end = 0;
             clWaitForEvents(1, perf_event);
             ACC_OPENCL_CHECK(result,
@@ -916,10 +917,11 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
 c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
   c_dbcsr_acc_bool_t def_mnk, libsmm_acc_data_t datatype, int stack_size, int m_max, int n_max, int k_max, int max_kernel_dim) {
   c_dbcsr_acc_bool_t result = 0; /* false */
-  if (0 < m_max && 0 < n_max && 0 < k_max && 0 < stack_size &&
+  const int mn = m_max * n_max;
+  if (0 < mn && 0 < k_max && 0 < stack_size &&
       0 != def_mnk /*homogeneous*/
       /* allow k_max to exceed max_kernel_dim, TODO: BLAS for large kernels (m,n) */
-      && m_max <= max_kernel_dim && n_max <= max_kernel_dim)
+      && mn <= (max_kernel_dim * max_kernel_dim))
   {
     switch (datatype) {
 #  if defined(OPENCL_LIBSMM_F64)
@@ -949,7 +951,7 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
     fprintf(stderr, "=");
     opencl_libsmm_write_smm_params(stderr, 1 /*only_key*/, &key, &dummy, NULL /*delim*/, NULL /*begin*/, NULL /*close*/);
     fprintf(stderr, " ss=%i", stack_size);
-    if (m_max <= max_kernel_dim && n_max <= max_kernel_dim) {
+    if (mn <= (max_kernel_dim * max_kernel_dim)) {
       fprintf(stderr, 0 != def_mnk ? " is ignored\n" : " is inhomogeneous\n");
     }
     else fprintf(stderr, " is too large\n");
@@ -959,14 +961,19 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
 }
 
 
-int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
+#  if !defined(OPENCL_LIBSMM_PFORMAT)
+int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
   const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
-  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream) {
+  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream, int param_format, cl_event* perf_event);
+#  endif
+int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
+  const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
+  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream, int param_format, cl_event* perf_event) {
   int result = EXIT_SUCCESS;
   const int nparams = 3;
+  LIBXSMM_UNUSED(host_param_stack); /* TODO */
   LIBXSMM_UNUSED(c_stream); /* TODO */
-  assert(0 == stack_size || (NULL != dev_a_data && NULL != dev_b_data && NULL != dev_c_data));
-  assert(0 == stack_size || (NULL != host_param_stack && NULL != dev_param_stack));
+  assert(0 == stack_size || (NULL != dev_a_data && NULL != dev_b_data && NULL != dev_c_data && NULL != dev_param_stack));
   assert(0 < nparams && 0 < max_kernel_dim && NULL != stream);
   assert(0 <= stack_size && 0 <= m_max && 0 <= n_max && 0 <= k_max);
   if (0 != libsmm_acc_process_suitable(def_mnk, datatype, stack_size, m_max, n_max, k_max, max_kernel_dim)) {
@@ -1295,11 +1302,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || (1 <= config->wgsize[kernel_idx]));
       assert(EXIT_SUCCESS != result || (1 <= config->s && 1 <= config->bs));
       if (EXIT_SUCCESS == result) {
-        cl_event event, *const perf_event =
-                          ((c_dbcsr_acc_opencl_timer_host == c_dbcsr_acc_opencl_config.timer ||
-                             (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
-                              ? NULL
-                              : &event);
+        cl_event event = NULL, *const perf_event_smm =
+                                 ((c_dbcsr_acc_opencl_timer_host == c_dbcsr_acc_opencl_config.timer ||
+                                    (0 <= c_dbcsr_acc_opencl_config.verbosity && 2 >= c_dbcsr_acc_opencl_config.verbosity))
+                                     ? perf_event
+                                     : (NULL == perf_event ? &event : perf_event));
         size_t work_size;
 #  if defined(OPENCL_LIBSMM_VALIDATE_SMM)
         /* validate result (implies readback from device and performance penalty) */
@@ -1363,35 +1370,39 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           "set B-matrix argument of SMM-kernel");
         ACC_OPENCL_CHECK(result, c_dbcsr_acc_opencl_set_kernel_ptr(config->kernel[kernel_idx], 3, info_stack.memory),
           "set batch-list argument of SMM-kernel");
+        ACC_OPENCL_CHECK(result, clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &param_format),
+          "set batch-format argument of SMM-kernel");
         if (0 == kernel_idx) {
           assert(bs <= config->bs);
-          ACC_OPENCL_CHECK(result, clSetKernelArg(config->kernel[kernel_idx], 4, sizeof(int), &stack_size),
+          ACC_OPENCL_CHECK(result, clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &stack_size),
             "set stacksize argument of SMM-kernel");
           ACC_OPENCL_CHECK(
-            result, clSetKernelArg(config->kernel[kernel_idx], 5, sizeof(int), &bs), "set minibatch argument of SMM-kernel");
+            result, clSetKernelArg(config->kernel[kernel_idx], 6, sizeof(int), &bs), "set minibatch argument of SMM-kernel");
         }
         ACC_OPENCL_CHECK(result,
           clEnqueueNDRangeKernel(str->queue, config->kernel[kernel_idx], 1 /*work_dim*/, NULL /*offset*/, &work_size,
-            config->wgsize + kernel_idx, 0, NULL, perf_event),
+            config->wgsize + kernel_idx, 0, NULL, perf_event_smm),
           "launch SMM-kernel");
         /* eventually update performance counters inside of locked region */
 #  if !defined(OPENCL_LIBSMM_VALIDATE_SMM)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-          if (NULL != perf_event) {
+          duration = 0;
+          if (perf_event_smm == &event && NULL != event) {
             cl_ulong begin = 0, end = 0;
-            clWaitForEvents(1, perf_event);
+            clWaitForEvents(1, perf_event_smm);
             ACC_OPENCL_CHECK(result,
-              clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              clGetEventProfilingInfo(*perf_event_smm, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
               "query kernel start time");
-            ACC_OPENCL_CHECK(result, clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+            ACC_OPENCL_CHECK(result,
+              clGetEventProfilingInfo(*perf_event_smm, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
               "query kernel end time");
             duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
           }
-          else {
+          else if (NULL == perf_event_smm) {
             clFinish(str->queue);
             duration = libxsmm_timer_duration(start, libxsmm_timer_tick()); /* seconds */
           }
-          if (EXIT_SUCCESS == result) {
+          if (0 < duration && EXIT_SUCCESS == result) {
             const double gflops = 1E-9 * (2ULL * m_max * n_max * k_max * stack_size) / duration;
             LIBXSMM_STDIO_ACQUIRE();
             fprintf(stderr, "INFO ACC/LIBSMM: SMM-kernel ");
@@ -1488,6 +1499,15 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     return -1; /* TODO: document result code to trigger host-fallback */
   }
   ACC_OPENCL_RETURN(result);
+}
+
+
+int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
+  const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
+  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream) {
+  const int pzero = 1, pbase = 0, pnext = 3, param_format = pzero | (pbase << 8) | (pnext << 16);
+  return opencl_libsmm_acc_process(host_param_stack, dev_param_stack, stack_size, datatype, dev_a_data, dev_b_data, dev_c_data,
+    m_max, n_max, k_max, max_kernel_dim, def_mnk, stream, c_stream, param_format, NULL /*perf_event*/);
 }
 
 
