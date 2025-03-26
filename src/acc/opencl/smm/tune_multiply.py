@@ -326,16 +326,20 @@ class SmmTuner(MeasurementInterface):
         except AttributeError:
             config = desired_result
             mnk = (config["M"], config["N"], config["K"])
-        runcmd = self.launch(config, self.args.check, verbose=self.args.verbose)
-        self.run_result = self.call_program(" ".join(runcmd))
-        result = self.run_result["returncode"] if self.run_result else 1
-        if 0 == result:
-            performance = re.search(
-                "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
-                str(self.run_result["stdout"]),
-            )
-        else:
-            performance = None
+        skip = False
+        if self.args.quick:
+            if 1 == config["AA"] or 1 == config["AB"]:
+                skip = True
+        performance = None
+        if not skip:
+            runcmd = self.launch(config, self.args.check, verbose=self.args.verbose)
+            self.run_result = self.call_program(" ".join(runcmd))
+            result = self.run_result["returncode"] if self.run_result else 1
+            if 0 == result:
+                performance = re.search(
+                    "device:\\s+([0-9]+[^ ]*) ms\\s+([0-9]+[^ ]*)",
+                    str(self.run_result["stdout"]),
+                )
         if performance and performance.group(1) and performance.group(2):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(2))
@@ -352,7 +356,7 @@ class SmmTuner(MeasurementInterface):
                         self.gfbase = gflops
             elif not self.args.verbose:
                 print(".", end="", flush=True)
-        else:  # return non-competitive/bad result in case of an error
+        elif not skip:  # return non-competitive/bad result in case of an error
             failed = runcmd[0].replace("OPENCL_LIBSMM_SMM_", "")
             msg = "FAILED[{}] {}: {}".format(result, "x".join(map(str, mnk)), failed)
             if config is not desired_result:
@@ -360,6 +364,8 @@ class SmmTuner(MeasurementInterface):
             elif not self.args.verbose:
                 print("")
             print(msg, flush=True)
+        else:
+            result = Result(time=float("inf"), accuracy=0.0, size=100.0)
         return result
 
     def update_jsons(self, filenames):
@@ -520,7 +526,7 @@ class SmmTuner(MeasurementInterface):
                             msg = "Worse and older (delete {} @ {}x): {}"
                             rnd = [str(round(i, 2)) for i in delsld]
                             print(msg.format(num, "..".join(rnd), lst))
-                    else:  # delete outperformed parameter sets
+                    elif retain or delete:  # delete outperformed parameter sets
                         for file in retain + delete:
                             try:
                                 os.remove(file)
@@ -756,6 +762,13 @@ if __name__ == "__main__":
         nargs="?",
         dest="tlevel",
         help="Tunables: (0) all, (1) most, (2) some, (3) least",
+    )
+    argparser.add_argument(
+        "-q",
+        "--quick",
+        action="store_true",
+        default=False,
+        help="Omit certain configurations",
     )
     argparser.add_argument(
         "-bm",
