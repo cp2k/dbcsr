@@ -12,13 +12,29 @@
 
     <title>dbcsr_example_1 &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -93,9 +109,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -112,19 +130,19 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-matrix_a~9">matrix_a</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-col_blk_sizes~3">col_blk_sizes</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-row_blk_sizes~3">row_blk_sizes</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-group~33">group</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-numnodes~26">numnodes</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-mynode~21">mynode</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-nblkrows_total~6">nblkrows_total</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-nblkcols_total~5">nblkcols_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-matrix_a~109">matrix_a</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-col_blk_sizes~5">col_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-row_blk_sizes~5">row_blk_sizes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-group~42">group</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-numnodes~42">numnodes</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-mynode~42">mynode</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-nblkrows_total~17">nblkrows_total</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-nblkcols_total~13">nblkcols_total</a>
             <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-ierr~431">ierr</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-npdims~9">npdims</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-col_dist~8">col_dist</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-row_dist~8">row_dist</a>
-            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-dist~36">dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-npdims~11">npdims</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-col_dist~26">col_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-row_dist~26">row_dist</a>
+            <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-dist~78">dist</a>
             <a class="list-group-item" href="../program/dbcsr_example_1.html#variable-period~2">period</a>
         </div>
       </div>
@@ -204,7 +222,7 @@ This example shows how to create a DBCSR matrix</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~9"></span>
+              <span class="anchor" id="variable-matrix_a~109"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)
             </td>
             <td>
@@ -220,7 +238,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_sizes~3"></span>
+              <span class="anchor" id="variable-col_blk_sizes~5"></span>
               integer,
             </td>
             <td>
@@ -236,7 +254,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_sizes~3"></span>
+              <span class="anchor" id="variable-row_blk_sizes~5"></span>
               integer,
             </td>
             <td>
@@ -252,7 +270,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~33"></span>
+              <span class="anchor" id="variable-group~42"></span>
               integer
             </td>
             <td>
@@ -268,7 +286,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~26"></span>
+              <span class="anchor" id="variable-numnodes~42"></span>
               integer
             </td>
             <td>
@@ -284,7 +302,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mynode~21"></span>
+              <span class="anchor" id="variable-mynode~42"></span>
               integer
             </td>
             <td>
@@ -300,7 +318,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows_total~6"></span>
+              <span class="anchor" id="variable-nblkrows_total~17"></span>
               integer
             </td>
             <td>
@@ -316,7 +334,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols_total~5"></span>
+              <span class="anchor" id="variable-nblkcols_total~13"></span>
               integer
             </td>
             <td>
@@ -348,7 +366,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npdims~9"></span>
+              <span class="anchor" id="variable-npdims~11"></span>
               integer,
             </td>
             <td>
@@ -364,7 +382,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~8"></span>
+              <span class="anchor" id="variable-col_dist~26"></span>
               integer,
             </td>
             <td>
@@ -380,7 +398,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~8"></span>
+              <span class="anchor" id="variable-row_dist~26"></span>
               integer,
             </td>
             <td>
@@ -396,7 +414,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~36"></span>
+              <span class="anchor" id="variable-dist~78"></span>
               type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>)
             </td>
             <td>
@@ -490,7 +508,7 @@ This example shows how to create a DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~2"></span>
+              <span class="anchor" id="variable-nbins~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -683,24 +701,5 @@ This example shows how to create a DBCSR matrix</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

@@ -12,13 +12,29 @@
 
     <title>dbcsr_iterator &ndash; DBCSR </title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -95,9 +111,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -114,33 +132,33 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-matrix~413">matrix</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-matrix~419">matrix</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-buffer_2d">buffer_2d</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-pos~38">pos</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row~212">row</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_size~108">row_size</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_offset~43">row_offset</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-pos~29">pos</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row~219">row</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_size~113">row_size</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_offset~42">row_offset</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-rbs~14">rbs</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-cbs~14">cbs</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-roff">roff</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-coff">coff</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-local_indexing~2">local_indexing</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-contiguous_pointers~4">contiguous_pointers</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-transpose~2">transpose</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-transpose~5">transpose</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-read_only~4">read_only</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-shared~4">shared</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-dynamic~4">dynamic</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-dynamic_byrows~4">dynamic_byrows</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-common_pos">common_pos</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-nblks~34">nblks</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-nblks~35">nblks</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-nblkrows_total~22">nblkrows_total</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-row_p~15">row_p</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-col_i~12">col_i</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-blk_p~51">blk_p</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-tdist~2">tdist</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-local_rows~19">local_rows</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-col_i~13">col_i</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-blk_p~59">blk_p</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-tdist~3">tdist</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-local_rows~20">local_rows</a>
             <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-global_rows">global_rows</a>
-            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-data_area~9">data_area</a>
+            <a class="list-group-item" href="../type/dbcsr_iterator.html#variable-data_area~12">data_area</a>
         </div>
       </div>
     </div>
@@ -201,7 +219,7 @@ is.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~413"></span>
+              <span class="anchor" id="variable-matrix~419"></span>
               type(<a href='dbcsr_type.html'>dbcsr_type</a>),
             </td>
               <td>public,</td>
@@ -235,7 +253,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~38"></span>
+              <span class="anchor" id="variable-pos~29"></span>
               integer,
             </td>
               <td>public</td>
@@ -252,7 +270,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~212"></span>
+              <span class="anchor" id="variable-row~219"></span>
               integer,
             </td>
               <td>public</td>
@@ -269,7 +287,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~108"></span>
+              <span class="anchor" id="variable-row_size~113"></span>
               integer,
             </td>
               <td>public</td>
@@ -286,7 +304,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~43"></span>
+              <span class="anchor" id="variable-row_offset~42"></span>
               integer,
             </td>
               <td>public</td>
@@ -405,7 +423,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose~2"></span>
+              <span class="anchor" id="variable-transpose~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -507,7 +525,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~34"></span>
+              <span class="anchor" id="variable-nblks~35"></span>
               integer,
             </td>
               <td>public</td>
@@ -558,7 +576,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~12"></span>
+              <span class="anchor" id="variable-col_i~13"></span>
               integer,
             </td>
               <td>public,</td>
@@ -575,7 +593,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~51"></span>
+              <span class="anchor" id="variable-blk_p~59"></span>
               integer,
             </td>
               <td>public,</td>
@@ -592,7 +610,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tdist~2"></span>
+              <span class="anchor" id="variable-tdist~3"></span>
               integer,
             </td>
               <td>public,</td>
@@ -609,7 +627,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~19"></span>
+              <span class="anchor" id="variable-local_rows~20"></span>
               integer,
             </td>
               <td>public,</td>
@@ -643,7 +661,7 @@ is.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~9"></span>
+              <span class="anchor" id="variable-data_area~12"></span>
               type(<a href='dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -751,24 +769,5 @@ is.</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

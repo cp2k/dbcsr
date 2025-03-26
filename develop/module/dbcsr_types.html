@@ -12,13 +12,29 @@
 
     <title>dbcsr_types &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -94,9 +110,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -238,11 +256,11 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
               </ul>
             </li>
         </ul>
@@ -1304,7 +1322,7 @@ parameter,               DIMENSION(6)
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mynode~63"></span>
+              <span class="anchor" id="variable-mynode~54"></span>
               integer,
             </td>
               <td>public</td>
@@ -1321,7 +1339,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~64"></span>
+              <span class="anchor" id="variable-numnodes~56"></span>
               integer,
             </td>
               <td>public</td>
@@ -1338,7 +1356,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myprow~16"></span>
+              <span class="anchor" id="variable-myprow~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -1355,7 +1373,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mypcol~16"></span>
+              <span class="anchor" id="variable-mypcol~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -1372,7 +1390,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~20"></span>
+              <span class="anchor" id="variable-mp_group~19"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
@@ -1389,7 +1407,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~48"></span>
+              <span class="anchor" id="variable-pgrid~38"></span>
               integer,
             </td>
               <td>public,</td>
@@ -1406,7 +1424,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~10"></span>
+              <span class="anchor" id="variable-refcount~9"></span>
               integer,
             </td>
               <td>public</td>
@@ -1474,7 +1492,7 @@ parameter,               DIMENSION(6)
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~135"></span>
+              <span class="anchor" id="variable-source~129"></span>
               integer,
             </td>
               <td>public</td>
@@ -1608,7 +1626,7 @@ standard column distributions of matrix elements' columns into processor grid co
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~18"></span>
+              <span class="anchor" id="variable-local_rows~19"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -1626,7 +1644,7 @@ list of columns local to the processor grid column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~16"></span>
+              <span class="anchor" id="variable-local_cols~17"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -1814,7 +1832,7 @@ list of columns local to the processor grid column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~7"></span>
+              <span class="anchor" id="variable-row_map~10"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -1831,7 +1849,7 @@ list of columns local to the processor grid column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~7"></span>
+              <span class="anchor" id="variable-col_map~10"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -1899,7 +1917,7 @@ list of columns local to the processor grid column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~52"></span>
+              <span class="anchor" id="variable-mp_env~29"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
               <td>public</td>
@@ -1916,7 +1934,7 @@ list of columns local to the processor grid column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~11"></span>
+              <span class="anchor" id="variable-refcount~10"></span>
               integer,
             </td>
               <td>public</td>
@@ -2036,7 +2054,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_image"></span>
+              <span class="anchor" id="variable-row_image~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -2053,7 +2071,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_image"></span>
+              <span class="anchor" id="variable-col_image~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -2138,7 +2156,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vrow_dist"></span>
+              <span class="anchor" id="variable-vrow_dist~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -2155,7 +2173,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vcol_dist"></span>
+              <span class="anchor" id="variable-vcol_dist~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -2308,7 +2326,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~7"></span>
+              <span class="anchor" id="variable-id~8"></span>
               integer,
             </td>
               <td>public</td>
@@ -2325,7 +2343,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~12"></span>
+              <span class="anchor" id="variable-refcount~11"></span>
               integer,
             </td>
               <td>public</td>
@@ -2374,7 +2392,7 @@ every real processor row.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~204"></span>
+              <span class="anchor" id="variable-i~199"></span>
               type(<a href='../type/dbcsr_imagedistribution_type.html'>dbcsr_imagedistribution_type</a>),
             </td>
               <td>public,</td>
@@ -2423,7 +2441,7 @@ every real processor row.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~13"></span>
+              <span class="anchor" id="variable-refcount~12"></span>
               integer,
             </td>
               <td>public</td>
@@ -2525,7 +2543,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~91"></span>
+              <span class="anchor" id="variable-data_type~93"></span>
               integer,
             </td>
               <td>public</td>
@@ -2623,7 +2641,7 @@ every real processor row.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~413"></span>
+              <span class="anchor" id="variable-matrix~419"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
               <td>public,</td>
@@ -2657,7 +2675,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~38"></span>
+              <span class="anchor" id="variable-pos~29"></span>
               integer,
             </td>
               <td>public</td>
@@ -2674,7 +2692,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~212"></span>
+              <span class="anchor" id="variable-row~219"></span>
               integer,
             </td>
               <td>public</td>
@@ -2691,7 +2709,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~108"></span>
+              <span class="anchor" id="variable-row_size~113"></span>
               integer,
             </td>
               <td>public</td>
@@ -2708,7 +2726,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~43"></span>
+              <span class="anchor" id="variable-row_offset~42"></span>
               integer,
             </td>
               <td>public</td>
@@ -2827,7 +2845,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transpose~2"></span>
+              <span class="anchor" id="variable-transpose~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -2929,7 +2947,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~34"></span>
+              <span class="anchor" id="variable-nblks~35"></span>
               integer,
             </td>
               <td>public</td>
@@ -2980,7 +2998,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~12"></span>
+              <span class="anchor" id="variable-col_i~13"></span>
               integer,
             </td>
               <td>public,</td>
@@ -2997,7 +3015,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~51"></span>
+              <span class="anchor" id="variable-blk_p~59"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3014,7 +3032,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tdist~2"></span>
+              <span class="anchor" id="variable-tdist~3"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3031,7 +3049,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~19"></span>
+              <span class="anchor" id="variable-local_rows~20"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3065,7 +3083,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~9"></span>
+              <span class="anchor" id="variable-data_area~12"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -3182,7 +3200,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~14"></span>
+              <span class="anchor" id="variable-refcount~13"></span>
               integer,
             </td>
               <td>public</td>
@@ -3199,7 +3217,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~92"></span>
+              <span class="anchor" id="variable-data_type~94"></span>
               integer,
             </td>
               <td>public</td>
@@ -3248,7 +3266,7 @@ every real processor row.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~27"></span>
+              <span class="anchor" id="variable-m~28"></span>
               type(<a href='../type/dbcsr_mutable_type.html'>dbcsr_mutable_type</a>),
             </td>
               <td>public,</td>
@@ -3297,7 +3315,7 @@ every real processor row.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~10"></span>
+              <span class="anchor" id="variable-data_area~13"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -3331,7 +3349,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~13"></span>
+              <span class="anchor" id="variable-col_i~14"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3348,7 +3366,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~52"></span>
+              <span class="anchor" id="variable-blk_p~60"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3482,7 +3500,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~14"></span>
+              <span class="anchor" id="variable-valid~13"></span>
               logical,
             </td>
               <td>public</td>
@@ -3499,7 +3517,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~41"></span>
+              <span class="anchor" id="variable-name~39"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>
@@ -3516,7 +3534,7 @@ every real processor row.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~11"></span>
+              <span class="anchor" id="variable-data_area~14"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
               <td>public</td>
@@ -3568,7 +3586,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~14"></span>
+              <span class="anchor" id="variable-col_i~15"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3585,7 +3603,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~53"></span>
+              <span class="anchor" id="variable-blk_p~61"></span>
               integer,
             </td>
               <td>public,</td>
@@ -3704,7 +3722,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~20"></span>
+              <span class="anchor" id="variable-local_rows~21"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -3738,7 +3756,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~17"></span>
+              <span class="anchor" id="variable-local_cols~18"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
               <td>public</td>
@@ -3891,7 +3909,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-id_nr~4"></span>
+              <span class="anchor" id="variable-id_nr~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -3908,7 +3926,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~35"></span>
+              <span class="anchor" id="variable-nblks~36"></span>
               integer,
             </td>
               <td>public</td>
@@ -3925,7 +3943,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~68"></span>
+              <span class="anchor" id="variable-nze~73"></span>
               integer,
             </td>
               <td>public</td>
@@ -4078,7 +4096,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~93"></span>
+              <span class="anchor" id="variable-data_type~95"></span>
               integer,
             </td>
               <td>public</td>
@@ -4129,7 +4147,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-negate_real"></span>
+              <span class="anchor" id="variable-negate_real~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -4146,7 +4164,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-negate_imaginary"></span>
+              <span class="anchor" id="variable-negate_imaginary~5"></span>
               logical,
             </td>
               <td>public</td>
@@ -4197,7 +4215,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-list_indexing"></span>
+              <span class="anchor" id="variable-list_indexing~3"></span>
               logical,
             </td>
               <td>public</td>
@@ -4214,7 +4232,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~5"></span>
+              <span class="anchor" id="variable-data_memory_type~6"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
               <td>public</td>
@@ -4282,7 +4300,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~102"></span>
+              <span class="anchor" id="variable-dist~105"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
               <td>public</td>
@@ -4299,7 +4317,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-refcount~15"></span>
+              <span class="anchor" id="variable-refcount~14"></span>
               integer,
             </td>
               <td>public</td>
@@ -4414,7 +4432,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~414"></span>
+              <span class="anchor" id="variable-matrix~420"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
               <td>public,</td>
@@ -4578,7 +4596,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-image_dist"></span>
+              <span class="anchor" id="variable-image_dist~2"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
               <td>public</td>
@@ -4644,7 +4662,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-image_dist~2"></span>
+              <span class="anchor" id="variable-image_dist~3"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
               <td>public</td>
@@ -4710,7 +4728,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nimages~4"></span>
+              <span class="anchor" id="variable-nimages~7"></span>
               integer,
             </td>
               <td>public</td>
@@ -4761,7 +4779,7 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~24"></span>
+              <span class="anchor" id="variable-data_size~26"></span>
               real,
             </td>
               <td>public,</td>
@@ -4833,24 +4851,5 @@ each rows has elements row_p(row)+1:row_p(row+1).</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

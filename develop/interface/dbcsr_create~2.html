@@ -12,13 +12,29 @@
 
     <title>dbcsr_create &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -74,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 63 statements,  0.1% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 346 statements,  0.6% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_work_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_create</li>
           </ol>
         </nav>
@@ -95,9 +111,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -152,11 +170,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_new~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_create_new~2.html'>dbcsr_create_new</a>(matrix, name, dist, matrix_type, row_blk_size, col_blk_size, nze, data_type, reuse, reuse_arrays, mutable_work, replication_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_new~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_create_new~2.html'>dbcsr_create_new</a>(matrix, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, thread_dist, reuse, reuse_arrays, mutable_work, make_index, replication_type)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Creates a matrix, allocating the essentials.</p><a href="../proc/dbcsr_create_new~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -171,8 +189,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~295"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~220"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -181,12 +199,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>new matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~30"></span>
+              <span class="anchor" id="variable-name~18"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -201,8 +219,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~90"></span>
-              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),
+              <span class="anchor" id="variable-dist~66"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -211,12 +229,12 @@
             <td>::</td>
             <td><strong>dist</strong></td>
             <td>
-
+<p>distribution_2d distribution</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~10"></span>
+              <span class="anchor" id="variable-matrix_type~11"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -226,17 +244,17 @@
             <td>::</td>
             <td><strong>matrix_type</strong></td>
             <td>
-
+<p>'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~35"></span>
+              <span class="anchor" id="variable-row_blk_size~30"></span>
               integer,
             </td>
 <td>intent(inout),</td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>row_blk_size</strong></td>
@@ -246,12 +264,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~35"></span>
+              <span class="anchor" id="variable-col_blk_size~29"></span>
               integer,
             </td>
 <td>intent(inout),</td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
+              <td>optional,</td>            <td>
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>col_blk_size</strong></td>
@@ -261,7 +279,37 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~38"></span>
+              <span class="anchor" id="variable-row_blk_size_obj"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size_obj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size_obj"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size_obj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~61"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -271,12 +319,13 @@
             <td>::</td>
             <td><strong>nze</strong></td>
             <td>
-
+<p>number of elements
+type of data from 'rRcC' for single/double precision real/complex, default is 'R'</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~63"></span>
+              <span class="anchor" id="variable-data_type~54"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -286,12 +335,135 @@
             <td>::</td>
             <td><strong>data_type</strong></td>
             <td>
+<p>number of elements
+type of data from 'rRcC' for single/double precision real/complex, default is 'R'</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_buffer~4"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_buffer</strong></td>
+            <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse~3"></span>
+              <span class="anchor" id="variable-data_memory_type~3"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_memory_type</strong></td>
+            <td>
+<p>allocate indices and data using special memory
+allocate indices using special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_memory_type"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_memory_type</strong></td>
+            <td>
+<p>allocate indices and data using special memory
+allocate indices using special memory</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_rbs"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_rbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_cbs"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_cbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_offset~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_offset~5"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-thread_dist~2"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>thread_dist</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reuse~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -301,12 +473,13 @@
             <td>::</td>
             <td><strong>reuse</strong></td>
             <td>
-
+<p>reuses an existing matrix, default is to create a fresh one
+uses the mutable data for working and not the append-only data; default is append-only</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~8"></span>
+              <span class="anchor" id="variable-reuse_arrays~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -316,12 +489,13 @@
             <td>::</td>
             <td><strong>reuse_arrays</strong></td>
             <td>
-
+<p>reuses an existing matrix, default is to create a fresh one
+uses the mutable data for working and not the append-only data; default is append-only</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mutable_work~5"></span>
+              <span class="anchor" id="variable-mutable_work~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -331,7 +505,24 @@
             <td>::</td>
             <td><strong>mutable_work</strong></td>
             <td>
-
+<p>reuses an existing matrix, default is to create a fresh one
+uses the mutable data for working and not the append-only data; default is append-only</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-make_index"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>make_index</strong></td>
+            <td>
+<p>reuses an existing matrix, default is to create a fresh one
+uses the mutable data for working and not the append-only data; default is append-only</p>
             </td>
         </tr>
         <tr>
@@ -346,7 +537,7 @@
             <td>::</td>
             <td><strong>replication_type</strong></td>
             <td>
-
+<p>replication to be used for this matrix; default is dbcsr_repl_none</p>
             </td>
         </tr>
     </tbody>
@@ -357,7 +548,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_template~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, name, template, dist, matrix_type, row_blk_size, col_blk_size, nze, data_type, reuse_arrays, mutable_work, replication_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_create_template~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)  
 </h3></div>
     <div class="card-body">
           
@@ -376,8 +567,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~296"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~221"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -391,7 +582,22 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~31"></span>
+              <span class="anchor" id="variable-template~5"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>template</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-name~19"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -406,23 +612,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~5"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>template</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-dist~91"></span>
-              type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),
+              <span class="anchor" id="variable-dist~67"></span>
+              type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -436,7 +627,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~11"></span>
+              <span class="anchor" id="variable-matrix_type~12"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -451,12 +642,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~36"></span>
+              <span class="anchor" id="variable-row_blk_size~31"></span>
               integer,
             </td>
 <td>intent(inout),</td>
               <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>row_blk_size</strong></td>
@@ -466,12 +657,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~36"></span>
+              <span class="anchor" id="variable-col_blk_size~30"></span>
               integer,
             </td>
 <td>intent(inout),</td>
               <td>optional,</td>            <td>
-              DIMENSION(:), POINTER
+              DIMENSION(:), POINTER, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>col_blk_size</strong></td>
@@ -481,7 +672,37 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~39"></span>
+              <span class="anchor" id="variable-row_blk_size_obj~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_size_obj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_size_obj~2"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_size_obj</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-nze~62"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -496,7 +717,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~64"></span>
+              <span class="anchor" id="variable-data_type~55"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -511,7 +732,112 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~9"></span>
+              <span class="anchor" id="variable-data_buffer~5"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-data_memory_type~4"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>data_memory_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_memory_type~2"></span>
+              type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_memory_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_rbs~2"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_rbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-max_cbs~2"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>max_cbs</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_blk_offset~6"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_blk_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_blk_offset~6"></span>
+              type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_blk_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-reuse_arrays~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -526,7 +852,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mutable_work~6"></span>
+              <span class="anchor" id="variable-mutable_work~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -535,6 +861,21 @@
             </td>
             <td>::</td>
             <td><strong>mutable_work</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-make_index~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>make_index</strong></td>
             <td>
 
             </td>
@@ -584,24 +925,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

@@ -12,13 +12,29 @@
 
     <title>dbcsr_data_methods_low &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -94,9 +110,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -113,9 +131,9 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-modulen~24">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-careful_mod~4">careful_mod</a>
-            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-debug_mod~2">debug_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-modulen~13">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-careful_mod~7">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#variable-debug_mod~4">debug_mod</a>
         </div>
       </div>
     </div>
@@ -137,7 +155,7 @@
             <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_scalar_get_value">dbcsr_scalar_get_value</a>
             <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_data_set_pointer">dbcsr_data_set_pointer</a>
             <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_get_data">dbcsr_get_data</a>
-            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_get_data_p">dbcsr_get_data_p</a>
+            <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_get_data_p~2">dbcsr_get_data_p</a>
             <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_get_data_cptr">dbcsr_get_data_cptr</a>
             <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#interface-dbcsr_data_get_sizes">dbcsr_data_get_sizes</a>
         </div>
@@ -254,12 +272,12 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
                   <li class="list-inline-item"><a href='dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
               </ul>
             </li>
         </ul>
@@ -284,7 +302,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~24"></span>
+              <span class="anchor" id="variable-modulen~13"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -301,7 +319,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~4"></span>
+              <span class="anchor" id="variable-careful_mod~7"></span>
               logical,
             </td>
               <td>private,</td>
@@ -318,7 +336,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-debug_mod~2"></span>
+              <span class="anchor" id="variable-debug_mod~4"></span>
               logical,
             </td>
               <td>private,</td>
@@ -577,7 +595,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~54"></span>
+              <span class="anchor" id="variable-value~15"></span>
               real(kind=real_4),
             </td>
 <td>intent(out)</td>
@@ -631,7 +649,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~53"></span>
+              <span class="anchor" id="variable-value~14"></span>
               real(kind=real_8),
             </td>
 <td>intent(out)</td>
@@ -685,7 +703,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~56"></span>
+              <span class="anchor" id="variable-value~17"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out)</td>
@@ -739,7 +757,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~55"></span>
+              <span class="anchor" id="variable-value~16"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out)</td>
@@ -791,7 +809,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~26"></span>
+              <span class="anchor" id="variable-area~30"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -806,7 +824,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~20"></span>
+              <span class="anchor" id="variable-p~6"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -848,7 +866,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~19"></span>
+              <span class="anchor" id="variable-area~23"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -863,7 +881,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~18"></span>
+              <span class="anchor" id="variable-p~4"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -905,7 +923,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~40"></span>
+              <span class="anchor" id="variable-area~44"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -920,7 +938,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~24"></span>
+              <span class="anchor" id="variable-p~10"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -962,7 +980,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~33"></span>
+              <span class="anchor" id="variable-area~37"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -977,7 +995,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~22"></span>
+              <span class="anchor" id="variable-p~8"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1019,7 +1037,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~27"></span>
+              <span class="anchor" id="variable-area~31"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1034,7 +1052,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~21"></span>
+              <span class="anchor" id="variable-p~7"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1076,7 +1094,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~20"></span>
+              <span class="anchor" id="variable-area~24"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1091,7 +1109,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~19"></span>
+              <span class="anchor" id="variable-p~5"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1133,7 +1151,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~41"></span>
+              <span class="anchor" id="variable-area~45"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1148,7 +1166,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~25"></span>
+              <span class="anchor" id="variable-p~11"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1190,7 +1208,7 @@ pointer in the data area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~34"></span>
+              <span class="anchor" id="variable-area~38"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1205,7 +1223,7 @@ pointer in the data area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~23"></span>
+              <span class="anchor" id="variable-p~9"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1246,7 +1264,7 @@ area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~11"></span>
+              <span class="anchor" id="variable-area~15"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -1261,7 +1279,7 @@ area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize"></span>
+              <span class="anchor" id="variable-rsize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1277,7 +1295,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize"></span>
+              <span class="anchor" id="variable-csize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1357,7 +1375,7 @@ size of data area to point to</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~31"></span>
+              <span class="anchor" id="variable-area~35"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1372,7 +1390,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~27"></span>
+              <span class="anchor" id="variable-data~26"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1387,7 +1405,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~12"></span>
+              <span class="anchor" id="variable-lb~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1403,7 +1421,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~12"></span>
+              <span class="anchor" id="variable-ub~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1443,7 +1461,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~24"></span>
+              <span class="anchor" id="variable-area~28"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1458,7 +1476,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~22"></span>
+              <span class="anchor" id="variable-data~21"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1473,7 +1491,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~7"></span>
+              <span class="anchor" id="variable-lb~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1489,7 +1507,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~7"></span>
+              <span class="anchor" id="variable-ub~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1529,7 +1547,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~45"></span>
+              <span class="anchor" id="variable-area~49"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1544,7 +1562,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~37"></span>
+              <span class="anchor" id="variable-data~36"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1559,7 +1577,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~22"></span>
+              <span class="anchor" id="variable-lb~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1575,7 +1593,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~22"></span>
+              <span class="anchor" id="variable-ub~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1615,7 +1633,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~38"></span>
+              <span class="anchor" id="variable-area~42"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1630,7 +1648,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~32"></span>
+              <span class="anchor" id="variable-data~31"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1645,7 +1663,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~17"></span>
+              <span class="anchor" id="variable-lb~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1661,7 +1679,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~17"></span>
+              <span class="anchor" id="variable-ub~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1701,7 +1719,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~32"></span>
+              <span class="anchor" id="variable-area~36"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1716,7 +1734,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~28"></span>
+              <span class="anchor" id="variable-data~27"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1731,7 +1749,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~13"></span>
+              <span class="anchor" id="variable-lb~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1747,7 +1765,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~13"></span>
+              <span class="anchor" id="variable-ub~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1787,7 +1805,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~25"></span>
+              <span class="anchor" id="variable-area~29"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1802,7 +1820,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~23"></span>
+              <span class="anchor" id="variable-data~22"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1817,7 +1835,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~8"></span>
+              <span class="anchor" id="variable-lb~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1833,7 +1851,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~8"></span>
+              <span class="anchor" id="variable-ub~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1873,7 +1891,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~46"></span>
+              <span class="anchor" id="variable-area~50"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1888,7 +1906,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~38"></span>
+              <span class="anchor" id="variable-data~37"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -1903,7 +1921,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~23"></span>
+              <span class="anchor" id="variable-lb~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1919,7 +1937,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~23"></span>
+              <span class="anchor" id="variable-ub~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1959,7 +1977,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~39"></span>
+              <span class="anchor" id="variable-area~43"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1974,7 +1992,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~33"></span>
+              <span class="anchor" id="variable-data~32"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -1989,7 +2007,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~18"></span>
+              <span class="anchor" id="variable-lb~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2005,7 +2023,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~18"></span>
+              <span class="anchor" id="variable-ub~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2029,8 +2047,8 @@ upper bound for pointer</p>
 
               <div class="card">
     <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-dbcsr_get_data_p"></span>
-      <h3>public        interface <a href='../interface/dbcsr_get_data_p.html'>dbcsr_get_data_p</a> 
+      <span class="anchor" id="interface-dbcsr_get_data_p~2"></span>
+      <h3>public        interface <a href='../interface/dbcsr_get_data_p~2.html'>dbcsr_get_data_p</a> 
       </h3>
     </div>
     <ul class="list-group">
@@ -2059,7 +2077,7 @@ see dbcsr_get_data_p_s</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~28"></span>
+              <span class="anchor" id="variable-area~32"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2074,7 +2092,7 @@ see dbcsr_get_data_p_s</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~2"></span>
+              <span class="anchor" id="variable-select_data_type~10"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -2089,7 +2107,7 @@ see dbcsr_get_data_p_s</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~9"></span>
+              <span class="anchor" id="variable-lb~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2105,7 +2123,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~9"></span>
+              <span class="anchor" id="variable-ub~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2154,7 +2172,7 @@ see dbcsr_get_data_p_c</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~42"></span>
+              <span class="anchor" id="variable-area~46"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2169,7 +2187,7 @@ see dbcsr_get_data_p_c</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~4"></span>
+              <span class="anchor" id="variable-select_data_type~12"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -2184,7 +2202,7 @@ see dbcsr_get_data_p_c</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~19"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2200,7 +2218,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~19"></span>
+              <span class="anchor" id="variable-ub~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2249,7 +2267,7 @@ see dbcsr_get_data_p_d</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~21"></span>
+              <span class="anchor" id="variable-area~25"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2264,7 +2282,7 @@ see dbcsr_get_data_p_d</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type"></span>
+              <span class="anchor" id="variable-select_data_type~9"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -2279,7 +2297,7 @@ see dbcsr_get_data_p_d</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~4"></span>
+              <span class="anchor" id="variable-lb~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2295,7 +2313,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~4"></span>
+              <span class="anchor" id="variable-ub~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2344,7 +2362,7 @@ see dbcsr_get_data_p_z</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~35"></span>
+              <span class="anchor" id="variable-area~39"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2359,7 +2377,7 @@ see dbcsr_get_data_p_z</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~3"></span>
+              <span class="anchor" id="variable-select_data_type~11"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -2374,7 +2392,7 @@ see dbcsr_get_data_p_z</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2390,7 +2408,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~14"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2449,7 +2467,7 @@ see dbcsr_get_data_p_s</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~28"></span>
+              <span class="anchor" id="variable-area~32"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2464,7 +2482,7 @@ see dbcsr_get_data_p_s</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~2"></span>
+              <span class="anchor" id="variable-select_data_type~10"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -2479,7 +2497,7 @@ see dbcsr_get_data_p_s</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~9"></span>
+              <span class="anchor" id="variable-lb~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2495,7 +2513,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~9"></span>
+              <span class="anchor" id="variable-ub~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2544,7 +2562,7 @@ see dbcsr_get_data_p_c</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~42"></span>
+              <span class="anchor" id="variable-area~46"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2559,7 +2577,7 @@ see dbcsr_get_data_p_c</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~4"></span>
+              <span class="anchor" id="variable-select_data_type~12"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -2574,7 +2592,7 @@ see dbcsr_get_data_p_c</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~19"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2590,7 +2608,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~19"></span>
+              <span class="anchor" id="variable-ub~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2639,7 +2657,7 @@ see dbcsr_get_data_p_d</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~21"></span>
+              <span class="anchor" id="variable-area~25"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2654,7 +2672,7 @@ see dbcsr_get_data_p_d</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type"></span>
+              <span class="anchor" id="variable-select_data_type~9"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -2669,7 +2687,7 @@ see dbcsr_get_data_p_d</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~4"></span>
+              <span class="anchor" id="variable-lb~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2685,7 +2703,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~4"></span>
+              <span class="anchor" id="variable-ub~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2734,7 +2752,7 @@ see dbcsr_get_data_p_z</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~35"></span>
+              <span class="anchor" id="variable-area~39"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2749,7 +2767,7 @@ see dbcsr_get_data_p_z</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~3"></span>
+              <span class="anchor" id="variable-select_data_type~11"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -2764,7 +2782,7 @@ see dbcsr_get_data_p_z</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2780,7 +2798,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~14"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2835,7 +2853,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~15"></span>
+              <span class="anchor" id="variable-area~19"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2850,7 +2868,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~5"></span>
+              <span class="anchor" id="variable-sizes~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2865,7 +2883,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~5"></span>
+              <span class="anchor" id="variable-valid~3"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2904,7 +2922,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~17"></span>
+              <span class="anchor" id="variable-area~21"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2934,7 +2952,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~7"></span>
+              <span class="anchor" id="variable-valid~5"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2973,7 +2991,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~16"></span>
+              <span class="anchor" id="variable-area~20"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -2988,7 +3006,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~21"></span>
+              <span class="anchor" id="variable-row_size~61"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -3004,7 +3022,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~21"></span>
+              <span class="anchor" id="variable-col_size~61"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -3020,7 +3038,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~6"></span>
+              <span class="anchor" id="variable-valid~4"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -3068,7 +3086,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~2"></span>
+              <span class="anchor" id="variable-area~6"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3113,7 +3131,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~3"></span>
+              <span class="anchor" id="variable-area~7"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3158,7 +3176,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~8"></span>
+              <span class="anchor" id="variable-area~12"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3203,7 +3221,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~9"></span>
+              <span class="anchor" id="variable-area~13"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3248,7 +3266,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~12"></span>
+              <span class="anchor" id="variable-area~16"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3293,7 +3311,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~29"></span>
+              <span class="anchor" id="variable-data_type~14"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3338,7 +3356,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~30"></span>
+              <span class="anchor" id="variable-data_type~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3383,7 +3401,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-s1"></span>
+              <span class="anchor" id="variable-s1~2"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3445,7 +3463,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~5"></span>
+              <span class="anchor" id="variable-s~3"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3490,7 +3508,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-s1~2"></span>
+              <span class="anchor" id="variable-s1~3"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3596,7 +3614,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~33"></span>
+              <span class="anchor" id="variable-data_type~18"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3642,7 +3660,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~34"></span>
+              <span class="anchor" id="variable-data_type~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3688,7 +3706,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~35"></span>
+              <span class="anchor" id="variable-data_type~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3733,7 +3751,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~18"></span>
+              <span class="anchor" id="variable-area~22"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3778,7 +3796,7 @@ another value</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~21"></span>
+              <span class="anchor" id="variable-area~25"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3793,7 +3811,7 @@ another value</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type"></span>
+              <span class="anchor" id="variable-select_data_type~9"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -3808,7 +3826,7 @@ another value</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~4"></span>
+              <span class="anchor" id="variable-lb~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3824,7 +3842,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~4"></span>
+              <span class="anchor" id="variable-ub~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3871,7 +3889,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~22"></span>
+              <span class="anchor" id="variable-area~26"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3886,7 +3904,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~5"></span>
+              <span class="anchor" id="variable-lb~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3902,7 +3920,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~5"></span>
+              <span class="anchor" id="variable-ub~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3949,7 +3967,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~23"></span>
+              <span class="anchor" id="variable-area~27"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -3964,7 +3982,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~6"></span>
+              <span class="anchor" id="variable-lb~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3980,7 +3998,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~6"></span>
+              <span class="anchor" id="variable-ub~15"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4071,7 +4089,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~28"></span>
+              <span class="anchor" id="variable-area~32"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4086,7 +4104,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~2"></span>
+              <span class="anchor" id="variable-select_data_type~10"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -4101,7 +4119,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~9"></span>
+              <span class="anchor" id="variable-lb~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4117,7 +4135,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~9"></span>
+              <span class="anchor" id="variable-ub~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4164,7 +4182,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~29"></span>
+              <span class="anchor" id="variable-area~33"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4179,7 +4197,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~10"></span>
+              <span class="anchor" id="variable-lb~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4195,7 +4213,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~10"></span>
+              <span class="anchor" id="variable-ub~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4242,7 +4260,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~30"></span>
+              <span class="anchor" id="variable-area~34"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4257,7 +4275,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~11"></span>
+              <span class="anchor" id="variable-lb~20"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4273,7 +4291,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~11"></span>
+              <span class="anchor" id="variable-ub~20"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4364,7 +4382,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~35"></span>
+              <span class="anchor" id="variable-area~39"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4379,7 +4397,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~3"></span>
+              <span class="anchor" id="variable-select_data_type~11"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -4394,7 +4412,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4410,7 +4428,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~14"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4457,7 +4475,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~36"></span>
+              <span class="anchor" id="variable-area~40"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4472,7 +4490,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~15"></span>
+              <span class="anchor" id="variable-lb~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4488,7 +4506,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~15"></span>
+              <span class="anchor" id="variable-ub~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4535,7 +4553,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~37"></span>
+              <span class="anchor" id="variable-area~41"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4550,7 +4568,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~16"></span>
+              <span class="anchor" id="variable-lb~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4566,7 +4584,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~16"></span>
+              <span class="anchor" id="variable-ub~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4657,7 +4675,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~42"></span>
+              <span class="anchor" id="variable-area~46"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4672,7 +4690,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~4"></span>
+              <span class="anchor" id="variable-select_data_type~12"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -4687,7 +4705,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~19"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4703,7 +4721,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~19"></span>
+              <span class="anchor" id="variable-ub~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4750,7 +4768,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~43"></span>
+              <span class="anchor" id="variable-area~47"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4765,7 +4783,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~20"></span>
+              <span class="anchor" id="variable-lb~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4781,7 +4799,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~20"></span>
+              <span class="anchor" id="variable-ub~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4828,7 +4846,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~44"></span>
+              <span class="anchor" id="variable-area~48"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -4843,7 +4861,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~21"></span>
+              <span class="anchor" id="variable-lb~30"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4859,7 +4877,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~21"></span>
+              <span class="anchor" id="variable-ub~30"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4955,7 +4973,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~4"></span>
+              <span class="anchor" id="variable-area~8"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -4995,7 +5013,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~5"></span>
+              <span class="anchor" id="variable-area~9"></span>
               type(<a href='../type/dbcsr_data_area_type.html'>dbcsr_data_area_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5010,7 +5028,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~4"></span>
+              <span class="anchor" id="variable-sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5050,7 +5068,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~6"></span>
+              <span class="anchor" id="variable-area~10"></span>
               type(<a href='../type/dbcsr_data_area_type.html'>dbcsr_data_area_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5090,7 +5108,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~7"></span>
+              <span class="anchor" id="variable-area~11"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5130,7 +5148,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~10"></span>
+              <span class="anchor" id="variable-area~14"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5172,7 +5190,7 @@ area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~11"></span>
+              <span class="anchor" id="variable-area~15"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5187,7 +5205,7 @@ area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize"></span>
+              <span class="anchor" id="variable-rsize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5203,7 +5221,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize"></span>
+              <span class="anchor" id="variable-csize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5274,7 +5292,7 @@ size of data area to point to</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~13"></span>
+              <span class="anchor" id="variable-area~17"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -5289,7 +5307,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~2"></span>
+              <span class="anchor" id="variable-lb~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5305,7 +5323,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~2"></span>
+              <span class="anchor" id="variable-ub~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5346,7 +5364,7 @@ upper bounds</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~14"></span>
+              <span class="anchor" id="variable-area~18"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5361,7 +5379,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~3"></span>
+              <span class="anchor" id="variable-lb~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5376,7 +5394,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~3"></span>
+              <span class="anchor" id="variable-ub~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5416,7 +5434,7 @@ upper bounds</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~15"></span>
+              <span class="anchor" id="variable-area~19"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -5431,7 +5449,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sizes~5"></span>
+              <span class="anchor" id="variable-sizes~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5446,7 +5464,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~5"></span>
+              <span class="anchor" id="variable-valid~3"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -5486,7 +5504,7 @@ upper bounds</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~16"></span>
+              <span class="anchor" id="variable-area~20"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -5501,7 +5519,7 @@ upper bounds</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~21"></span>
+              <span class="anchor" id="variable-row_size~61"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -5517,7 +5535,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~21"></span>
+              <span class="anchor" id="variable-col_size~61"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -5533,7 +5551,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~6"></span>
+              <span class="anchor" id="variable-valid~4"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -5573,7 +5591,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~17"></span>
+              <span class="anchor" id="variable-area~21"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -5603,7 +5621,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~7"></span>
+              <span class="anchor" id="variable-valid~5"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -5658,7 +5676,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~32"></span>
+              <span class="anchor" id="variable-data_type~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5738,7 +5756,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~2"></span>
+              <span class="anchor" id="variable-data_area"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5793,7 +5811,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~19"></span>
+              <span class="anchor" id="variable-area~23"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5808,7 +5826,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~18"></span>
+              <span class="anchor" id="variable-p~4"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -5848,7 +5866,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~20"></span>
+              <span class="anchor" id="variable-area~24"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -5863,7 +5881,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~19"></span>
+              <span class="anchor" id="variable-p~5"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -5903,7 +5921,7 @@ column size</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~24"></span>
+              <span class="anchor" id="variable-area~28"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -5918,7 +5936,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~22"></span>
+              <span class="anchor" id="variable-data~21"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -5933,7 +5951,7 @@ column size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~7"></span>
+              <span class="anchor" id="variable-lb~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5949,7 +5967,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~7"></span>
+              <span class="anchor" id="variable-ub~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5990,7 +6008,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~25"></span>
+              <span class="anchor" id="variable-area~29"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6005,7 +6023,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~23"></span>
+              <span class="anchor" id="variable-data~22"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -6020,7 +6038,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~8"></span>
+              <span class="anchor" id="variable-lb~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6036,7 +6054,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~8"></span>
+              <span class="anchor" id="variable-ub~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6092,7 +6110,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~53"></span>
+              <span class="anchor" id="variable-value~14"></span>
               real(kind=real_8),
             </td>
 <td>intent(out)</td>
@@ -6132,7 +6150,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~26"></span>
+              <span class="anchor" id="variable-area~30"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6147,7 +6165,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~20"></span>
+              <span class="anchor" id="variable-p~6"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6187,7 +6205,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~27"></span>
+              <span class="anchor" id="variable-area~31"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6202,7 +6220,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~21"></span>
+              <span class="anchor" id="variable-p~7"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6242,7 +6260,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~31"></span>
+              <span class="anchor" id="variable-area~35"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6257,7 +6275,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~27"></span>
+              <span class="anchor" id="variable-data~26"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6272,7 +6290,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~12"></span>
+              <span class="anchor" id="variable-lb~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6288,7 +6306,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~12"></span>
+              <span class="anchor" id="variable-ub~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6329,7 +6347,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~32"></span>
+              <span class="anchor" id="variable-area~36"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6344,7 +6362,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~28"></span>
+              <span class="anchor" id="variable-data~27"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -6359,7 +6377,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~13"></span>
+              <span class="anchor" id="variable-lb~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6375,7 +6393,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~13"></span>
+              <span class="anchor" id="variable-ub~22"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6431,7 +6449,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~54"></span>
+              <span class="anchor" id="variable-value~15"></span>
               real(kind=real_4),
             </td>
 <td>intent(out)</td>
@@ -6471,7 +6489,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~33"></span>
+              <span class="anchor" id="variable-area~37"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6486,7 +6504,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~22"></span>
+              <span class="anchor" id="variable-p~8"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6526,7 +6544,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~34"></span>
+              <span class="anchor" id="variable-area~38"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6541,7 +6559,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~23"></span>
+              <span class="anchor" id="variable-p~9"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6581,7 +6599,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~38"></span>
+              <span class="anchor" id="variable-area~42"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6596,7 +6614,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~32"></span>
+              <span class="anchor" id="variable-data~31"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6611,7 +6629,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~17"></span>
+              <span class="anchor" id="variable-lb~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6627,7 +6645,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~17"></span>
+              <span class="anchor" id="variable-ub~26"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6668,7 +6686,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~39"></span>
+              <span class="anchor" id="variable-area~43"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6683,7 +6701,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~33"></span>
+              <span class="anchor" id="variable-data~32"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -6698,7 +6716,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~18"></span>
+              <span class="anchor" id="variable-lb~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6714,7 +6732,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~18"></span>
+              <span class="anchor" id="variable-ub~27"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6770,7 +6788,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~55"></span>
+              <span class="anchor" id="variable-value~16"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out)</td>
@@ -6810,7 +6828,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~40"></span>
+              <span class="anchor" id="variable-area~44"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6825,7 +6843,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~24"></span>
+              <span class="anchor" id="variable-p~10"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -6865,7 +6883,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~41"></span>
+              <span class="anchor" id="variable-area~45"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -6880,7 +6898,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~25"></span>
+              <span class="anchor" id="variable-p~11"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -6920,7 +6938,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~45"></span>
+              <span class="anchor" id="variable-area~49"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -6935,7 +6953,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~37"></span>
+              <span class="anchor" id="variable-data~36"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -6950,7 +6968,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~22"></span>
+              <span class="anchor" id="variable-lb~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -6966,7 +6984,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~22"></span>
+              <span class="anchor" id="variable-ub~31"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7007,7 +7025,7 @@ upper bound for pointer</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~46"></span>
+              <span class="anchor" id="variable-area~50"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -7022,7 +7040,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~38"></span>
+              <span class="anchor" id="variable-data~37"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -7037,7 +7055,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~23"></span>
+              <span class="anchor" id="variable-lb~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7053,7 +7071,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~23"></span>
+              <span class="anchor" id="variable-ub~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7109,7 +7127,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~56"></span>
+              <span class="anchor" id="variable-value~17"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out)</td>
@@ -7158,24 +7176,5 @@ upper bound for pointer</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

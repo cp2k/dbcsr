@@ -12,13 +12,29 @@
 
     <title>dbcsr_get_data_p &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -74,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 31 statements,  0.1% of total for procedures.">3 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 107 statements,  0.2% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_data_methods_low.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_data_methods_low.f.html'>dbcsr_data_methods_low.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_get_data_p</li>
           </ol>
         </nav>
@@ -95,9 +111,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -131,10 +149,10 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_s">dbcsr_get_data_s</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c">dbcsr_get_data_c</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_d">dbcsr_get_data_d</a>
-            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_z">dbcsr_get_data_z</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_s">dbcsr_get_data_c_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_c">dbcsr_get_data_c_c</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_d">dbcsr_get_data_c_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_get_data_p~2.html#moduleprocedure-dbcsr_get_data_c_z">dbcsr_get_data_c_z</a>
         </div>
       </div>
     </div>
@@ -154,11 +172,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_s"></span> <h3>private  function <a href='../proc/dbcsr_get_data_s.html'>dbcsr_get_data_s</a>(matrix, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_s"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a>(area, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -173,22 +191,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~328"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-area~32"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>matrix</strong></td>
+            <td><strong>area</strong></td>
             <td>
-
+<p>data area</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~8"></span>
+              <span class="anchor" id="variable-select_data_type~10"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -198,12 +216,12 @@
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-
+<p>force datatype</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~50"></span>
+              <span class="anchor" id="variable-lb~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -213,12 +231,13 @@
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~44"></span>
+              <span class="anchor" id="variable-ub~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -228,7 +247,8 @@
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
     </tbody>
@@ -238,17 +258,17 @@
     Return Value
     <small>real(kind=real_4), DIMENSION(:), POINTER</small>
     </h4>
-    
+    <p>pointer to data</p>
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c.html'>dbcsr_get_data_c</a>(matrix, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a>(area, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -263,17 +283,17 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~354"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-area~46"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>matrix</strong></td>
+            <td><strong>area</strong></td>
             <td>
-
+<p>data area</p>
             </td>
         </tr>
         <tr>
@@ -288,12 +308,12 @@
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-
+<p>force datatype</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~54"></span>
+              <span class="anchor" id="variable-lb~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -303,12 +323,13 @@
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~48"></span>
+              <span class="anchor" id="variable-ub~28"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -318,7 +339,8 @@
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
     </tbody>
@@ -328,17 +350,17 @@
     Return Value
     <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
     </h4>
-    
+    <p>pointer to data</p>
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_d.html'>dbcsr_get_data_d</a>(matrix, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a>(area, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -353,22 +375,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~315"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-area~25"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>matrix</strong></td>
+            <td><strong>area</strong></td>
             <td>
-
+<p>data area</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~6"></span>
+              <span class="anchor" id="variable-select_data_type~9"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -378,12 +400,12 @@
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-
+<p>force datatype</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~48"></span>
+              <span class="anchor" id="variable-lb~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -393,12 +415,13 @@
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~42"></span>
+              <span class="anchor" id="variable-ub~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -408,7 +431,8 @@
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
     </tbody>
@@ -418,17 +442,17 @@
     Return Value
     <small>real(kind=real_8), DIMENSION(:), POINTER</small>
     </h4>
-    
+    <p>pointer to data</p>
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a>(matrix, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a>(area, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Returns the single/double precision real/complex data</p><a href="../proc/dbcsr_get_data_c_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -443,22 +467,22 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~341"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-area~39"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>matrix</strong></td>
+            <td><strong>area</strong></td>
             <td>
-
+<p>data area</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~10"></span>
+              <span class="anchor" id="variable-select_data_type~11"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -468,12 +492,12 @@
             <td>::</td>
             <td><strong>select_data_type</strong></td>
             <td>
-
+<p>force datatype</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~52"></span>
+              <span class="anchor" id="variable-lb~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -483,12 +507,13 @@
             <td>::</td>
             <td><strong>lb</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~46"></span>
+              <span class="anchor" id="variable-ub~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -498,7 +523,8 @@
             <td>::</td>
             <td><strong>ub</strong></td>
             <td>
-
+<p>lower bound for pointer
+upper bound for pointer</p>
             </td>
         </tr>
     </tbody>
@@ -508,7 +534,7 @@
     Return Value
     <small>complex(kind=real_8), DIMENSION(:), POINTER</small>
     </h4>
-    
+    <p>pointer to data</p>
 
     </div>
   </div>
@@ -536,24 +562,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

@@ -12,13 +12,29 @@
 
     <title>dbcsr_reserve_block2d &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -74,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 36 statements,  0.1% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 239 statements,  0.4% of total for procedures.">3 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_block_access.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_block_access.f.html'>dbcsr_block_access.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_reserve_block2d</li>
           </ol>
         </nav>
@@ -95,9 +111,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -131,8 +149,8 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_d~2">dbcsr_reserve_block2d_d</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_s~2">dbcsr_reserve_block2d_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_d~2">dbcsr_reserve_block2d_d</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_c~2">dbcsr_reserve_block2d_c</a>
             <a class="list-group-item" href="../interface/dbcsr_reserve_block2d~2.html#moduleprocedure-dbcsr_reserve_block2d_z~2">dbcsr_reserve_block2d_z</a>
         </div>
@@ -154,11 +172,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_d~2.html'>dbcsr_reserve_block2d_d</a>(matrix, row, col, block, transposed, existed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_s~2.html'>dbcsr_reserve_block2d_s</a>(matrix, row, col, block, transposed, existed)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -173,8 +191,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~303"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~127"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -183,12 +201,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~107"></span>
+              <span class="anchor" id="variable-row~72"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -198,12 +216,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~83"></span>
+              <span class="anchor" id="variable-col~45"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -213,13 +232,14 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~139"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-block~55"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
@@ -228,12 +248,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~49"></span>
+              <span class="anchor" id="variable-transposed~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -243,12 +263,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~9"></span>
+              <span class="anchor" id="variable-existed~6"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -258,7 +278,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -269,11 +289,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_s~2.html'>dbcsr_reserve_block2d_s</a>(matrix, row, col, block, transposed, existed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_reserve_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_reserve_block2d_d~2.html'>dbcsr_reserve_block2d_d</a>(matrix, row, col, block, transposed, existed)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -288,8 +308,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~316"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~121"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -298,12 +318,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~118"></span>
+              <span class="anchor" id="variable-row~67"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -313,12 +333,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~90"></span>
+              <span class="anchor" id="variable-col~40"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -328,13 +349,14 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~150"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-block~50"></span>
+              real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
@@ -343,12 +365,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~52"></span>
+              <span class="anchor" id="variable-transposed~16"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -358,12 +380,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~10"></span>
+              <span class="anchor" id="variable-existed~5"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -373,7 +395,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -388,7 +410,7 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -403,8 +425,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~342"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~139"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -413,12 +435,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~140"></span>
+              <span class="anchor" id="variable-row~82"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -428,12 +450,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~104"></span>
+              <span class="anchor" id="variable-col~55"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -443,12 +466,13 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~172"></span>
+              <span class="anchor" id="variable-block~65"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -458,12 +482,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~58"></span>
+              <span class="anchor" id="variable-transposed~25"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -473,12 +497,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~12"></span>
+              <span class="anchor" id="variable-existed~8"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -488,7 +512,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -503,7 +527,7 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Put a 2-D block in a DBCSR matrix using the btree</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -518,8 +542,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~329"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~133"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -528,12 +552,12 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-
+<p>DBCSR matrix</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~129"></span>
+              <span class="anchor" id="variable-row~77"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -543,12 +567,13 @@
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~97"></span>
+              <span class="anchor" id="variable-col~50"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -558,12 +583,13 @@
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-
+<p>the row
+the column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~161"></span>
+              <span class="anchor" id="variable-block~60"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -573,12 +599,12 @@
             <td>::</td>
             <td><strong>block</strong></td>
             <td>
-
+<p>the block to reserve; added if not NULL</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~55"></span>
+              <span class="anchor" id="variable-transposed~22"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -588,12 +614,12 @@
             <td>::</td>
             <td><strong>transposed</strong></td>
             <td>
-
+<p>the block holds transposed data</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~11"></span>
+              <span class="anchor" id="variable-existed~7"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -603,7 +629,7 @@
             <td>::</td>
             <td><strong>existed</strong></td>
             <td>
-
+<p>block already existed</p>
             </td>
         </tr>
     </tbody>
@@ -636,24 +662,5 @@
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

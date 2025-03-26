@@ -12,13 +12,29 @@
 
     <title>dbcsr_tests &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -94,9 +110,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -113,7 +131,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tests.html#variable-modulen~36">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tests.html#variable-modulen~20">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_tests.html#variable-dbcsr_test_mm">dbcsr_test_mm</a>
             <a class="list-group-item" href="../module/dbcsr_tests.html#variable-dbcsr_test_binary_io">dbcsr_test_binary_io</a>
         </div>
@@ -137,7 +155,7 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tests.html#proc-dbcsr_run_tests">dbcsr_run_tests</a>
+            <a class="list-group-item" href="../module/dbcsr_tests.html#proc-dbcsr_run_tests~2">dbcsr_run_tests</a>
             <a class="list-group-item" href="../module/dbcsr_tests.html#proc-test_binary_io">test_binary_io</a>
             <a class="list-group-item" href="../module/dbcsr_tests.html#proc-test_multiplies_multiproc">test_multiplies_multiproc</a>
         </div>
@@ -165,23 +183,23 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_machine.html'>dbcsr_machine</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_io.html'>dbcsr_io</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_io.html'>dbcsr_io</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
               </ul>
             </li>
         </ul>
@@ -206,7 +224,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~36"></span>
+              <span class="anchor" id="variable-modulen~20"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -269,7 +287,7 @@ parameter
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_run_tests"></span> <h3>public  subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_group, io_unit, nproc, matrix_sizes, trs, bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, n_loops, eps, retain_sparsity, always_checksum)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_run_tests~2"></span> <h3>public  subroutine <a href='../proc/dbcsr_run_tests~2.html'>dbcsr_run_tests</a>(mp_group, io_unit, nproc, matrix_sizes, trs, bs_m, bs_n, bs_k, sparsities, alpha, beta, data_type, test_type, n_loops, eps, retain_sparsity, always_checksum)  
 </h3></div>
     <div class="card-body">
           
@@ -289,7 +307,7 @@ processor grids</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~15"></span>
+              <span class="anchor" id="variable-mp_group~8"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -304,7 +322,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~10"></span>
+              <span class="anchor" id="variable-io_unit~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -320,7 +338,7 @@ which unit to write to, if not negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nproc~8"></span>
+              <span class="anchor" id="variable-nproc~4"></span>
               integer,
             </td>
 <td></td>
@@ -335,7 +353,7 @@ which unit to write to, if not negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_sizes"></span>
+              <span class="anchor" id="variable-matrix_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -350,7 +368,7 @@ which unit to write to, if not negative</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trs"></span>
+              <span class="anchor" id="variable-trs~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -399,7 +417,7 @@ block sizes of the 3 dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bs_k"></span>
+              <span class="anchor" id="variable-bs_k~2"></span>
               integer,
             </td>
 <td></td>
@@ -416,7 +434,7 @@ block sizes of the 3 dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sparsities"></span>
+              <span class="anchor" id="variable-sparsities~2"></span>
               real(kind=dp),
             </td>
 <td>intent(in),</td>
@@ -431,7 +449,7 @@ block sizes of the 3 dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~18"></span>
+              <span class="anchor" id="variable-alpha~17"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -463,7 +481,7 @@ beta value to use in multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~53"></span>
+              <span class="anchor" id="variable-data_type~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -479,7 +497,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-test_type"></span>
+              <span class="anchor" id="variable-test_type~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -495,7 +513,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_loops"></span>
+              <span class="anchor" id="variable-n_loops~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -511,7 +529,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~12"></span>
+              <span class="anchor" id="variable-eps~6"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -526,7 +544,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~12"></span>
+              <span class="anchor" id="variable-retain_sparsity~11"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -541,7 +559,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-always_checksum"></span>
+              <span class="anchor" id="variable-always_checksum~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -581,7 +599,7 @@ number of repetition for each multiplication</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~14"></span>
+              <span class="anchor" id="variable-matrix_a~31"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>)
             </td>
 <td></td>
@@ -596,7 +614,7 @@ number of repetition for each multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~11"></span>
+              <span class="anchor" id="variable-io_unit~5"></span>
               integer
             </td>
 <td></td>
@@ -652,7 +670,7 @@ processor grids</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~15"></span>
+              <span class="anchor" id="variable-matrix_a~32"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -669,7 +687,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~12"></span>
+              <span class="anchor" id="variable-matrix_b~18"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -686,7 +704,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~9"></span>
+              <span class="anchor" id="variable-matrix_c~7"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -703,7 +721,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~7"></span>
+              <span class="anchor" id="variable-transa~5"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -718,7 +736,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~7"></span>
+              <span class="anchor" id="variable-transb~5"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -733,7 +751,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~19"></span>
+              <span class="anchor" id="variable-alpha~18"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -763,7 +781,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-limits~4"></span>
+              <span class="anchor" id="variable-limits"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -778,7 +796,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~13"></span>
+              <span class="anchor" id="variable-retain_sparsity~12"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -793,7 +811,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_loops~2"></span>
+              <span class="anchor" id="variable-n_loops~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -808,7 +826,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~13"></span>
+              <span class="anchor" id="variable-eps~7"></span>
               real(kind=dp),
             </td>
 <td>intent(in)</td>
@@ -823,7 +841,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-io_unit~12"></span>
+              <span class="anchor" id="variable-io_unit~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -838,7 +856,7 @@ matrices to multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-always_checksum~2"></span>
+              <span class="anchor" id="variable-always_checksum~3"></span>
               logical
             </td>
 <td></td>
@@ -887,24 +905,5 @@ matrices to multiply</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

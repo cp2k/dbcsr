@@ -12,13 +12,29 @@
 
     <title>dbcsr_methods &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -94,9 +110,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -113,7 +131,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_methods.html#variable-modulen~46">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#variable-modulen~48">moduleN</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#variable-dbcsr_matrix_counter">dbcsr_matrix_counter</a>
         </div>
       </div>
@@ -146,13 +164,13 @@
       </a>
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_valid_index">dbcsr_valid_index</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkrows_total">dbcsr_nblkrows_total</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkcols_total">dbcsr_nblkcols_total</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullrows_total">dbcsr_nfullrows_total</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullcols_total">dbcsr_nfullcols_total</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkrows_local">dbcsr_nblkrows_local</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkcols_local">dbcsr_nblkcols_local</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_valid_index~2">dbcsr_valid_index</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkrows_total~2">dbcsr_nblkrows_total</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkcols_total~2">dbcsr_nblkcols_total</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullrows_total~2">dbcsr_nfullrows_total</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullcols_total~2">dbcsr_nfullcols_total</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkrows_local~2">dbcsr_nblkrows_local</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nblkcols_local~2">dbcsr_nblkcols_local</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullrows_local">dbcsr_nfullrows_local</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_nfullcols_local">dbcsr_nfullcols_local</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_max_row_size">dbcsr_max_row_size</a>
@@ -170,15 +188,15 @@
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_blk_column_size">dbcsr_blk_column_size</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_blk_col_offset">dbcsr_blk_col_offset</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_data_area">dbcsr_data_area</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_matrix_type">dbcsr_get_matrix_type</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_has_symmetry">dbcsr_has_symmetry</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_matrix_type~2">dbcsr_get_matrix_type</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_has_symmetry~2">dbcsr_has_symmetry</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_replication_type">dbcsr_get_replication_type</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_type">dbcsr_get_data_type</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_type~2">dbcsr_get_data_type</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_memory_type">dbcsr_get_data_memory_type</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_index_memory_type">dbcsr_get_index_memory_type</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_size">dbcsr_get_data_size</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_size~2">dbcsr_get_data_size</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_data_size_used">dbcsr_get_data_size_used</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_num_blocks">dbcsr_get_num_blocks</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_num_blocks~2">dbcsr_get_num_blocks</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_get_nze">dbcsr_get_nze</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_mutable_instantiated">dbcsr_mutable_instantiated</a>
         </div>
@@ -192,14 +210,14 @@
       </a>
       <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_release">dbcsr_release</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_release~2">dbcsr_release</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_destroy">dbcsr_destroy</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_distribution_release">dbcsr_distribution_release</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_distribution_release~2">dbcsr_distribution_release</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_dist_release_locals">dbcsr_dist_release_locals</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_mp_release">dbcsr_mp_release</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_mp_grid_remove">dbcsr_mp_grid_remove</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_release_locals">dbcsr_release_locals</a>
-            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_setname">dbcsr_setname</a>
+            <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_setname~2">dbcsr_setname</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_destroy_1d_array">dbcsr_destroy_1d_array</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_destroy_2d_array">dbcsr_destroy_2d_array</a>
             <a class="list-group-item" href="../module/dbcsr_methods.html#proc-dbcsr_image_dist_release">dbcsr_image_dist_release</a>
@@ -235,14 +253,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
               </ul>
             </li>
         </ul>
@@ -267,7 +285,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~46"></span>
+              <span class="anchor" id="variable-modulen~48"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -404,7 +422,7 @@ parameter
         <section>
           <h2>Functions</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_valid_index"></span> <h3>public pure function <a href='../proc/dbcsr_valid_index.html'>dbcsr_valid_index</a>(matrix) result(valid_index)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_valid_index~2"></span> <h3>public pure function <a href='../proc/dbcsr_valid_index~2.html'>dbcsr_valid_index</a>(matrix) result(valid_index)  
 </h3></div>
     <div class="card-body">
           
@@ -423,7 +441,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~214"></span>
+              <span class="anchor" id="variable-matrix~332"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -449,7 +467,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkrows_total"></span> <h3>public  function <a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total</a>(matrix) result(nblkrows_total)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkrows_total~2"></span> <h3>public  function <a href='../proc/dbcsr_nblkrows_total~2.html'>dbcsr_nblkrows_total</a>(matrix) result(nblkrows_total)  
 </h3></div>
     <div class="card-body">
           
@@ -468,7 +486,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~218"></span>
+              <span class="anchor" id="variable-matrix~336"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -494,7 +512,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkcols_total"></span> <h3>public  function <a href='../proc/dbcsr_nblkcols_total.html'>dbcsr_nblkcols_total</a>(matrix) result(nblkcols_total)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkcols_total~2"></span> <h3>public  function <a href='../proc/dbcsr_nblkcols_total~2.html'>dbcsr_nblkcols_total</a>(matrix) result(nblkcols_total)  
 </h3></div>
     <div class="card-body">
           
@@ -513,7 +531,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~219"></span>
+              <span class="anchor" id="variable-matrix~337"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -539,7 +557,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nfullrows_total"></span> <h3>public  function <a href='../proc/dbcsr_nfullrows_total.html'>dbcsr_nfullrows_total</a>(matrix) result(nfullrows_total)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nfullrows_total~2"></span> <h3>public  function <a href='../proc/dbcsr_nfullrows_total~2.html'>dbcsr_nfullrows_total</a>(matrix) result(nfullrows_total)  
 </h3></div>
     <div class="card-body">
           
@@ -558,7 +576,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~220"></span>
+              <span class="anchor" id="variable-matrix~338"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -584,7 +602,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nfullcols_total"></span> <h3>public  function <a href='../proc/dbcsr_nfullcols_total.html'>dbcsr_nfullcols_total</a>(matrix) result(nfullcols_total)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nfullcols_total~2"></span> <h3>public  function <a href='../proc/dbcsr_nfullcols_total~2.html'>dbcsr_nfullcols_total</a>(matrix) result(nfullcols_total)  
 </h3></div>
     <div class="card-body">
           
@@ -603,7 +621,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~221"></span>
+              <span class="anchor" id="variable-matrix~339"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -629,7 +647,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkrows_local"></span> <h3>public  function <a href='../proc/dbcsr_nblkrows_local.html'>dbcsr_nblkrows_local</a>(matrix) result(nblkrows_local)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkrows_local~2"></span> <h3>public  function <a href='../proc/dbcsr_nblkrows_local~2.html'>dbcsr_nblkrows_local</a>(matrix) result(nblkrows_local)  
 </h3></div>
     <div class="card-body">
           
@@ -648,7 +666,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~222"></span>
+              <span class="anchor" id="variable-matrix~340"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -674,7 +692,7 @@ parameter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkcols_local"></span> <h3>public  function <a href='../proc/dbcsr_nblkcols_local.html'>dbcsr_nblkcols_local</a>(matrix) result(nblkcols_local)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_nblkcols_local~2"></span> <h3>public  function <a href='../proc/dbcsr_nblkcols_local~2.html'>dbcsr_nblkcols_local</a>(matrix) result(nblkcols_local)  
 </h3></div>
     <div class="card-body">
           
@@ -693,7 +711,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~223"></span>
+              <span class="anchor" id="variable-matrix~341"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -738,7 +756,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~224"></span>
+              <span class="anchor" id="variable-matrix~342"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -783,7 +801,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~225"></span>
+              <span class="anchor" id="variable-matrix~343"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -828,7 +846,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~226"></span>
+              <span class="anchor" id="variable-matrix~344"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -873,7 +891,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~227"></span>
+              <span class="anchor" id="variable-matrix~345"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -918,7 +936,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~228"></span>
+              <span class="anchor" id="variable-matrix~346"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -963,7 +981,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~229"></span>
+              <span class="anchor" id="variable-matrix~347"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1053,7 +1071,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~231"></span>
+              <span class="anchor" id="variable-matrix~349"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1098,7 +1116,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~232"></span>
+              <span class="anchor" id="variable-matrix~350"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1143,7 +1161,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~233"></span>
+              <span class="anchor" id="variable-matrix~351"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1188,7 +1206,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~234"></span>
+              <span class="anchor" id="variable-matrix~352"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1233,7 +1251,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~235"></span>
+              <span class="anchor" id="variable-matrix~353"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1279,7 +1297,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~236"></span>
+              <span class="anchor" id="variable-matrix~354"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1294,7 +1312,7 @@ This routine is optimized for speed and no checks are performed.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~100"></span>
+              <span class="anchor" id="variable-row~178"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1339,7 +1357,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~237"></span>
+              <span class="anchor" id="variable-matrix~355"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1354,7 +1372,7 @@ This routine is optimized for speed and no checks are performed.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~101"></span>
+              <span class="anchor" id="variable-row~179"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1400,7 +1418,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~238"></span>
+              <span class="anchor" id="variable-matrix~356"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1415,7 +1433,7 @@ This routine is optimized for speed and no checks are performed.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~15"></span>
+              <span class="anchor" id="variable-column~39"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1460,7 +1478,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~239"></span>
+              <span class="anchor" id="variable-matrix~357"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1475,7 +1493,7 @@ This routine is optimized for speed and no checks are performed.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~79"></span>
+              <span class="anchor" id="variable-col~116"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1520,7 +1538,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~240"></span>
+              <span class="anchor" id="variable-matrix~358"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1546,7 +1564,7 @@ This routine is optimized for speed and no checks are performed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_matrix_type"></span> <h3>public pure function <a href='../proc/dbcsr_get_matrix_type.html'>dbcsr_get_matrix_type</a>(matrix) result(matrix_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_matrix_type~2"></span> <h3>public pure function <a href='../proc/dbcsr_get_matrix_type~2.html'>dbcsr_get_matrix_type</a>(matrix) result(matrix_type)  
 </h3></div>
     <div class="card-body">
           
@@ -1565,7 +1583,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~241"></span>
+              <span class="anchor" id="variable-matrix~359"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1591,7 +1609,7 @@ This routine is optimized for speed and no checks are performed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_has_symmetry"></span> <h3>public pure function <a href='../proc/dbcsr_has_symmetry.html'>dbcsr_has_symmetry</a>(matrix) result(has_symmetry)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_has_symmetry~2"></span> <h3>public pure function <a href='../proc/dbcsr_has_symmetry~2.html'>dbcsr_has_symmetry</a>(matrix) result(has_symmetry)  
 </h3></div>
     <div class="card-body">
           
@@ -1610,7 +1628,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~242"></span>
+              <span class="anchor" id="variable-matrix~360"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1655,7 +1673,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~243"></span>
+              <span class="anchor" id="variable-matrix~361"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1681,7 +1699,7 @@ This routine is optimized for speed and no checks are performed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_type"></span> <h3>public pure function <a href='../proc/dbcsr_get_data_type.html'>dbcsr_get_data_type</a>(matrix) result(data_type)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_type~2"></span> <h3>public pure function <a href='../proc/dbcsr_get_data_type~2.html'>dbcsr_get_data_type</a>(matrix) result(data_type)  
 </h3></div>
     <div class="card-body">
           
@@ -1700,7 +1718,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~244"></span>
+              <span class="anchor" id="variable-matrix~362"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1745,7 +1763,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~245"></span>
+              <span class="anchor" id="variable-matrix~363"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1790,7 +1808,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~246"></span>
+              <span class="anchor" id="variable-matrix~364"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1816,7 +1834,7 @@ This routine is optimized for speed and no checks are performed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_size"></span> <h3>public  function <a href='../proc/dbcsr_get_data_size.html'>dbcsr_get_data_size</a>(matrix) result(data_size)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_size~2"></span> <h3>public  function <a href='../proc/dbcsr_get_data_size~2.html'>dbcsr_get_data_size</a>(matrix) result(data_size)  
 </h3></div>
     <div class="card-body">
           
@@ -1835,7 +1853,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~247"></span>
+              <span class="anchor" id="variable-matrix~365"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1880,7 +1898,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~248"></span>
+              <span class="anchor" id="variable-matrix~366"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1906,7 +1924,7 @@ This routine is optimized for speed and no checks are performed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_num_blocks"></span> <h3>public pure function <a href='../proc/dbcsr_get_num_blocks.html'>dbcsr_get_num_blocks</a>(matrix) result(num_blocks)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_num_blocks~2"></span> <h3>public pure function <a href='../proc/dbcsr_get_num_blocks~2.html'>dbcsr_get_num_blocks</a>(matrix) result(num_blocks)  
 </h3></div>
     <div class="card-body">
           
@@ -1925,7 +1943,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~249"></span>
+              <span class="anchor" id="variable-matrix~367"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1970,7 +1988,7 @@ This routine is optimized for speed and no checks are performed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~250"></span>
+              <span class="anchor" id="variable-matrix~368"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2047,7 +2065,7 @@ The object is destroy when there is no reference to it left.</p>
         <section>
           <h2>Subroutines</h2>
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_release"></span> <h3>public recursive subroutine <a href='../proc/dbcsr_release.html'>dbcsr_release</a>(matrix)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_release~2"></span> <h3>public recursive subroutine <a href='../proc/dbcsr_release~2.html'>dbcsr_release</a>(matrix)  
 </h3></div>
     <div class="card-body">
           
@@ -2067,7 +2085,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~215"></span>
+              <span class="anchor" id="variable-matrix~333"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2107,7 +2125,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~216"></span>
+              <span class="anchor" id="variable-matrix~334"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2143,7 +2161,7 @@ If there are no references left, the matrix is destroyed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_release"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_release.html'>dbcsr_distribution_release</a>(dist)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_distribution_release~2"></span> <h3>public  subroutine <a href='../proc/dbcsr_distribution_release~2.html'>dbcsr_distribution_release</a>(dist)  
 </h3></div>
     <div class="card-body">
           
@@ -2162,7 +2180,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~82"></span>
+              <span class="anchor" id="variable-dist~76"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -2202,7 +2220,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~83"></span>
+              <span class="anchor" id="variable-dist~77"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -2242,7 +2260,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~38"></span>
+              <span class="anchor" id="variable-mp_env~22"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -2282,7 +2300,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~39"></span>
+              <span class="anchor" id="variable-mp_env~23"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -2322,7 +2340,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~217"></span>
+              <span class="anchor" id="variable-matrix~335"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2343,7 +2361,7 @@ If there are no references left, the matrix is destroyed.</p>
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_setname"></span> <h3>public  subroutine <a href='../proc/dbcsr_setname.html'>dbcsr_setname</a>(matrix, newname)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_setname~2"></span> <h3>public  subroutine <a href='../proc/dbcsr_setname~2.html'>dbcsr_setname</a>(matrix, newname)  
 </h3></div>
     <div class="card-body">
           
@@ -2362,7 +2380,7 @@ If there are no references left, the matrix is destroyed.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~230"></span>
+              <span class="anchor" id="variable-matrix~348"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2377,7 +2395,7 @@ If there are no references left, the matrix is destroyed.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-newname~2"></span>
+              <span class="anchor" id="variable-newname~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -2795,7 +2813,7 @@ The object is destroy when there is no reference to it left.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~60"></span>
+              <span class="anchor" id="variable-data_type~69"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2844,24 +2862,5 @@ The object is destroy when there is no reference to it left.</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>

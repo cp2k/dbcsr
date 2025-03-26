@@ -12,13 +12,29 @@
 
     <title>dbcsr_btree &ndash; DBCSR</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -94,9 +110,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -666,7 +684,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~7"></span>
+              <span class="anchor" id="variable-value~18"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -681,7 +699,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~4"></span>
+              <span class="anchor" id="variable-exists"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -780,7 +798,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~14"></span>
+              <span class="anchor" id="variable-value~25"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -795,7 +813,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~6"></span>
+              <span class="anchor" id="variable-exists~3"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -894,7 +912,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~21"></span>
+              <span class="anchor" id="variable-value~32"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -909,7 +927,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~8"></span>
+              <span class="anchor" id="variable-exists~5"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1008,7 +1026,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~28"></span>
+              <span class="anchor" id="variable-value~39"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -1023,7 +1041,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~10"></span>
+              <span class="anchor" id="variable-exists~7"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1132,7 +1150,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~13"></span>
+              <span class="anchor" id="variable-value~24"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -1147,7 +1165,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~5"></span>
+              <span class="anchor" id="variable-exists~2"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1216,7 +1234,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~20"></span>
+              <span class="anchor" id="variable-value~31"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -1231,7 +1249,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~7"></span>
+              <span class="anchor" id="variable-exists~4"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1300,7 +1318,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~27"></span>
+              <span class="anchor" id="variable-value~38"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -1315,7 +1333,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~9"></span>
+              <span class="anchor" id="variable-exists~6"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1384,7 +1402,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~34"></span>
+              <span class="anchor" id="variable-value~45"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -1399,7 +1417,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~11"></span>
+              <span class="anchor" id="variable-exists~8"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -1923,7 +1941,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p"></span>
+              <span class="anchor" id="variable-p~12"></span>
               real(kind=sp),
             </td>
               <td>public,</td>
@@ -1940,7 +1958,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~4"></span>
+              <span class="anchor" id="variable-tr~48"></span>
               logical,
             </td>
               <td>public</td>
@@ -1989,7 +2007,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~2"></span>
+              <span class="anchor" id="variable-p~13"></span>
               real(kind=dp),
             </td>
               <td>public,</td>
@@ -2006,7 +2024,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~5"></span>
+              <span class="anchor" id="variable-tr~49"></span>
               logical,
             </td>
               <td>public</td>
@@ -2055,7 +2073,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~3"></span>
+              <span class="anchor" id="variable-p~14"></span>
               complex(kind=sp),
             </td>
               <td>public,</td>
@@ -2072,7 +2090,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~6"></span>
+              <span class="anchor" id="variable-tr~50"></span>
               logical,
             </td>
               <td>public</td>
@@ -2121,7 +2139,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~4"></span>
+              <span class="anchor" id="variable-p~15"></span>
               complex(kind=dp),
             </td>
               <td>public,</td>
@@ -2138,7 +2156,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~7"></span>
+              <span class="anchor" id="variable-tr~51"></span>
               logical,
             </td>
               <td>public</td>
@@ -2187,7 +2205,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-id"></span>
+              <span class="anchor" id="variable-id~2"></span>
               integer,
             </td>
               <td>public</td>
@@ -2404,7 +2422,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~10"></span>
+              <span class="anchor" id="variable-n~14"></span>
               integer,
             </td>
               <td>public</td>
@@ -2455,7 +2473,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root"></span>
+              <span class="anchor" id="variable-root~2"></span>
               type(<a href='../type/btree_node_i8_sp2d.html'>btree_node_i8_sp2d</a>),
             </td>
               <td>public,</td>
@@ -2504,7 +2522,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-b"></span>
+              <span class="anchor" id="variable-b~2"></span>
               type(<a href='../type/btree_node_structure_i8_sp2d.html'>btree_node_structure_i8_sp2d</a>),
             </td>
               <td>public</td>
@@ -2553,7 +2571,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~2"></span>
+              <span class="anchor" id="variable-id~3"></span>
               integer,
             </td>
               <td>public</td>
@@ -2770,7 +2788,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~11"></span>
+              <span class="anchor" id="variable-n~15"></span>
               integer,
             </td>
               <td>public</td>
@@ -2821,7 +2839,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~2"></span>
+              <span class="anchor" id="variable-root~3"></span>
               type(<a href='../type/btree_node_i8_dp2d.html'>btree_node_i8_dp2d</a>),
             </td>
               <td>public,</td>
@@ -2870,7 +2888,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~2"></span>
+              <span class="anchor" id="variable-b~3"></span>
               type(<a href='../type/btree_node_structure_i8_dp2d.html'>btree_node_structure_i8_dp2d</a>),
             </td>
               <td>public</td>
@@ -2919,7 +2937,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~3"></span>
+              <span class="anchor" id="variable-id~4"></span>
               integer,
             </td>
               <td>public</td>
@@ -3136,7 +3154,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~12"></span>
+              <span class="anchor" id="variable-n~16"></span>
               integer,
             </td>
               <td>public</td>
@@ -3187,7 +3205,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~3"></span>
+              <span class="anchor" id="variable-root~4"></span>
               type(<a href='../type/btree_node_i8_cp2d.html'>btree_node_i8_cp2d</a>),
             </td>
               <td>public,</td>
@@ -3236,7 +3254,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~3"></span>
+              <span class="anchor" id="variable-b~4"></span>
               type(<a href='../type/btree_node_structure_i8_cp2d.html'>btree_node_structure_i8_cp2d</a>),
             </td>
               <td>public</td>
@@ -3285,7 +3303,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-id~4"></span>
+              <span class="anchor" id="variable-id~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -3502,7 +3520,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~13"></span>
+              <span class="anchor" id="variable-n~17"></span>
               integer,
             </td>
               <td>public</td>
@@ -3553,7 +3571,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~4"></span>
+              <span class="anchor" id="variable-root~5"></span>
               type(<a href='../type/btree_node_i8_zp2d.html'>btree_node_i8_zp2d</a>),
             </td>
               <td>public,</td>
@@ -3602,7 +3620,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~4"></span>
+              <span class="anchor" id="variable-b~5"></span>
               type(<a href='../type/btree_node_structure_i8_zp2d.html'>btree_node_structure_i8_zp2d</a>),
             </td>
               <td>public</td>
@@ -4016,7 +4034,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~2"></span>
+              <span class="anchor" id="variable-pos~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -4116,7 +4134,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~7"></span>
+              <span class="anchor" id="variable-value~18"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4131,7 +4149,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~4"></span>
+              <span class="anchor" id="variable-exists"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -4246,7 +4264,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~8"></span>
+              <span class="anchor" id="variable-value~19"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4346,7 +4364,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~9"></span>
+              <span class="anchor" id="variable-value~20"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4476,7 +4494,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~10"></span>
+              <span class="anchor" id="variable-value~21"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4621,7 +4639,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~11"></span>
+              <span class="anchor" id="variable-value~22"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4736,7 +4754,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~12"></span>
+              <span class="anchor" id="variable-value~23"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -4901,7 +4919,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~13"></span>
+              <span class="anchor" id="variable-value~24"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -4916,7 +4934,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~5"></span>
+              <span class="anchor" id="variable-exists~2"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -5186,7 +5204,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~4"></span>
+              <span class="anchor" id="variable-first~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -5606,7 +5624,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~4"></span>
+              <span class="anchor" id="variable-pos~12"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -5706,7 +5724,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~14"></span>
+              <span class="anchor" id="variable-value~25"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -5721,7 +5739,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~6"></span>
+              <span class="anchor" id="variable-exists~3"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -5836,7 +5854,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~15"></span>
+              <span class="anchor" id="variable-value~26"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -5936,7 +5954,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~16"></span>
+              <span class="anchor" id="variable-value~27"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -6066,7 +6084,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~17"></span>
+              <span class="anchor" id="variable-value~28"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -6211,7 +6229,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~18"></span>
+              <span class="anchor" id="variable-value~29"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -6326,7 +6344,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~19"></span>
+              <span class="anchor" id="variable-value~30"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -6491,7 +6509,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~20"></span>
+              <span class="anchor" id="variable-value~31"></span>
               type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -6506,7 +6524,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~7"></span>
+              <span class="anchor" id="variable-exists~4"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -6776,7 +6794,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~5"></span>
+              <span class="anchor" id="variable-first~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -7196,7 +7214,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~6"></span>
+              <span class="anchor" id="variable-pos~14"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -7296,7 +7314,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~21"></span>
+              <span class="anchor" id="variable-value~32"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -7311,7 +7329,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~8"></span>
+              <span class="anchor" id="variable-exists~5"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -7426,7 +7444,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~22"></span>
+              <span class="anchor" id="variable-value~33"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -7526,7 +7544,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~23"></span>
+              <span class="anchor" id="variable-value~34"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -7656,7 +7674,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~24"></span>
+              <span class="anchor" id="variable-value~35"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -7801,7 +7819,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~25"></span>
+              <span class="anchor" id="variable-value~36"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -7916,7 +7934,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~26"></span>
+              <span class="anchor" id="variable-value~37"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -8081,7 +8099,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~27"></span>
+              <span class="anchor" id="variable-value~38"></span>
               type(<a href='../type/btree_data_cp2d.html'>btree_data_cp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -8096,7 +8114,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~9"></span>
+              <span class="anchor" id="variable-exists~6"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -8366,7 +8384,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~6"></span>
+              <span class="anchor" id="variable-first~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8786,7 +8804,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~8"></span>
+              <span class="anchor" id="variable-pos~16"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -8886,7 +8904,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~28"></span>
+              <span class="anchor" id="variable-value~39"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -8901,7 +8919,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~10"></span>
+              <span class="anchor" id="variable-exists~7"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -9016,7 +9034,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~29"></span>
+              <span class="anchor" id="variable-value~40"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -9116,7 +9134,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~30"></span>
+              <span class="anchor" id="variable-value~41"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -9246,7 +9264,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~31"></span>
+              <span class="anchor" id="variable-value~42"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -9391,7 +9409,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~32"></span>
+              <span class="anchor" id="variable-value~43"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -9506,7 +9524,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~33"></span>
+              <span class="anchor" id="variable-value~44"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -9671,7 +9689,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~34"></span>
+              <span class="anchor" id="variable-value~45"></span>
               type(<a href='../type/btree_data_zp2d.html'>btree_data_zp2d</a>),
             </td>
 <td>intent(out)</td>
@@ -9686,7 +9704,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-exists~11"></span>
+              <span class="anchor" id="variable-exists~8"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -9956,7 +9974,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first~7"></span>
+              <span class="anchor" id="variable-first~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -10205,24 +10223,5 @@ parameter
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
   </body>
 </html>
