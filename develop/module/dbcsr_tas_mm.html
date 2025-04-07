@@ -131,7 +131,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#variable-modulen~5">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tas_mm.html#variable-modulen~16">moduleN</a>
         </div>
       </div>
     </div>
@@ -209,26 +209,26 @@ set manually.</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
               </ul>
             </li>
         </ul>
@@ -253,7 +253,7 @@ set manually.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~5"></span>
+              <span class="anchor" id="variable-modulen~16"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -360,7 +360,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~3"></span>
+              <span class="anchor" id="variable-unit_nr~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -475,7 +475,7 @@ number of non-zeroes in C</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~4"></span>
+              <span class="anchor" id="variable-numnodes~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -571,7 +571,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha"></span>
+              <span class="anchor" id="variable-alpha~10"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -586,7 +586,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a"></span>
+              <span class="anchor" id="variable-matrix_a~30"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -601,7 +601,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b"></span>
+              <span class="anchor" id="variable-matrix_b~18"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -616,7 +616,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta"></span>
+              <span class="anchor" id="variable-beta~4"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in)</td>
@@ -631,7 +631,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c"></span>
+              <span class="anchor" id="variable-matrix_c~7"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -678,7 +678,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps"></span>
+              <span class="anchor" id="variable-filter_eps~8"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -693,7 +693,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop"></span>
+              <span class="anchor" id="variable-flop~5"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -742,7 +742,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity"></span>
+              <span class="anchor" id="variable-retain_sparsity~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -791,7 +791,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr"></span>
+              <span class="anchor" id="variable-unit_nr~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -806,7 +806,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-log_verbose"></span>
+              <span class="anchor" id="variable-log_verbose~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -846,7 +846,7 @@ for internal use only</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in"></span>
+              <span class="anchor" id="variable-matrix_in~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -891,7 +891,7 @@ for internal use only</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~2"></span>
+              <span class="anchor" id="variable-alpha~11"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in),</td>
@@ -932,7 +932,7 @@ the same process grid as the other 2 matrices.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~7"></span>
+              <span class="anchor" id="variable-mp_comm~11"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -947,7 +947,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~2"></span>
+              <span class="anchor" id="variable-matrix_in~3"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -977,7 +977,7 @@ the same process grid as the other 2 matrices.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed"></span>
+              <span class="anchor" id="variable-transposed~20"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1204,7 +1204,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~8"></span>
+              <span class="anchor" id="variable-nsplit~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1219,7 +1219,7 @@ transpose flag of matrix2_in for multiplication</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-opt_nsplit~2"></span>
+              <span class="anchor" id="variable-opt_nsplit"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1345,7 +1345,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~2"></span>
+              <span class="anchor" id="variable-unit_nr~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1385,7 +1385,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~3"></span>
+              <span class="anchor" id="variable-matrix_in~4"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1415,7 +1415,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nsplit~9"></span>
+              <span class="anchor" id="variable-nsplit~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1430,7 +1430,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_rowcol~9"></span>
+              <span class="anchor" id="variable-split_rowcol"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1460,7 +1460,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-opt_nsplit~3"></span>
+              <span class="anchor" id="variable-opt_nsplit~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1530,7 +1530,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-template"></span>
+              <span class="anchor" id="variable-template~3"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1545,7 +1545,7 @@ memory optimization: move data such that matrix2_in may be empty on return.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~4"></span>
+              <span class="anchor" id="variable-matrix_in~5"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1706,7 +1706,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~2"></span>
+              <span class="anchor" id="variable-matrix_a~31"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1721,7 +1721,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~2"></span>
+              <span class="anchor" id="variable-matrix_b~19"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1736,7 +1736,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_c~2"></span>
+              <span class="anchor" id="variable-matrix_c~8"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -1751,7 +1751,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_eps~2"></span>
+              <span class="anchor" id="variable-filter_eps~9"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1766,7 +1766,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~4"></span>
+              <span class="anchor" id="variable-unit_nr~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1796,7 +1796,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~2"></span>
+              <span class="anchor" id="variable-nze~19"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -1811,7 +1811,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-retain_sparsity~2"></span>
+              <span class="anchor" id="variable-retain_sparsity~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1851,7 +1851,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~5"></span>
+              <span class="anchor" id="variable-matrix_in~6"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1936,7 +1936,7 @@ Same dummy arguments as dbcsr_tas_multiply</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~6"></span>
+              <span class="anchor" id="variable-matrix_in~7"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2038,7 +2038,7 @@ Data of matrix_in should not be copied to matrix_out</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~38"></span>
+              <span class="anchor" id="variable-matrix~100"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2078,7 +2078,7 @@ Data of matrix_in should not be copied to matrix_out</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~39"></span>
+              <span class="anchor" id="variable-matrix~101"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2118,7 +2118,7 @@ Data of matrix_in should not be copied to matrix_out</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~40"></span>
+              <span class="anchor" id="variable-matrix~102"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2188,7 +2188,7 @@ Data of matrix_in should not be copied to matrix_out</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~41"></span>
+              <span class="anchor" id="variable-matrix~103"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
