@@ -375,13 +375,13 @@ extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** Determines host-pointer registration for modification. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
-/** Determines device-pointer registration for modification (internal). */
+/** Determines device-pointer registration for modification (internal); offset is in measured in elsize. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for information (lock-control). */
+/** Determines device-pointer registration for info/ro (lock-control); offset is in measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, ACC_OPENCL_LOCKTYPE* lock, const void* memory,
   size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for information. */
+/** Determines device-pointer registration for info/ro; offset is in measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr(
   c_dbcsr_acc_opencl_info_memptr_t* info, const void* memory, size_t elsize, const size_t* amount, size_t* offset);
 /** Finds an existing stream for the given thread-ID (or NULL). */

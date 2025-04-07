@@ -161,7 +161,13 @@ int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, 
 
 int c_dbcsr_acc_opencl_info_devptr(
   c_dbcsr_acc_opencl_info_memptr_t* info, const void* memory, size_t elsize, const size_t* amount, size_t* offset) {
-  return c_dbcsr_acc_opencl_info_devptr_lock(info, c_dbcsr_acc_opencl_config.lock_memory, memory, elsize, amount, offset);
+#  if defined(ACC_OPENCL_MEM_DEVPTR)
+  ACC_OPENCL_LOCKTYPE* const lock_memory =
+    (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL ? NULL : c_dbcsr_acc_opencl_config.lock_memory);
+#  else
+  ACC_OPENCL_LOCKTYPE* const lock_memory = NULL;
+#  endif
+  return c_dbcsr_acc_opencl_info_devptr_lock(info, lock_memory, memory, elsize, amount, offset);
 }
 
 
@@ -192,7 +198,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
     }
 #  endif
 #  if defined(ACC_OPENCL_XHINTS)
-    if (0 != (16 & c_dbcsr_acc_opencl_config.xhints) && (0 != devinfo->nv || NULL != (ACC_OPENCL_XHINTS))) {
+    if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) && (0 != devinfo->nv || NULL != (ACC_OPENCL_XHINTS))) {
       host_ptr = malloc(nbytes);
       if (NULL != host_ptr) flags = CL_MEM_USE_HOST_PTR;
     }
@@ -205,7 +211,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
                                                                        : c_dbcsr_acc_opencl_stream_default());
         mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
 #  if defined(ACC_OPENCL_XHINTS) && (defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION))
-          (8 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
+          (4 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
 #  endif
                                                  (CL_MAP_READ | CL_MAP_WRITE),
           0 /*offset*/, nbytes, 0, NULL, NULL, &result);
@@ -252,7 +258,7 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
       void* host_ptr = NULL;
       int result_release;
 #  if defined(ACC_OPENCL_XHINTS)
-      if (0 != (16 & c_dbcsr_acc_opencl_config.xhints) &&
+      if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) &&
           (0 != c_dbcsr_acc_opencl_config.device.nv || NULL != (ACC_OPENCL_XHINTS)) &&
           EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_HOST_PTR, sizeof(void*), &host_ptr, NULL) && NULL != host_ptr)
       {
@@ -586,17 +592,11 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     c_dbcsr_acc_opencl_info_memptr_t info;
     size_t offset = 0;
     assert(NULL != str && NULL != str->queue);
-#  if defined(ACC_OPENCL_MEM_DEVPTR)
-    ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
-#  endif
-    result = c_dbcsr_acc_opencl_info_devptr_lock(&info, NULL /*lock*/, dev_mem, 1 /*elsize*/, &nbytes, &offset);
+    result = c_dbcsr_acc_opencl_info_devptr(&info, dev_mem, 1 /*elsize*/, &nbytes, &offset);
     if (EXIT_SUCCESS == result) {
       assert(NULL != info.memory);
       result = c_dbcsr_acc_opencl_memcpy_d2h(info.memory, host_mem, offset, nbytes, str->queue, finish);
     }
-#  if defined(ACC_OPENCL_MEM_DEVPTR)
-    ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
-#  endif
   }
 #  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
   c_dbcsr_timestop(&routine_handle);
