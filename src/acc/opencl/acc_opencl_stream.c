@@ -120,7 +120,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   {
     const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
 #  if defined(ACC_OPENCL_XHINTS)
-    if ((4 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel) { /* enable queue families */
+    if ((2 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel) { /* enable queue families */
       struct {
         cl_command_queue_properties properties;
         cl_bitfield capabilities;

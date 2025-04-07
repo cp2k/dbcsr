@@ -78,11 +78,9 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   int param_format) {
   const int gid = get_group_id(0), idx = get_local_id(0), bs = 1;
 #endif
-  const int pzero = (param_format) & 255;
-  const int pbase = (param_format >> 8) & 255;
-  const int pnext = (param_format >> 16) & 255;
+  const SINT pzero = (0 == param_format ? 1 : 0), pnext = (0 == param_format ? 3 : 6);
   /* param_stack/indexes can be one-based (Fortran) depending on param_format */
-  GLOBAL const int* restrict param_base = param_stack + gid * (pnext * bs);
+  GLOBAL const int* restrict param_base = param_stack + gid * (pnext * bs) + (0 == param_format ? 0 : 3);
 #if defined(SLM_P) && (1 < BS)
   local int params[3 * BS]; /* bs <= BS */
 #else
@@ -154,7 +152,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #  endif
 #  if defined(SLM_P)
   UNROLL_AUTO for (int i = idx; i < batchsize; i += WG) {
-    UNROLL_FORCE(3) for (int j = 0; j < 3; ++j) { params[3 * i + j] = param_base[pnext * i + pbase + j] - pzero; }
+    UNROLL_FORCE(3) for (int j = 0; j < 3; ++j) { params[3 * i + j] = param_base[pnext * i + j] - pzero; }
   }
 #  endif
 #  if defined(BARRIER) && (MAX(1, SG) < WG) && (defined(SLM_C) || defined(SLM_P))
@@ -164,9 +162,9 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
   if (WRK <= idx) return; /* WRK <= idx */
 #  endif
 #  if defined(SLM_P)
-  c0 = params[pbase + 2];
+  c0 = params[2];
 #  else
-  c0 = params[pbase + 2] - pzero;
+  c0 = params[2] - pzero;
 #  endif
 #  if defined(BSC) && (1 != BK) && (1 != UM)
   UNROLL_OUTER(REPEAT * BS)
@@ -185,15 +183,14 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #  else
     const int idxstride = pnext, idxbase = pzero;
 #  endif
-    const int a0 = params[idxstride * i + pbase] - idxbase, b0 = params[idxstride * i + pbase + 1] - idxbase;
-    const int c1 = ((i + 1) < batchsize ? (params[idxstride * i + pbase + idxstride + 2] - idxbase) : -1);
+    const int a0 = params[idxstride * i] - idxbase, b0 = params[idxstride * i + 1] - idxbase;
+    const int c1 = ((i + 1) < batchsize ? (params[idxstride * i + idxstride + 2] - idxbase) : -1);
 #else
 #  if (WRK < WG)
   if (WRK > idx) /* WRK > idx */
 #  endif
   {
-    const int a0 = params[pbase + 0] - pzero, b0 = params[pbase + 1] - pzero;
-    const int c0 = params[pbase + 2] - pzero;
+    const int a0 = params[0] - pzero, b0 = params[1] - pzero, c0 = params[2] - pzero;
 #endif
 
 #if defined(SLM_A) && (1 != BK || BM < SM || 1 != BN)

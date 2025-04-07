@@ -171,7 +171,7 @@ void c_dbcsr_acc_opencl_configure(void) {
 #  endif
 #  if defined(ACC_OPENCL_XHINTS)
     const char* const env_xhints = (ACC_OPENCL_XHINTS);
-    const int xhints_default = 1 + 2 + 4 + 8 + 16;
+    const int xhints_default = 1 + 2 + 4 + 8;
 #  else
     const char* const env_xhints = NULL;
     const int xhints_default = 0;
@@ -311,12 +311,6 @@ void c_dbcsr_acc_opencl_configure(void) {
         if (NULL == getenv("DisableScratchPages")) {
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
         }
-      }
-    }
-    if (2 & c_dbcsr_acc_opencl_config.xhints) {
-      static char a[] = "I_MPI_OFFLOAD_RDMA=1", *const apply[] = {a};
-      if (NULL == getenv("I_MPI_OFFLOAD_RDMA")) {
-        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
       }
     }
 #  if defined(ACC_OPENCL_DL)

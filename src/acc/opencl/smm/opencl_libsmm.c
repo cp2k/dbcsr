@@ -96,6 +96,8 @@
 extern "C" {
 #  endif
 
+/* Pointer to DBM kernel-launch function (optional, can be NULL) */
+opencl_libsmm_acc_dbm_launch_fn_t opencl_libsmm_acc_dbm_launch_fn;
 /* track initialization status of LIBSMM */
 int opencl_libsmm_initialized;
 
@@ -684,7 +686,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
         const char *const env_cl = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BM");
         const char* const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(device_id) ? "global" : "constant");
-        const char* const param_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DWG=%i -DT=%s";
+        const char* const build_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DWG=%i -DT=%s";
         const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE"), *tname = "";
 #  if defined(OPENCL_LIBSMM_TRANS_INPLACE)
         const int inplace = ((m == n) && (NULL == env_inplace ? 1 : ('0' != *env_inplace)));
@@ -710,7 +712,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s", NULL == env_cl ? "" : env_cl);
         if (0 <= /*<*/ nchar && (int)sizeof(buffer) > nchar) {
           nchar = LIBXSMM_SNPRINTF(
-            build_params, sizeof(build_params), param_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
+            build_params, sizeof(build_params), build_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
         }
         if ('\0' != *tname && 0 < nchar && (int)sizeof(build_params) > nchar) {
           result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params, buffer,
@@ -725,7 +727,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
               if (wgsize_max < new_config.wgsize) {
                 new_config.wgsize = wgsize_max;
                 nchar = LIBXSMM_SNPRINTF(
-                  build_params, sizeof(build_params), param_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
+                  build_params, sizeof(build_params), build_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params,
                     buffer, NULL /*try*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &new_config.kernel);
@@ -961,7 +963,11 @@ c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
 }
 
 
-#  if !defined(OPENCL_LIBSMM_PFORMAT)
+#  if defined(OPENCL_LIBSMM_PFORMAT) && (0 < OPENCL_LIBSMM_PFORMAT)
+void opencl_libsmm_acc_set_dbm_launch_fn(opencl_libsmm_acc_dbm_launch_fn_t launch_fn) {
+  opencl_libsmm_acc_dbm_launch_fn = launch_fn;
+}
+#  else
 int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
   const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
   c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream, int param_format, cl_event* perf_event);
@@ -1498,16 +1504,28 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
   else if (0 < stack_size) { /* inhomogeneous, large kernel, or unsupported datatype */
     return -1; /* TODO: document result code to trigger host-fallback */
   }
-  ACC_OPENCL_RETURN(result);
+  return result;
 }
 
 
 int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
   const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
   c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream) {
-  const int pzero = 1, pbase = 0, pnext = 3, param_format = pzero | (pbase << 8) | (pnext << 16);
-  return opencl_libsmm_acc_process(host_param_stack, dev_param_stack, stack_size, datatype, dev_a_data, dev_b_data, dev_c_data,
-    m_max, n_max, k_max, max_kernel_dim, def_mnk, stream, c_stream, param_format, NULL /*perf_event*/);
+  int result = EXIT_SUCCESS;
+#  if defined(OPENCL_LIBSMM_PFORMAT) && (0 < OPENCL_LIBSMM_PFORMAT)
+  assert(LIBXSMM_MAX(LIBXSMM_MAX(m_max, n_max), k_max) < (1 << (OPENCL_LIBSMM_PFORMAT - 1)));
+  if (dbcsr_type_real_8 == datatype && 0 != def_mnk && NULL != opencl_libsmm_acc_dbm_launch_fn) {
+    result = opencl_libsmm_acc_dbm_launch_fn(stream, 1.0 /*alpha*/, stack_size,
+      m_max | (n_max << OPENCL_LIBSMM_PFORMAT) | (k_max << (OPENCL_LIBSMM_PFORMAT * 2)), host_param_stack, dev_param_stack,
+      (const double*)dev_a_data, (const double*)dev_b_data, (double*)dev_c_data);
+  }
+  else
+#  endif
+  {
+    result = opencl_libsmm_acc_process(host_param_stack, dev_param_stack, stack_size, datatype, dev_a_data, dev_b_data, dev_c_data,
+      m_max, n_max, k_max, max_kernel_dim, def_mnk, stream, c_stream, 0 /*param_format*/, NULL /*perf_event*/);
+  }
+  ACC_OPENCL_RETURN(result);
 }
 
 
