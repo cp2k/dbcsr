@@ -362,13 +362,16 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
     else
 #  endif
     {
+#  if defined(ACC_OPENCL_XHINTS)
       const int devuid = devinfo->uid;
-      const int try_flag = ((0 != devinfo->unified || 0 == devinfo->intel ||
+      const int try_flag = ((0 != (16 & c_dbcsr_acc_opencl_config.xhints) || 0 != devinfo->unified || 0 == devinfo->intel ||
                               (0x4905 != devuid && 0x020a != devuid && (0x0bd0 > devuid || 0x0bdb < devuid)))
                               ? 0
                               : (1u << 22));
       memory = clCreateBuffer(devinfo->context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag), nbytes, NULL /*host_ptr*/, &result);
-      if (0 != try_flag && EXIT_SUCCESS != result) { /* retry without try_flag */
+      if (0 != try_flag && EXIT_SUCCESS != result) /* retry without try_flag */
+#  endif
+      {
         memory = clCreateBuffer(devinfo->context, CL_MEM_READ_WRITE, nbytes, NULL /*host_ptr*/, &result);
       }
       if (EXIT_SUCCESS == result) {

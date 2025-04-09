@@ -15,18 +15,12 @@
 #    include <windows.h>
 #    include <process.h>
 #  else
-#    if !defined(ACC_OPENCL_DL)
-#      define ACC_OPENCL_DL
-#    endif
 #    include <unistd.h>
 #    include <errno.h>
 #    include <glob.h>
 #  endif
 #  if defined(__DBCSR_ACC)
 #    include "../acc_libsmm.h"
-#  endif
-#  if defined(ACC_OPENCL_DL)
-#    include <dlfcn.h>
 #  endif
 #  include <fcntl.h>
 #  include <sys/stat.h>
@@ -219,8 +213,8 @@ void c_dbcsr_acc_opencl_configure(void) {
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
     c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
-    c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? ((1 != c_dbcsr_acc_opencl_config.devsplit ? 0 : 2) + (4 + 8 + 16))
-                                                         : atoi(env_wa));
+    c_dbcsr_acc_opencl_config.wa = neo *
+                                   (NULL == env_wa ? ((1 != c_dbcsr_acc_opencl_config.devsplit ? 0 : 1) + (2 + 4)) : atoi(env_wa));
     libxsmm_init();
     if (NULL != env_timer && (c_dbcsr_acc_opencl_timer_host == atoi(env_timer) ||
                                (env_timer == LIBXSMM_STRISTR(env_timer, "host") && 4 == strlen(env_timer)) ||
@@ -293,16 +287,16 @@ void c_dbcsr_acc_opencl_configure(void) {
     }
 #  endif
     if (0 != neo && (NULL != env_neo || 0 == LIBXSMM_PUTENV(neo_enable_debug_keys))) {
-      if ((2 + 4 + 8) & c_dbcsr_acc_opencl_config.wa) {
+      if ((1 + 2 + 4) & c_dbcsr_acc_opencl_config.wa) {
         static char a[] = "ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE", b[] = "EnableRecoverablePageFaults=0";
         static char c[] = "DirectSubmissionOverrideBlitterSupport=0", *const apply[] = {a, b, c};
-        if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
+        if ((1 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
         }
-        if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
+        if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[1]));
         }
-        if ((8 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
+        if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[2]));
         }
       }
@@ -313,25 +307,6 @@ void c_dbcsr_acc_opencl_configure(void) {
         }
       }
     }
-#  if defined(ACC_OPENCL_DL)
-    if (1 & c_dbcsr_acc_opencl_config.wa) { /* initialize L0 */
-      union {
-        const void* dlsym;
-        int (*ptr)(int flags);
-      } ze_init;
-      void* handle_libze = NULL;
-      dlerror(); /* clear an eventual error status */
-      handle_libze = dlopen("libze_intel_gpu.so", RTLD_LAZY);
-      if (NULL == handle_libze) handle_libze = dlopen("libze_intel_gpu.so.1", RTLD_LAZY);
-      ze_init.dlsym = (NULL != handle_libze ? dlsym(handle_libze, "zeInit") : NULL);
-      if (NULL != ze_init.dlsym) {
-        const int ze_init_result = ze_init.ptr(0);
-        if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-          fprintf(stderr, "INFO ACC/OpenCL: Level-0 initialized (0x%08x)\n", ze_init_result);
-        }
-      }
-    }
-#  endif
   }
 }
 

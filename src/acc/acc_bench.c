@@ -352,7 +352,7 @@ int main(int argc, char* argv[]) {
         "%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n, k, nc, na, nb);
       PRINTF("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
       if (MAX_KERNEL_DIM < max_kernel_dim) {
-        fprintf(stderr, "ERROR: Matrix shape exceeds MAX_KERNEL_DIM!\n");
+        fprintf(stderr, "ERROR: Matrix shape (%i) exceeds MAX_KERNEL_DIM=%i\n", max_kernel_dim, MAX_KERNEL_DIM);
         result = EXIT_FAILURE;
       }
       CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1 /*default priority*/), &result, check);
@@ -362,14 +362,14 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&stack_hst, sizeof(int) * 3 * stack_size, stream), &result, check);
       CHECK(c_dbcsr_acc_host_mem_allocate((void**)(void*)&trans_hst, sizeof(int) * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check); /* ensure host-data is allocated */
-      if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
+      if (NULL != amat_hst && NULL != bmat_hst && NULL != trans_hst && NULL != stack_hst) {
         init_stack(stack_hst, stack_size, NRAND, rnd, mn, mk, kn, nc, na, nb);
 #if defined(_OPENMP)
 #  pragma omp parallel
 #endif
         {
 #if defined(_OPENMP)
-#  pragma omp for
+#  pragma omp for nowait
 #endif
           for (i = 0; i < na; ++i) INIT_MAT(ELEM_TYPE, i /*seed*/ + 42, &amat_hst[i * mk], m, k, 1.0 / (nr * na));
 #if defined(_OPENMP)
@@ -412,9 +412,9 @@ int main(int argc, char* argv[]) {
 #if defined(TRANSPOSE) && defined(VALIDATE)
       /* warmup execution and prebuild transpose-kernel */
       for (r = 0; r < warmup / 2; ++r) {
-        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, max_kernel_dim, stream),
+        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream),
           &result, check);
-        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), n, k, max_kernel_dim, stream),
+        CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), n, k, MAX_KERNEL_DIM, stream),
           &result, check);
       }
 #  if defined(USE_LIBXSMM)
@@ -422,7 +422,7 @@ int main(int argc, char* argv[]) {
       start = libxsmm_timer_tick();
 #  endif
       /* to perform NN-SMMs on the device, all B-matrices are transposed upfront (SMM-kernel is limited to NT) */
-      CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, max_kernel_dim, stream),
+      CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream),
         &result, check);
 #  if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
@@ -432,7 +432,7 @@ int main(int argc, char* argv[]) {
       /* warmup execution and prebuild SMM-kernel */
       for (r = 0; r < warmup; ++r) {
         CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
-                max_kernel_dim, 1 /*homogeneous*/, stream, stream),
+                MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
@@ -443,7 +443,7 @@ int main(int argc, char* argv[]) {
       for (r = 0; r < nrepeat; ++r) {
         /* GPU-kernel is limited to C += Ai * Bi^T, i.e., NT (for NN, all Bi must be transposed upfront) */
         CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
-                max_kernel_dim, 1 /*homogeneous*/, stream, stream),
+                MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
 #if defined(USE_LIBXSMM)
