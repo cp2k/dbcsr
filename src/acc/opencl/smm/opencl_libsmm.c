@@ -640,7 +640,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
   c_dbcsr_acc_opencl_info_memptr_t info_stack, info_mdata;
   int result = EXIT_SUCCESS;
   const int mn = m * n;
-  assert((NULL != dev_trs_stack && NULL != stream && NULL != dev_data && 0 <= offset && 0 <= stack_size) || 0 == stack_size);
+  assert((NULL != dev_trs_stack && NULL != stream && NULL != dev_data && 0 <= offset && 0 < stack_size) || 0 == stack_size);
+  assert(0 < m && 0 < n);
+  if (0 == stack_size || 1 == mn) return EXIT_SUCCESS;
   result |= c_dbcsr_acc_opencl_info_devptr(&info_stack, dev_trs_stack, sizeof(int), NULL /*amount*/, NULL /*offset*/);
   result |= c_dbcsr_acc_opencl_info_devptr(&info_mdata, dev_data, 1 /*elsize*/, NULL /*amount*/, NULL /*offset*/);
   if (EXIT_SUCCESS == result &&
@@ -657,7 +659,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
         0
 #  endif
         ) &&
-      0 < stack_size && 1 < mn && m <= max_kernel_dim && n <= max_kernel_dim)
+      mn <= (max_kernel_dim * max_kernel_dim))
   {
     const c_dbcsr_acc_opencl_stream_t* const str = ACC_OPENCL_STREAM(stream);
     opencl_libsmm_trans_t* config;
@@ -912,6 +914,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
 #  endif
     }
   }
+  else if (EXIT_SUCCESS == result) result = EXIT_FAILURE;
   ACC_OPENCL_RETURN(result);
 }
 
@@ -1065,7 +1068,7 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
             const int wgmin = ((NULL == env_ws || '\0' == *env_ws) ? 0 : atoi(env_ws));
             const int default_aa = (((0x0bd0 > devuid || 0x0bdb < devuid)) ? ((k_max % OPENCL_LIBSMM_VMIN) ? 1 : 2) : 0);
             const int default_ab = (((0x0bd0 > devuid || 0x0bdb < devuid) && 0x020a != devuid) ? 3 : 0), default_ac = 0;
-            const int default_bk = (((0x0bd0 > devuid || 0x0bdb < devuid) && 0x020a != devuid)
+            const int default_bk = (((0x0bd0 > devuid || 0x0bdb < devuid || n_max < k_max) && 0x020a != devuid)
                                       ? (0 == kernel_idx ? LIBXSMM_MIN(OPENCL_LIBSMM_DEFAULT_BK, m_max)
                                                          : LIBXSMM_MIN(OPENCL_LIBSMM_VMIN, m_max))
                                       : 1);

@@ -176,19 +176,31 @@ class SmmTuner(MeasurementInterface):
                 )
             for param in params + paramt:
                 self.manip.add_parameter(param)
-        if (  # consider to update and/or merge JSONS (update first)
-            self.args.merge is not None
-            and (0 <= self.args.merge or self.typeid)
-            and (
-                (self.args.check is not None and 0 == self.args.check)
-                or (self.run_result and 0 == self.run_result["returncode"])
+        if (
+            (  # consider to update and/or merge JSONS (update first)
+                self.args.merge is not None
+                and (0 <= self.args.merge or self.typeid)
+                and (
+                    (self.args.check is not None and 0 == self.args.check)
+                    or (self.run_result and 0 == self.run_result["returncode"])
+                )
             )
-        ) or (self.args.update is None or "" != self.args.update):
+            or (self.args.check is None or 0 != self.args.check)
+            or (self.args.update is None or "" != self.args.update)
+        ):
             filepattern = "{}-*.json".format(default_basename)
+            filedot = "." + filepattern
+            dotfiles = glob.glob(
+                os.path.normpath(os.path.join(self.args.jsondir, filedot))
+            )
+            for dotfile in dotfiles:
+                self.rename_dotfile(dotfile)
             filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
             )
             if self.args.update is None or "" != self.args.update:
+                self.update_jsons(filenames)
+            elif self.args.check is None or 0 != self.args.check:
                 self.update_jsons(filenames)
             if self.args.merge is not None:
                 self.merge_jsons(filenames)
@@ -262,7 +274,7 @@ class SmmTuner(MeasurementInterface):
         if attribute is None:
             setattr(self, name.lower(), value)
 
-    def launch(self, envs, check, nrep=None, verbose=None):
+    def launch(self, envs, check=None, nrep=None, verbose=None):
         """Launch executable supplying environment and arguments"""
         envlist = envs if isinstance(envs, list) else self.environment(envs)
         mnk = (envs["M"], envs["N"], envs["K"]) if "M" in envs else self.mnk
@@ -318,7 +330,7 @@ class SmmTuner(MeasurementInterface):
             if 2 == len(key)
         ]
 
-    def run(self, desired_result, input=None, limit=None):
+    def run(self, desired_result, input=None, limit=None, message=None, nrep=None):
         """Run a configuration and return performance"""
         try:
             config = desired_result.configuration.data
@@ -332,7 +344,7 @@ class SmmTuner(MeasurementInterface):
                 skip = True
         performance = None
         if not skip:
-            runcmd = self.launch(config, self.args.check, verbose=self.args.verbose)
+            runcmd = self.launch(config, self.args.check, nrep, self.args.verbose)
             self.run_result = self.call_program(" ".join(runcmd))
             result = self.run_result["returncode"] if self.run_result else 1
             if 0 == result:
@@ -355,13 +367,21 @@ class SmmTuner(MeasurementInterface):
                     else:  # seed configuration
                         self.gfbase = gflops
             elif not self.args.verbose:
-                print(".", end="", flush=True)
+                if message:
+                    print("{}: OK".format(message), flush=True)
+                else:
+                    print(".", end="", flush=True)
         elif not skip:  # return non-competitive/bad result in case of an error
             failed = runcmd[0].replace("OPENCL_LIBSMM_SMM_", "")
-            msg = "FAILED[{}] {}: {}".format(result, "x".join(map(str, mnk)), failed)
+            if message:
+                msg = "{}: FAILED".format(message)
+            else:
+                msg = "FAILED[{}] {}: {}".format(
+                    result, "x".join(map(str, mnk)), failed
+                )
             if config is not desired_result:
                 result = Result(time=float("inf"), accuracy=0.0, size=100.0)
-            elif not self.args.verbose:
+            elif not self.args.verbose and not message:
                 print("")
             print(msg, flush=True)
         else:
@@ -369,27 +389,23 @@ class SmmTuner(MeasurementInterface):
         return result
 
     def update_jsons(self, filenames):
-        """Update device name of all JSONs"""
+        """Update device name or check all JSONs"""
         if self.device:
-            updated = False
             for filename in filenames:
                 try:
                     with open(filename, "r") as file:
                         data = json.load(file)
-                        device = data["DEVICE"] if "DEVICE" in data else ""
-                        if device != self.device:
+                        if self.args.check is None or 0 != self.args.check:
+                            self.run(data, message=filename, nrep=1)
+                        elif "DEVICE" in data and data["DEVICE"] != self.device:
                             print("Updated {} to {}.".format(filename, self.device))
                             data.update({"DEVICE": self.device})
                             file.close()
-                            updated = True
-                        # rewrite JSON (in any case) with keys in order
-                        with open(filename, "w") as file:
-                            json.dump(data, file, sort_keys=True)
-                            file.write("\n")
+                            with open(filename, "w") as file:
+                                json.dump(data, file, sort_keys=True)
+                                file.write("\n")
                 except (json.JSONDecodeError, KeyError):
                     print("Failed to update {}.".format(filename))
-            if not updated:
-                print("All JSONs already target {}.".format(self.device))
         else:
             print("Cannot determine device name.")
 
@@ -452,7 +468,7 @@ class SmmTuner(MeasurementInterface):
                     worse[key] = [filename2]
             if bool(data) and (
                 (self.args.check is not None and 0 == self.args.check)
-                or 0 == self.run(data)
+                or 0 == self.run(data, nrep=1)
             ):
                 merged[key] = value
         if bool(merged):
@@ -563,6 +579,21 @@ class SmmTuner(MeasurementInterface):
                 print("")
             print(msg)
 
+    def rename_dotfile(self, dotfile):
+        try:
+            data = None
+            with open(dotfile, "r") as file:
+                data = json.load(file)
+            gflops = data["GFLOPS"] if data and "GFLOPS" in data else 0
+            if 0 < gflops:
+                filemain = "-".join(os.path.basename(dotfile).split("-")[1:4])
+                filename = "{}-{}-{}gflops.json".format(
+                    default_basename, filemain, round(gflops)
+                )
+                os.rename(dotfile, os.path.join(self.args.jsondir, filename))
+        except:  # noqa: E722
+            pass
+
     def save_final_config(self, configuration, final=True):
         """Called at termination"""
         if not final and (0 >= self.gflops or not configuration):
@@ -589,22 +620,7 @@ class SmmTuner(MeasurementInterface):
         )
         if config and self.gfsave < self.gflops:  # save intermediate result
             if 0 == self.gfsave and os.path.exists(filedot):  # backup
-                data = None
-                try:
-                    with open(filedot, "r") as file:
-                        data = json.load(file)
-                except:  # noqa: E722
-                    pass
-                gflops = data["GFLOPS"] if data and "GFLOPS" in data else 0
-                if 0 < gflops:
-                    filename = os.path.join(
-                        self.args.jsondir,
-                        "{}-{}gflops.json".format(self.args.label, round(gflops)),
-                    )
-                    try:
-                        os.rename(filedot, filename)
-                    except:  # noqa: E722
-                        pass
+                self.rename_dotfile(filedot)
             # self.manipulator().save_to_file(config, filename)
             with open(filedot, "w") as file:
                 cfg = config
@@ -622,10 +638,9 @@ class SmmTuner(MeasurementInterface):
             return
         if final and 0 < self.gflops and os.path.exists(filedot):
             filepattern = "{}-*.json".format(default_basename)
-            fileglobs = glob.glob(
+            filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
             )
-            filenames = fileglobs if final else None
             if not filenames and glob.glob(self.args.csvfile):
                 msg = "WARNING: no JSON-file found but {} will be overwritten."
                 print(msg.format(self.args.csvfile))
@@ -704,7 +719,7 @@ if __name__ == "__main__":
         const=-1,
         nargs="?",
         dest="merge",
-        help="Merge JSONs into CSV (-1: auto, 0: all, 1: SP, 2: DP)",
+        help="Merge JSONs into CSV (-1: auto, 0: all, 1: SP, 2: DP, 3: hidden)",
     )
     argparser.add_argument(
         "-x",
