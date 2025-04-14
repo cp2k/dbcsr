@@ -190,11 +190,11 @@ class SmmTuner(MeasurementInterface):
         ):
             filepattern = "{}-*.json".format(default_basename)
             filedot = "." + filepattern
-            dotfiles = glob.glob(
+            filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filedot))
             )
-            for dotfile in dotfiles:
-                self.rename_dotfile(dotfile)
+            for filename in filenames:
+                self.rename_dotfile(filename)
             filenames = glob.glob(
                 os.path.normpath(os.path.join(self.args.jsondir, filepattern))
             )
@@ -368,13 +368,13 @@ class SmmTuner(MeasurementInterface):
                         self.gfbase = gflops
             elif not self.args.verbose:
                 if message:
-                    print("{}: OK".format(message), flush=True)
+                    print("{} - OK".format(message), flush=True)
                 else:
                     print(".", end="", flush=True)
         elif not skip:  # return non-competitive/bad result in case of an error
             failed = runcmd[0].replace("OPENCL_LIBSMM_SMM_", "")
             if message:
-                msg = "{}: FAILED".format(message)
+                msg = "{} - FAILED".format(message)
             else:
                 msg = "FAILED[{}] {}: {}".format(
                     result, "x".join(map(str, mnk)), failed
@@ -389,14 +389,16 @@ class SmmTuner(MeasurementInterface):
         return result
 
     def update_jsons(self, filenames):
-        """Update device name or check all JSONs"""
+        """Update device name or verify all JSONs"""
         if self.device:
-            for filename in filenames:
+            n = len(filenames)
+            for i, filename in enumerate(filenames):
                 try:
                     with open(filename, "r") as file:
                         data = json.load(file)
                         if self.args.check is None or 0 != self.args.check:
-                            self.run(data, message=filename, nrep=1)
+                            progress = "[{}/{}]: {}".format(i + 1, n, filename)
+                            self.run(data, message=progress, nrep=1)
                         elif "DEVICE" in data and data["DEVICE"] != self.device:
                             print("Updated {} to {}.".format(filename, self.device))
                             data.update({"DEVICE": self.device})
@@ -408,6 +410,30 @@ class SmmTuner(MeasurementInterface):
                     print("Failed to update {}.".format(filename))
         else:
             print("Cannot determine device name.")
+
+    def make_csv_value(self, data, filename):
+        """Make tuple-value from JSON-data"""
+        return (
+            data["S"] if "S" in data else 0,  # pseudo key component
+            (data["GFLOPS"] if "GFLOPS" in data and not self.args.nogflops else 0),
+            data["BS"],
+            data["BM"],
+            data["BN"],
+            data["BK"] if "BK" in data else 0,
+            data["WS"] if "WS" in data else 0,
+            data["WG"] if "WG" in data else 0,
+            data["LU"] if "LU" in data else 0,
+            data["NZ"] if "NZ" in data else 0,
+            data["AL"] if "AL" in data else 0,
+            data["TB"] if "TB" in data else 0,
+            data["TC"] if "TC" in data else 1,
+            data["AP"] if "AP" in data else 0,
+            data["AA"] if "AA" in data else 0,
+            data["AB"] if "AB" in data else 0,
+            data["AC"] if "AC" in data else 0,
+            data["XF"] if "XF" in data else 0,
+            filename,  # last entry
+        )
 
     def merge_jsons(self, filenames):
         """Merge all JSONs into a single CSV-file"""
@@ -427,31 +453,7 @@ class SmmTuner(MeasurementInterface):
                     continue
                 device = data["DEVICE"] if "DEVICE" in data else self.device
                 key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
-                value = (
-                    data["S"] if "S" in data else 0,  # pseudo key component
-                    (
-                        data["GFLOPS"]
-                        if "GFLOPS" in data and not self.args.nogflops
-                        else 0
-                    ),
-                    data["BS"],
-                    data["BM"],
-                    data["BN"],
-                    data["BK"] if "BK" in data else 0,
-                    data["WS"] if "WS" in data else 0,
-                    data["WG"] if "WG" in data else 0,
-                    data["LU"] if "LU" in data else 0,
-                    data["NZ"] if "NZ" in data else 0,
-                    data["AL"] if "AL" in data else 0,
-                    data["TB"] if "TB" in data else 0,
-                    data["TC"] if "TC" in data else 1,
-                    data["AP"] if "AP" in data else 0,
-                    data["AA"] if "AA" in data else 0,
-                    data["AB"] if "AB" in data else 0,
-                    data["AC"] if "AC" in data else 0,
-                    data["XF"] if "XF" in data else 0,
-                    filename,  # last entry
-                )
+                value = self.make_csv_value(data, filename)
             except (json.JSONDecodeError, KeyError, TypeError):
                 print("Failed to merge {} into CSV-file.".format(filename))
                 data = dict()
@@ -472,32 +474,8 @@ class SmmTuner(MeasurementInterface):
             ):
                 merged[key] = value
         if bool(merged):
+            typeid = geosum = geocnt = 0
             with open(self.args.csvfile, "w") as csvfile:
-                csvfile.write(  # CSV header line with termination/newline
-                    "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
-                        self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
-                        self.args.csvsep,  # separator for value-part
-                        "S",  # pseudo-key component
-                        self.args.csvsep,
-                        self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
-                        self.args.csvsep,
-                        self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
-                        self.args.csvsep,
-                        self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
-                    )
-                )
-                typeid = geosum = geocnt = 0
-                for key, value in sorted(merged.items()):  # CSV data lines
-                    typeid = key[1] if 0 == typeid or typeid == key[1] else None
-                    # FLOPS are normalized for double-precision
-                    gflops = value[1] if 1 != key[1] else value[1] * 0.5
-                    if 0 < gflops:
-                        geosum = geosum + math.log(gflops)
-                        geocnt = geocnt + 1
-
-                    strkey = self.args.csvsep.join([str(k) for k in key])
-                    strval = self.args.csvsep.join([str(v) for v in value[:-1]])
-                    csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
                 retsld, delsld = [0, 0, 0], [0, 0, 0]  # [min, geo, max]
                 retain, delete = [], []  # lists of filenames
                 retcnt = delcnt = 0  # geo-counter
@@ -527,7 +505,30 @@ class SmmTuner(MeasurementInterface):
                                 delsld[2] = max(delsld[2], s)
                                 delcnt = delcnt + 1
                             delete.append(filename)
-                if not self.args.nogflops:
+                csvfile.write(  # CSV header line with termination/newline
+                    "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
+                        self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
+                        self.args.csvsep,  # separator for value-part
+                        "S",  # pseudo-key component
+                        self.args.csvsep,
+                        self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
+                        self.args.csvsep,
+                        self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
+                        self.args.csvsep,
+                        self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
+                    )
+                )
+                for key, value in sorted(merged.items()):  # CSV data lines (records)
+                    typeid = key[1] if 0 == typeid or typeid == key[1] else None
+                    # FLOPS are normalized for double-precision
+                    gflops = value[1] if 1 != key[1] else value[1] * 0.5
+                    if 0 < gflops:
+                        geosum = geosum + math.log(gflops)
+                        geocnt = geocnt + 1
+                    strkey = self.args.csvsep.join([str(k) for k in key])
+                    strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                    csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
+                if not self.args.nogflops:  # create merge statistics and messages
                     retsld[1] = math.exp(retsld[1] / retcnt) if 0 < retcnt else 1
                     delsld[1] = math.exp(delsld[1] / delcnt) if 0 < delcnt else 1
                     if not self.args.delete:
@@ -758,8 +759,10 @@ if __name__ == "__main__":
     argparser.add_argument(
         "-d",
         "--delete",
-        action="store_true",
-        default=False,
+        type=int,
+        default=None,
+        const=0,
+        nargs="?",
         help="Delete outperformed JSONs",
     )
     argparser.add_argument(

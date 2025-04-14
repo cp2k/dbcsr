@@ -257,7 +257,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       UNROLL_FORCE(BN) for (SINT n = 0; n < BN; ++n) cnm[n] = ZERO;
 #    endif
 #    if (SM % BM)
-      UNROLL_AUTO for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
+      UNROLL(BM)
+      for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
 #    else
       UNROLL(BM)
       for (SINT bm = 0, m = m0; bm < BM; m = ++bm + m0)
@@ -342,7 +343,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
             const T b = BNK(n, k);
 #    endif
 #    if (SM % BM)
-            UNROLL_AUTO for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
+            UNROLL(BM)
+            for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
 #    else
             UNROLL_FORCE(BM)
             for (SINT bm = 0, m = m0; bm < BM; m = ++bm + m0)
@@ -392,7 +394,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
         UNROLL_FORCE(BM) for (SINT m = 0; m < BM; ++m) cnm[m] = ZERO;
 #    endif
 #    if (SM % BM)
-        UNROLL_AUTO for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
+        UNROLL(BM)
+        for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
 #    else
         UNROLL(BM)
         for (SINT bm = 0, m = m0; bm < BM; m = ++bm + m0)
@@ -486,8 +489,10 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       SINT m = 0, u;
 #    if (1 == UM)
       UNROLL_OUTER(SM)
+#    else
+      UNROLL_AUTO
 #    endif
-      UNROLL_AUTO for (; m < (SM - UM + 1); m += UM) {
+      for (; m < (SM - UM + 1); m += UM) {
         u = 0;
 #    if (1 < UM)
         UNROLL(UM)
@@ -576,7 +581,8 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #    endif
         {
 #    if (SM % BM)
-          UNROLL_AUTO for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
+          UNROLL(BM)
+          for (SINT bm = 0, m = m0; bm < BM && m < SM; m = ++bm + m0)
 #    else
           UNROLL_FORCE(BM)
           for (SINT bm = 0, m = m0; bm < BM; m = ++bm + m0)
@@ -623,7 +629,7 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
       UNROLL(SM)
 #    endif
 #    if !defined(ATOMIC_ADD2_GLOBAL) || (SM & 1)
-      UNROLL_AUTO for (; m < SM; ++m) {
+      for (; m < SM; ++m) {
 #      if defined(ATOMIC_INC_NZ)
         if (ZERO != CNM(idx, m))
 #      endif
