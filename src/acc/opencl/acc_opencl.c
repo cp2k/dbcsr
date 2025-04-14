@@ -300,9 +300,13 @@ void c_dbcsr_acc_opencl_configure(void) {
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[2]));
         }
       }
-      if (0 != c_dbcsr_acc_opencl_config.debug) {
-        static char a[] = "DisableScratchPages=1", *const apply[] = {a};
-        if (NULL == getenv("DisableScratchPages")) {
+      if (NULL == getenv("DisableScratchPages")) {
+        if (0 == c_dbcsr_acc_opencl_config.debug) {
+          static char a[] = "DisableScratchPages=0", *const apply[] = {a};
+          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
+        }
+        else {
+          static char a[] = "DisableScratchPages=1", *const apply[] = {a};
           ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
         }
       }
