@@ -14,7 +14,9 @@ from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
-import tempfile  # , shutil
+from colorama import init as colorama_init
+from colorama import Fore, Style
+import tempfile
 import copy
 import json
 import glob
@@ -34,6 +36,7 @@ default_vlen = 8
 def start(args):
     """Construct and start tuner instance"""
     instance = SmmTuner(args)
+    colorama_init()
     if not default_dbg:
         for retry in range(default_retry):
             try:
@@ -215,8 +218,6 @@ class SmmTuner(MeasurementInterface):
                 tmpdir = os.path.join(tempfile.gettempdir(), "opentuner")
                 if self.idevice is not None:
                     tmpdir += str(self.idevice)
-                # if os.path.isdir(tmpdir):
-                # shutil.rmtree(tmpdir)
                 try:
                     os.mkdir(tmpdir)
                 except:  # noqa: E722
@@ -411,11 +412,12 @@ class SmmTuner(MeasurementInterface):
         else:
             print("Cannot determine device name.")
 
-    def make_csv_value(self, data, filename):
-        """Make tuple-value from JSON-data"""
-        return (
+    def make_csv_record(self, data, filename):
+        """Make key-value tuples from JSON-data"""
+        device = data["DEVICE"] if "DEVICE" in data else self.device
+        value = (
             data["S"] if "S" in data else 0,  # pseudo key component
-            (data["GFLOPS"] if "GFLOPS" in data and not self.args.nogflops else 0),
+            data["GFLOPS"] if "GFLOPS" in data else 0,
             data["BS"],
             data["BM"],
             data["BN"],
@@ -434,12 +436,14 @@ class SmmTuner(MeasurementInterface):
             data["XF"] if "XF" in data else 0,
             filename,  # last entry
         )
+        return (device, data["TYPEID"], data["M"], data["N"], data["K"]), value
 
     def merge_jsons(self, filenames):
         """Merge all JSONs into a single CSV-file"""
         if not self.args.csvfile or (self.idevice is not None and 0 != self.idevice):
             return  # early exit
-        merged, worse = dict(), dict()
+        merged, retain, delete = dict(), dict(), []
+        geosum = geocnt = skipcnt = tid = 0  # geo-counter, etc.
         for filename in filenames:
             data = dict()
             try:
@@ -449,11 +453,10 @@ class SmmTuner(MeasurementInterface):
                     (0 > self.args.merge and self.typeid != data["TYPEID"])
                     or (1 == self.args.merge and 1 != data["TYPEID"])
                     or (2 == self.args.merge and 3 != data["TYPEID"])
-                ):
+                ):  # skip parameter set (JSON-file)
+                    skipcnt = skipcnt + 1
                     continue
-                device = data["DEVICE"] if "DEVICE" in data else self.device
-                key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
-                value = self.make_csv_value(data, filename)
+                key, value = self.make_csv_record(data, filename)
             except (json.JSONDecodeError, KeyError, TypeError):
                 print("Failed to merge {} into CSV-file.".format(filename))
                 data = dict()
@@ -461,50 +464,50 @@ class SmmTuner(MeasurementInterface):
                 data = dict()
                 pass
             if bool(data) and key in merged:
-                filename2 = merged[key][-1]
-                if value[1] < merged[key][1]:  # GFLOPS
-                    filename2, data = filename, dict()
-                if key in worse:
-                    worse[key].append(filename2)
+                gflops_merged, fname_merged = merged[key][1], merged[key][-1]
+                gflops, mtime = value[1], os.path.getmtime(fname_merged)
+                if gflops_merged < gflops:  # worse
+                    if os.path.getmtime(filename) < mtime:
+                        if key in retain:
+                            retained = retain[key]
+                            if retained[1] < gflops:
+                                delete.append(retained[-1])
+                        retain[key] = merged[key]
+                    else:  # older
+                        delete.append(fname_merged)
                 else:
-                    worse[key] = [filename2]
-            if bool(data) and (
+                    delete.append(filename)
+                data = dict()  # ensure worse result is not merged
+            if bool(data) and (  # consider to finally validate result
                 (self.args.check is not None and 0 == self.args.check)
                 or 0 == self.run(data, nrep=1)
             ):
                 merged[key] = value
+        # replace older/best with latest/best (forced refresh)
+        if self.args.delete and 3 <= self.args.delete:
+            for key, value in retain.items():
+                if key in merged:
+                    retain[key] = merged[key]
+                    merged[key] = value
+        # print/delete outperformed results
+        if self.args.delete and 2 <= self.args.delete:
+            rfiles = [v[-1] for v in retain.values()]
+            delete = delete + rfiles
+        if bool(delete):
+            num, lst, msg, col = len(delete), " ".join(delete), "Remove", Fore.YELLOW
+            if self.args.delete and 3 != self.args.delete:
+                for filename in delete:
+                    try:
+                        os.remove(filename)
+                    except:  # noqa: E722
+                        pass
+                msg, col = "Removed", Fore.RED
+                skipcnt = skipcnt + num
+            print("{}{} {}{}: {}".format(col, msg, num, Style.RESET_ALL, lst))
+            print("")
+        # write CSV-file and collect overall-statistics
         if bool(merged):
-            typeid = geosum = geocnt = 0
             with open(self.args.csvfile, "w") as csvfile:
-                retsld, delsld = [0, 0, 0], [0, 0, 0]  # [min, geo, max]
-                retain, delete = [], []  # lists of filenames
-                retcnt = delcnt = 0  # geo-counter
-                retbad = None
-                for key, value in worse.items():
-                    gflops_raw = merged[key][1] if 1 != key[1] else merged[key][1] * 0.5
-                    gflops, mtime = round(gflops_raw), os.path.getmtime(merged[key][-1])
-                    for filename in value:
-                        s = 0
-                        if 0 < gflops:
-                            g = int(filename.split("-")[-1].split("g")[0])
-                            s = gflops / g if 0 < g else 0  # slowdown
-                        if mtime < os.path.getmtime(filename):
-                            if 0 < s:
-                                retsld[1] = retsld[1] + math.log(s)
-                                retsld[0] = min(retsld[0], s) if 0 < retsld[0] else s
-                                if retsld[2] < s:  # maximum
-                                    retmnk = os.path.basename(filename).split("-")
-                                    retbad = retmnk[2] if 2 < len(retmnk) else None
-                                    retsld[2] = s
-                                retcnt = retcnt + 1
-                            retain.append(filename)
-                        else:
-                            if 0 < s:
-                                delsld[1] = delsld[1] + math.log(s)
-                                delsld[0] = min(delsld[0], s) if 0 < delsld[0] else s
-                                delsld[2] = max(delsld[2], s)
-                                delcnt = delcnt + 1
-                            delete.append(filename)
                 csvfile.write(  # CSV header line with termination/newline
                     "{}{}{}{}{}{}{}{}{}\n".format(  # key-part
                         self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
@@ -519,66 +522,33 @@ class SmmTuner(MeasurementInterface):
                     )
                 )
                 for key, value in sorted(merged.items()):  # CSV data lines (records)
-                    typeid = key[1] if 0 == typeid or typeid == key[1] else None
+                    tid, val = key[1] if 0 == tid or tid == key[1] else None, value[:-1]
                     # FLOPS are normalized for double-precision
-                    gflops = value[1] if 1 != key[1] else value[1] * 0.5
+                    gflops = val[1] if 1 != key[1] else val[1] * 0.5
+                    if self.args.nogflops:
+                        val[1] = 0  # zero instead of gflops written into CSV-file
                     if 0 < gflops:
                         geosum = geosum + math.log(gflops)
                         geocnt = geocnt + 1
                     strkey = self.args.csvsep.join([str(k) for k in key])
-                    strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                    strval = self.args.csvsep.join([str(v) for v in val])
                     csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
-                if not self.args.nogflops:  # create merge statistics and messages
-                    retsld[1] = math.exp(retsld[1] / retcnt) if 0 < retcnt else 1
-                    delsld[1] = math.exp(delsld[1] / delcnt) if 0 < delcnt else 1
-                    if not self.args.delete:
-                        if retain:
-                            num, lst = len(retain), " ".join(retain)
-                            msg = "Worse and newer (retain {} @ {}x{}): {}"
-                            rnd = [str(round(i, 2)) for i in retsld]
-                            bad = " " + retbad if retbad and self.args.verbose else ""
-                            print(msg.format(num, "..".join(rnd), bad, lst))
-                        if delete:
-                            num, lst = len(delete), " ".join(delete)
-                            msg = "Worse and older (delete {} @ {}x): {}"
-                            rnd = [str(round(i, 2)) for i in delsld]
-                            print(msg.format(num, "..".join(rnd), lst))
-                    elif retain or delete:  # delete outperformed parameter sets
-                        for file in retain + delete:
-                            try:
-                                os.remove(file)
-                            except:  # noqa: E722
-                                pass
-                        msl = round(min(retsld[0], delsld[0]), 2)
-                        xsl = round(max(retsld[2], delsld[2]), 2)
-                        geo = round(math.sqrt(retsld[1] * delsld[1]), 2)
-                        msg = "Removed outperformed parameter sets{}.".format(
-                            " ({} @ {}..{}..{}x)".format(retcnt + delcnt, msl, geo, xsl)
-                            if 0 < msl
-                            else ""
-                        )
-                        print(msg)
-                elif bool(worse):
-                    print("WARNING: incorrectly merged duplicates")
-                    print("         due to nogflops argument!")
-            msg = "Merged {} of {} JSONs into {}".format(
-                len(merged), len(filenames), self.args.csvfile
-            )
-            if 0 < geocnt:
-                precfac, precstr = 1, ""
-                if 1 == typeid:
-                    precstr = "SP-"
-                    precfac = 2
-                elif typeid is not None:
+        # print summary information
+        msg = "Merged {} of {} JSONs into {}".format(
+            len(merged), len(filenames) - skipcnt, self.args.csvfile
+        )
+        if 0 < geocnt:
+            precstr, precfac = "", 1
+            if tid is not None:
+                if 1 == tid:
+                    precstr, precfac = "SP-", 2
+                else:
                     precstr = "DP-"
-                msg = "{} (geometric mean of {} {}GFLOPS/s)".format(
-                    msg, round(math.exp(geosum / geocnt) * precfac), precstr
-                )
-            if not self.args.verbose and (
-                self.args.check is None or 0 != self.args.check
-            ):
-                print("")
-            print(msg)
+            gmn = round(math.exp(geosum / geocnt) * precfac)
+            msg = "{} (geometric mean of {} {}GFLOPS/s)".format(msg, gmn, precstr)
+        if not self.args.verbose and (self.args.check is None or 0 != self.args.check):
+            print("")
+        print(msg)
 
     def rename_dotfile(self, dotfile):
         try:
@@ -609,7 +579,7 @@ class SmmTuner(MeasurementInterface):
         # extend result for easier reuse
         if config:
             config["DEVICE"] = self.device
-            config["GFLOPS"] = self.gflops if not self.args.nogflops else 0
+            config["GFLOPS"] = self.gflops
             config["TYPEID"] = self.typeid
             config["M"] = self.mnk[0]
             config["N"] = self.mnk[1]
@@ -761,7 +731,7 @@ if __name__ == "__main__":
         "--delete",
         type=int,
         default=None,
-        const=0,
+        const=1,
         nargs="?",
         help="Delete outperformed JSONs",
     )
