@@ -199,7 +199,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~390"></span>
+              <span class="anchor" id="variable-matrix~382"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -214,7 +214,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~183"></span>
+              <span class="anchor" id="variable-row~187"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -229,7 +229,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~111"></span>
+              <span class="anchor" id="variable-col~121"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -259,7 +259,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb_row_col~2"></span>
+              <span class="anchor" id="variable-lb_row_col"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -274,7 +274,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~61"></span>
+              <span class="anchor" id="variable-transposed~60"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -289,7 +289,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~63"></span>
+              <span class="anchor" id="variable-summation~62"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -304,7 +304,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~17"></span>
+              <span class="anchor" id="variable-flop~19"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -319,7 +319,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~31"></span>
+              <span class="anchor" id="variable-scale~35"></span>
               type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),
             </td>
 <td>intent(in),</td>
@@ -360,7 +360,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~399"></span>
+              <span class="anchor" id="variable-matrix~391"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -375,337 +375,7 @@ matrix(sp) [+]= [scale(dp)] * block(sp)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~190"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col~118"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~204"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-<p>the block to put</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb_row_col~4"></span>
-              integer,
-            </td>
-<td>intent(inout),</td>
-              <td>optional,</td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>lb_row_col</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~64"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-summation~65"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>summation</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-flop~19"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(inout),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>flop</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scale~33"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>scale</strong></td>
-            <td>
-<p>scale the OBblock being added</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_s~2.html'>dbcsr_put_block_s</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Inserts a block in a dbcsr matrix.
- If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_s~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~405"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-<p>DBCSR matrix</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~195"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col~123"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~209"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-<p>the block to put</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb_row_col~6"></span>
-              integer,
-            </td>
-<td>intent(inout),</td>
-              <td>optional,</td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>lb_row_col</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~67"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-summation~67"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>summation</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-flop~21"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(inout),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>flop</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scale~35"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>scale</strong></td>
-            <td>
-<p>scale the OBblock being added</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_z~2.html'>dbcsr_put_block_z</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Inserts a block in a dbcsr matrix.
- If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_z~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~411"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-<p>DBCSR matrix</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~200"></span>
+              <span class="anchor" id="variable-row~194"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -737,341 +407,12 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~214"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-<p>the block to put</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb_row_col~8"></span>
-              integer,
-            </td>
-<td>intent(inout),</td>
-              <td>optional,</td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>lb_row_col</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~70"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-summation~69"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>summation</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-flop~23"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(inout),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>flop</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scale~37"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>scale</strong></td>
-            <td>
-<p>scale the OBblock being added</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_c~2.html'>dbcsr_put_block_c</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Inserts a block in a dbcsr matrix.
- If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_c~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~417"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-<p>DBCSR matrix</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~205"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col~133"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col</strong></td>
-            <td>
-<p>the logical row
-the logical column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~219"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-<p>the block to put</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb_row_col~10"></span>
-              integer,
-            </td>
-<td>intent(inout),</td>
-              <td>optional,</td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>lb_row_col</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~73"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-summation~71"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>summation</strong></td>
-            <td>
-<p>the block is transposed
-if block exists, then sum the new block to the old one instead of replacing it</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-flop~25"></span>
-              integer(kind=int_8),
-            </td>
-<td>intent(inout),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>flop</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scale~39"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>scale</strong></td>
-            <td>
-<p>scale the OBblock being added</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_d~2.html'>dbcsr_put_block2d_d</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Put a 2-D block in a DBCSR matrix</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~398"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-<p>DBCSR matrix</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~189"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-<p>the row
-the column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col~117"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col</strong></td>
-            <td>
-<p>the row
-the column</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~203"></span>
+              <span class="anchor" id="variable-block~204"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :), CONTIGUOUS, TARGET
+              DIMENSION(:), CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1128,7 +469,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~18"></span>
+              <span class="anchor" id="variable-flop~21"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -1143,7 +484,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~32"></span>
+              <span class="anchor" id="variable-scale~37"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1153,7 +494,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>scale</strong></td>
             <td>
-<p>scale the block being added</p>
+<p>scale the OBblock being added</p>
             </td>
         </tr>
     </tbody>
@@ -1164,11 +505,12 @@ if block exists, then sum the new block to the old one instead of replacing it</
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_s~2.html'>dbcsr_put_block2d_s</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_s~2.html'>dbcsr_put_block_s</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
 </h3></div>
     <div class="card-body">
           
-  <p>Put a 2-D block in a DBCSR matrix</p>
+  <p>Inserts a block in a dbcsr matrix.
+ If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_s~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1183,7 +525,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~404"></span>
+              <span class="anchor" id="variable-matrix~397"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1198,7 +540,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~194"></span>
+              <span class="anchor" id="variable-row~199"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1208,13 +550,13 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~122"></span>
+              <span class="anchor" id="variable-col~133"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1224,18 +566,18 @@ the column</p>
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~208"></span>
+              <span class="anchor" id="variable-block~209"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :), CONTIGUOUS, TARGET
+              DIMENSION(:), CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1292,7 +634,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~20"></span>
+              <span class="anchor" id="variable-flop~23"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -1307,7 +649,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~34"></span>
+              <span class="anchor" id="variable-scale~39"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -1317,7 +659,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>scale</strong></td>
             <td>
-<p>scale the block being added</p>
+<p>scale the OBblock being added</p>
             </td>
         </tr>
     </tbody>
@@ -1328,11 +670,12 @@ if block exists, then sum the new block to the old one instead of replacing it</
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_z~2.html'>dbcsr_put_block2d_z</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_z~2.html'>dbcsr_put_block_z</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
 </h3></div>
     <div class="card-body">
           
-  <p>Put a 2-D block in a DBCSR matrix</p>
+  <p>Inserts a block in a dbcsr matrix.
+ If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_z~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1347,7 +690,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~410"></span>
+              <span class="anchor" id="variable-matrix~403"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1362,7 +705,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~199"></span>
+              <span class="anchor" id="variable-row~204"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1372,13 +715,13 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~127"></span>
+              <span class="anchor" id="variable-col~138"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1388,18 +731,18 @@ the column</p>
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~213"></span>
+              <span class="anchor" id="variable-block~214"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :), CONTIGUOUS, TARGET
+              DIMENSION(:), CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1456,7 +799,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~22"></span>
+              <span class="anchor" id="variable-flop~25"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -1471,7 +814,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~36"></span>
+              <span class="anchor" id="variable-scale~41"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1481,7 +824,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>scale</strong></td>
             <td>
-<p>scale the block being added</p>
+<p>scale the OBblock being added</p>
             </td>
         </tr>
     </tbody>
@@ -1492,11 +835,12 @@ if block exists, then sum the new block to the old one instead of replacing it</
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_c~2.html'>dbcsr_put_block2d_c</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block_c~2.html'>dbcsr_put_block_c</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
 </h3></div>
     <div class="card-body">
           
-  <p>Put a 2-D block in a DBCSR matrix</p>
+  <p>Inserts a block in a dbcsr matrix.
+ If the block exists, the current data is overwritten.</p><a href="../proc/dbcsr_put_block_c~2.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1511,7 +855,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~416"></span>
+              <span class="anchor" id="variable-matrix~409"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1526,7 +870,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~204"></span>
+              <span class="anchor" id="variable-row~209"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1536,13 +880,13 @@ if block exists, then sum the new block to the old one instead of replacing it</
             <td>::</td>
             <td><strong>row</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~132"></span>
+              <span class="anchor" id="variable-col~143"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1552,18 +896,18 @@ the column</p>
             <td>::</td>
             <td><strong>col</strong></td>
             <td>
-<p>the row
-the column</p>
+<p>the logical row
+the logical column</p>
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~218"></span>
+              <span class="anchor" id="variable-block~219"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :), CONTIGUOUS, TARGET
+              DIMENSION(:), CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1620,7 +964,335 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~24"></span>
+              <span class="anchor" id="variable-flop~27"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~43"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale the OBblock being added</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_d~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_d~2.html'>dbcsr_put_block2d_d</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put a 2-D block in a DBCSR matrix</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~390"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~193"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~127"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~203"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+<p>the block to put</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_row_col~2"></span>
+              integer,
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>lb_row_col</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~62"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-summation~63"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>summation</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~20"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~36"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale the block being added</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_s~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_s~2.html'>dbcsr_put_block2d_s</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put a 2-D block in a DBCSR matrix</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~396"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~198"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~132"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~208"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+<p>the block to put</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_row_col~4"></span>
+              integer,
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>lb_row_col</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~65"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-summation~65"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>summation</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~22"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -1636,6 +1308,334 @@ if block exists, then sum the new block to the old one instead of replacing it</
         <tr>
             <td>
               <span class="anchor" id="variable-scale~38"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale the block being added</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_z~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_z~2.html'>dbcsr_put_block2d_z</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put a 2-D block in a DBCSR matrix</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~402"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~203"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~137"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~213"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+<p>the block to put</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_row_col~6"></span>
+              integer,
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>lb_row_col</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~68"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-summation~67"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>summation</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~24"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~40"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+<p>scale the block being added</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_put_block2d_c~2"></span> <h3>private  subroutine <a href='../proc/dbcsr_put_block2d_c~2.html'>dbcsr_put_block2d_c</a>(matrix, row, col, block, lb_row_col, transposed, summation, flop, scale)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Put a 2-D block in a DBCSR matrix</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~408"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~208"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col~142"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col</strong></td>
+            <td>
+<p>the row
+the column</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~218"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :), CONTIGUOUS, TARGET
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+<p>the block to put</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb_row_col~8"></span>
+              integer,
+            </td>
+<td>intent(inout),</td>
+              <td>optional,</td>            <td>
+              DIMENSION(2)
+            </td>
+            <td>::</td>
+            <td><strong>lb_row_col</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~71"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-summation~69"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>summation</strong></td>
+            <td>
+<p>the block is transposed
+if block exists, then sum the new block to the old one instead of replacing it</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-flop~26"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>flop</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~42"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>

@@ -90,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 191 statements,  0.3% of total for procedures.">7 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 98 statements,  0.2% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a>
+              <a href="../src/dbcsr_tensor_reshape.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
             <li class="breadcrumb-item active" aria-current="page">block_buffer_add_block</li>
           </ol>
         </nav>
@@ -149,7 +149,6 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_area_block">block_buffer_add_area_block</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_dp~2">block_buffer_add_block_r_dp</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_r_sp~2">block_buffer_add_block_r_sp</a>
             <a class="list-group-item" href="../interface/block_buffer_add_block~2.html#moduleprocedure-block_buffer_add_block_c_dp~2">block_buffer_add_block_c_dp</a>
@@ -173,11 +172,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_area_block"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_area_block.html'>block_buffer_add_area_block</a>(buffer, index, block, transposed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_dp~2.html'>block_buffer_add_block_r_dp</a>(buffer, ndata, index, block)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>add block to buffer.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -192,7 +191,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~29"></span>
+              <span class="anchor" id="variable-buffer~30"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -207,12 +206,27 @@
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-ndata~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-index~19"></span>
-              integer(kind=int_8),
+              integer,
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(2)
+              DIMENSION(ndims_buffer(buffer))
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
@@ -222,30 +236,15 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~137"></span>
-              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+              <span class="anchor" id="variable-block~172"></span>
+              real(kind=real_8),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              DIMENSION(ndata)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~30"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -258,11 +257,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_dp~2.html'>block_buffer_add_block_r_dp</a>(buffer, index, block, transposed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
 </h3></div>
     <div class="card-body">
           
-  <p>insert a block into block buffer (at current iterator position)</p>
+  <p>add block to buffer.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -292,45 +291,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~21"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-ndata~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~20"></span>
+              integer,
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(2)
+              DIMENSION(ndims_buffer(buffer))
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-<p>index of block</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~139"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-block~173"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :)
+              DIMENSION(ndata)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
-            <td>
-<p>block</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~31"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -343,11 +342,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, index, block, transposed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
 </h3></div>
     <div class="card-body">
           
-  <p>insert a block into block buffer (at current iterator position)</p>
+  <p>add block to buffer.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -377,45 +376,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~22"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-ndata~22"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~21"></span>
+              integer,
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(2)
+              DIMENSION(ndims_buffer(buffer))
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-<p>index of block</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~140"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-block~174"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :)
+              DIMENSION(ndata)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
-            <td>
-<p>block</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~32"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
             <td>
 
             </td>
@@ -428,11 +427,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, index, block, transposed)  
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
 </h3></div>
     <div class="card-body">
           
-  <p>insert a block into block buffer (at current iterator position)</p>
+  <p>add block to buffer.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -462,130 +461,45 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~23"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-ndata~23"></span>
+              integer,
             </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(2)
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-<p>index of block</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~141"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:, :)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-<p>block</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~33"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, index, block, transposed)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>insert a block into block buffer (at current iterator position)</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~34"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
+<td>intent(in)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>buffer</strong></td>
+            <td><strong>ndata</strong></td>
             <td>
 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~24"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-index~22"></span>
+              integer,
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(2)
+              DIMENSION(ndims_buffer(buffer))
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
             <td>
-<p>index of block</p>
+
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~142"></span>
+              <span class="anchor" id="variable-block~175"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:, :)
+              DIMENSION(ndata)
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
-            <td>
-<p>block</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~34"></span>
-              logical,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
             <td>
 
             </td>
