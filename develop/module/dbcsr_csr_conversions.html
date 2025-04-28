@@ -131,8 +131,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~75">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~22">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~43">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~8">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
@@ -234,19 +234,19 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_access.html'>dbcsr_block_access</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_block_access.html'>dbcsr_block_access</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
               </ul>
             </li>
@@ -272,7 +272,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~75"></span>
+              <span class="anchor" id="variable-modulen~43"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -289,7 +289,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~22"></span>
+              <span class="anchor" id="variable-careful_mod~8"></span>
               logical,
             </td>
               <td>private,</td>
@@ -392,7 +392,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~7"></span>
+              <span class="anchor" id="variable-csr_mat~6"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -486,7 +486,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~21"></span>
+              <span class="anchor" id="variable-mp_group~12"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -501,7 +501,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~62"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -541,7 +541,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~71"></span>
+              <span class="anchor" id="variable-matrix_b~43"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -556,7 +556,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~118"></span>
+              <span class="anchor" id="variable-matrix_a~75"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -844,7 +844,7 @@ representing the original block structure.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_sp~14"></span>
+              <span class="anchor" id="variable-r_sp~9"></span>
               real(kind=real_4),
             </td>
               <td>public,</td>
@@ -861,7 +861,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-r_dp~14"></span>
+              <span class="anchor" id="variable-r_dp~9"></span>
               real(kind=real_8),
             </td>
               <td>public,</td>
@@ -878,7 +878,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_sp~14"></span>
+              <span class="anchor" id="variable-c_sp~9"></span>
               complex(kind=real_4),
             </td>
               <td>public,</td>
@@ -895,7 +895,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_dp~14"></span>
+              <span class="anchor" id="variable-c_dp~9"></span>
               complex(kind=real_8),
             </td>
               <td>public,</td>
@@ -912,7 +912,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~89"></span>
+              <span class="anchor" id="variable-data_type~61"></span>
               integer,
             </td>
               <td>public</td>
@@ -1041,7 +1041,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~20"></span>
+              <span class="anchor" id="variable-mp_group~11"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
               <td>public</td>
@@ -1180,7 +1180,7 @@ column indices of elements inside nzval_local</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid~14"></span>
+              <span class="anchor" id="variable-valid~7"></span>
               logical,
             </td>
               <td>public</td>
@@ -1246,7 +1246,7 @@ column indices of elements inside nzval_local</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~6"></span>
+              <span class="anchor" id="variable-csr_mat~5"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
               <td>public,</td>
@@ -1296,7 +1296,7 @@ structure and same sparsity pattern</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~119"></span>
+              <span class="anchor" id="variable-matrix_a~76"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1311,7 +1311,7 @@ structure and same sparsity pattern</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~72"></span>
+              <span class="anchor" id="variable-matrix_b~44"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1361,7 +1361,7 @@ structure and same sparsity pattern</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~7"></span>
+              <span class="anchor" id="variable-csr_mat~6"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1455,7 +1455,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~21"></span>
+              <span class="anchor" id="variable-mp_group~12"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1470,7 +1470,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~62"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1511,7 +1511,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~71"></span>
+              <span class="anchor" id="variable-matrix_b~43"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1526,7 +1526,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~118"></span>
+              <span class="anchor" id="variable-matrix_a~75"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1567,7 +1567,7 @@ row of a CSR matrix</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~8"></span>
+              <span class="anchor" id="variable-csr_mat~7"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1622,7 +1622,7 @@ row of a CSR matrix</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~9"></span>
+              <span class="anchor" id="variable-csr_mat~8"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1678,7 +1678,7 @@ distributed DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~10"></span>
+              <span class="anchor" id="variable-csr_mat~9"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1852,7 +1852,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~11"></span>
+              <span class="anchor" id="variable-csr_mat~10"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1908,7 +1908,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~12"></span>
+              <span class="anchor" id="variable-csr_mat~11"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1949,7 +1949,7 @@ in order to prepare conversion.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~8"></span>
+              <span class="anchor" id="variable-dbcsr_mat~6"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1964,7 +1964,7 @@ in order to prepare conversion.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~13"></span>
+              <span class="anchor" id="variable-csr_mat~12"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1996,7 +1996,7 @@ process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds fl
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_sparsity~4"></span>
+              <span class="anchor" id="variable-csr_sparsity~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2012,7 +2012,7 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~63"></span>
+              <span class="anchor" id="variable-numnodes~32"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2053,7 +2053,7 @@ matrix are consistent before doing the conversion</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~14"></span>
+              <span class="anchor" id="variable-csr_mat~13"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2068,7 +2068,7 @@ matrix are consistent before doing the conversion</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~9"></span>
+              <span class="anchor" id="variable-dbcsr_mat~7"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2108,7 +2108,7 @@ matrix are consistent before doing the conversion</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~10"></span>
+              <span class="anchor" id="variable-dbcsr_mat~8"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2123,7 +2123,7 @@ matrix are consistent before doing the conversion</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~15"></span>
+              <span class="anchor" id="variable-csr_mat~14"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2163,7 +2163,7 @@ matrix are consistent before doing the conversion</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~11"></span>
+              <span class="anchor" id="variable-dbcsr_mat~9"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2178,7 +2178,7 @@ matrix are consistent before doing the conversion</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~16"></span>
+              <span class="anchor" id="variable-csr_mat~15"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2219,7 +2219,7 @@ CSR sparsity (currently only used for testing purposes)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~12"></span>
+              <span class="anchor" id="variable-dbcsr_mat~10"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2234,7 +2234,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_sparsity~5"></span>
+              <span class="anchor" id="variable-csr_sparsity~4"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2249,7 +2249,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~23"></span>
+              <span class="anchor" id="variable-eps~13"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -2289,7 +2289,7 @@ CSR sparsity (currently only used for testing purposes)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~17"></span>
+              <span class="anchor" id="variable-csr_mat~16"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2304,7 +2304,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~37"></span>
+              <span class="anchor" id="variable-unit_nr~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2389,7 +2389,7 @@ CSR sparsity (currently only used for testing purposes)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~18"></span>
+              <span class="anchor" id="variable-csr_mat~17"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2404,7 +2404,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~38"></span>
+              <span class="anchor" id="variable-unit_nr~33"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2444,7 +2444,7 @@ CSR sparsity (currently only used for testing purposes)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dbcsr_mat~13"></span>
+              <span class="anchor" id="variable-dbcsr_mat~11"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -2506,7 +2506,7 @@ see documentation of csr_create_from_dbcsr</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~66"></span>
+              <span class="anchor" id="variable-numnodes~35"></span>
               integer,
             </td>
 <td>intent(in)</td>
