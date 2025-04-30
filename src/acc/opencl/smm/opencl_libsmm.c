@@ -91,6 +91,9 @@
 #  define OPENCL_LIBSMM_TYPESIZE(TYPEID) \
     (dbcsr_type_real_8 == (TYPEID) ? ((int)sizeof(double)) : (dbcsr_type_real_4 == (TYPEID) ? ((int)sizeof(float)) : 0 /*unknown*/))
 
+#  define OPENCL_LIBSMM_TRANSENV(KEY) opencl_libsmm_getenv("OPENCL_LIBSMM_TRANS", KEY)
+#  define OPENCL_LIBSMM_SMMENV(KEY) opencl_libsmm_getenv("OPENCL_LIBSMM_SMM", KEY)
+
 
 #  if defined(__cplusplus)
 extern "C" {
@@ -390,7 +393,7 @@ int libsmm_acc_init(void) {
     libxsmm_init();
     if (EXIT_SUCCESS == result) {
       opencl_libsmm_perfest_t perfest;
-      char* const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
+      char* const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS"); /* !opencl_libsmm_getenv */
       memset(&perfest, 0, sizeof(perfest));
       if (NULL == env_params || '0' != *env_params) {
         char buffer[ACC_OPENCL_BUFFERSIZE], bufname[ACC_OPENCL_BUFFERSIZE];
@@ -635,6 +638,30 @@ c_dbcsr_acc_bool_t libsmm_acc_is_thread_safe(void) {
 }
 
 
+const char* opencl_libsmm_getenv(const char domain[], const char key[]) {
+  char buffer[ACC_OPENCL_BUFFERSIZE];
+  const size_t keylen = strlen(key);
+  const char* result = NULL;
+  int nchar;
+  if (2 != keylen) {
+    nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s_%s", domain, key);
+    if (0 < nchar && (int)sizeof(buffer) > nchar) result = getenv(buffer);
+  }
+  else {
+    nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s_PARAMS", domain);
+    if (0 < nchar && (int)sizeof(buffer) > nchar) result = getenv(buffer);
+    if (NULL == result || '0' != *result) {
+      nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s_%s", domain, key);
+      result = (0 < nchar && (int)sizeof(buffer) > nchar) ? getenv(buffer) : NULL;
+    }
+    else {
+      result = NULL;
+    }
+  }
+  return result;
+}
+
+
 int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, void* dev_data, libsmm_acc_data_t datatype, int m,
   int n, int max_kernel_dim, void* stream) {
   c_dbcsr_acc_opencl_info_memptr_t info_stack, info_mdata;
@@ -686,10 +713,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
       if (0 < nchar && (int)sizeof(fname) > nchar) {
         const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
         const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
-        const char *const env_cl = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BM");
+        const char *const env_cl = OPENCL_LIBSMM_TRANSENV("BUILDOPTS"), *const env_bm = OPENCL_LIBSMM_TRANSENV("BM");
         const char* const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(device_id) ? "global" : "constant");
         const char* const build_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DWG=%i -DT=%s";
-        const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE"), *tname = "";
+        const char *const env_inplace = OPENCL_LIBSMM_TRANSENV("INPLACE"), *tname = "";
 #  if defined(OPENCL_LIBSMM_TRANS_INPLACE)
         const int inplace = ((m == n) && (NULL == env_inplace ? 1 : ('0' != *env_inplace)));
 #  else
@@ -1008,7 +1035,7 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
     result |= c_dbcsr_acc_opencl_info_devptr(&info_cdata, dev_c_data, 1 /*elsize*/, NULL /*amount*/, NULL /*offset*/);
     if (EXIT_SUCCESS == result) {
       static ACC_OPENCL_ATOMIC_LOCKTYPE locks[OPENCL_LIBSMM_NLOCKS_SMM];
-      const char *const env_s = getenv("OPENCL_LIBSMM_SMM_S"), *const env_bs = getenv("OPENCL_LIBSMM_SMM_BS");
+      const char *const env_s = OPENCL_LIBSMM_SMMENV("S"), *const env_bs = OPENCL_LIBSMM_SMMENV("BS");
       const int s = ((NULL == env_s || '\0' == *env_s) ? OPENCL_LIBSMM_SMM_S : atoi(env_s));
       int kernel_idx = 0, bs = ((NULL == env_bs || '\0' == *env_bs) ? 0 : atoi(env_bs));
       opencl_libsmm_smm_t* config;
@@ -1049,19 +1076,19 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
             default: assert(NULL == tname);
           }
           if (NULL != tname) {
-            const char *extensions[] = {NULL, NULL}, *const env_devid = getenv("OPENCL_LIBSMM_SMM_DEVID");
+            const char *extensions[] = {NULL, NULL}, *const env_devid = OPENCL_LIBSMM_SMMENV("DEVID");
             const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
             const unsigned int devuid = (NULL == env_devid || '\0' == *env_devid) ? devinfo->uid
                                                                                   : (unsigned int)strtoul(env_devid, NULL, 0);
             size_t nextensions = sizeof(extensions) / sizeof(*extensions), sgs = 0, wgsize_prf = 1;
-            const char *const env_bm = getenv("OPENCL_LIBSMM_SMM_BM"), *const env_bn = getenv("OPENCL_LIBSMM_SMM_BN");
-            const char *const env_bk = getenv("OPENCL_LIBSMM_SMM_BK"), *const env_ws = getenv("OPENCL_LIBSMM_SMM_WS");
-            const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG"), *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU");
-            const char *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ"), *const env_al = getenv("OPENCL_LIBSMM_SMM_AL");
-            const char *const env_tb = getenv("OPENCL_LIBSMM_SMM_TB"), *const env_tc = getenv("OPENCL_LIBSMM_SMM_TC");
-            const char *const env_ap = getenv("OPENCL_LIBSMM_SMM_AP"), *const env_aa = getenv("OPENCL_LIBSMM_SMM_AA");
-            const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
-            const char *const env_xf = getenv("OPENCL_LIBSMM_SMM_XF"), *const env_cl = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
+            const char *const env_bm = OPENCL_LIBSMM_SMMENV("BM"), *const env_bn = OPENCL_LIBSMM_SMMENV("BN");
+            const char *const env_bk = OPENCL_LIBSMM_SMMENV("BK"), *const env_ws = OPENCL_LIBSMM_SMMENV("WS");
+            const char *const env_wg = OPENCL_LIBSMM_SMMENV("WG"), *const env_lu = OPENCL_LIBSMM_SMMENV("LU");
+            const char *const env_nz = OPENCL_LIBSMM_SMMENV("NZ"), *const env_al = OPENCL_LIBSMM_SMMENV("AL");
+            const char *const env_tb = OPENCL_LIBSMM_SMMENV("TB"), *const env_tc = OPENCL_LIBSMM_SMMENV("TC");
+            const char *const env_ap = OPENCL_LIBSMM_SMMENV("AP"), *const env_aa = OPENCL_LIBSMM_SMMENV("AA");
+            const char *const env_ab = OPENCL_LIBSMM_SMMENV("AB"), *const env_ac = OPENCL_LIBSMM_SMMENV("AC");
+            const char *const env_xf = OPENCL_LIBSMM_SMMENV("XF"), *const env_cl = OPENCL_LIBSMM_SMMENV("BUILDOPTS");
             const char* const intel_xf = "-cl-intel-256-GRF-per-thread";
             const int blockn = ((NULL == env_bn || '\0' == *env_bn) ? 0 : atoi(env_bn));
             const int blockk = ((NULL == env_bk || '\0' == *env_bk) ? 0 : atoi(env_bk));
@@ -1223,7 +1250,7 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
               result = EXIT_FAILURE;
             }
             if (EXIT_SUCCESS == result) {
-              const char* const env_kernel = getenv("OPENCL_LIBSMM_SMM_KERNEL");
+              const char* const env_kernel = OPENCL_LIBSMM_SMMENV("KERNEL");
               result = c_dbcsr_acc_opencl_kernel(NULL == env_kernel ? 0 : 1,
                 NULL == env_kernel ? OPENCL_KERNELS_SOURCE_MULTIPLY : env_kernel, fname, build_params, buffer, NULL /*cl_try*/,
                 NULL /*cl_try_ok*/, extensions, nextensions, new_config.kernel + kernel_idx);
@@ -1428,7 +1455,7 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
         ACC_OPENCL_CHECK(result, c_dbcsr_acc_memcpy_d2h(dev_c_data, test, csize, stream), "transfer validation test");
         ACC_OPENCL_CHECK(result, c_dbcsr_acc_stream_sync(stream), "sync stream");
         if (EXIT_SUCCESS == result) {
-          const char* const env_tol = getenv("OPENCL_LIBSMM_SMM_TOLERANCE");
+          const char* const env_tol = OPENCL_LIBSMM_SMMENV("TOLERANCE");
           const double tolerance = ((NULL == env_tol || '\0' == *env_tol) ? 1E-3 : atof(env_tol));
           const int* const params = pinp + (4 <= nparams ? (nparams - 4) : 0);
           char print_buffer[2048] = "";

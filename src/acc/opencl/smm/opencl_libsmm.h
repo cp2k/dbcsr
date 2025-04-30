@@ -74,6 +74,10 @@ typedef struct opencl_libsmm_perfest_t {
   size_t scount, dcount;
 } opencl_libsmm_perfest_t;
 
+
+/** Returns environment variable's value for given domain and key. */
+const char* opencl_libsmm_getenv(const char domain[], const char key[]);
+
 /** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
 int opencl_libsmm_use_cmem(cl_device_id device);
 
