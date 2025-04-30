@@ -14,8 +14,6 @@ from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import Result
 from signal import signal, SIGINT
-from colorama import init as colorama_init
-from colorama import Fore, Style
 import tempfile
 import copy
 import json
@@ -32,11 +30,13 @@ default_dbg = False
 default_retry = 1
 default_vlen = 8
 
+type_dp = 3
+type_sp = 1
+
 
 def start(args):
     """Construct and start tuner instance"""
     instance = SmmTuner(args)
-    colorama_init()
     if not default_dbg:
         for retry in range(default_retry):
             try:
@@ -86,12 +86,12 @@ class SmmTuner(MeasurementInterface):
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.args.bk = [max(self.args.bk, 1), self.mnk[2]][0 == self.args.bk]
         self.args.ws = min(self.args.ws, self.wsx)
-        self.ndevices = self.gfbase = self.gfsave = self.gflops = 0
+        self.gfbase = self.gfsave = self.gflops = self.gflogs = self.gfscnt = 0
         self.config = self.typename = self.typeid = self.device = self.size = None
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
-        self.idevice = None
+        self.idevice, self.ndevices = None, 0
         self.exepath = os.path.join(
             os.path.dirname(sys.argv[0]), "..", "..", "acc_bench"
         )
@@ -125,7 +125,9 @@ class SmmTuner(MeasurementInterface):
             self.ndevices = int(device.group(1)) if device and device.group(1) else 0
             self.device = device.group(2) if device and device.group(2) else ""
             # idevice: make certain resources/names unique on a per-rank basis
-            envrank = os.getenv("PMI_RANK", os.getenv("OMPI_COMM_WORLD_LOCAL_RANK"))
+            envrank_mpich = os.getenv("PMI_RANK")  # global
+            envrank_ompi = os.getenv("OMPI_COMM_WORLD_LOCAL_RANK", envrank_mpich)
+            envrank = os.getenv("MPI_LOCALRANKID", envrank_ompi)
             if envrank:
                 self.idevice = int(envrank) % self.ndevices
         elif self.args.update is not None and "" != self.args.update:
@@ -205,7 +207,10 @@ class SmmTuner(MeasurementInterface):
                 self.update_jsons(filenames)
             elif self.args.check is None or 0 != self.args.check:
                 self.update_jsons(filenames)
-            if self.args.merge is not None:
+                if 0 < self.gfscnt and self.args.check and 0 > self.args.check:
+                    gmn = math.exp(self.gflogs / self.gfscnt)
+                    print("Geometric mean of {} GFLOPS/s".format(round(gmn)))
+            elif self.args.merge is not None:
                 self.merge_jsons(filenames)
             exit(0)
         elif (
@@ -283,11 +288,12 @@ class SmmTuner(MeasurementInterface):
         if verbose is not None and 0 != int(verbose):
             msg = env_exe.replace("OPENCL_LIBSMM_SMM_", "")
             print("{}: {}".format("x".join(map(str, mnk)), msg))
-        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0 NEO_CACHE_PERSISTENT=0 CUDA_CACHE_DISABLE=1"
+        env_std = "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_S=0"
+        env_jit = "NEO_CACHE_PERSISTENT=0 CUDA_CACHE_DISABLE=1"
         env_check = "CHECK={}".format(check if check is not None else 1)
         env_intrn = "{} {}".format(  # consider device-id
             "" if self.idevice is None else "ACC_OPENCL_DEVICE={}".format(self.idevice),
-            "{} {}".format(env_std, env_check),  # environment
+            "{} {} {}".format(env_std, env_jit, env_check),  # environment
         ).strip()
         arg_exe = "{} {} {}".format(
             self.args.r if nrep is None else nrep,
@@ -354,8 +360,10 @@ class SmmTuner(MeasurementInterface):
                     str(self.run_result["stdout"]),
                 )
         if performance and performance.group(1) and performance.group(2):
-            mseconds = float(performance.group(1))
-            gflops = float(performance.group(2))
+            mseconds, gflops = float(performance.group(1)), float(performance.group(2))
+            if 0 < gflops:
+                self.gflogs = self.gflogs + math.log(gflops)
+                self.gfscnt = self.gfscnt + 1
             if config is not desired_result:
                 kernelreq = round((100.0 * config["BM"] * config["BN"]) / self.wsx)
                 # gflops are reported as "accuracy" (console output)
@@ -369,7 +377,13 @@ class SmmTuner(MeasurementInterface):
                         self.gfbase = gflops
             elif not self.args.verbose:
                 if message:
-                    print("{} - OK".format(message), flush=True)
+                    status = "OK"
+                    if 1 != int(nrep):
+                        gfbase = config["GFLOPS"] if "GFLOPS" in config else 0
+                        if 0 < gfbase:
+                            status = "{}x - ".format(round(gflops / gfbase, 2))
+                        status = status + "{} GFLOPS/s".format(round(gflops))
+                    print("{} - {}".format(message, status), flush=True)
                 else:
                     print(".", end="", flush=True)
         elif not skip:  # return non-competitive/bad result in case of an error
@@ -398,8 +412,11 @@ class SmmTuner(MeasurementInterface):
                     with open(filename, "r") as file:
                         data = json.load(file)
                         if self.args.check is None or 0 != self.args.check:
-                            progress = "[{}/{}]: {}".format(i + 1, n, filename)
-                            self.run(data, message=progress, nrep=1)
+                            progress, r = "[{}/{}]: {}".format(i + 1, n, filename), 1
+                            if self.args.check is not None:
+                                r = max(self.args.check, 0)
+                            if "TYPEID" in data and self.typeid == data["TYPEID"]:
+                                self.run(data, message=progress, nrep=r)
                         elif "DEVICE" in data and data["DEVICE"] != self.device:
                             print("Updated {} to {}.".format(filename, self.device))
                             data.update({"DEVICE": self.device})
@@ -443,41 +460,52 @@ class SmmTuner(MeasurementInterface):
         if not self.args.csvfile or (self.idevice is not None and 0 != self.idevice):
             return  # early exit
         merged, retain, delete = dict(), dict(), []
-        geosum = geocnt = skipcnt = tid = 0  # geo-counter, etc.
+        self.gflogs = self.gfscnt = skipcnt = 0
         for filename in filenames:
-            data = dict()
             try:
                 with open(filename, "r") as file:
                     data = json.load(file)
-                if self.args.merge is not None and (
-                    (0 > self.args.merge and self.typeid != data["TYPEID"])
-                    or (1 == self.args.merge and 1 != data["TYPEID"])
-                    or (2 == self.args.merge and 3 != data["TYPEID"])
+                if not data or (
+                    self.args.merge is not None
+                    and (
+                        (0 > self.args.merge and self.typeid != data["TYPEID"])
+                        or (1 == self.args.merge and type_sp != data["TYPEID"])
+                        or (2 == self.args.merge and type_dp != data["TYPEID"])
+                    )
                 ):  # skip parameter set (JSON-file)
                     skipcnt = skipcnt + 1
                     continue
                 key, value = self.make_csv_record(data, filename)
             except (json.JSONDecodeError, KeyError, TypeError):
                 print("Failed to merge {} into CSV-file.".format(filename))
-                data = dict()
+                continue
             except:  # noqa: E722
-                data = dict()
+                continue
                 pass
             if bool(data) and key in merged:
-                gflops_merged, fname_merged = merged[key][1], merged[key][-1]
-                gflops, mtime = value[1], os.path.getmtime(fname_merged)
-                if gflops_merged < gflops:  # worse
-                    if os.path.getmtime(filename) < mtime:
+                gfbase, mname = merged[key][1], merged[key][-1]
+                gflops, mtime = value[1], os.path.getmtime(mname)
+                if gfbase < gflops:  # merged data is worse
+                    if mtime < os.path.getmtime(filename):  # older
+                        delete.append(mname)
+                    else:
                         if key in retain:
-                            retained = retain[key]
-                            if retained[1] < gflops:
-                                delete.append(retained[-1])
+                            if retain[key][1] < gflops:
+                                delete.append(retain[key][-1])
                         retain[key] = merged[key]
-                    else:  # older
-                        delete.append(fname_merged)
-                else:
-                    delete.append(filename)
-                data = dict()  # ensure worse result is not merged
+                else:  # merged data is leading
+                    if mtime < os.path.getmtime(filename):  # older
+                        if key in retain:
+                            if retain[key][1] < gflops:
+                                delete.append(retain[key][-1])
+                                retain[key] = value
+                            else:
+                                delete.append(filename)
+                        else:
+                            retain[key] = value
+                    else:  # newer
+                        delete.append(filename)
+                    data = dict()  # ensure data is not merged
             if bool(data) and (  # consider to finally validate result
                 (self.args.check is not None and 0 == self.args.check)
                 or 0 == self.run(data, nrep=1)
@@ -487,23 +515,25 @@ class SmmTuner(MeasurementInterface):
         if self.args.delete and 3 <= self.args.delete:
             for key, value in retain.items():
                 if key in merged:
-                    retain[key] = merged[key]
-                    merged[key] = value
+                    rname, mname = value[-1], merged[key][-1]
+                    if os.path.getmtime(mname) < os.path.getmtime(rname):
+                        retain[key] = merged[key]
+                        merged[key] = value
         # print/delete outperformed results
         if self.args.delete and 2 <= self.args.delete:
             rfiles = [v[-1] for v in retain.values()]
             delete = delete + rfiles
         if bool(delete):
-            num, lst, msg, col = len(delete), " ".join(delete), "Remove", Fore.YELLOW
+            num, lst, msg = len(delete), " ".join(delete), "Remove"
             if self.args.delete and 3 != self.args.delete:
                 for filename in delete:
                     try:
                         os.remove(filename)
                     except:  # noqa: E722
                         pass
-                msg, col = "Removed", Fore.RED
+                msg = "Removed"
                 skipcnt = skipcnt + num
-            print("{}{} {}{}: {}".format(col, msg, num, Style.RESET_ALL, lst))
+            print("{} {}: {}".format(msg, num, lst))
             print("")
         # write CSV-file and collect overall-statistics
         if bool(merged):
@@ -521,31 +551,27 @@ class SmmTuner(MeasurementInterface):
                         self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                     )
                 )
+                types = [key[1] for key in merged.keys()]
+                pure = min(types) == max(types)
                 for key, value in sorted(merged.items()):  # CSV data lines (records)
-                    tid, val = key[1] if 0 == tid or tid == key[1] else None, value[:-1]
-                    # FLOPS are normalized for double-precision
-                    gflops = val[1] if 1 != key[1] else val[1] * 0.5
+                    # FLOPS are normalized for double-precision (ratio of 1:2 assumed)
+                    gflops = value[1] if pure or type_sp != key[1] else value[1] * 0.5
+                    values = list(value[:-1])
                     if self.args.nogflops:
-                        val[1] = 0  # zero instead of gflops written into CSV-file
+                        values[1] = 0  # zero instead of gflops written into CSV-file
                     if 0 < gflops:
-                        geosum = geosum + math.log(gflops)
-                        geocnt = geocnt + 1
+                        self.gflogs = self.gflogs + math.log(gflops)
+                        self.gfscnt = self.gfscnt + 1
                     strkey = self.args.csvsep.join([str(k) for k in key])
-                    strval = self.args.csvsep.join([str(v) for v in val])
+                    strval = self.args.csvsep.join([str(v) for v in values])
                     csvfile.write("{}{}{}\n".format(strkey, self.args.csvsep, strval))
         # print summary information
         msg = "Merged {} of {} JSONs into {}".format(
             len(merged), len(filenames) - skipcnt, self.args.csvfile
         )
-        if 0 < geocnt:
-            precstr, precfac = "", 1
-            if tid is not None:
-                if 1 == tid:
-                    precstr, precfac = "SP-", 2
-                else:
-                    precstr = "DP-"
-            gmn = round(math.exp(geosum / geocnt) * precfac)
-            msg = "{} (geometric mean of {} {}GFLOPS/s)".format(msg, gmn, precstr)
+        if 0 < self.gfscnt:
+            gmn = math.exp(self.gflogs / self.gfscnt)
+            msg = "{} (geometric mean of {} GFLOPS/s)".format(msg, round(gmn))
         if not self.args.verbose and (self.args.check is None or 0 != self.args.check):
             print("")
         print(msg)
@@ -724,7 +750,7 @@ if __name__ == "__main__":
         type=float,
         default=0,
         nargs="?",
-        help="Validate kernel (epsilon, 0:off)",
+        help="Validate kernel (none:verify, epsilon - 0:off, -1:verify perf.)",
     )
     argparser.add_argument(
         "-d",
@@ -733,7 +759,7 @@ if __name__ == "__main__":
         default=None,
         const=1,
         nargs="?",
-        help="Delete outperformed JSONs",
+        help="Remove JSONs (1:worse/old, 2:worse/new, 3:dry, 4:prefer/new)",
     )
     argparser.add_argument(
         "-v",
@@ -924,23 +950,29 @@ if __name__ == "__main__":
     if 0 == args.mb:
         args.mb = 64
     # construct and start tuner instance
-    if args.jsondir == argd.jsondir:  # flexible first argument
-        if os.path.isfile(args.mnk):
-            with open(args.mnk, "r") as file:
-                while True:
-                    line = file.readline()
-                    if not line:
-                        break
-                    args.mnk, args.label = line.strip(), ""
-                    if args.mnk:
-                        start(args)
-                        print("")
-        else:
-            if os.path.isdir(args.mnk):
-                args.jsondir = args.mnk
-                args.mnk = default_mnk
-                if args.merge is None:
-                    args.merge = -1
-            start(args)
+    if os.path.isfile(args.mnk):
+        with open(args.mnk, "r") as file:
+            while True:
+                line = file.readline()
+                if not line:
+                    break
+                args.mnk, args.label = line.strip(), ""
+                if args.mnk:
+                    start(args)
+                    print("")
     else:
+        if os.path.isdir(args.mnk):
+            args.jsondir = args.mnk
+            args.mnk = default_mnk
+            if args.merge is None:
+                args.merge = -1
+        else:
+            try:
+                mnk = tuple(max(int(i), 1) for i in args.mnk.split("x"))
+            except:  # noqa: E722
+                mnk = None
+                pass
+            if not mnk:
+                sys.tracebacklimit = 0
+                raise RuntimeError("Cannot parse MxNxK triplet or filename.")
         start(args)
