@@ -9,16 +9,6 @@
 #if defined(__OPENCL)
 #  include "acc_opencl.h"
 
-#  if !defined(ACC_OPENCL_EVENT_FLUSH) && 0
-#    define ACC_OPENCL_EVENT_FLUSH
-#  endif
-#  if !defined(ACC_OPENCL_EVENT_CHAIN) && 0
-#    define ACC_OPENCL_EVENT_CHAIN
-#  endif
-#  if !defined(ACC_OPENCL_EVENT_WAIT) && 0
-#    define ACC_OPENCL_EVENT_WAIT
-#  endif
-
 
 #  if defined(__cplusplus)
 extern "C" {
@@ -89,19 +79,10 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
 #  if defined(CL_VERSION_1_2)
     cl_event clevent_result = NULL;
     result = clEnqueueBarrierWithWaitList(str->queue, 1, &clevent, &clevent_result);
-    if (EXIT_SUCCESS == result) {
-#    if defined(ACC_OPENCL_EVENT_CHAIN)
-      result = clReleaseEvent(clevent);
-      assert(NULL != clevent_result);
-      *(cl_event*)event = (EXIT_SUCCESS == result ? clevent_result : NULL);
-#    endif
-    }
-    else
 #  else
     result = clEnqueueWaitForEvents(str->queue, 1, &clevent);
-    if (EXIT_SUCCESS != result)
 #  endif
-    {
+    if (EXIT_SUCCESS != result) {
       ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseEvent(clevent));
       *(cl_event*)event = NULL;
     }
@@ -129,26 +110,11 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
   str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream_default());
   assert(NULL != str && NULL != str->queue && NULL != event);
   clevent = *ACC_OPENCL_EVENT(event);
-#  if defined(ACC_OPENCL_EVENT_FLUSH)
-  result = clFlush(str->queue);
-  if (EXIT_SUCCESS == result)
-#  endif
-  {
 #  if defined(CL_VERSION_1_2)
-#    if defined(ACC_OPENCL_EVENT_WAIT)
-    if (NULL != clevent) result = clEnqueueMarkerWithWaitList(str->queue, 1, &clevent, &clevent_result);
-    else
-#    endif
-    {
-      result = clEnqueueMarkerWithWaitList(str->queue, 0, NULL, &clevent_result);
-    }
+  result = clEnqueueMarkerWithWaitList(str->queue, 0, NULL, &clevent_result);
 #  else
-#    if defined(ACC_OPENCL_EVENT_WAIT)
-    if (NULL != clevent) result = clEnqueueWaitForEvents(str->queue, 1, &clevent);
-#    endif
-    if (EXIT_SUCCESS == result) result = clEnqueueMarker(str->queue, &clevent_result);
+  result = clEnqueueMarker(str->queue, &clevent_result);
 #  endif
-  }
   if (NULL != clevent) {
     const int result_release = clReleaseEvent(clevent);
     if (EXIT_SUCCESS == result) result = result_release;
