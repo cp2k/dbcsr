@@ -168,7 +168,14 @@ int c_dbcsr_acc_event_synchronize(void* event) { /* waits on the host-side */
 #  endif
   assert(NULL != event);
   clevent = *ACC_OPENCL_EVENT(event);
-  if (NULL != clevent) result = clWaitForEvents(1, &clevent);
+  if (NULL != clevent) {
+    if (0 == (32 & c_dbcsr_acc_opencl_config.wa)) result = clWaitForEvents(1, &clevent);
+    else {
+      cl_command_queue queue = NULL;
+      result = clGetEventInfo(clevent, CL_EVENT_COMMAND_QUEUE, sizeof(cl_command_queue), &queue, NULL);
+      if (EXIT_SUCCESS == result) result = clFinish(queue);
+    }
+  }
   else if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
     fprintf(stderr, "WARN ACC/OpenCL: c_dbcsr_acc_event_synchronize discovered an empty event.\n");
   }

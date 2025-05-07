@@ -1141,20 +1141,16 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
               (NULL == env_wg || '\0' == *env_wg) ? (0 != defaults ? default_wg : config->wg) : atoi(env_wg), -2, 2);
             new_config.nz = LIBXSMM_CLMP(
               (NULL == env_nz || '\0' == *env_nz) ? (0 != defaults ? /*default*/ 0 : config->nz) : atoi(env_nz), 0, 1);
-            new_config.al = LIBXSMM_CLMP(/* bug: AL=1 */
-              (NULL == env_al || '\0' == *env_al)
-                ? (0 == (64 & c_dbcsr_acc_opencl_config.wa) ? (0 != defaults ? /*default*/ 0 : config->al) : 0)
-                : atoi(env_al),
-              0, 1);
+            new_config.al = LIBXSMM_CLMP(/* bug with AL=1? */
+              (NULL == env_al || '\0' == *env_al) ? (0 != defaults ? /*default*/ 0 : config->al) : atoi(env_al), 0, 1);
             new_config.tb = LIBXSMM_CLMP(
               (NULL == env_tb || '\0' == *env_tb) ? (0 != defaults ? /*default*/ 0 : config->tb) : atoi(env_tb), 0, 1);
             new_config.tc = LIBXSMM_CLMP(
               (NULL == env_tc || '\0' == *env_tc) ? (0 != defaults ? /*default*/ 1 : config->tc) : atoi(env_tc), 0, 1);
             new_config.ap = LIBXSMM_CLMP(
               (NULL == env_ap || '\0' == *env_ap) ? (0 != defaults ? /*default*/ 0 : config->ap) : atoi(env_ap), 0, 1);
-            new_config.aa = LIBXSMM_CLMP(/* bug: AA=2 XF=1 */
-              (NULL == env_aa || '\0' == *env_aa) ? (0 != defaults ? default_aa : config->aa) : atoi(env_aa), 0,
-              (0 == (32 & c_dbcsr_acc_opencl_config.wa) || 0 == new_config.flags) ? 2 : 1);
+            new_config.aa = LIBXSMM_CLMP(/* bug with AA=2 XF=1? */
+              (NULL == env_aa || '\0' == *env_aa) ? (0 != defaults ? default_aa : config->aa) : atoi(env_aa), 0, 2);
             new_config.ab = LIBXSMM_CLMP(
               (NULL == env_ab || '\0' == *env_ab) ? (0 != defaults ? default_ab : config->ab) : atoi(env_ab), 0, 2);
             new_config.ac = LIBXSMM_CLMP(
