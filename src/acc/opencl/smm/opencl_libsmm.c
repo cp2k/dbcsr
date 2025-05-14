@@ -1230,13 +1230,9 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
               }
               else result = EXIT_FAILURE;
               if (0 < nchar && (int)sizeof(build_params) > nchar) {
-                const char* const cl_debug = ((0 != c_dbcsr_acc_opencl_config.debug && 0 != devinfo->intel &&
-                                                CL_DEVICE_TYPE_CPU != devinfo->type)
-                                                ? "-gline-tables-only"
-                                                : "");
-                nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s",
-                  (0 == new_config.flags || 0 == devinfo->intel || CL_DEVICE_TYPE_GPU != devinfo->type) ? "" : intel_xf, cl_debug,
-                  0 == c_dbcsr_acc_opencl_config.debug ? "-cl-fast-relaxed-math -cl-denorms-are-zero" : "",
+                nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s%s",
+                  (0 == new_config.flags || 0 == devinfo->intel || CL_DEVICE_TYPE_GPU != devinfo->type) ? "" : intel_xf,
+                  0 == c_dbcsr_acc_opencl_config.debug ? "-cl-fast-relaxed-math -cl-denorms-are-zero " : "",
                   NULL == env_cl ? "" : env_cl);
                 if (0 >= nchar || (int)sizeof(buffer) <= nchar) result = EXIT_FAILURE;
               }
