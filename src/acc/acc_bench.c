@@ -395,16 +395,22 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
-      for (r = 1; r < nrepeat_h2d; ++r) {
-        CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
-        CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
-        CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
+      if (1 < nrepeat_h2d) {
+#if defined(USE_LIBXSMM)
+        CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
+        start = libxsmm_timer_tick();
+#endif
+        for (r = 0; r < nrepeat_h2d; ++r) {
+          CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
+          CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
+          CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
+        }
       }
 #if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
-        const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size) * nrepeat_h2d;
-        duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+        const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size);
+        duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) / nrepeat_h2d;
         perf_h2d = size / (duration * (1ULL << 30));
         PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration, perf_h2d);
       }

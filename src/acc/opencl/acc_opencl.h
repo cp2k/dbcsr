@@ -410,6 +410,14 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char* const extname
 int c_dbcsr_acc_opencl_create_context(cl_device_id device_id, cl_context* context);
 /** Internal variant of c_dbcsr_acc_set_active_device. */
 int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_id);
+/** Assemble flags to support atomic operations. */
+int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
+/** Assemble given defines and internal definitions. */
+int c_dbcsr_acc_opencl_defines(const char defines[], char buffer[], size_t buffer_size, int cleanup);
+/** Combines build-params, build-options, and extra flags. */
+int c_dbcsr_acc_opencl_kernel_flags(const char build_params[], const char build_options[], const char try_options[],
+  cl_program program, char buffer[], size_t buffer_size);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
@@ -420,12 +428,6 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
   cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_LOCKTYPE* lock, int thread_id);
-/** Assemble flags to support atomic operations. */
-int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
-/** Combines build-params and build-options, optional flags (try_build_options). */
-int c_dbcsr_acc_opencl_flags(
-  const char build_params[], const char build_options[], const char try_build_options[], char buffer[], size_t buffer_size);
 /** To support USM, call this function for pointer arguments instead of clSetKernelArg. */
 int c_dbcsr_acc_opencl_set_kernel_ptr(cl_kernel kernel, cl_uint arg_index, const void* arg_value);
 
