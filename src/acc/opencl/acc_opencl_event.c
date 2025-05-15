@@ -16,19 +16,21 @@ extern "C" {
 
 int c_dbcsr_acc_event_create(void** event_p) {
   int result = EXIT_SUCCESS;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   assert(NULL != c_dbcsr_acc_opencl_config.events && NULL != event_p);
   *event_p = c_dbcsr_acc_opencl_pmalloc(
     c_dbcsr_acc_opencl_config.lock_event, (void**)c_dbcsr_acc_opencl_config.events, &c_dbcsr_acc_opencl_config.nevents);
   if (NULL != *event_p) *(cl_event*)*event_p = NULL;
   else result = EXIT_FAILURE;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -36,11 +38,13 @@ int c_dbcsr_acc_event_create(void** event_p) {
 
 int c_dbcsr_acc_event_destroy(void* event) {
   int result = EXIT_SUCCESS;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   if (NULL != event) {
     const cl_event clevent = *ACC_OPENCL_EVENT(event);
@@ -55,8 +59,8 @@ int c_dbcsr_acc_event_destroy(void* event) {
     }
     ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_event);
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -66,11 +70,13 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
   int result = EXIT_SUCCESS;
   const c_dbcsr_acc_opencl_stream_t* str = NULL;
   cl_event clevent = NULL;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream_default());
   assert(NULL != str && NULL != str->queue && NULL != event);
@@ -90,8 +96,8 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
   else if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
     fprintf(stderr, "WARN ACC/OpenCL: c_dbcsr_acc_stream_wait_event discovered an empty event.\n");
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -101,11 +107,13 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
   int result = EXIT_SUCCESS;
   const c_dbcsr_acc_opencl_stream_t* str = NULL;
   cl_event clevent = NULL, clevent_result = NULL;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream_default());
   assert(NULL != str && NULL != str->queue && NULL != event);
@@ -127,8 +135,8 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
     if (NULL != clevent_result) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseEvent(clevent_result));
     *(cl_event*)event = NULL;
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -137,11 +145,13 @@ int c_dbcsr_acc_event_record(void* event, void* stream) {
 int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred) {
   cl_int status = CL_COMPLETE;
   int result;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   assert(NULL != event && NULL != has_occurred);
   result = clGetEventInfo(*ACC_OPENCL_EVENT(event), CL_EVENT_COMMAND_EXECUTION_STATUS, sizeof(cl_int), &status, NULL);
@@ -150,8 +160,8 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred) {
     result = EXIT_SUCCESS; /* soft-error */
     *has_occurred = 1;
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -160,11 +170,13 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred) {
 int c_dbcsr_acc_event_synchronize(void* event) { /* waits on the host-side */
   int result = EXIT_SUCCESS;
   cl_event clevent;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   assert(NULL != event);
   clevent = *ACC_OPENCL_EVENT(event);
@@ -179,8 +191,8 @@ int c_dbcsr_acc_event_synchronize(void* event) { /* waits on the host-side */
   else if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
     fprintf(stderr, "WARN ACC/OpenCL: c_dbcsr_acc_event_synchronize discovered an empty event.\n");
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }

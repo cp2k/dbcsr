@@ -154,10 +154,16 @@ void c_dbcsr_acc_opencl_configure(void) {
     const char* const env_rank = (NULL != getenv("PMI_RANK") ? getenv("PMI_RANK") : getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
     const char *const env_nranks = getenv("MPI_LOCALNRANKS"), *const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT");
     const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
-    const char *const env_priority = getenv("ACC_OPENCL_PRIORITY"), *const env_debug = getenv("ACC_OPENCL_DEBUG");
-    const char *const env_timer = getenv("ACC_OPENCL_TIMER"), *const env_nlocks = getenv("ACC_OPENCL_NLOCKS");
+    const char *const env_debug = getenv("ACC_OPENCL_DEBUG"), *const env_timer = getenv("ACC_OPENCL_TIMER");
     const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
     const char *const env_neo = getenv("NEOReadDebugKeys"), *const env_wa = getenv("ACC_OPENCL_WA");
+#  if defined(ACC_OPENCL_STREAM_PRIORITIES)
+    const char* const env_priority = getenv("ACC_OPENCL_PRIORITY");
+#  endif
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+    const char* const env_profile = getenv("ACC_OPENCL_PROFILE");
+#  endif
+    const char* const env_nlocks = getenv("ACC_OPENCL_NLOCKS");
     static char neo_enable_debug_keys[] = "NEOReadDebugKeys=1";
 #  if defined(ACC_OPENCL_NCCS)
     const char* const env_nccs = getenv("ACC_OPENCL_NCCS");
@@ -177,6 +183,8 @@ void c_dbcsr_acc_opencl_configure(void) {
     const char* const env_async = NULL;
     const int async_default = 0;
 #  endif
+
+
     const int nlocks = (NULL == env_nlocks ? 1 /*default*/ : atoi(env_nlocks));
     const int neo = (NULL == env_neo ? 1 : atoi(env_neo));
     int i;
@@ -208,7 +216,12 @@ void c_dbcsr_acc_opencl_configure(void) {
     c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
     c_dbcsr_acc_opencl_config.devsplit = (NULL == env_devsplit ? (/*1 < c_dbcsr_acc_opencl_config.nranks ? -1 :*/ 0)
                                                                : atoi(env_devsplit));
+#  if defined(ACC_OPENCL_STREAM_PRIORITIES)
     c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
+#  endif
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+    c_dbcsr_acc_opencl_config.profile = (NULL == env_profile ? /*default*/ 0 : atoi(env_profile));
+#  endif
     c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? xhints_default : atoi(env_xhints));
     c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
     c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
@@ -322,11 +335,13 @@ int c_dbcsr_acc_init(void) {
 #  else
   int result = EXIT_SUCCESS;
 #  endif
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   /* eventually touch OpenCL/compute runtime after configure */
   c_dbcsr_acc_opencl_configure();
@@ -638,8 +653,8 @@ int c_dbcsr_acc_init(void) {
     if (EXIT_SUCCESS == result) result = libsmm_acc_init();
 #  endif
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -705,11 +720,13 @@ int c_dbcsr_acc_finalize(void) {
   int result = EXIT_SUCCESS;
 #  endif
   static void (*cleanup)(void) = c_dbcsr_acc_opencl_finalize;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
   assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
   if (0 != c_dbcsr_acc_opencl_config.ndevices && NULL != cleanup) {
@@ -735,8 +752,8 @@ int c_dbcsr_acc_finalize(void) {
     if (EXIT_SUCCESS == result) result = atexit(cleanup);
     cleanup = NULL;
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
@@ -747,11 +764,13 @@ void c_dbcsr_acc_clear_errors(void) {}
 
 int c_dbcsr_acc_get_ndevices(int* ndevices) {
   int result;
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  static const char* const routine_name_ptr = LIBXSMM_FUNCNAME;
-  static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - 1;
-  c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  if (0 != c_dbcsr_acc_opencl_config.profile) {
+    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
+    c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
+  }
 #  endif
 #  if defined(ACC_OPENCL_LAZYINIT)
   /* DBCSR calls c_dbcsr_acc_get_ndevices before calling c_dbcsr_acc_init. */
@@ -765,8 +784,8 @@ int c_dbcsr_acc_get_ndevices(int* ndevices) {
     }
     else result = EXIT_FAILURE;
   }
-#  if defined(__DBCSR_ACC) && defined(ACC_OPENCL_PROFILE_DBCSR)
-  c_dbcsr_timestop(&routine_handle);
+#  if defined(ACC_OPENCL_PROFILE_DBCSR)
+  if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
 #  endif
   ACC_OPENCL_RETURN(result);
 }
