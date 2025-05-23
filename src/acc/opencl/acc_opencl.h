@@ -70,14 +70,6 @@
 #if !defined(ACC_OPENCL_CACHELINE)
 #  define ACC_OPENCL_CACHELINE LIBXSMM_CACHELINE
 #endif
-#if !defined(ACC_OPENCL_ATOMIC)
-#  define ACC_OPENCL_ATOMIC LIBXSMM_ATOMIC_SEQ_CST
-#endif
-#if defined(LIBXSMM_ATOMIC_LOCKTYPE)
-#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile LIBXSMM_ATOMIC_LOCKTYPE
-#else
-#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile int
-#endif
 #if !defined(ACC_OPENCL_TLS)
 #  define ACC_OPENCL_TLS LIBXSMM_TLS
 #endif
@@ -101,9 +93,6 @@
 #if !defined(ACC_OPENCL_DELIMS)
 #  define ACC_OPENCL_DELIMS ",;"
 #endif
-#if !defined(ACC_OPENCL_LAZYINIT) && (defined(__DBCSR_ACC) || 1)
-#  define ACC_OPENCL_LAZYINIT
-#endif
 #if !defined(ACC_OPENCL_ASYNC) && 1
 #  define ACC_OPENCL_ASYNC getenv("ACC_OPENCL_ASYNC")
 #endif
@@ -118,9 +107,6 @@
 /* Support arithmetic for device-pointers */
 #if !defined(ACC_OPENCL_MEM_DEVPTR) && 1
 #  define ACC_OPENCL_MEM_DEVPTR
-#endif
-#if !defined(ACC_OPENCL_OMPLOCKS) && 1
-#  define ACC_OPENCL_OMPLOCKS
 #endif
 /* Activate device by default */
 #if !defined(ACC_OPENCL_ACTIVATE) && 0
@@ -142,30 +128,31 @@
 /* incompatible with c_dbcsr_acc_event_record */
 #define ACC_OPENCL_EVENT(A) ((const cl_event*)(A))
 
-#if defined(_OPENMP)
-#  include <omp.h>
-#  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
-#else
-#  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
-#  undef ACC_OPENCL_OMPLOCKS
-#endif
-
 #define ACC_OPENCL_ATOMIC_ACQUIRE(LOCK) \
   do { \
-    LIBXSMM_ATOMIC_ACQUIRE(LOCK, LIBXSMM_SYNC_NPAUSE, ACC_OPENCL_ATOMIC); \
+    LIBXSMM_ATOMIC_ACQUIRE(LOCK, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_SEQ_CST); \
   } while (0)
 #define ACC_OPENCL_ATOMIC_RELEASE(LOCK) \
   do { \
-    LIBXSMM_ATOMIC_RELEASE(LOCK, ACC_OPENCL_ATOMIC); \
+    LIBXSMM_ATOMIC_RELEASE(LOCK, LIBXSMM_ATOMIC_SEQ_CST); \
   } while (0)
 
-#if defined(ACC_OPENCL_OMPLOCKS)
+#if defined(LIBXSMM_ATOMIC_LOCKTYPE)
+#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile LIBXSMM_ATOMIC_LOCKTYPE
+#else
+#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile int
+#endif
+
+#if defined(_OPENMP)
+#  include <omp.h>
+#  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
 #  define ACC_OPENCL_INIT(LOCK) omp_init_lock(LOCK)
 #  define ACC_OPENCL_DESTROY(LOCK) omp_destroy_lock(LOCK)
 #  define ACC_OPENCL_ACQUIRE(LOCK) omp_set_lock(LOCK)
 #  define ACC_OPENCL_RELEASE(LOCK) omp_unset_lock(LOCK)
 #  define ACC_OPENCL_LOCKTYPE omp_lock_t
 #else
+#  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
 #  define ACC_OPENCL_INIT(LOCK) (*(LOCK) = 0)
 #  define ACC_OPENCL_DESTROY(LOCK)
 #  define ACC_OPENCL_ACQUIRE(LOCK) ACC_OPENCL_ATOMIC_ACQUIRE(LOCK)
@@ -360,10 +347,10 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   /** Runtime-adjust ACC_OPENCL_STREAM_PRIORITIES. */
   cl_int priority;
 #endif
-#if defined(ACC_OPENCL_PROFILE_DBCSR)
   /** Runtime-enable ACC_OPENCL_PROFILE_DBCSR. */
   cl_int profile;
-#endif
+  /** Detailed/optional insight. */
+  void *hist_h2d, *hist_d2h, *hist_d2d;
   /** Configuration and execution-hints. */
   cl_int xhints;
   /** Asynchronous memory operations. */
@@ -438,11 +425,21 @@ int c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_LOCKTYPE* lock, int thread_
 int c_dbcsr_acc_opencl_set_kernel_ptr(cl_kernel kernel, cl_uint arg_index, const void* arg_value);
 
 /** Support older LIBXSMM (libxsmm_pmalloc_init). */
-void c_dbcsr_acc_opencl_pmalloc_init(ACC_OPENCL_LOCKTYPE* lock, size_t size, size_t* num, void* pool[], void* storage);
+void c_dbcsr_acc_opencl_pmalloc_init(size_t size, size_t* num, void* pool[], void* storage);
 /** Support older LIBXSMM (libxsmm_pmalloc). */
 void* c_dbcsr_acc_opencl_pmalloc(ACC_OPENCL_LOCKTYPE* lock, void* pool[], size_t* i);
 /** Support older LIBXSMM (libxsmm_pfree). */
-void c_dbcsr_acc_opencl_pfree(ACC_OPENCL_LOCKTYPE* lock, const void* pointer, void* pool[], size_t* i);
+void c_dbcsr_acc_opencl_pfree(const void* pointer, void* pool[], size_t* i);
+
+/** Measure time in seconds for the given event. */
+double c_dbcsr_acc_opencl_duration(cl_event event, int* result_code);
+
+void c_dbcsr_acc_opencl_hist_create(void** hist, int nbuckets, int nqueue, int nvals);
+void c_dbcsr_acc_opencl_hist_add(ACC_OPENCL_LOCKTYPE* lock, void* hist, const double vals[]);
+void c_dbcsr_acc_opencl_hist_get(
+  ACC_OPENCL_LOCKTYPE* lock, void* hist, const int** buckets, int* nbuckets, double range[2], const double** vals, int* nvals);
+void c_dbcsr_acc_opencl_hist_print(FILE* stream, void* hist, const char title[], const int prec[]);
+void c_dbcsr_acc_opencl_hist_free(void* hist);
 
 #if defined(__cplusplus)
 }
