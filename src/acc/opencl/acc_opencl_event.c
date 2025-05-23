@@ -50,7 +50,7 @@ int c_dbcsr_acc_event_destroy(void* event) {
     const cl_event clevent = *ACC_OPENCL_EVENT(event);
     assert(NULL != c_dbcsr_acc_opencl_config.events);
     ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_event);
-    c_dbcsr_acc_opencl_pfree(NULL /*lock*/, event, (void**)c_dbcsr_acc_opencl_config.events, &c_dbcsr_acc_opencl_config.nevents);
+    c_dbcsr_acc_opencl_pfree(event, (void**)c_dbcsr_acc_opencl_config.events, &c_dbcsr_acc_opencl_config.nevents);
     if (NULL != clevent) {
       result = clReleaseEvent(clevent);
 #  if !defined(NDEBUG)

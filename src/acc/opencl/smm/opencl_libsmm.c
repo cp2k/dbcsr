@@ -377,11 +377,13 @@ int libsmm_acc_init(void) {
 #  if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
   int result = ((0 == omp_in_parallel() || /*main*/ 0 == omp_get_thread_num()) ? EXIT_SUCCESS : EXIT_FAILURE);
+#    pragma omp critical(opencl_libsmm_initialized)
 #  else
   int result = EXIT_SUCCESS;
 #  endif
+  ++opencl_libsmm_initialized;
   /* multiple calls to libsmm_acc_init are not considered as an error */
-  if (1 == LIBXSMM_ATOMIC_ADD_FETCH(&opencl_libsmm_initialized, 1, ACC_OPENCL_ATOMIC)) {
+  if (1 == opencl_libsmm_initialized) {
 #  if !defined(__DBCSR_ACC)
     /* DBCSR shall call c_dbcsr_acc_init as well as libsmm_acc_init (since both interfaces are used).
      * Also, libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
@@ -583,11 +585,13 @@ int libsmm_acc_finalize(void) {
 #  if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
   int result = ((0 == omp_in_parallel() || /*main*/ 0 == omp_get_thread_num()) ? EXIT_SUCCESS : EXIT_FAILURE);
+#    pragma omp critical(opencl_libsmm_initialized)
 #  else
   int result = EXIT_SUCCESS;
 #  endif
+  --opencl_libsmm_initialized;
   /* multiple calls to libsmm_acc_finalize are not considered as an error */
-  if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, ACC_OPENCL_ATOMIC)) {
+  if (0 == opencl_libsmm_initialized) {
 #  if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
     char fname[ACC_OPENCL_MAXSTRLEN];
     const void* regentry = libxsmm_get_registry_begin(LIBXSMM_KERNEL_KIND_USER, NULL /*key*/);
@@ -854,14 +858,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
 #  if !defined(OPENCL_LIBSMM_VALIDATE_TRANS)
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
           if (NULL != perf_event && NULL != *perf_event) {
-            cl_ulong begin = 0, end = 0;
             clWaitForEvents(1, perf_event);
-            ACC_OPENCL_CHECK(result,
-              clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-              "query kernel start time");
-            ACC_OPENCL_CHECK(result, clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-              "query kernel end time");
-            duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
+            if (EXIT_SUCCESS == result) duration = c_dbcsr_acc_opencl_duration(*perf_event, &result);
           }
           else {
             clFinish(str->queue);
@@ -1416,15 +1414,8 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
         if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
           duration = 0;
           if (perf_event_smm == &event && NULL != event) {
-            cl_ulong begin = 0, end = 0;
             clWaitForEvents(1, perf_event_smm);
-            ACC_OPENCL_CHECK(result,
-              clGetEventProfilingInfo(*perf_event_smm, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-              "query kernel start time");
-            ACC_OPENCL_CHECK(result,
-              clGetEventProfilingInfo(*perf_event_smm, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-              "query kernel end time");
-            duration = 1E-9 * LIBXSMM_DELTA(begin, end); /* Nanoseconds->seconds */
+            if (EXIT_SUCCESS == result) duration = c_dbcsr_acc_opencl_duration(*perf_event_smm, &result);
           }
           else if (NULL == perf_event_smm) {
             clFinish(str->queue);
