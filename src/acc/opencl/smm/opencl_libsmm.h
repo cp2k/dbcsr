@@ -16,10 +16,6 @@
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 #  define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
-/* Validate kernels (1: OPENCL_LIBSMM_VALIDATE_SMM, 2: OPENCL_LIBSMM_VALIDATE_TRANS) */
-#if !defined(OPENCL_LIBSMM_VALIDATE) && 0
-#  define OPENCL_LIBSMM_VALIDATE 1
-#endif
 #if !defined(OPENCL_LIBSMM_F32_OFF) && defined(__DBCSR_ACC) && 0
 #  define OPENCL_LIBSMM_F32_OFF
 #endif
@@ -121,7 +117,7 @@ void opencl_libsmm_acc_set_dbm_launch_fn(opencl_libsmm_acc_dbm_launch_fn_t launc
 /** Backend-specific variant of libsmm_acc_process, which allows to easier reuse LIBSMM kernels. */
 int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size, libsmm_acc_data_t datatype,
   const void* dev_a_data, const void* dev_b_data, void* dev_c_data, int m_max, int n_max, int k_max, int max_kernel_dim,
-  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream, int param_format, cl_event* perf_event);
+  c_dbcsr_acc_bool_t def_mnk, void* stream, void* c_stream, int param_format, cl_event* event);
 #endif
 
 #if defined(__cplusplus)

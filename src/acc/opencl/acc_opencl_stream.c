@@ -63,7 +63,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
   if (0 != c_dbcsr_acc_opencl_config.profile) {
-    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const char* routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
     static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
     c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
   }
@@ -148,9 +148,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
       }
     }
 #  endif
-    if ((c_dbcsr_acc_opencl_timer_device == c_dbcsr_acc_opencl_config.timer &&
-          (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity)) ||
-        NULL != c_dbcsr_acc_opencl_config.hist_h2d || NULL != c_dbcsr_acc_opencl_config.hist_d2h ||
+    if (NULL != c_dbcsr_acc_opencl_config.hist_h2d || NULL != c_dbcsr_acc_opencl_config.hist_d2h ||
         NULL != c_dbcsr_acc_opencl_config.hist_d2d)
     {
       properties[1] = CL_QUEUE_PROFILING_ENABLE;
@@ -191,7 +189,7 @@ int c_dbcsr_acc_stream_destroy(void* stream) {
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
   if (0 != c_dbcsr_acc_opencl_config.profile) {
-    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const char* routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
     static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
     c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
   }
@@ -223,7 +221,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
   if (0 != c_dbcsr_acc_opencl_config.profile) {
-    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const char* routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
     static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
     c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
   }
@@ -265,7 +263,7 @@ int c_dbcsr_acc_stream_sync(void* stream) {
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
   if (0 != c_dbcsr_acc_opencl_config.profile) {
-    static const char* const routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+    static const char* routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
     static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
     c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
   }
@@ -327,7 +325,7 @@ int c_dbcsr_acc_device_synchronize(void) {
     const int* routine_name_len;
 #    if defined(_OPENMP)
     if (1 == omp_get_num_threads()) {
-      static const char* const routine_name_ptr_all = "c_dbcsr_acc_device_synchronize_all" + ACC_OPENCL_PROFILE_DBCSR;
+      static const char* routine_name_ptr_all = "c_dbcsr_acc_device_synchronize_all" + ACC_OPENCL_PROFILE_DBCSR;
       static const int routine_name_len_all = (int)sizeof("c_dbcsr_acc_device_synchronize_all") - (ACC_OPENCL_PROFILE_DBCSR + 1);
       routine_name_ptr = (const char**)&routine_name_ptr_all;
       routine_name_len = &routine_name_len_all;
@@ -335,7 +333,7 @@ int c_dbcsr_acc_device_synchronize(void) {
     else
 #    endif
     {
-      static const char* const routine_name_ptr_any = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
+      static const char* routine_name_ptr_any = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
       static const int routine_name_len_any = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
       routine_name_ptr = (const char**)&routine_name_ptr_any;
       routine_name_len = &routine_name_len_any;

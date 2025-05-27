@@ -104,10 +104,6 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
-/* Support arithmetic for device-pointers */
-#if !defined(ACC_OPENCL_MEM_DEVPTR) && 1
-#  define ACC_OPENCL_MEM_DEVPTR
-#endif
 /* Activate device by default */
 #if !defined(ACC_OPENCL_ACTIVATE) && 0
 #  define ACC_OPENCL_ACTIVATE 0
@@ -117,10 +113,6 @@
 #  if defined(__DBCSR_ACC)
 #    define ACC_OPENCL_PROFILE_DBCSR 8
 #  endif
-#endif
-
-#if defined(__OFFLOAD_OPENCL) && !defined(ACC_OPENCL_MEM_DEVPTR)
-#  error Support for ACC_OPENCL_MEM_DEVPTR is required!
 #endif
 
 /* attaching c_dbcsr_acc_opencl_stream_t is needed */
@@ -290,13 +282,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
 typedef struct c_dbcsr_acc_opencl_info_memptr_t {
   cl_mem memory; /* first item! */
   void* memptr;
+  /*void *data;*/
 } c_dbcsr_acc_opencl_info_memptr_t;
-
-/** Enumeration of timer kinds used for built-in execution-profile. */
-typedef enum c_dbcsr_acc_opencl_timer_t {
-  c_dbcsr_acc_opencl_timer_device,
-  c_dbcsr_acc_opencl_timer_host
-} c_dbcsr_acc_opencl_timer_t;
 
 /** Enumeration of FP-atomic kinds. */
 typedef enum c_dbcsr_acc_opencl_atomic_fp_t {
@@ -316,19 +303,15 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   c_dbcsr_acc_opencl_device_t device;
   /** Locks used by domain. */
   ACC_OPENCL_LOCKTYPE *lock_main, *lock_stream, *lock_event, *lock_memory;
-#if defined(ACC_OPENCL_MEM_DEVPTR)
   /** All memptrs and related storage/counter. */
   c_dbcsr_acc_opencl_info_memptr_t **memptrs, *memptr_data;
   size_t nmemptrs; /* counter */
-#endif
   /** Handle-counter. */
   size_t nstreams, nevents;
   /** All streams and related storage. */
   c_dbcsr_acc_opencl_stream_t **streams, *stream_data;
   /** All events and related storage. */
   cl_event **events, *event_data;
-  /** Kind of timer used for built-in execution-profile. */
-  c_dbcsr_acc_opencl_timer_t timer; /* c_dbcsr_acc_opencl_device_t? */
   /** Device-ID to lookup devices-array. */
   cl_int device_id;
   /** Kernel-parameters are matched against device's UID */
@@ -368,13 +351,13 @@ extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** Determines host-pointer registration for modification. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
-/** Determines device-pointer registration for modification (internal); offset is in measured in elsize. */
+/** Determines device-pointer registration for modification (internal); offset is measured in elsize. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for info/ro (lock-control); offset is in measured in elsize. */
+/** Determines device-pointer registration for info/ro (lock-control); offset is measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, ACC_OPENCL_LOCKTYPE* lock, const void* memory,
   size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for info/ro; offset is in measured in elsize. */
+/** Determines device-pointer registration for info/ro; offset is measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr(
   c_dbcsr_acc_opencl_info_memptr_t* info, const void* memory, size_t elsize, const size_t* amount, size_t* offset);
 /** Finds an existing stream for the given thread-ID (or NULL). */
@@ -434,11 +417,17 @@ void c_dbcsr_acc_opencl_pfree(const void* pointer, void* pool[], size_t* i);
 /** Measure time in seconds for the given event. */
 double c_dbcsr_acc_opencl_duration(cl_event event, int* result_code);
 
-void c_dbcsr_acc_opencl_hist_create(void** hist, int nbuckets, int nqueue, int nvals);
-void c_dbcsr_acc_opencl_hist_add(ACC_OPENCL_LOCKTYPE* lock, void* hist, const double vals[]);
+typedef void (*c_dbcsr_acc_opencl_hist_update_fn)(double* /*dst*/, const double* /*src*/);
+typedef double (*c_dbcsr_acc_opencl_hist_adjust_fn)(double /*value*/, int count);
+void c_dbcsr_acc_opencl_hist_create(
+  void** hist, int nbuckets, int nqueue, int nvals, const c_dbcsr_acc_opencl_hist_update_fn update[]);
+void c_dbcsr_acc_opencl_hist_avg(double* dst, const double* src);
+void c_dbcsr_acc_opencl_hist_add(double* dst, const double* src);
+void c_dbcsr_acc_opencl_hist_set(ACC_OPENCL_LOCKTYPE* lock, void* hist, const double vals[]);
 void c_dbcsr_acc_opencl_hist_get(
   ACC_OPENCL_LOCKTYPE* lock, void* hist, const int** buckets, int* nbuckets, double range[2], const double** vals, int* nvals);
-void c_dbcsr_acc_opencl_hist_print(FILE* stream, void* hist, const char title[], const int prec[]);
+void c_dbcsr_acc_opencl_hist_print(
+  FILE* stream, void* hist, const char title[], const int prec[], const c_dbcsr_acc_opencl_hist_adjust_fn adjust[]);
 void c_dbcsr_acc_opencl_hist_free(void* hist);
 
 #if defined(__cplusplus)

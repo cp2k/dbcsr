@@ -93,7 +93,9 @@ ifneq (0,$(DEV))
   else
     # DEV=2 (and higher): linking is not intended
     CFLAGS += -D__DBCSR_ACC
-    CFLAGS += -Wno-deprecated -Werror
+    CFLAGS += -Wno-gnu-zero-variadic-macro-arguments
+    CFLAGS += -Wno-deprecated
+    CFLAGS += -Werror
     ifneq (2,$(DEV))
       ifneq (,$(findstring clang,$(CC) $(CXX)))
         override CC := clang++ --analyze
