@@ -95,15 +95,15 @@
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_transformations.F"> Source File</a>
+              <a href="../src/dbcsr_api.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_replicate_all</li>
           </ol>
         </nav>
@@ -161,7 +161,6 @@
 </h2>
     
 
-    <p>Replicates a DBCSR on all processors.</p>
 
 
     <h3>Arguments</h3>
@@ -177,8 +176,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~334"></span>
-              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix~242"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -187,7 +186,7 @@
             <td>::</td>
             <td><strong>matrix</strong></td>
             <td>
-                <p>matrix to replicate</p>
+                
             </td>
         </tr>
     </tbody>
@@ -208,13 +207,9 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_replicate_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! Replicates a DBCSR on all processors.</span>
-
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
-<span class="w">         </span><span class="c">!! matrix to replicate</span>
 
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_replicate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">replicate_rows</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                           </span><span class="n">replicate_columns</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_replicate_all_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_replicate_all</span>
 </pre></div>
 
