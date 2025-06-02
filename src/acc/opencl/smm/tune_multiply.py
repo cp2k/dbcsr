@@ -936,6 +936,7 @@ if __name__ == "__main__":
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     if 2 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
