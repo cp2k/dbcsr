@@ -204,7 +204,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~14"></span>
+              <span class="anchor" id="variable-iterator~19"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -219,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~95"></span>
+              <span class="anchor" id="variable-row~59"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -236,7 +236,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~4"></span>
+              <span class="anchor" id="variable-column~13"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -253,7 +253,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk~69"></span>
+              <span class="anchor" id="variable-blk~33"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -270,7 +270,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~29"></span>
+              <span class="anchor" id="variable-blk_p~20"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -310,7 +310,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~15"></span>
+              <span class="anchor" id="variable-iterator~20"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -325,7 +325,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~97"></span>
+              <span class="anchor" id="variable-row~61"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -340,7 +340,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~5"></span>
+              <span class="anchor" id="variable-column~14"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -355,887 +355,12 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~122"></span>
+              <span class="anchor" id="variable-block~54"></span>
               real(kind=real_8),
             </td>
 <td></td>
               <td></td>            <td>
               DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~24"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~2"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~46"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~41"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~13"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~5"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_s.html'>dbcsr_iterator_next_2d_block_s</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~19"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~108"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~9"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~133"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~27"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~6"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~54"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~49"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~17"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~9"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_c.html'>dbcsr_iterator_next_2d_block_c</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~27"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~130"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~17"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~155"></span>
-              complex(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~33"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~14"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~70"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~65"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~25"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~17"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_z.html'>dbcsr_iterator_next_2d_block_z</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~23"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~119"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~13"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~144"></span>
-              complex(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:, :), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~30"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~10"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~62"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~57"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~21"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~13"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_d.html'>dbcsr_iterator_next_1d_block_d</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~17"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~99"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~7"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~124"></span>
-              real(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~25"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~4"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~48"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~43"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~15"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~7"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_s.html'>dbcsr_iterator_next_1d_block_s</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~21"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~110"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~11"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~135"></span>
-              real(kind=real_4),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1275,7 +400,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~56"></span>
+              <span class="anchor" id="variable-row_size~30"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1290,7 +415,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~51"></span>
+              <span class="anchor" id="variable-col_size~28"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1305,7 +430,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~19"></span>
+              <span class="anchor" id="variable-row_offset~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1320,7 +445,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~11"></span>
+              <span class="anchor" id="variable-col_offset~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1341,7 +466,7 @@ block number</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_c.html'>dbcsr_iterator_next_1d_block_c</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_s.html'>dbcsr_iterator_next_2d_block_s</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
 </h3></div>
     <div class="card-body">
           
@@ -1360,7 +485,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~29"></span>
+              <span class="anchor" id="variable-iterator~24"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1375,7 +500,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~132"></span>
+              <span class="anchor" id="variable-row~72"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1390,7 +515,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~19"></span>
+              <span class="anchor" id="variable-column~18"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1405,187 +530,12 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~157"></span>
-              complex(kind=real_4),
+              <span class="anchor" id="variable-block~65"></span>
+              real(kind=real_4),
             </td>
 <td></td>
               <td></td>            <td>
-              DIMENSION(:), POINTER
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transposed~34"></span>
-              logical,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transposed</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block_number~16"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>block_number</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_size~72"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_size~67"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_size</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row_offset~27"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-col_offset~19"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>col_offset</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_z.html'>dbcsr_iterator_next_1d_block_z</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iterator~25"></span>
-              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iterator</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-row~121"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>row</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-column~15"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>column</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~146"></span>
-              complex(kind=real_8),
-            </td>
-<td></td>
-              <td></td>            <td>
-              DIMENSION(:), POINTER
+              DIMENSION(:, :), POINTER
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
@@ -1625,7 +575,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~64"></span>
+              <span class="anchor" id="variable-row_size~38"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1640,7 +590,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~59"></span>
+              <span class="anchor" id="variable-col_size~36"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1655,7 +605,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~23"></span>
+              <span class="anchor" id="variable-row_offset~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1670,7 +620,1057 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~15"></span>
+              <span class="anchor" id="variable-col_offset~8"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_c.html'>dbcsr_iterator_next_2d_block_c</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~32"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~94"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~26"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~87"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~37"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~20"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~54"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~52"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~17"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~16"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_2d_block_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_2d_block_z.html'>dbcsr_iterator_next_2d_block_z</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~28"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~83"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~22"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~76"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:, :), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~34"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~16"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~46"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~44"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~13"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~12"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_d.html'>dbcsr_iterator_next_1d_block_d</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~22"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~63"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~16"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~56"></span>
+              real(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~29"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~10"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~32"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~30"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~7"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~6"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_s.html'>dbcsr_iterator_next_1d_block_s</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~26"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~74"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~20"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~67"></span>
+              real(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~32"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~14"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~40"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~38"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~11"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~10"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_c"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_c.html'>dbcsr_iterator_next_1d_block_c</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~34"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~96"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~28"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~89"></span>
+              complex(kind=real_4),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~38"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~22"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~56"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~54"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~19"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~18"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_iterator_next_1d_block_z"></span> <h3>private  subroutine <a href='../proc/dbcsr_iterator_next_1d_block_z.html'>dbcsr_iterator_next_1d_block_z</a>(iterator, row, column, block, transposed, block_number, row_size, col_size, row_offset, col_offset)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iterator~30"></span>
+              type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iterator</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row~85"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-column~24"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>column</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~78"></span>
+              complex(kind=real_8),
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(:), POINTER
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transposed~35"></span>
+              logical,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transposed</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block_number~18"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>block_number</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_size~48"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_size~46"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>col_size</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-row_offset~15"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>row_offset</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-col_offset~14"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1710,7 +1710,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~16"></span>
+              <span class="anchor" id="variable-iterator~21"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1725,7 +1725,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~98"></span>
+              <span class="anchor" id="variable-row~62"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1740,7 +1740,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~6"></span>
+              <span class="anchor" id="variable-column~15"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1755,7 +1755,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~123"></span>
+              <span class="anchor" id="variable-block~55"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -1770,7 +1770,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~3"></span>
+              <span class="anchor" id="variable-block_number~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1785,7 +1785,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~47"></span>
+              <span class="anchor" id="variable-row_size~31"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1800,7 +1800,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~42"></span>
+              <span class="anchor" id="variable-col_size~29"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1815,7 +1815,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~14"></span>
+              <span class="anchor" id="variable-row_offset~6"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1830,7 +1830,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~6"></span>
+              <span class="anchor" id="variable-col_offset~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1870,7 +1870,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~20"></span>
+              <span class="anchor" id="variable-iterator~25"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1885,7 +1885,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~109"></span>
+              <span class="anchor" id="variable-row~73"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1900,7 +1900,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~10"></span>
+              <span class="anchor" id="variable-column~19"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1915,7 +1915,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~134"></span>
+              <span class="anchor" id="variable-block~66"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -1930,7 +1930,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~7"></span>
+              <span class="anchor" id="variable-block_number~13"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1945,7 +1945,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~55"></span>
+              <span class="anchor" id="variable-row_size~39"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1960,7 +1960,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~50"></span>
+              <span class="anchor" id="variable-col_size~37"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1975,7 +1975,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~18"></span>
+              <span class="anchor" id="variable-row_offset~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1990,7 +1990,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~10"></span>
+              <span class="anchor" id="variable-col_offset~9"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2030,7 +2030,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~28"></span>
+              <span class="anchor" id="variable-iterator~33"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2045,7 +2045,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~131"></span>
+              <span class="anchor" id="variable-row~95"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2060,7 +2060,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~18"></span>
+              <span class="anchor" id="variable-column~27"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2075,7 +2075,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~156"></span>
+              <span class="anchor" id="variable-block~88"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -2090,7 +2090,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~15"></span>
+              <span class="anchor" id="variable-block_number~21"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2105,7 +2105,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~71"></span>
+              <span class="anchor" id="variable-row_size~55"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2120,7 +2120,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~66"></span>
+              <span class="anchor" id="variable-col_size~53"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2135,7 +2135,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~26"></span>
+              <span class="anchor" id="variable-row_offset~18"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2150,7 +2150,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~18"></span>
+              <span class="anchor" id="variable-col_offset~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2190,7 +2190,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~24"></span>
+              <span class="anchor" id="variable-iterator~29"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2205,7 +2205,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~120"></span>
+              <span class="anchor" id="variable-row~84"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2220,7 +2220,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~14"></span>
+              <span class="anchor" id="variable-column~23"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2235,7 +2235,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~145"></span>
+              <span class="anchor" id="variable-block~77"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -2250,7 +2250,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~11"></span>
+              <span class="anchor" id="variable-block_number~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2265,7 +2265,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~63"></span>
+              <span class="anchor" id="variable-row_size~47"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2280,7 +2280,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~58"></span>
+              <span class="anchor" id="variable-col_size~45"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2295,7 +2295,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~22"></span>
+              <span class="anchor" id="variable-row_offset~14"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2310,7 +2310,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~14"></span>
+              <span class="anchor" id="variable-col_offset~13"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2350,7 +2350,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~18"></span>
+              <span class="anchor" id="variable-iterator~23"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2365,7 +2365,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~100"></span>
+              <span class="anchor" id="variable-row~64"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2380,7 +2380,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~8"></span>
+              <span class="anchor" id="variable-column~17"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2395,7 +2395,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~125"></span>
+              <span class="anchor" id="variable-block~57"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -2410,7 +2410,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~5"></span>
+              <span class="anchor" id="variable-block_number~11"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2425,7 +2425,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~49"></span>
+              <span class="anchor" id="variable-row_size~33"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2440,7 +2440,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~44"></span>
+              <span class="anchor" id="variable-col_size~31"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2455,7 +2455,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~16"></span>
+              <span class="anchor" id="variable-row_offset~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2470,7 +2470,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~8"></span>
+              <span class="anchor" id="variable-col_offset~7"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2510,7 +2510,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~22"></span>
+              <span class="anchor" id="variable-iterator~27"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2525,7 +2525,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~111"></span>
+              <span class="anchor" id="variable-row~75"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2540,7 +2540,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~12"></span>
+              <span class="anchor" id="variable-column~21"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2555,7 +2555,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~136"></span>
+              <span class="anchor" id="variable-block~68"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -2570,7 +2570,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~9"></span>
+              <span class="anchor" id="variable-block_number~15"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2585,7 +2585,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~57"></span>
+              <span class="anchor" id="variable-row_size~41"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2600,7 +2600,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~52"></span>
+              <span class="anchor" id="variable-col_size~39"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2615,7 +2615,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~20"></span>
+              <span class="anchor" id="variable-row_offset~12"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2630,7 +2630,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~12"></span>
+              <span class="anchor" id="variable-col_offset~11"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2670,7 +2670,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~30"></span>
+              <span class="anchor" id="variable-iterator~35"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2685,7 +2685,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~133"></span>
+              <span class="anchor" id="variable-row~97"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2700,7 +2700,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~20"></span>
+              <span class="anchor" id="variable-column~29"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2715,7 +2715,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~158"></span>
+              <span class="anchor" id="variable-block~90"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -2730,7 +2730,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~17"></span>
+              <span class="anchor" id="variable-block_number~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2745,7 +2745,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~73"></span>
+              <span class="anchor" id="variable-row_size~57"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2760,7 +2760,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~68"></span>
+              <span class="anchor" id="variable-col_size~55"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2775,7 +2775,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~28"></span>
+              <span class="anchor" id="variable-row_offset~20"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2790,7 +2790,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~20"></span>
+              <span class="anchor" id="variable-col_offset~19"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2830,7 +2830,7 @@ block number</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~26"></span>
+              <span class="anchor" id="variable-iterator~31"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2845,7 +2845,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~122"></span>
+              <span class="anchor" id="variable-row~86"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2860,7 +2860,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~16"></span>
+              <span class="anchor" id="variable-column~25"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2875,7 +2875,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~147"></span>
+              <span class="anchor" id="variable-block~79"></span>
               complex(kind=real_8),
             </td>
 <td></td>
@@ -2890,7 +2890,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~13"></span>
+              <span class="anchor" id="variable-block_number~19"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2905,7 +2905,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~65"></span>
+              <span class="anchor" id="variable-row_size~49"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2920,7 +2920,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~60"></span>
+              <span class="anchor" id="variable-col_size~47"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2935,7 +2935,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~24"></span>
+              <span class="anchor" id="variable-row_offset~16"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2950,7 +2950,7 @@ block number</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~16"></span>
+              <span class="anchor" id="variable-col_offset~15"></span>
               integer,
             </td>
 <td>intent(out),</td>
