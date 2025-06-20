@@ -14,8 +14,10 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_FTN})
 
   # with the Intel compiler CMake 3.12 seems to forget that the source is
   # actually Fortran and needs to be told explicitly:
-  set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
-                                                         Fortran)
+  if(NOT "${CMAKE_Fortran_COMPILER_ID}" STREQUAL IntelLLVM)
+    set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
+                                                           Fortran)
+  endif()
 endforeach ()
 
 # override -Werror for certain translation units
@@ -32,8 +34,10 @@ if (WITH_C_API)
     set(dbcsr_program_name ${dbcsr_program_name}_cpp)
     add_executable(${dbcsr_program_name} ${dbcsr_program_src})
     target_link_libraries(${dbcsr_program_name} dbcsr_c MPI::MPI_CXX)
-    set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
-                                                           Fortran)
+    if(NOT "${CMAKE_Fortran_COMPILER_ID}" STREQUAL IntelLLVM)
+      set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
+                                                             Fortran)
+    endif()
     if (OpenMP_FOUND)
       target_compile_options(${dbcsr_program_name} PRIVATE ${OpenMP_CXX_FLAGS})
       target_link_libraries(${dbcsr_program_name} OpenMP::OpenMP_Fortran)
