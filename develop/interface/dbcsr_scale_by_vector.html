@@ -90,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 28 statements,  0.0% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 156 statements,  0.3% of total for procedures.">5 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_api.F"> Source File</a>
+              <a href="../src/dbcsr_operations.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
             <li class="breadcrumb-item active" aria-current="page">dbcsr_scale_by_vector</li>
           </ol>
         </nav>
@@ -149,8 +149,9 @@
       </a>
       <div id="modprocs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_d">dbcsr_scale_by_vector_d</a>
+            <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_anytype">dbcsr_scale_by_vector_anytype</a>
             <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_s">dbcsr_scale_by_vector_s</a>
+            <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_d">dbcsr_scale_by_vector_d</a>
             <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_c">dbcsr_scale_by_vector_c</a>
             <a class="list-group-item" href="../interface/dbcsr_scale_by_vector.html#moduleprocedure-dbcsr_scale_by_vector_z">dbcsr_scale_by_vector_z</a>
         </div>
@@ -172,11 +173,11 @@
 
         <h2>Module Procedures</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_by_vector_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_by_vector_d.html'>dbcsr_scale_by_vector_d</a>(matrix_a, alpha, side)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_by_vector_anytype"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_by_vector_anytype.html'>dbcsr_scale_by_vector_anytype</a>(matrix_a, alpha, side)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Scales a DBCSR matrix by alpha</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -191,8 +192,78 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~15"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~3"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix_a</strong></td>
+            <td>
+<p>DBCSR matrix</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~3"></span>
+              type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+<p>the scaling vector</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-side"></span>
+              character(len=*),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>side</strong></td>
+            <td>
+<p>apply the scaling from the side</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_by_vector_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_by_vector_s.html'>dbcsr_scale_by_vector_s</a>(matrix_a, alpha, side)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Interface for matrix scaling by a vector</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix_a~28"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -206,12 +277,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~14"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-alpha~8"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:), TARGET
+              DIMENSION(:), TARGET, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>alpha</strong></td>
@@ -221,7 +292,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side"></span>
+              <span class="anchor" id="variable-side~3"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -242,11 +313,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_by_vector_s"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_by_vector_s.html'>dbcsr_scale_by_vector_s</a>(matrix_a, alpha, side)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_scale_by_vector_d"></span> <h3>private  subroutine <a href='../proc/dbcsr_scale_by_vector_d.html'>dbcsr_scale_by_vector_d</a>(matrix_a, alpha, side)  
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Interface for matrix scaling by a vector</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -261,8 +332,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~21"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~22"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -276,12 +347,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~17"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-alpha~5"></span>
+              real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:), TARGET
+              DIMENSION(:), TARGET, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>alpha</strong></td>
@@ -316,7 +387,7 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Interface for matrix scaling by a vector</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -331,8 +402,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~33"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~40"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -346,12 +417,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~23"></span>
+              <span class="anchor" id="variable-alpha~14"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:), TARGET
+              DIMENSION(:), TARGET, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>alpha</strong></td>
@@ -361,7 +432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~4"></span>
+              <span class="anchor" id="variable-side~5"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -386,7 +457,7 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Interface for matrix scaling by a vector</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -401,8 +472,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~27"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+              <span class="anchor" id="variable-matrix_a~34"></span>
+              type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -416,12 +487,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~20"></span>
+              <span class="anchor" id="variable-alpha~11"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
-              DIMENSION(:), TARGET
+              DIMENSION(:), TARGET, CONTIGUOUS
             </td>
             <td>::</td>
             <td><strong>alpha</strong></td>
@@ -431,7 +502,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~3"></span>
+              <span class="anchor" id="variable-side~4"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>

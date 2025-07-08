@@ -191,7 +191,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~147"></span>
+              <span class="anchor" id="variable-matrix~131"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -208,186 +208,6 @@
             <td>
               <span class="anchor" id="variable-select_data_type~4"></span>
               real(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>select_data_type</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=real_4), DIMENSION(:), POINTER</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c.html'>dbcsr_get_data_c</a>(matrix, select_data_type, lb, ub) result(DATA)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~173"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-select_data_type~8"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>select_data_type</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~14"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~14"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_d.html'>dbcsr_get_data_d</a>(matrix, select_data_type, lb, ub) result(DATA)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~134"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-select_data_type~2"></span>
-              real(kind=real_8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -434,7 +254,7 @@
 
     <h4>
     Return Value
-    <small>real(kind=real_8), DIMENSION(:), POINTER</small>
+    <small>real(kind=real_4), DIMENSION(:), POINTER</small>
     </h4>
     
 
@@ -442,7 +262,7 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a>(matrix, select_data_type, lb, ub) result(DATA)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_c"></span> <h3>private  function <a href='../proc/dbcsr_get_data_c.html'>dbcsr_get_data_c</a>(matrix, select_data_type, lb, ub) result(DATA)  
 </h3></div>
     <div class="card-body">
           
@@ -461,7 +281,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~160"></span>
+              <span class="anchor" id="variable-matrix~157"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -476,8 +296,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-select_data_type~6"></span>
-              complex(kind=real_8),
+              <span class="anchor" id="variable-select_data_type~8"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -507,6 +327,186 @@
         <tr>
             <td>
               <span class="anchor" id="variable-ub~12"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_data_d.html'>dbcsr_get_data_d</a>(matrix, select_data_type, lb, ub) result(DATA)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~118"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-select_data_type~2"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>select_data_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~6"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~6"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=real_8), DIMENSION(:), POINTER</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_data_z"></span> <h3>private  function <a href='../proc/dbcsr_get_data_z.html'>dbcsr_get_data_z</a>(matrix, select_data_type, lb, ub) result(DATA)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~144"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-select_data_type~6"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>select_data_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~10"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
