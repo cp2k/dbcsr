@@ -83,8 +83,7 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event) { /* wait for an ev
   clevent = *ACC_OPENCL_EVENT(event);
   if (NULL != clevent) {
 #  if defined(CL_VERSION_1_2)
-    cl_event clevent_result = NULL;
-    result = clEnqueueBarrierWithWaitList(str->queue, 1, &clevent, &clevent_result);
+    result = clEnqueueBarrierWithWaitList(str->queue, 1, &clevent, NULL);
 #  else
     result = clEnqueueWaitForEvents(str->queue, 1, &clevent);
 #  endif

@@ -19,6 +19,9 @@
 #    include <unistd.h>
 #  endif
 
+#  if !defined(ACC_OPENCL_MEM_EVTRELEASE) && 1
+#    define ACC_OPENCL_MEM_EVTRELEASE
+#  endif
 #  if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 #    define ACC_OPENCL_MEM_ALIGNSCALE 8
 #  endif
@@ -253,7 +256,7 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
       {
         const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
                                                                        : c_dbcsr_acc_opencl_stream_default());
-        cl_event event;
+        cl_event event = NULL;
 #  if !defined(NDEBUG)
         cl_context ctxstr, ctxmem;
         assert(NULL != str && NULL != str->queue);
@@ -277,6 +280,12 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
               stderr, "WARN ACC/OpenCL: contexts do not match (code=%i with %p != %p).\n", result2, (void*)ctxstr, (void*)ctxmem);
             warned = 1;
           }
+        }
+#  endif
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+        if (NULL != event) {
+          result2 = clReleaseEvent(event);
+          if (EXIT_SUCCESS == result) result = result2;
         }
 #  endif
       }
@@ -327,6 +336,9 @@ void CL_CALLBACK c_dbcsr_acc_memcpy_notify(cl_event event, cl_int event_status, 
       } break;
     }
   }
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+  if (NULL != event) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseEvent(event));
+#  endif
 }
 
 
@@ -584,8 +596,18 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
       }
       else result = EXIT_FAILURE;
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
-      if (NULL != event && EXIT_SUCCESS == result) {
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS == clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, dev_mem));
+      if (NULL != event) {
+        if (EXIT_SUCCESS == result) {
+          assert(NULL != c_dbcsr_acc_opencl_config.hist_h2d);
+          result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, dev_mem);
+          if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
+        }
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+        if (NULL != event) {
+          const int result_release = clReleaseEvent(event);
+          if (EXIT_SUCCESS == result) result = result_release;
+        }
+#  endif
       }
     }
   }
@@ -634,8 +656,18 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     }
     else result = EXIT_FAILURE;
     ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
-    if (NULL != event && EXIT_SUCCESS == result) {
-      ACC_OPENCL_EXPECT(EXIT_SUCCESS == clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr));
+    if (NULL != event) {
+      if (EXIT_SUCCESS == result) {
+        assert(NULL != c_dbcsr_acc_opencl_config.hist_d2h);
+        result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
+        if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
+      }
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+      if (NULL != event) {
+        const int result_release = clReleaseEvent(event);
+        if (EXIT_SUCCESS == result) result = result_release;
+      }
+#  endif
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
@@ -686,11 +718,20 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
       else result = EXIT_FAILURE;
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
-    if (NULL != event && EXIT_SUCCESS == result) {
-      if (NULL == stream) result = clWaitForEvents(1, &event);
-      if (EXIT_SUCCESS == result && NULL != c_dbcsr_acc_opencl_config.hist_d2d) {
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS == clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr));
+    if (NULL != event) {
+      if (EXIT_SUCCESS == result) {
+        if (NULL == stream) result = clWaitForEvents(1, &event);
+        if (EXIT_SUCCESS == result && NULL != c_dbcsr_acc_opencl_config.hist_d2d) {
+          result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
+          if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
+        }
       }
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+      if (NULL != event) {
+        const int result_release = clReleaseEvent(event);
+        if (EXIT_SUCCESS == result) result = result_release;
+      }
+#  endif
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
@@ -715,7 +756,7 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
     const c_dbcsr_acc_opencl_stream_t* const str =
       (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL /*lock*/, ACC_OPENCL_OMP_TID()));
     size_t size_of_value = 1;
-    cl_event event;
+    cl_event event = NULL;
     if (0 == LIBXSMM_MOD2(nbytes, 4)) size_of_value = 4;
     else if (0 == LIBXSMM_MOD2(nbytes, 2)) size_of_value = 2;
     assert(NULL != str && NULL != str->queue);
@@ -736,7 +777,17 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
       else result = EXIT_FAILURE;
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
-    if (NULL == stream && EXIT_SUCCESS == result) result = clWaitForEvents(1, &event);
+    if (NULL != event) {
+      if (NULL == stream && EXIT_SUCCESS == result) {
+        result = clWaitForEvents(1, &event);
+      }
+#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
+      {
+        const int result_release = clReleaseEvent(event);
+        if (EXIT_SUCCESS == result) result = result_release;
+      }
+#  endif
+    }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
