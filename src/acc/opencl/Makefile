@@ -24,6 +24,10 @@ HEADERONLY ?= 0
 STATIC ?= 1
 DEV ?= 0
 
+# Kind of Clang/GCC based analysis:
+#   leak, address, undefined, thread
+SANITIZE ?= $(NULL)
+
 # Intel Compiler
 ICX := $(shell which icx 2>/dev/null)
 INTEL ?= $(if $(ICX),$(if $(filter-out 0,$(GNU)),0,2),0)
@@ -113,6 +117,14 @@ ifneq (0,$(DEV))
   #CFLAGS += -std=c99
 endif
 
+ifneq (,$(SANITIZE))
+  CXXFLAGS += -fsanitize=$(SANITIZE)
+  CFLAGS += -fsanitize=$(SANITIZE)
+  FCFLAGS += -fsanitize=$(SANITIZE)
+  LDFLAGS += -fsanitize=$(SANITIZE)
+  SYM = 1
+endif
+
 ifneq (0,$(DBG))
   CPP_OPENCL_FLAGS += -C
   ifeq (,$(DBG))
@@ -125,7 +137,7 @@ ifneq (0,$(DBG))
   endif
 else
   CFLAGS += -O2 -DNDEBUG
-  SYM := 0
+  SYM ?= 0
 endif
 ifneq (0,$(SYM))
   CFLAGS += -g

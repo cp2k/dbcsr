@@ -151,164 +151,163 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b) {
 
 
 void c_dbcsr_acc_opencl_configure(void) {
-  if (NULL == c_dbcsr_acc_opencl_config.lock_main) { /* avoid to initialize multiple times */
-    const char* const env_rank = (NULL != getenv("PMI_RANK") ? getenv("PMI_RANK") : getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
-    const char* const env_nranks = getenv("MPI_LOCALNRANKS"); /* TODO */
-    const char *const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT"), *const env_nlocks = getenv("ACC_OPENCL_NLOCKS");
-    const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
-    const char *const env_debug = getenv("ACC_OPENCL_DEBUG"), *const env_profile = getenv("ACC_OPENCL_PROFILE");
-    const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
-    const char *const env_neo = getenv("NEOReadDebugKeys"), *const env_wa = getenv("ACC_OPENCL_WA");
-    static char neo_enable_debug_keys[] = "NEOReadDebugKeys=1";
+  const char* const env_rank = (NULL != getenv("PMI_RANK") ? getenv("PMI_RANK") : getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
+  const char* const env_nranks = getenv("MPI_LOCALNRANKS"); /* TODO */
+  const char *const env_devsplit = getenv("ACC_OPENCL_DEVSPLIT"), *const env_nlocks = getenv("ACC_OPENCL_NLOCKS");
+  const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE"), *const env_dump_acc = getenv("ACC_OPENCL_DUMP");
+  const char *const env_debug = getenv("ACC_OPENCL_DEBUG"), *const env_profile = getenv("ACC_OPENCL_PROFILE");
+  const char* const env_dump = (NULL != env_dump_acc ? env_dump_acc : getenv("IGC_ShaderDumpEnable"));
+  const char *const env_neo = getenv("NEOReadDebugKeys"), *const env_wa = getenv("ACC_OPENCL_WA");
+  static char neo_enable_debug_keys[] = "NEOReadDebugKeys=1";
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-    const char* const env_priority = getenv("ACC_OPENCL_PRIORITY");
+  const char* const env_priority = getenv("ACC_OPENCL_PRIORITY");
 #  endif
 #  if defined(ACC_OPENCL_NCCS)
-    const char* const env_nccs = getenv("ACC_OPENCL_NCCS");
-    const int nccs = (NULL == env_nccs ? ACC_OPENCL_NCCS : atoi(env_nccs));
+  const char* const env_nccs = getenv("ACC_OPENCL_NCCS");
+  const int nccs = (NULL == env_nccs ? ACC_OPENCL_NCCS : atoi(env_nccs));
 #  endif
 #  if defined(ACC_OPENCL_XHINTS)
-    const char* const env_xhints = (ACC_OPENCL_XHINTS);
-    const int xhints_default = 1 + 2 + 4 + 8;
+  const char* const env_xhints = (ACC_OPENCL_XHINTS);
+  const int xhints_default = 1 + 2 + 4 + 8;
 #  else
-    const char* const env_xhints = NULL;
-    const int xhints_default = 0;
+  const char* const env_xhints = NULL;
+  const int xhints_default = 0;
 #  endif
 #  if defined(ACC_OPENCL_ASYNC)
-    const char* const env_async = (ACC_OPENCL_ASYNC);
-    const int async_default = 1 + 2;
+  const char* const env_async = (ACC_OPENCL_ASYNC);
+  const int async_default = 1 + 2;
 #  else
-    const char* const env_async = NULL;
-    const int async_default = 0;
+  const char* const env_async = NULL;
+  const int async_default = 0;
 #  endif
-    const int nlocks = (NULL == env_nlocks ? 1 /*default*/ : atoi(env_nlocks));
-    const int neo = (NULL == env_neo ? 1 : atoi(env_neo));
-    int i;
+  const int nlocks = (NULL == env_nlocks ? 1 /*default*/ : atoi(env_nlocks));
+  const int neo = (NULL == env_neo ? 1 : atoi(env_neo));
+  int i;
 #  if defined(_OPENMP)
-    const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
-    memset(&c_dbcsr_acc_opencl_config, 0, sizeof(c_dbcsr_acc_opencl_config));
-    c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
+  const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
+  memset(&c_dbcsr_acc_opencl_config, 0, sizeof(c_dbcsr_acc_opencl_config));
+  c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
 #  else
-    memset(&c_dbcsr_acc_opencl_config, 0, sizeof(c_dbcsr_acc_opencl_config));
-    c_dbcsr_acc_opencl_config.nthreads = 1;
+  memset(&c_dbcsr_acc_opencl_config, 0, sizeof(c_dbcsr_acc_opencl_config));
+  c_dbcsr_acc_opencl_config.nthreads = 1;
 #  endif
-    libxsmm_init(); /* before using LIBXSMM's functionality */
-    c_dbcsr_acc_opencl_config.nranks = LIBXSMM_MAX(NULL != env_nranks ? atoi(env_nranks) : 1, 1);
-    c_dbcsr_acc_opencl_config.nrank = (NULL != env_rank ? atoi(env_rank) : 0) % c_dbcsr_acc_opencl_config.nranks;
-    assert(sizeof(ACC_OPENCL_LOCKTYPE) <= ACC_OPENCL_CACHELINE);
-    for (i = 0; i < ACC_OPENCL_NLOCKS; ++i) {
-      ACC_OPENCL_INIT((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * i));
-    }
-    c_dbcsr_acc_opencl_config.lock_main = (ACC_OPENCL_LOCKTYPE*)c_dbcsr_acc_opencl_locks;
-    c_dbcsr_acc_opencl_config.lock_memory = /* 2nd lock-domain */
-      (1 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 1))
-                                                  : c_dbcsr_acc_opencl_config.lock_main);
-    c_dbcsr_acc_opencl_config.lock_stream = /* 3rd lock-domain */
-      (2 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 2))
-                                                  : c_dbcsr_acc_opencl_config.lock_main);
-    c_dbcsr_acc_opencl_config.lock_event = /* 4th lock-domain */
-      (3 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 3))
-                                                  : c_dbcsr_acc_opencl_config.lock_main);
-    c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
-    c_dbcsr_acc_opencl_config.devsplit = (NULL == env_devsplit ? (/*1 < c_dbcsr_acc_opencl_config.nranks ? -1 :*/ 0)
-                                                               : atoi(env_devsplit));
+  assert(NULL == c_dbcsr_acc_opencl_config.lock_main); /* test condition to avoid initializing multiple times */
+  libxsmm_init(); /* before using LIBXSMM's functionality */
+  c_dbcsr_acc_opencl_config.nranks = LIBXSMM_MAX(NULL != env_nranks ? atoi(env_nranks) : 1, 1);
+  c_dbcsr_acc_opencl_config.nrank = (NULL != env_rank ? atoi(env_rank) : 0) % c_dbcsr_acc_opencl_config.nranks;
+  assert(sizeof(ACC_OPENCL_LOCKTYPE) <= ACC_OPENCL_CACHELINE);
+  for (i = 0; i < ACC_OPENCL_NLOCKS; ++i) {
+    ACC_OPENCL_INIT((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * i));
+  }
+  c_dbcsr_acc_opencl_config.lock_main = (ACC_OPENCL_LOCKTYPE*)c_dbcsr_acc_opencl_locks;
+  c_dbcsr_acc_opencl_config.lock_memory = /* 2nd lock-domain */
+    (1 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 1))
+                                                : c_dbcsr_acc_opencl_config.lock_main);
+  c_dbcsr_acc_opencl_config.lock_stream = /* 3rd lock-domain */
+    (2 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 2))
+                                                : c_dbcsr_acc_opencl_config.lock_main);
+  c_dbcsr_acc_opencl_config.lock_event = /* 4th lock-domain */
+    (3 < LIBXSMM_MIN(nlocks, ACC_OPENCL_NLOCKS) ? ((ACC_OPENCL_LOCKTYPE*)(c_dbcsr_acc_opencl_locks + ACC_OPENCL_CACHELINE * 3))
+                                                : c_dbcsr_acc_opencl_config.lock_main);
+  c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
+  c_dbcsr_acc_opencl_config.devsplit = (NULL == env_devsplit ? (/*1 < c_dbcsr_acc_opencl_config.nranks ? -1 :*/ 0)
+                                                             : atoi(env_devsplit));
 #  if defined(ACC_OPENCL_STREAM_PRIORITIES)
-    c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
+  c_dbcsr_acc_opencl_config.priority = (NULL == env_priority ? /*default*/ 3 : atoi(env_priority));
 #  endif
-    c_dbcsr_acc_opencl_config.profile = (NULL == env_profile ? /*default*/ 0 : atoi(env_profile));
-    c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? xhints_default : atoi(env_xhints));
-    c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
-    c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
-    c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
-    c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? ((1 != c_dbcsr_acc_opencl_config.devsplit ? 0 : 1) + (2 + 4 + 8))
-                                                         : atoi(env_wa));
+  c_dbcsr_acc_opencl_config.profile = (NULL == env_profile ? /*default*/ 0 : atoi(env_profile));
+  c_dbcsr_acc_opencl_config.xhints = (NULL == env_xhints ? xhints_default : atoi(env_xhints));
+  c_dbcsr_acc_opencl_config.async = (NULL == env_async ? async_default : atoi(env_async));
+  c_dbcsr_acc_opencl_config.dump = (NULL == env_dump ? /*default*/ 0 : atoi(env_dump));
+  c_dbcsr_acc_opencl_config.debug = (NULL == env_debug ? c_dbcsr_acc_opencl_config.dump : atoi(env_debug));
+  c_dbcsr_acc_opencl_config.wa = neo * (NULL == env_wa ? ((1 != c_dbcsr_acc_opencl_config.devsplit ? 0 : 1) + (2 + 4 + 8))
+                                                       : atoi(env_wa));
 #  if defined(ACC_OPENCL_CACHE_DIR)
-    { /* environment is populated before touching the compute runtime */
-      const char *const env_cache = getenv("ACC_OPENCL_CACHE"), *env_cachedir = getenv("NEO_CACHE_DIR");
-      int cache = (NULL == env_cache ? 0 : atoi(env_cache));
-      struct stat cachedir;
-      if (0 == cache) {
-        if (stat(ACC_OPENCL_CACHE_DIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 1;
-        else if (stat(ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 2;
-      }
-      if (1 == cache) {
-        static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_CACHE_DIR;
-        static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_CACHE_DIR;
-        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
-        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
-        env_cachedir = ACC_OPENCL_CACHE_DIR;
-      }
+  { /* environment is populated before touching the compute runtime */
+    const char *const env_cache = getenv("ACC_OPENCL_CACHE"), *env_cachedir = getenv("NEO_CACHE_DIR");
+    int cache = (NULL == env_cache ? 0 : atoi(env_cache));
+    struct stat cachedir;
+    if (0 == cache) {
+      if (stat(ACC_OPENCL_CACHE_DIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 1;
+      else if (stat(ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR, &cachedir) == 0 && S_ISDIR(cachedir.st_mode)) cache = 2;
+    }
+    if (1 == cache) {
+      static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_CACHE_DIR;
+      static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_CACHE_DIR;
+      ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
+      ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
+      env_cachedir = ACC_OPENCL_CACHE_DIR;
+    }
 #    if defined(ACC_OPENCL_TEMPDIR)
-      else if (NULL == env_cachedir) { /* code-path entered by default */
-        if (NULL == env_cache || 0 != cache) { /* customize NEO_CACHE_DIR unless ACC_OPENCL_CACHE=0 */
-          static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
-          env_cachedir = ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
-        }
-        if (0 != cache) { /* legacy-NEO is treated with explicit opt-in */
-          static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
-        }
+    else if (NULL == env_cachedir) { /* code-path entered by default */
+      if (NULL == env_cache || 0 != cache) { /* customize NEO_CACHE_DIR unless ACC_OPENCL_CACHE=0 */
+        static char neo_cachedir[] = "NEO_CACHE_DIR=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(neo_cachedir)); /* putenv before entering OpenCL */
+        env_cachedir = ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
       }
+      if (0 != cache) { /* legacy-NEO is treated with explicit opt-in */
+        static char ocl_cachedir[] = "cl_cache_dir=" ACC_OPENCL_TEMPDIR "/" ACC_OPENCL_CACHE_DIR;
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(ocl_cachedir)); /* putenv before entering OpenCL */
+      }
+    }
 #    endif
-      if (NULL != env_cachedir) {
+    if (NULL != env_cachedir) {
 #    if defined(_WIN32)
-        LIBXSMM_UNUSED(env_cachedir);
+      LIBXSMM_UNUSED(env_cachedir);
 #    else
 #      if defined(S_IRWXU) && defined(S_IRGRP) && defined(S_IXGRP) && defined(S_IROTH) && defined(S_IXOTH)
-        const int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+      const int mode = S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
 #      else
-        const int mode = 0xFFFFFFFF;
+      const int mode = 0xFFFFFFFF;
 #      endif
-        ACC_OPENCL_EXPECT(0 == mkdir(env_cachedir, mode) || EEXIST == errno); /* soft-error */
+      ACC_OPENCL_EXPECT(0 == mkdir(env_cachedir, mode) || EEXIST == errno); /* soft-error */
 #    endif
-      }
     }
+  }
 #  endif
 #  if defined(ACC_OPENCL_NCCS)
-    if (0 != nccs && NULL == getenv("ZEX_NUMBER_OF_CCS")) {
-      static char zex_nccs[ACC_OPENCL_MAXNDEVS * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
-      const int mode = ((1 == nccs || 2 == nccs) ? nccs : 4);
-      int j = strlen(zex_nccs);
-      for (i = 0; i < ACC_OPENCL_MAXNDEVS; ++i) {
-        const char* const istr = (0 < i ? ",%u:%i" : "%u:%i");
-        const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, mode);
-        if (0 < n) j += n;
-        else {
-          j = 0;
-          break;
-        }
-      }
-      if (0 < j && 0 == LIBXSMM_PUTENV(zex_nccs) && /* populate before touching the compute runtime */
-          (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-      {
-        fprintf(stderr, "INFO ACC/OpenCL: support multiple separate compute command streamers (%i-CCS mode)\n", mode);
+  if (0 != nccs && NULL == getenv("ZEX_NUMBER_OF_CCS")) {
+    static char zex_nccs[ACC_OPENCL_MAXNDEVS * 8 + 32] = "ZEX_NUMBER_OF_CCS=";
+    const int mode = ((1 == nccs || 2 == nccs) ? nccs : 4);
+    int j = strlen(zex_nccs);
+    for (i = 0; i < ACC_OPENCL_MAXNDEVS; ++i) {
+      const char* const istr = (0 < i ? ",%u:%i" : "%u:%i");
+      const int n = LIBXSMM_SNPRINTF(zex_nccs + j, sizeof(zex_nccs) - j, istr, i, mode);
+      if (0 < n) j += n;
+      else {
+        j = 0;
+        break;
       }
     }
+    if (0 < j && 0 == LIBXSMM_PUTENV(zex_nccs) && /* populate before touching the compute runtime */
+        (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+    {
+      fprintf(stderr, "INFO ACC/OpenCL: support multiple separate compute command streamers (%i-CCS mode)\n", mode);
+    }
+  }
 #  endif
-    if (0 != neo && (NULL != env_neo || 0 == LIBXSMM_PUTENV(neo_enable_debug_keys))) {
-      if ((1 + 2 + 4) & c_dbcsr_acc_opencl_config.wa) {
-        static char a[] = "ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE", b[] = "EnableRecoverablePageFaults=0";
-        static char c[] = "DirectSubmissionOverrideBlitterSupport=0", *const apply[] = {a, b, c};
-        if ((1 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
-        }
-        if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[1]));
-        }
-        if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[2]));
-        }
+  if (0 != neo && (NULL != env_neo || 0 == LIBXSMM_PUTENV(neo_enable_debug_keys))) {
+    if ((1 + 2 + 4) & c_dbcsr_acc_opencl_config.wa) {
+      static char a[] = "ZE_FLAT_DEVICE_HIERARCHY=COMPOSITE", b[] = "EnableRecoverablePageFaults=0";
+      static char c[] = "DirectSubmissionOverrideBlitterSupport=0", *const apply[] = {a, b, c};
+      if ((1 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
       }
-      if (NULL == getenv("DisableScratchPages")) {
-        if (0 == c_dbcsr_acc_opencl_config.debug) {
-          static char a[] = "DisableScratchPages=0", *const apply[] = {a};
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
-        }
-        else {
-          static char a[] = "DisableScratchPages=1", *const apply[] = {a};
-          ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
-        }
+      if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[1]));
+      }
+      if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[2]));
+      }
+    }
+    if (NULL == getenv("DisableScratchPages")) {
+      if (0 == c_dbcsr_acc_opencl_config.debug) {
+        static char a[] = "DisableScratchPages=0", *const apply[] = {a};
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
+      }
+      else {
+        static char a[] = "DisableScratchPages=1", *const apply[] = {a};
+        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
       }
     }
   }
@@ -324,14 +323,18 @@ int c_dbcsr_acc_init(void) {
 #  endif
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
-  c_dbcsr_acc_opencl_configure();
+  if (NULL == c_dbcsr_acc_opencl_config.lock_main) { /* avoid to configure multiple times */
+    c_dbcsr_acc_opencl_configure();
+  }
   if (0 != c_dbcsr_acc_opencl_config.profile) {
     static const char* routine_name_ptr = LIBXSMM_FUNCNAME + ACC_OPENCL_PROFILE_DBCSR;
     static const int routine_name_len = (int)sizeof(LIBXSMM_FUNCNAME) - (ACC_OPENCL_PROFILE_DBCSR + 1);
     c_dbcsr_timeset((const char**)&routine_name_ptr, &routine_name_len, &routine_handle);
   }
 #  else
-  c_dbcsr_acc_opencl_configure();
+  if (NULL == c_dbcsr_acc_opencl_config.lock_main) { /* avoid to configure multiple times */
+    c_dbcsr_acc_opencl_configure();
+  }
 #  endif
   /* eventually touch OpenCL/compute runtime after configure */
   if (0 == c_dbcsr_acc_opencl_config.ndevices && EXIT_SUCCESS == result) { /* avoid to initialize multiple times */
@@ -668,7 +671,9 @@ int c_dbcsr_acc_init(void) {
 
 /* attempt to automatically initialize backend */
 LIBXSMM_ATTRIBUTE_CTOR void c_dbcsr_acc_opencl_init(void) {
-  c_dbcsr_acc_opencl_configure();
+  if (NULL == c_dbcsr_acc_opencl_config.lock_main) { /* avoid to configure multiple times */
+    c_dbcsr_acc_opencl_configure();
+  }
 #  if defined(ACC_OPENCL_PREINIT)
   ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_init());
 #  endif
@@ -1142,17 +1147,26 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
                                 &bitfield, NULL) &&
               0 != bitfield) /* cl_intel_unified_shared_memory extension */
           {
-            void* ptr = NULL;
-            ptr = clGetExtensionFunctionAddressForPlatform(platform, "clSetKernelArgMemPointerINTEL");
-            LIBXSMM_ASSIGN127(&devinfo->clSetKernelArgMemPointerINTEL, &ptr);
-            ptr = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemFillINTEL");
-            LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemFillINTEL, &ptr);
-            ptr = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemcpyINTEL");
-            LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemcpyINTEL, &ptr);
-            ptr = clGetExtensionFunctionAddressForPlatform(platform, "clDeviceMemAllocINTEL");
-            LIBXSMM_ASSIGN127(&devinfo->clDeviceMemAllocINTEL, &ptr);
-            ptr = clGetExtensionFunctionAddressForPlatform(platform, "clMemFreeINTEL");
-            LIBXSMM_ASSIGN127(&devinfo->clMemFreeINTEL, &ptr);
+            void* ptr[8] = {NULL};
+            int i = 0, n = 0;
+            ptr[0] = clGetExtensionFunctionAddressForPlatform(platform, "clSetKernelArgMemPointerINTEL");
+            ptr[1] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemFillINTEL");
+            ptr[2] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemcpyINTEL");
+            ptr[3] = clGetExtensionFunctionAddressForPlatform(platform, "clDeviceMemAllocINTEL");
+            ptr[4] = clGetExtensionFunctionAddressForPlatform(platform, "clMemFreeINTEL");
+            for (; i < (int)(sizeof(ptr) / sizeof(*ptr)); ++i) {
+              if (NULL != ptr[i]) ++n;
+            }
+            if (5 == n) {
+              LIBXSMM_ASSIGN127(&devinfo->clSetKernelArgMemPointerINTEL, ptr + 0);
+              LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemFillINTEL, ptr + 1);
+              LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemcpyINTEL, ptr + 2);
+              LIBXSMM_ASSIGN127(&devinfo->clDeviceMemAllocINTEL, ptr + 3);
+              LIBXSMM_ASSIGN127(&devinfo->clMemFreeINTEL, ptr + 4);
+            }
+            else if (0 != n) {
+              fprintf(stderr, "WARN ACC/OpenCL: inconsistent state discovered!\n");
+            }
           }
 #  endif
 #  if defined(ACC_OPENCL_CMDAGR)
