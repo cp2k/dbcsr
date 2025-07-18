@@ -19,9 +19,6 @@
 #    include <unistd.h>
 #  endif
 
-#  if !defined(ACC_OPENCL_MEM_EVTRELEASE) && 1
-#    define ACC_OPENCL_MEM_EVTRELEASE
-#  endif
 #  if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 #    define ACC_OPENCL_MEM_ALIGNSCALE 8
 #  endif
@@ -282,12 +279,10 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
           }
         }
 #  endif
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
         if (NULL != event) {
           result2 = clReleaseEvent(event);
           if (EXIT_SUCCESS == result) result = result2;
         }
-#  endif
       }
       result2 = clReleaseMemObject(info.memory);
       if (EXIT_SUCCESS == result) result = result2;
@@ -336,9 +331,7 @@ void CL_CALLBACK c_dbcsr_acc_memcpy_notify(cl_event event, cl_int event_status, 
       } break;
     }
   }
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
   if (NULL != event) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseEvent(event));
-#  endif
 }
 
 
@@ -602,12 +595,10 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
           result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, dev_mem);
           if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
         }
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
         if (NULL != event) {
           const int result_release = clReleaseEvent(event);
           if (EXIT_SUCCESS == result) result = result_release;
         }
-#  endif
       }
     }
   }
@@ -658,16 +649,14 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     if (NULL != event) {
       if (EXIT_SUCCESS == result) {
-        assert(NULL != c_dbcsr_acc_opencl_config.hist_d2h);
+        assert(NULL != c_dbcsr_acc_opencl_config.hist_d2h /*&& NULL == devinfo->clEnqueueMemcpyINTEL*/);
         result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
         if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
       }
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
       if (NULL != event) {
         const int result_release = clReleaseEvent(event);
         if (EXIT_SUCCESS == result) result = result_release;
       }
-#  endif
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
@@ -720,18 +709,21 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
     }
     if (NULL != event) {
       if (EXIT_SUCCESS == result) {
-        if (NULL == stream) result = clWaitForEvents(1, &event);
-        if (EXIT_SUCCESS == result && NULL != c_dbcsr_acc_opencl_config.hist_d2d) {
+        if (NULL != c_dbcsr_acc_opencl_config.hist_d2d) {
+          assert(NULL == c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL);
           result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
-          if (EXIT_SUCCESS == result) event = NULL; /* prevent releasing the event */
+          if (EXIT_SUCCESS == result) {
+            const cl_event wait = event;
+            event = NULL; /* prevent releasing the event */
+            if (NULL == stream) result = clWaitForEvents(1, &wait);
+          }
         }
+        else if (NULL == stream) result = clWaitForEvents(1, &event);
       }
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
       if (NULL != event) {
         const int result_release = clReleaseEvent(event);
         if (EXIT_SUCCESS == result) result = result_release;
       }
-#  endif
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
@@ -778,15 +770,12 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
     if (NULL != event) {
+      int result_release;
       if (NULL == stream && EXIT_SUCCESS == result) {
         result = clWaitForEvents(1, &event);
       }
-#  if defined(ACC_OPENCL_MEM_EVTRELEASE)
-      {
-        const int result_release = clReleaseEvent(event);
-        if (EXIT_SUCCESS == result) result = result_release;
-      }
-#  endif
+      result_release = clReleaseEvent(event);
+      if (EXIT_SUCCESS == result) result = result_release;
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
