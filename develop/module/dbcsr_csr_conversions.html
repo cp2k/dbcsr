@@ -132,7 +132,7 @@
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~12">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~3">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~2">careful_mod</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
             <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
@@ -234,20 +234,20 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_transformations.html'>dbcsr_transformations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_block_access.html'>dbcsr_block_access</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -289,7 +289,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~3"></span>
+              <span class="anchor" id="variable-careful_mod~2"></span>
               logical,
             </td>
               <td>private,</td>
@@ -501,7 +501,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~10"></span>
+              <span class="anchor" id="variable-data_type~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -912,7 +912,7 @@ representing the original block structure.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~9"></span>
+              <span class="anchor" id="variable-data_type~18"></span>
               integer,
             </td>
               <td>public</td>
@@ -1180,7 +1180,7 @@ column indices of elements inside nzval_local</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-valid"></span>
+              <span class="anchor" id="variable-valid~6"></span>
               logical,
             </td>
               <td>public</td>
@@ -1470,7 +1470,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~10"></span>
+              <span class="anchor" id="variable-data_type~19"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2012,7 +2012,7 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~6"></span>
+              <span class="anchor" id="variable-numnodes~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2304,7 +2304,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~8"></span>
+              <span class="anchor" id="variable-unit_nr~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2334,7 +2334,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-threshold~2"></span>
+              <span class="anchor" id="variable-threshold"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -2404,7 +2404,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~9"></span>
+              <span class="anchor" id="variable-unit_nr~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2506,7 +2506,7 @@ see documentation of csr_create_from_dbcsr</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~9"></span>
+              <span class="anchor" id="variable-numnodes~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
