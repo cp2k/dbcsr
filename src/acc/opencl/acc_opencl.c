@@ -548,9 +548,6 @@ int c_dbcsr_acc_init(void) {
         assert(NULL == c_dbcsr_acc_opencl_config.event_data);
         assert(0 == c_dbcsr_acc_opencl_config.nstreams);
         assert(0 == c_dbcsr_acc_opencl_config.nevents);
-#  if defined(ACC_OPENCL_CACHE_DID)
-        c_dbcsr_acc_opencl_active_id = device_id + 1; /* update c_dbcsr_acc_opencl_active_id */
-#  endif
         /* allocate and initialize memptr registry */
         c_dbcsr_acc_opencl_config.nmemptrs = nhandles;
         c_dbcsr_acc_opencl_config.memptrs = (c_dbcsr_acc_opencl_info_memptr_t**)malloc(

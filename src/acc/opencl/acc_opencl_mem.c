@@ -400,7 +400,6 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
       const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
       *dev_mem = memptr = devinfo->clDeviceMemAllocINTEL(
         devinfo->context, device_id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
-      if (EXIT_SUCCESS != result) *dev_mem = NULL;
     }
     else {
 #  if defined(ACC_OPENCL_XHINTS)
@@ -456,20 +455,20 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
           else result = EXIT_FAILURE;
         }
       }
-      if (EXIT_SUCCESS != result) {
-        if (NULL != memory) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseMemObject(memory));
-        *dev_mem = NULL;
-      }
     }
-    if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-      if (EXIT_SUCCESS == result && 0 != c_dbcsr_acc_opencl_config.debug) {
+    if (EXIT_SUCCESS == result) {
+      if (0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity) {
         fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p size=%llu successfully allocated\n", (const void*)memory, memptr,
           (unsigned long long)nbytes);
       }
-      else if (EXIT_SUCCESS != result) {
+    }
+    else {
+      if (0 != c_dbcsr_acc_opencl_config.verbosity) {
         fprintf(stderr, "ERROR ACC/OpenCL: memory=%p pointer=%p size=%llu failed to allocate\n", (const void*)memory, memptr,
           (unsigned long long)nbytes);
       }
+      if (NULL != memory) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseMemObject(memory));
+      *dev_mem = NULL;
     }
   }
   else *dev_mem = NULL;
@@ -514,8 +513,10 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
       else result = EXIT_FAILURE;
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
-    if (0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity && EXIT_SUCCESS == result) {
-      fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p deallocated\n", (const void*)memory, dev_mem);
+    if (EXIT_SUCCESS == result) {
+      if (0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity) {
+        fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p deallocated\n", (const void*)memory, dev_mem);
+      }
     }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
