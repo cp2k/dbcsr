@@ -346,13 +346,14 @@ CONTAINS
                                    row_blk_sizes, col_blk_sizes, &
                                    row_blk_sizes2enum, enum2row_blk_sizes, &
                                    col_blk_sizes2enum, enum2col_blk_sizes, &
-                                   noresize)
+                                   noresize,o_gpu)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
       INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes, &
                                                                 row_blk_sizes2enum, enum2row_blk_sizes, &
                                                                 col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
+      LOGICAL, INTENT(IN), OPTIONAL                      :: o_gpu
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks'
 
@@ -363,7 +364,12 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER                     :: blk_index
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: trs_stack
       LOGICAL                                            :: my_noresize
+      LOGICAL                                            :: update_gpu_array
 
+      update_gpu_array = .true.
+      IF (PRESENT(o_gpu)) THEN
+         update_gpu_array = o_gpu
+      ENDIF
       CALL timeset(routineN, handle)
 
       NULLIFY (trs_stack)
@@ -463,25 +469,27 @@ CONTAINS
       CALL acc_stream_wait_event(trs_stackbuf%d%memory_type%acc_stream, matrix%data_area%d%acc_ready)
       CALL timestop(handle1)
 
-      CALL timeset(routineN//"_kernels", handle1)
-      ! launch kernels
-      DO ni = 1, ni_max
-         DO mi = 1, mi_max
-            IF (counters(mi, ni) > 0) THEN
-               m = enum2row_blk_sizes(mi)
-               n = enum2col_blk_sizes(ni)
-               CALL dbcsr_acc_transpose( &
-                  trs_stack=trs_stackbuf%d%acc_devmem, &
-                  offset=offsets(mi, ni), &
-                  nblks=counters(mi, ni), &
-                  data_type=matrix%data_type, &
-                  buffer=matrix%data_area%d%acc_devmem, &
-                  m=m, n=n, &
-                  stream=trs_stackbuf%d%memory_type%acc_stream)
-            END IF
+      IF (update_gpu_array) THEN
+         CALL timeset(routineN//"_kernels", handle1)
+         ! launch kernels
+         DO ni = 1, ni_max
+            DO mi = 1, mi_max
+               IF (counters(mi, ni) > 0) THEN
+                  m = enum2row_blk_sizes(mi)
+                  n = enum2col_blk_sizes(ni)
+                  CALL dbcsr_acc_transpose( &
+                     trs_stack=trs_stackbuf%d%acc_devmem, &
+                     offset=offsets(mi, ni), &
+                     nblks=counters(mi, ni), &
+                     data_type=matrix%data_type, &
+                     buffer=matrix%data_area%d%acc_devmem, &
+                     m=m, n=n, &
+                     stream=trs_stackbuf%d%memory_type%acc_stream)
+               END IF
+            END DO
          END DO
-      END DO
-      CALL timestop(handle1)
+         CALL timestop(handle1)
+      ENDIF
 
       CALL timeset(routineN//"_sync", handle1)
       ! make sure block-buffer are not used until transpose kernels finished

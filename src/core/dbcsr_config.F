@@ -162,6 +162,7 @@ MODULE dbcsr_config
       DBCSR_PARAMETER(COMM_THREAD_LOAD, CONF_PAR_INT, 100)
       DBCSR_PARAMETER(MM_DENSE, CONF_PAR_LOGICAL, mm_dense_default)
       DBCSR_PARAMETER(MULTREC_LIMIT, CONF_PAR_INT, 512)
+      DBCSR_PARAMETER(ACC_CENTRIC, CONF_PAR_LOGICAL, .FALSE.)
       DBCSR_PARAMETER(RUN_ON_GPU, CONF_PAR_LOGICAL, .TRUE.)
       DBCSR_PARAMETER(ACCDRV_THREAD_BUFFERS, CONF_PAR_INT, 8)
       TYPE(CONF_PAR_LOGICAL) :: ACCDRV_AVOID_AFTER_BUSY = &
@@ -349,6 +350,7 @@ CONTAINS
       comm_thread_load, &
       mm_dense, &
       multrec_limit, &
+      acc_centric, &
       run_on_gpu, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
@@ -380,6 +382,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: mm_dense
       LOGICAL, INTENT(IN), OPTIONAL                      :: run_on_gpu
       INTEGER, INTENT(IN), OPTIONAL                      :: multrec_limit, accdrv_thread_buffers
+      LOGICAL, INTENT(IN), OPTIONAL                      :: acc_centric
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_avoid_after_busy
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_min_flop_process
       LOGICAL, INTENT(IN), OPTIONAL                      :: accdrv_stack_sort
@@ -400,6 +403,7 @@ CONTAINS
       CALL dbcsr_cfg%num_layers_3D%set(num_layers_3D)
       CALL dbcsr_cfg%use_comm_thread%set(use_comm_thread)
       CALL dbcsr_cfg%multrec_limit%set(multrec_limit)
+      CALL dbcsr_cfg%acc_centric%set(acc_centric)
       CALL dbcsr_cfg%run_on_gpu%set(run_on_gpu)
       CALL dbcsr_cfg%accdrv_thread_buffers%set(accdrv_thread_buffers)
       CALL dbcsr_cfg%accdrv_avoid_after_busy%set(accdrv_avoid_after_busy)
@@ -456,6 +460,7 @@ CONTAINS
       mm_dense, &
       run_on_gpu, &
       multrec_limit, &
+      acc_centric, &
       accdrv_thread_buffers, &
       accdrv_avoid_after_busy, &
       accdrv_min_flop_process, &
@@ -477,6 +482,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: comm_thread_load
       LOGICAL, INTENT(OUT), OPTIONAL                     :: mm_dense, run_on_gpu
       INTEGER, INTENT(OUT), OPTIONAL                     :: multrec_limit, accdrv_thread_buffers
+      LOGICAL, INTENT(OUT), OPTIONAL                     :: acc_centric
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_avoid_after_busy
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_min_flop_process
       LOGICAL, INTENT(OUT), OPTIONAL                     :: accdrv_stack_sort
@@ -498,6 +504,7 @@ CONTAINS
       IF (PRESENT(comm_thread_load)) comm_thread_load = dbcsr_cfg%comm_thread_load%defval
       IF (PRESENT(mm_dense)) mm_dense = dbcsr_cfg%mm_dense%defval
       IF (PRESENT(multrec_limit)) multrec_limit = dbcsr_cfg%multrec_limit%defval
+      IF (PRESENT(acc_centric)) acc_centric = dbcsr_cfg%acc_centric%defval
       IF (PRESENT(run_on_gpu)) run_on_gpu = dbcsr_cfg%run_on_gpu%defval
       IF (PRESENT(accdrv_thread_buffers)) accdrv_thread_buffers = dbcsr_cfg%accdrv_thread_buffers%defval
       IF (PRESENT(accdrv_avoid_after_busy)) accdrv_avoid_after_busy = dbcsr_cfg%accdrv_avoid_after_busy%defval
@@ -539,6 +546,8 @@ CONTAINS
       WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
          "DBCSR| Multrec recursion limit", dbcsr_cfg%multrec_limit%val, &
          dbcsr_cfg%multrec_limit%print_source()
+      WRITE (UNIT=unit_nr, FMT='(1X,A,T80,L1)') &
+         "DBCSR| ACC: P2P communications ", dbcsr_cfg%acc_centric
       WRITE (UNIT=unit_nr, FMT='(1X,A,T70,I11,A4)') &
          "DBCSR| Multiplication stack size", dbcsr_cfg%mm_stack_size%val, &
          dbcsr_cfg%mm_stack_size%print_source()

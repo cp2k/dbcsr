@@ -324,10 +324,11 @@ CONTAINS
       flop_per_entry = INT(2, KIND=int_8)*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
       total_flop = stack_fillcount*flop_per_entry
 
-      IF (use_acc() .AND. &
+      IF (use_acc() .AND. ( &
           flop_per_entry > dbcsr_cfg%accdrv_min_flop_process%val .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
-          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous%val)) THEN
+          (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous%val) &
+          .OR. dbcsr_cfg%acc_centric%val)) THEN
          CALL dbcsr_mm_accdrv_process( &
             this%accdrv, &
             left, right, &
@@ -351,6 +352,9 @@ CONTAINS
          END IF
       END IF
 
+      IF (dbcsr_cfg%acc_centric%val) THEN
+         DBCSR_ABORT("dbcsr_mm_sched_process_stack: acc_centric is true but host was called !")
+      ENDIF
       !WRITE (*,*) "dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:", stack_fillcount
 
       CALL dbcsr_mm_hostdrv_process( &
