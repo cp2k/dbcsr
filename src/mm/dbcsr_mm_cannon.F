@@ -1801,7 +1801,7 @@ CONTAINS
 !$OMP         keep_sparsity,threads_finished, &
 !$OMP         right_data_sr, right_data_rr, right_index_sr, right_index_rr, &
 !$OMP         left_data_sr, left_data_rr, left_index_sr, left_index_rr, &
-!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome) &
+!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome, acc_centric) &
 !$OMP PRIVATE (ithread,nthreads,threads_finished_read) &
 !$OMP REDUCTION (+: flop_single)
          ithread = 0; nthreads = 1
@@ -1825,16 +1825,16 @@ CONTAINS
          END IF
 
          ! This is required for acc_centric, probably makes sense to add it to original algo as well
-         CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
-            right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
-         CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
-            left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
-
-         ! This is required for acc_centric, probably makes sense to add it to original algo as well
-         CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
-            right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
-         CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
-            left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
+#ifndef __DBCSR_ACC
+         IF (acc_centric) THEN
+#endif
+            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
+               right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
+            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
+               left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
+#ifndef __DBCSR_ACC
+         END IF
+#endif
 
 !$OMP ATOMIC
          threads_finished = threads_finished + 1
