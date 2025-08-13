@@ -457,7 +457,9 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
       }
     }
     if (EXIT_SUCCESS == result) {
-      if (0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity) {
+      if (0 != c_dbcsr_acc_opencl_config.debug &&
+          (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+      {
         fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p size=%llu successfully allocated\n", (const void*)memory, memptr,
           (unsigned long long)nbytes);
       }
@@ -514,7 +516,9 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
     if (EXIT_SUCCESS == result) {
-      if (0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity) {
+      if (0 != c_dbcsr_acc_opencl_config.debug &&
+          (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
+      {
         fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p deallocated\n", (const void*)memory, dev_mem);
       }
     }

@@ -4,6 +4,8 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+# DBCSR's source directory
+set(DBCSR_SOURCE_DIR src)
 
 # =================================================================================================
 # REQUIRE OUT-OF-SOURCE BUILDS
@@ -237,6 +239,13 @@ endif ()
 if (USE_ACCEL MATCHES "opencl")
   find_package(OpenCL REQUIRED)
   enable_language(C)
+
+  set(DBCSR_OPENCL_TOOLDIR
+      ${CMAKE_CURRENT_SOURCE_DIR}/${DBCSR_SOURCE_DIR}/acc/opencl)
+  set(DBCSR_OPENCL_SCRIPT ${DBCSR_OPENCL_TOOLDIR}/acc_opencl.sh)
+
+  set(DBCSR_OPENCL_COMMON common/opencl_atomics.h common/opencl_common.h)
+  list(TRANSFORM DBCSR_OPENCL_COMMON PREPEND ${DBCSR_OPENCL_TOOLDIR}/)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
@@ -350,7 +359,7 @@ include(CompilerConfiguration)
 include(CheckCompilerSupport)
 
 # subdirectories
-add_subdirectory(src)
+add_subdirectory(${DBCSR_SOURCE_DIR})
 
 include(CTest)
 if (BUILD_TESTING)

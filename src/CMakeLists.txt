@@ -327,8 +327,7 @@ install(
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 # See https://gitlab.kitware.com/cmake/cmake/-/issues/19608
-# CMAKE_INSTALL_Fortran_MODULES is not an "official" cmake variable yet, but
-# should be the standard soon
+# CMAKE_INSTALL_Fortran_MODULES may not be an "official" variable
 if (NOT CMAKE_INSTALL_Fortran_MODULES)
   set(CMAKE_INSTALL_Fortran_MODULES "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
@@ -349,6 +348,14 @@ if (WITH_C_API)
           "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
     COMPONENT C
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+endif ()
+
+if (USE_ACCEL MATCHES "opencl")
+  install(PROGRAMS "${DBCSR_OPENCL_SCRIPT}"
+          DESTINATION "${CMAKE_INSTALL_DATADIR}/opencl")
+  foreach (FILE ${DBCSR_OPENCL_COMMON})
+    install(FILES "${FILE}" DESTINATION "${CMAKE_INSTALL_DATADIR}/opencl")
+  endforeach ()
 endif ()
 
 configure_package_config_file(
