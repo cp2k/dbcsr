@@ -837,6 +837,7 @@ CONTAINS
    SUBROUTINE multiply_cannon(left_set, right_set, product_matrix, &
                               retain_sparsity, &
                               filter_eps, flop, keep_product_data)
+      !! Multiplies two DBCSR matrices
    USE iso_c_binding, ONLY: c_f_pointer
    USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr
    USE dbcsr_acc_event, ONLY: acc_event_record
@@ -1353,7 +1354,7 @@ CONTAINS
                              data_size=2*right_max_nblks, memory_type=memtype_trsbuffer_2)
          trs_stackbuf_calc => trs_stackbuf_1
          trs_stackbuf_comm => trs_stackbuf_2
-      ENDIF
+      END IF
 
       ! Initial upload for acc_centric version
       ! We now send the transposed GPU buffer instead of the original buffer
@@ -1372,10 +1373,10 @@ CONTAINS
          DO v_ki=1,max(left_col_nimages,right_row_nimages)
             IF (v_ki_right .GT. right_row_nimages) THEN
                DBCSR_ABORT("Failed assumption left_col_nimages >= right_row_nimages")
-            ENDIF
+            END IF
             IF (v_ki_left .GT. left_col_nimages) THEN
                v_ki_left=1
-            ENDIF
+            END IF
             CALL dbcsr_reset_vlocals(right_buffer_calc%mats(v_ki_right, 1), &
                                      right_set%image_dist)
             CALL dbcsr_reset_vlocals(left_buffer_calc%mats(1, v_ki_left), &
@@ -1394,7 +1395,7 @@ CONTAINS
                                     left_norms(:,v_ki_left), m_sizes, k_sizes)
                left_norms_comm(:,v_ki_left) = left_norms(:,v_ki_left)
                right_norms_comm(:,v_ki_right) = right_norms(:,v_ki_right)
-            ENDIF
+            END IF
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
@@ -1446,8 +1447,8 @@ CONTAINS
                   call mp_waitall(right_norms_comm_rr)
                   call mp_waitall(right_norms_comm_sr)
                   right_norms(:,:) = right_norms_comm(:,:)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
 
             !
             ! Repoint indices of right matrices
@@ -1551,19 +1552,19 @@ CONTAINS
                      call c_f_pointer(acc_devmem_cptr(right_buffer_comm%mats(v_ki + 1, 1) &
                         %data_area%d%acc_devmem),tmp,[1])
                      right_data_rp%d%r_dp => tmp(lbound(right_data_rp%d%r_dp,1):ubound(right_data_rp%d%r_dp,1))
-                  ENDIF
+                  END IF
                   IF (size(right_data_sp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(right_buffer_calc%mats(v_ki + 1, 1) &
                         %data_area%d%acc_devmem),tmp,[1])
                      right_data_sp%d%r_dp => tmp(lbound(right_data_sp%d%r_dp,1):ubound(right_data_sp%d%r_dp,1))
-                  ENDIF
+                  END IF
                   IF (otf_filtering) THEN
                      CALL mp_irecv(right_norms_comm(:,v_ki+1), right_recv_p, &
                                    grp, right_norms_comm_rr(v_ki+1), tag=500000+right_src_vrow)
                      CALL mp_isend(right_norms(:,v_ki+1), right_sEND_p, &
                                    grp, right_norms_comm_sr(v_ki+1), tag=500000+right_dst_vrow)
-                  ENDIF
-               ENDIF
+                  END IF
+               END IF
 #endif
                CALL dbcsr_irecv_any(right_data_rp, right_recv_p, &
                                     grp, right_data_rr(v_ki + 1), tag=right_src_vrow)
@@ -1599,8 +1600,8 @@ CONTAINS
                   call mp_waitall(left_norms_comm_rr)
                   call mp_waitall(left_norms_comm_sr)
                   left_norms(:,:) = left_norms_comm(:,:)
-               ENDIF
-            ENDIF
+               END IF
+            END IF
             !
             ! Repoint indices of left matrices
             DO v_ki = 0, left_col_nimages - 1
@@ -1702,19 +1703,19 @@ CONTAINS
                      call c_f_pointer(acc_devmem_cptr(left_buffer_comm%mats(1, v_ki + 1) &
                         %data_area%d%acc_devmem),tmp,[1])
                      left_data_rp%d%r_dp => tmp(lbound(left_data_rp%d%r_dp,1):ubound(left_data_rp%d%r_dp,1))
-                  ENDIF
+                  END IF
                   IF (size(left_data_sp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(left_buffer_calc%mats(1, v_ki + 1) &
                         %data_area%d%acc_devmem),tmp,[1])
                      left_data_sp%d%r_dp => tmp(lbound(left_data_sp%d%r_dp,1):ubound(left_data_sp%d%r_dp,1))
-                  ENDIF
+                  END IF
                   IF (otf_filtering) THEN
                      CALL mp_irecv(left_norms_comm(:,v_ki+1), left_recv_p, &
                                    grp, left_norms_comm_rr(v_ki+1), tag=400000+left_src_vcol)
                      CALL mp_isend(left_norms(:,v_ki+1), left_sEND_p, &
                                    grp, left_norms_comm_sr(v_ki+1), tag=400000+left_dst_vcol)
-                  ENDIF
-               ENDIF
+                  END IF
+               END IF
 #endif
                CALL dbcsr_irecv_any(left_data_rp, left_recv_p, &
                                     grp, left_data_rr(v_ki + 1), tag=left_src_vcol)
@@ -1791,7 +1792,7 @@ CONTAINS
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
                                       col_blk_sizes2enum, enum2col_blk_sizes,o_gpu=.false.)
-         ENDIF
+         END IF
          !
          flop_single = 0
          threads_finished = 0
@@ -1828,12 +1829,12 @@ CONTAINS
          END IF
 
          ! This is required for acc_centric, probably makes sense to add it to original algo as well
-#ifdef __DBCSR_ACC
-         CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
-            right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
-         CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
-            left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
-#endif
+         IF (use_acc()) THEN
+            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
+               right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
+            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
+               left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
+         END IF
 
 !$OMP ATOMIC
          threads_finished = threads_finished + 1
@@ -1911,7 +1912,7 @@ CONTAINS
          DEALLOCATE (right_norms_comm,left_norms_comm)
          DEALLOCATE(right_norms_comm_sr,right_norms_comm_rr,left_norms_comm_sr, &
                     left_norms_comm_rr)
-      ENDIF
+      END IF
       !
       !
       IF (debug_mod) THEN

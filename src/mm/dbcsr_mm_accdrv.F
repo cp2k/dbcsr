@@ -458,34 +458,14 @@ CONTAINS
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
       CALL timeset(routineN, error_handle)
-      IF (dbcsr_cfg%acc_centric%val) THEN
-         DO while (.NOT. ASSOCIATED(stackbuf))
-            DO i = 1, SIZE(stack_buffers)
-               ! line was deleted in the meantime
-               ! IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
-               IF (acc_event_query(stack_buffers(i)%calculated)) THEN
-                  stackbuf => stack_buffers(i)
-                  EXIT
-               ENDIF
-            ENDDO
-         ENDDO
-      ELSE
+      DO WHILE (.NOT. ASSOCIATED(stackbuf))
          DO i = 1, SIZE(stack_buffers)
-            ! line was deleted in the meantime
-            ! IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
             IF (acc_event_query(stack_buffers(i)%calculated)) THEN
                stackbuf => stack_buffers(i)
                EXIT
-            ENDIF
-         ENDDO
-
-         ! check was deleted in the meantime
-         ! IF (.NOT. ASSOCIATED(stackbuf)) THEN
-         !    success = .FALSE.
-         !    RETURN
-         ! END IF
-      ENDIF
-
+            END IF
+         END DO
+      END DO
 
       stacked_datasize = this%product_wm%datasize
       CALL dbcsr_data_ensure_size(this%c_buffer, stacked_datasize, &
@@ -549,16 +529,13 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
-         CALL acc_stream_wait_event(a_area%memory_type%acc_stream, stackbuf%calculated)
-         CALL acc_stream_wait_event(b_area%memory_type%acc_stream, stackbuf%calculated)
-         CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%calculated)
       ELSE
          IF (dbcsr_cfg%use_acc_g2g%val) THEN
             DBCSR_ABORT("MPI G2G requires all kernels to be evaluated on the GPU!")
          END IF
          IF (dbcsr_cfg%acc_centric%val) THEN
             DBCSR_ABORT("dbcsr_mm_accdrv_process: acc_centric result != success")
-         ENDIF
+         END IF
          this%do_gpu_c_redux = .TRUE.
       END IF
 
