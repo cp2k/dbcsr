@@ -1034,7 +1034,7 @@ int opencl_libsmm_acc_process(const int* host_param_stack, const int* dev_param_
             nbn = (n_max + new_config.bn - 1) / new_config.bn;
             new_config.wgsize[kernel_idx] = LIBXSMM_MAX(nbm * nbn, new_config.ws);
             if (0 != new_config.wg) {
-              if (0 != devinfo->wgsize[2]) { /* subgroups supported */
+              if (1 < devinfo->wgsize[2]) { /* subgroups supported */
                 if (new_config.wgsize[kernel_idx] <= devinfo->wgsize[2]) {
                   sgs = devinfo->wgsize[2];
                 }
