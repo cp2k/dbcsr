@@ -260,6 +260,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: dbcsr_is_parallel
    PUBLIC :: mp_probe
    PUBLIC :: mp_query_cuda_support
+   PUBLIC :: mp_query_hip_support
 
    ! message passing
    PUBLIC :: mp_bcast, mp_sum, mp_sum_partial, mp_max, mp_maxloc, mp_minloc, mp_min, mp_prod, mp_sync
@@ -1861,6 +1862,37 @@ CONTAINS
       status = 0
 #if defined(__parallel) && defined(__DBCSR_ACC)
       status = mpix_query_cuda_support()
+      IF (status == 0) THEN
+         res = .FALSE.
+      ELSE
+         res = .TRUE.
+      END IF
+#else
+      res = .FALSE.
+#endif
+      CALL timestop(handle)
+   END FUNCTION
+
+   FUNCTION mp_query_hip_support() RESULT(res)
+      LOGICAL :: res
+      INTEGER :: status, handle
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_query_hip_support'
+
+#if defined(__parallel) && defined(__DBCSR_ACC)
+      INTERFACE
+         FUNCTION mpix_query_hip_support() RESULT(res) BIND(C, name="dbcsr_mpix_query_hip_support")
+            IMPORT :: C_INT
+            INTEGER(kind=C_INT) :: res
+         END FUNCTION
+      END INTERFACE
+#endif
+
+      CALL timeset(routineN, handle)
+
+      status = 0
+#if defined(__parallel) && defined(__DBCSR_ACC)
+      status = mpix_query_hip_support()
       IF (status == 0) THEN
          res = .FALSE.
       ELSE

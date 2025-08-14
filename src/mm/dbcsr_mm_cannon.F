@@ -118,7 +118,8 @@ MODULE dbcsr_mm_cannon
                             mp_waitall, &
                             mp_comm_type, &
                             mp_request_type, &
-                            mp_query_cuda_support
+                            mp_query_cuda_support, &
+                            mp_query_hip_support
 
    USE ISO_C_BINDING, ONLY: C_F_POINTER
 
@@ -1364,8 +1365,8 @@ CONTAINS
 
 #ifdef __parallel
          CALL mp_environ(numtask=mpi_size, groupid=mp_group)
-         IF (mpi_size > 1 .AND. .NOT. mp_query_cuda_support()) THEN
-            DBCSR_ABORT("acc_centric mode requires a CUDA-aware installation of MPI.")
+         IF (mpi_size > 1 .AND. .NOT. mp_query_hip_support() .AND. .NOT. mp_query_cuda_support()) THEN
+            DBCSR_ABORT("acc_centric mode requires a CUDA/HIP-aware installation of MPI.")
          ENDIF
 #endif
 
