@@ -31,29 +31,28 @@ int acc_get_gpu_warp_size() {
   return prop.warpSize;
 }
 
-extern "C"
-{
-  #if defined(__parallel)
+extern "C" {
+#if defined(__parallel)
 /*
-   * Need these bindings since some MPI implementations define these functions
-   * only for their C API.
-   *  Need to write wrappers for them since they may be defined as a Macro in C.
-   */
+    * Need these bindings since some MPI implementations define these functions
+    * only for their C API.
+    *  Need to write wrappers for them since they may be defined as a Macro in C.
+    */
 int dbcsr_mpix_query_cuda_support() {
-#if defined(OPEN_MPI) || defined(MPICH)
+#  if defined(OPEN_MPI) || defined(MPICH)
   return MPIX_Query_cuda_support();
-#else
+#  else
   return 0;
-#endif
+#  endif
 }
 int dbcsr_mpix_query_hip_support() {
-#if defined(OPEN_MPI)
+#  if defined(OPEN_MPI)
   return MPIX_Query_rocm_support();
-#elif defined(MPICH)
+#  elif defined(MPICH)
   return MPIX_Query_hip_support();
-#else
+#  else
   return 0;
-#endif
+#  endif
 }
 #endif
 }
