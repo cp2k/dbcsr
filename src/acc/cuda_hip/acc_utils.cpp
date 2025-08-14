@@ -15,6 +15,11 @@
 #  include "../hip/acc_hip.h"
 #endif
 
+#if defined(__parallel)
+#  include <mpi.h>
+#  include <mpi-ext.h>
+#endif
+
 //===========================================================================
 int acc_get_gpu_warp_size() {
   int device = 0;
@@ -22,4 +27,14 @@ int acc_get_gpu_warp_size() {
   ACC_API_CALL(GetDevice, (&device));
   ACC_API_CALL(GetDeviceProperties, (&prop, device));
   return prop.warpSize;
+}
+
+extern "C"
+{
+  #if defined(__parallel)
+  int dbcsr_mpix_query_cuda_support()
+  {
+    return MPIX_Query_cuda_support();
+  }
+  #endif
 }

@@ -117,7 +117,8 @@ MODULE dbcsr_mm_cannon
                             mp_testany, &
                             mp_waitall, &
                             mp_comm_type, &
-                            mp_request_type
+                            mp_request_type, &
+                            mp_query_cuda_support
 
    USE ISO_C_BINDING, ONLY: C_F_POINTER
 
@@ -910,6 +911,7 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                       :: left_mp_obj, product_mp_obj, &
                                                   right_mp_obj
       TYPE(mp_comm_type)                       :: grp, mp_group
+      INTEGER                                  :: mpi_size
       TYPE(mp_request_type), DIMENSION(:), ALLOCATABLE :: left_data_rr, left_data_sr, left_index_rr, &
                                                          left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
       LOGICAL :: acc_centric
@@ -1359,6 +1361,13 @@ CONTAINS
       ! Initial upload for acc_centric version
       ! We now send the transposed GPU buffer instead of the original buffer
       IF (acc_centric) THEN
+
+#ifdef __parallel
+         CALL mp_environ(numtask=mpi_size, groupid=mp_group)
+         IF (mpi_size > 1 .AND. .NOT. mp_query_cuda_support()) THEN
+            DBCSR_ABORT("acc_centric mode requires a CUDA-aware installation of MPI.")
+         ENDIF
+#endif
 
          CALL timeset(routineN//"_acc_init", handle1)
          DO v_ki_right=1,right_row_nimages

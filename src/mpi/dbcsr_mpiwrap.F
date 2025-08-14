@@ -10,7 +10,8 @@
 MODULE dbcsr_mpiwrap
    !! Interface to the message passing library MPI
    USE ISO_C_BINDING, ONLY: C_F_POINTER, &
-                            C_PTR
+                            C_PTR, &
+                            C_INT
    USE dbcsr_kinds, ONLY: &
       dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, &
       real_8_size
@@ -258,6 +259,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_comm_dup, mp_comm_split, mp_comm_split_direct
    PUBLIC :: dbcsr_is_parallel
    PUBLIC :: mp_probe
+   PUBLIC :: mp_query_cuda_support
 
    ! message passing
    PUBLIC :: mp_bcast, mp_sum, mp_sum_partial, mp_max, mp_maxloc, mp_minloc, mp_min, mp_prod, mp_sync
@@ -1838,6 +1840,37 @@ CONTAINS
 #endif
       CALL timestop(handle)
    END SUBROUTINE mp_probe
+
+   FUNCTION mp_query_cuda_support() RESULT(res)
+      LOGICAL :: res
+      INTEGER :: status, handle
+
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_query_cuda_support'
+
+#if defined(__parallel) && defined(__DBCSR_ACC)
+      INTERFACE
+         FUNCTION mpix_query_cuda_support() RESULT(res) BIND(C, name="dbcsr_mpix_query_cuda_support")
+            IMPORT :: C_INT
+            INTEGER(kind=C_INT) :: res
+         END FUNCTION
+      END INTERFACE
+#endif
+
+      CALL timeset(routineN, handle)
+
+      status = 0
+#if defined(__parallel) && defined(__DBCSR_ACC)
+      status = mpix_query_cuda_support()
+      IF (status == 0) THEN
+         res = .FALSE.
+      ELSE
+         res = .TRUE.
+      END IF
+#else
+      res = .FALSE.
+#endif
+      CALL timestop(handle)
+   END FUNCTION
 
 ! **************************************************************************************************
 ! Here come the data routines with none of the standard data types.
