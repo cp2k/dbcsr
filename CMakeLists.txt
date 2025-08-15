@@ -5,7 +5,7 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # DBCSR's source directory
-set(DBCSR_SOURCE_DIR src)
+set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # =================================================================================================
 # REQUIRE OUT-OF-SOURCE BUILDS
@@ -236,16 +236,19 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
 endif ()
 
 # =================================== GPU backends
+
+if (NOT USE_ACCEL MATCHES "none")
+  set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
+endif ()
+
 if (USE_ACCEL MATCHES "opencl")
   find_package(OpenCL REQUIRED)
   enable_language(C)
 
-  set(DBCSR_OPENCL_TOOLDIR
-      ${CMAKE_CURRENT_SOURCE_DIR}/${DBCSR_SOURCE_DIR}/acc/opencl)
-  set(DBCSR_OPENCL_SCRIPT ${DBCSR_OPENCL_TOOLDIR}/acc_opencl.sh)
-
-  set(DBCSR_OPENCL_COMMON common/opencl_atomics.h common/opencl_common.h)
-  list(TRANSFORM DBCSR_OPENCL_COMMON PREPEND ${DBCSR_OPENCL_TOOLDIR}/)
+  set(DBCSR_OPENCL_SCRIPT ${DBCSR_SOURCE_DIR}/acc/opencl/acc_opencl.sh)
+  set(DBCSR_OPENCL_COMMON acc/opencl/common/opencl_atomics.h
+                          acc/opencl/common/opencl_common.h)
+  list(APPEND DBCSR_ACC_HEADER acc/opencl/acc_opencl.h)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
