@@ -248,7 +248,8 @@ if (USE_ACCEL MATCHES "opencl")
   set(DBCSR_OPENCL_SCRIPT ${DBCSR_SOURCE_DIR}/acc/opencl/acc_opencl.sh)
   set(DBCSR_OPENCL_COMMON acc/opencl/common/opencl_atomics.h
                           acc/opencl/common/opencl_common.h)
-  list(APPEND DBCSR_ACC_HEADER acc/opencl/acc_opencl.h)
+  list(APPEND DBCSR_ACC_HEADER acc/opencl/smm/opencl_libsmm.h
+       acc/opencl/acc_opencl.h)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
