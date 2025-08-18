@@ -131,8 +131,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_work_operations.html#variable-modulen~67">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_work_operations.html#variable-careful_mod~19">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_work_operations.html#variable-modulen~16">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_work_operations.html#variable-careful_mod~4">careful_mod</a>
         </div>
       </div>
     </div>
@@ -232,24 +232,24 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_toollib.html'>dbcsr_toollib</a></li>
                   <li class="list-inline-item"><a href='dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_btree.html'>dbcsr_btree</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
               </ul>
             </li>
         </ul>
@@ -274,7 +274,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~67"></span>
+              <span class="anchor" id="variable-modulen~16"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -291,7 +291,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~19"></span>
+              <span class="anchor" id="variable-careful_mod~4"></span>
               logical,
             </td>
               <td>private,</td>
@@ -347,7 +347,7 @@ see dbcsr_types.F</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~403"></span>
+              <span class="anchor" id="variable-matrix~250"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -362,7 +362,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~37"></span>
+              <span class="anchor" id="variable-name~20"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -377,7 +377,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~104"></span>
+              <span class="anchor" id="variable-dist~32"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -392,7 +392,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~14"></span>
+              <span class="anchor" id="variable-matrix_type~7"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -407,7 +407,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~46"></span>
+              <span class="anchor" id="variable-row_blk_size~13"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -422,7 +422,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~45"></span>
+              <span class="anchor" id="variable-col_blk_size~13"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -437,7 +437,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size_obj~3"></span>
+              <span class="anchor" id="variable-row_blk_size_obj~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -452,7 +452,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size_obj~3"></span>
+              <span class="anchor" id="variable-col_blk_size_obj~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -467,7 +467,7 @@ see dbcsr_types.F</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~65"></span>
+              <span class="anchor" id="variable-nze~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -483,7 +483,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~89"></span>
+              <span class="anchor" id="variable-data_type~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -499,7 +499,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~3"></span>
+              <span class="anchor" id="variable-data_buffer~2"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -514,7 +514,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~4"></span>
+              <span class="anchor" id="variable-data_memory_type"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -530,7 +530,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index_memory_type~2"></span>
+              <span class="anchor" id="variable-index_memory_type"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -546,7 +546,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_rbs~2"></span>
+              <span class="anchor" id="variable-max_rbs"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -561,7 +561,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_cbs~2"></span>
+              <span class="anchor" id="variable-max_cbs"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -576,7 +576,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offset~10"></span>
+              <span class="anchor" id="variable-row_blk_offset~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -591,7 +591,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offset~9"></span>
+              <span class="anchor" id="variable-col_blk_offset~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -606,7 +606,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-thread_dist~3"></span>
+              <span class="anchor" id="variable-thread_dist"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -637,7 +637,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~8"></span>
+              <span class="anchor" id="variable-reuse_arrays~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -685,7 +685,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replication_type~4"></span>
+              <span class="anchor" id="variable-replication_type~3"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -724,7 +724,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~404"></span>
+              <span class="anchor" id="variable-matrix~251"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -739,7 +739,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~7"></span>
+              <span class="anchor" id="variable-template~5"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -754,7 +754,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~38"></span>
+              <span class="anchor" id="variable-name~21"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -769,7 +769,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~105"></span>
+              <span class="anchor" id="variable-dist~33"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -784,7 +784,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~15"></span>
+              <span class="anchor" id="variable-matrix_type~8"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -799,7 +799,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~47"></span>
+              <span class="anchor" id="variable-row_blk_size~14"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -814,7 +814,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~46"></span>
+              <span class="anchor" id="variable-col_blk_size~14"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -829,7 +829,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size_obj~4"></span>
+              <span class="anchor" id="variable-row_blk_size_obj~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -844,7 +844,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size_obj~4"></span>
+              <span class="anchor" id="variable-col_blk_size_obj~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -859,7 +859,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~66"></span>
+              <span class="anchor" id="variable-nze~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -874,7 +874,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -889,7 +889,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~4"></span>
+              <span class="anchor" id="variable-data_buffer~3"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -904,7 +904,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~5"></span>
+              <span class="anchor" id="variable-data_memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -919,7 +919,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index_memory_type~3"></span>
+              <span class="anchor" id="variable-index_memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -934,7 +934,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_rbs~3"></span>
+              <span class="anchor" id="variable-max_rbs~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -949,7 +949,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_cbs~3"></span>
+              <span class="anchor" id="variable-max_cbs~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -964,7 +964,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offset~11"></span>
+              <span class="anchor" id="variable-row_blk_offset~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -979,7 +979,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offset~10"></span>
+              <span class="anchor" id="variable-col_blk_offset~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -994,7 +994,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~9"></span>
+              <span class="anchor" id="variable-reuse_arrays~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1039,7 +1039,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replication_type~5"></span>
+              <span class="anchor" id="variable-replication_type~4"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1091,7 +1091,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-p~46"></span>
+              <span class="anchor" id="variable-p~7"></span>
               integer,
             </td>
               <td>public,</td>
@@ -1140,7 +1140,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~408"></span>
+              <span class="anchor" id="variable-matrix~255"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1186,7 +1186,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~220"></span>
+              <span class="anchor" id="variable-row~94"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1202,7 +1202,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~49"></span>
+              <span class="anchor" id="variable-column~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1218,7 +1218,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-limits~5"></span>
+              <span class="anchor" id="variable-limits~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1268,7 +1268,7 @@ point to check</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~403"></span>
+              <span class="anchor" id="variable-matrix~250"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1283,7 +1283,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~37"></span>
+              <span class="anchor" id="variable-name~20"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -1298,7 +1298,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~104"></span>
+              <span class="anchor" id="variable-dist~32"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -1313,7 +1313,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~14"></span>
+              <span class="anchor" id="variable-matrix_type~7"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -1328,7 +1328,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~46"></span>
+              <span class="anchor" id="variable-row_blk_size~13"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1343,7 +1343,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~45"></span>
+              <span class="anchor" id="variable-col_blk_size~13"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1358,7 +1358,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size_obj~3"></span>
+              <span class="anchor" id="variable-row_blk_size_obj~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1373,7 +1373,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size_obj~3"></span>
+              <span class="anchor" id="variable-col_blk_size_obj~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1388,7 +1388,7 @@ point to check</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~65"></span>
+              <span class="anchor" id="variable-nze~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1404,7 +1404,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~89"></span>
+              <span class="anchor" id="variable-data_type~24"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1420,7 +1420,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~3"></span>
+              <span class="anchor" id="variable-data_buffer~2"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1435,7 +1435,7 @@ type of data from 'rRcC' for single/double precision real/complex, default is 'R
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~4"></span>
+              <span class="anchor" id="variable-data_memory_type"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1451,7 +1451,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index_memory_type~2"></span>
+              <span class="anchor" id="variable-index_memory_type"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1467,7 +1467,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_rbs~2"></span>
+              <span class="anchor" id="variable-max_rbs"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1482,7 +1482,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_cbs~2"></span>
+              <span class="anchor" id="variable-max_cbs"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1497,7 +1497,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offset~10"></span>
+              <span class="anchor" id="variable-row_blk_offset~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1512,7 +1512,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offset~9"></span>
+              <span class="anchor" id="variable-col_blk_offset~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1527,7 +1527,7 @@ allocate indices using special memory</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-thread_dist~3"></span>
+              <span class="anchor" id="variable-thread_dist"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1558,7 +1558,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~8"></span>
+              <span class="anchor" id="variable-reuse_arrays~6"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1606,7 +1606,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replication_type~4"></span>
+              <span class="anchor" id="variable-replication_type~3"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1646,7 +1646,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~404"></span>
+              <span class="anchor" id="variable-matrix~251"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1661,7 +1661,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~7"></span>
+              <span class="anchor" id="variable-template~5"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1676,7 +1676,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~38"></span>
+              <span class="anchor" id="variable-name~21"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -1691,7 +1691,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~105"></span>
+              <span class="anchor" id="variable-dist~33"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1706,7 +1706,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_type~15"></span>
+              <span class="anchor" id="variable-matrix_type~8"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1721,7 +1721,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~47"></span>
+              <span class="anchor" id="variable-row_blk_size~14"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1736,7 +1736,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~46"></span>
+              <span class="anchor" id="variable-col_blk_size~14"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1751,7 +1751,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size_obj~4"></span>
+              <span class="anchor" id="variable-row_blk_size_obj~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1766,7 +1766,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size_obj~4"></span>
+              <span class="anchor" id="variable-col_blk_size_obj~3"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1781,7 +1781,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~66"></span>
+              <span class="anchor" id="variable-nze~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1796,7 +1796,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~25"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1811,7 +1811,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~4"></span>
+              <span class="anchor" id="variable-data_buffer~3"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1826,7 +1826,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~5"></span>
+              <span class="anchor" id="variable-data_memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1841,7 +1841,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index_memory_type~3"></span>
+              <span class="anchor" id="variable-index_memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1856,7 +1856,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_rbs~3"></span>
+              <span class="anchor" id="variable-max_rbs~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1871,7 +1871,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-max_cbs~3"></span>
+              <span class="anchor" id="variable-max_cbs~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1886,7 +1886,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offset~11"></span>
+              <span class="anchor" id="variable-row_blk_offset~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1901,7 +1901,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offset~10"></span>
+              <span class="anchor" id="variable-col_blk_offset~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -1916,7 +1916,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~9"></span>
+              <span class="anchor" id="variable-reuse_arrays~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1961,7 +1961,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-replication_type~5"></span>
+              <span class="anchor" id="variable-replication_type~4"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2001,7 +2001,7 @@ uses the mutable data for working and not the append-only data; default is appen
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~2"></span>
+              <span class="anchor" id="variable-wm"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(out)</td>
@@ -2016,7 +2016,7 @@ uses the mutable data for working and not the append-only data; default is appen
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~91"></span>
+              <span class="anchor" id="variable-data_type~26"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2063,7 +2063,7 @@ estimated size of data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~12"></span>
+              <span class="anchor" id="variable-memory_type~2"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2103,7 +2103,7 @@ estimated size of data</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~405"></span>
+              <span class="anchor" id="variable-matrix~252"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2152,7 +2152,7 @@ number work matrices to create, default is 1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~73"></span>
+              <span class="anchor" id="variable-n~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2169,7 +2169,7 @@ number work matrices to create, default is 1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work_mutable~3"></span>
+              <span class="anchor" id="variable-work_mutable~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -2184,7 +2184,7 @@ number work matrices to create, default is 1</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type~13"></span>
+              <span class="anchor" id="variable-memory_type~3"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -2227,7 +2227,7 @@ Deleted blocks are pruned from the index.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~406"></span>
+              <span class="anchor" id="variable-matrix~253"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2282,7 +2282,7 @@ Deleted blocks are pruned from the index.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~407"></span>
+              <span class="anchor" id="variable-matrix~254"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2339,7 +2339,7 @@ area and the index is built from the work matrix.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~409"></span>
+              <span class="anchor" id="variable-matrix~256"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2379,7 +2379,7 @@ area and the index is built from the work matrix.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~410"></span>
+              <span class="anchor" id="variable-matrix~257"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2394,7 +2394,7 @@ area and the index is built from the work matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-limits~3"></span>
+              <span class="anchor" id="variable-limits"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2435,7 +2435,7 @@ previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" cl
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~3"></span>
+              <span class="anchor" id="variable-wm~2"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout),</td>
@@ -2450,7 +2450,7 @@ previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" cl
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~411"></span>
+              <span class="anchor" id="variable-matrix~258"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2480,7 +2480,7 @@ previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" cl
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-limits~4"></span>
+              <span class="anchor" id="variable-limits~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2520,7 +2520,7 @@ previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" cl
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~4"></span>
+              <span class="anchor" id="variable-wm~3"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2560,7 +2560,7 @@ previously-finalized one.</p><a href="../proc/dbcsr_fill_wm_from_matrix.html" cl
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~27"></span>
+              <span class="anchor" id="variable-m~9"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2601,7 +2601,7 @@ col_i arrays and returns its position.</p><a href="../proc/add_work_coordinate.h
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~412"></span>
+              <span class="anchor" id="variable-matrix~259"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2616,7 +2616,7 @@ col_i arrays and returns its position.</p><a href="../proc/add_work_coordinate.h
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~221"></span>
+              <span class="anchor" id="variable-row~95"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2632,7 +2632,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~150"></span>
+              <span class="anchor" id="variable-col~55"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2648,7 +2648,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk~86"></span>
+              <span class="anchor" id="variable-blk~23"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2663,7 +2663,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~29"></span>
+              <span class="anchor" id="variable-index~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2703,7 +2703,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~413"></span>
+              <span class="anchor" id="variable-matrix~260"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2748,7 +2748,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~9"></span>
+              <span class="anchor" id="variable-old_blk_p~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2803,7 +2803,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~414"></span>
+              <span class="anchor" id="variable-matrix~261"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2858,7 +2858,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_col_i~9"></span>
+              <span class="anchor" id="variable-new_col_i~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2873,7 +2873,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_blk_p~9"></span>
+              <span class="anchor" id="variable-new_blk_p~8"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2933,7 +2933,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p~10"></span>
+              <span class="anchor" id="variable-old_blk_p~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3008,7 +3008,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nwms~17"></span>
+              <span class="anchor" id="variable-nwms~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3023,7 +3023,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrows~24"></span>
+              <span class="anchor" id="variable-nrows~17"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -3093,7 +3093,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~7"></span>
+              <span class="anchor" id="variable-wm~6"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3133,7 +3133,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~8"></span>
+              <span class="anchor" id="variable-wm~7"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3173,7 +3173,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~9"></span>
+              <span class="anchor" id="variable-wm~8"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3213,7 +3213,7 @@ col data to add</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-wm~10"></span>
+              <span class="anchor" id="variable-wm~9"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
