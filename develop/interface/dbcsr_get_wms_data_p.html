@@ -191,7 +191,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~110"></span>
+              <span class="anchor" id="variable-matrix~262"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~16"></span>
+              <span class="anchor" id="variable-lb~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~16"></span>
+              <span class="anchor" id="variable-ub~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -296,7 +296,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~136"></span>
+              <span class="anchor" id="variable-matrix~288"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -328,111 +328,6 @@
             <td>
               <span class="anchor" id="variable-select_data_type~7"></span>
               complex(kind=real_4),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>select_data_type</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lb~20"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ub~20"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ub</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_wms_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_wms_data_d.html'>dbcsr_get_wms_data_d</a>(matrix, index_matrix, select_data_type, lb, ub) result(DATA)  
-</h3></div>
-    <div class="card-body">
-          
-  
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-matrix~97"></span>
-              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index_matrix~3"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>index_matrix</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-select_data_type"></span>
-              real(kind=real_8),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -479,6 +374,111 @@
 
     <h4>
     Return Value
+    <small>complex(kind=real_4), DIMENSION(:), POINTER</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dbcsr_get_wms_data_d"></span> <h3>private  function <a href='../proc/dbcsr_get_wms_data_d.html'>dbcsr_get_wms_data_d</a>(matrix, index_matrix, select_data_type, lb, ub) result(DATA)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-matrix~249"></span>
+              type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index_matrix~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>index_matrix</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-select_data_type"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>select_data_type</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lb~8"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ub~8"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ub</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
     <small>real(kind=real_8), DIMENSION(:), POINTER</small>
     </h4>
     
@@ -506,7 +506,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~123"></span>
+              <span class="anchor" id="variable-matrix~275"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -551,7 +551,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~18"></span>
+              <span class="anchor" id="variable-lb~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -566,7 +566,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~18"></span>
+              <span class="anchor" id="variable-ub~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
