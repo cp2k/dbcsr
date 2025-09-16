@@ -430,6 +430,18 @@ void c_dbcsr_acc_opencl_hist_print(
   FILE* stream, void* hist, const char title[], const int prec[], const c_dbcsr_acc_opencl_hist_adjust_fn adjust[]);
 void c_dbcsr_acc_opencl_hist_free(void* hist);
 
+/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
+const char* c_dbcsr_acc_opencl_stristrn(const char a[], const char b[], size_t maxlen);
+
+/**
+ * Count the number of words in A (or B) with match in B (or A) respectively (case-insensitive).
+ * Can be used to score the equality of A and B on a word-basis. The result is independent of
+ * A-B or B-A order (symmetry). The score cannot exceed the number of words in A or B.
+ * Optional delimiters determine characters splitting words (can be NULL).
+ * Optional count yields total number of words.
+ */
+int c_dbcsr_acc_opencl_strimatch(const char a[], const char b[], const char delims[], int* count);
+
 #if defined(__cplusplus)
 }
 #endif
