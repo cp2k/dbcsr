@@ -443,29 +443,31 @@ int libsmm_acc_init(void) {
         }
 #  if defined(OPENCL_KERNELS_PARAMS_SMM) && defined(OPENCL_KERNELS_DEVICES)
         if (EXIT_SUCCESS == result && (0 == ntuned || 0 != key_direct_skip)) {
-          const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
-          const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
-          unsigned int default_uid = devinfo->uid;
           const char *line = OPENCL_KERNELS_PARAMS_SMM, *next;
 #    if LIBXSMM_VERSION4(1, 17, 0, 0) < LIBXSMM_VERSION_NUMBER
+          const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
+          unsigned int default_uid = c_dbcsr_acc_opencl_config.device.uid;
           int active_match = -1;
           if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_name(
                                 device_id, bufname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/, 0 /*platform_maxlen*/, /*cleanup*/ 1))
           { /* determine best-matching parameters based on name of device */
-            int i = 0, best = 0;
+            int i = 0, count = 0;
+            double best = 0;
             if (1 >= c_dbcsr_acc_opencl_config.devmatch) {
               c_dbcsr_acc_opencl_device_uid(device_id, bufname, &default_uid);
             }
             for (; i < ndevices_params; ++i) {
-              const int score = libxsmm_strimatch(bufname, OPENCL_KERNELS_DEVICES[i], NULL);
-              unsigned int uid;
-              if (best < score ||
-                  ((best == score) &&
-                    EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(NULL /*device*/, OPENCL_KERNELS_DEVICES[i], &uid) &&
-                    uid == default_uid))
-              {
-                active_match = i;
-                best = score;
+              const int n = c_dbcsr_acc_opencl_strimatch(bufname, OPENCL_KERNELS_DEVICES[i], NULL, &count);
+              if (0 != n && 0 != count) {
+                const double score = (double)n / count;
+                unsigned int uid;
+                if (best < score ||
+                    (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_uid(NULL /*device*/, OPENCL_KERNELS_DEVICES[i], &uid) &&
+                      uid == default_uid))
+                {
+                  active_match = i;
+                  best = score;
+                }
               }
             }
           }

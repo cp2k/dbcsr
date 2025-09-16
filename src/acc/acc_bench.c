@@ -200,8 +200,7 @@ static size_t parse_nbytes(const char* nbytes, size_t* nelems) {
 
 
 int main(int argc, char* argv[]) {
-  const char *const env_check = getenv("CHECK"), *const env_check_h2d = getenv("CHECK_H2D");
-  const char *const env_check_dev = getenv("CHECK_DEV"), *const env_check_hst = getenv("CHECK_HST");
+  const char* const env_check = getenv("CHECK");
   const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
 #if defined(WARMUP) && (0 < WARMUP) && !defined(_DEBUG)
   const int warmup = MAX(WARMUP, 2) / 2 * 2;
@@ -217,6 +216,9 @@ int main(int argc, char* argv[]) {
   const int nrepeat_h2d = (NULL == env_nrepeat_h2d ? 1 : MAX(atoi(env_nrepeat_h2d), 1));
 #if defined(USE_LIBXSMM)
   double perf_h2d = 0, perf_dev = 0, perf_hst = 0;
+  const char* const env_check_h2d = getenv("CHECK_H2D");
+  const char* const env_check_dev = getenv("CHECK_DEV");
+  const char* const env_check_hst = getenv("CHECK_HST");
 #  if defined(__OPENCL)
   const char* const env_nrepeat_smm = getenv("NREPEAT_SMM");
   const int nrepeat_smm = (NULL == env_nrepeat_smm ? 1 : MAX(atoi(env_nrepeat_smm), 1));

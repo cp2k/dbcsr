@@ -1962,6 +1962,69 @@ void c_dbcsr_acc_opencl_hist_free(void* hist) {
   }
 }
 
+
+const char* c_dbcsr_acc_opencl_stristrn(const char a[], const char b[], size_t maxlen) {
+  const char* result = NULL;
+  if (NULL != a && NULL != b && '\0' != *a && '\0' != *b && 0 != maxlen) {
+    do {
+      if (tolower(*a) != tolower(*b)) ++a;
+      else {
+        const char* c = b;
+        size_t i = 0;
+        result = a;
+        while ('\0' != c[++i] && i != maxlen && '\0' != *++a) {
+          if (tolower(*a) != tolower(c[i])) {
+            result = NULL;
+            break;
+          }
+        }
+        if ('\0' != c[i] && '\0' != c[i + 1] && c[i] != c[i + 1] && i != maxlen) {
+          result = NULL;
+        }
+        else break;
+      }
+    } while ('\0' != *a);
+  }
+  return result;
+}
+
+
+int c_dbcsr_acc_opencl_strimatch(const char a[], const char b[], const char delims[], int* count) {
+  int result = 0, na = 0, nb = 0;
+  if (NULL != a && NULL != b && '\0' != *a && '\0' != *b) {
+    const char* const sep = ((NULL == delims || '\0' == *delims) ? " \t;,:-" : delims);
+    const char *c, *tmp;
+    char s[2] = {'\0'};
+    size_t m, n;
+    for (;;) {
+      while (*s = *b, NULL != strpbrk(s, sep)) ++b; /* left-trim */
+      if ('\0' != *b && '[' != *b) ++nb; /* count words */
+      else break;
+      tmp = b;
+      while ('\0' != *tmp && (*s = *tmp, NULL == strpbrk(s, sep))) ++tmp;
+      m = tmp - b;
+      c = c_dbcsr_acc_opencl_stristrn(a, b, LIBXSMM_MIN(1, m));
+      if (NULL != c) {
+        const char* d = c;
+        while ('\0' != *d && (*s = *d, NULL == strpbrk(s, sep))) ++d;
+        n = d - c;
+        if (1 >= n || NULL != c_dbcsr_acc_opencl_stristrn(c, b, LIBXSMM_MIN(m, n))) ++result;
+      }
+      b = tmp;
+    }
+    for (;;) { /* count number of words */
+      while (*s = *a, NULL != strpbrk(s, sep)) ++a; /* left-trim */
+      if ('\0' != *a && '[' != *a) ++na; /* count words */
+      else break;
+      while ('\0' != *a && (*s = *a, NULL == strpbrk(s, sep))) ++a;
+    }
+    if (na < result) result = na;
+  }
+  else result = -1;
+  if (NULL != count) *count = LIBXSMM_MAX(na, nb);
+  return result;
+}
+
 #  if defined(__cplusplus)
 }
 #  endif
