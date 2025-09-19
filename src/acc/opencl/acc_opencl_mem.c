@@ -294,23 +294,23 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
 
 void CL_CALLBACK c_dbcsr_acc_memcpy_notify(cl_event /*event*/, cl_int /*event_status*/, void* /*data*/);
 void CL_CALLBACK c_dbcsr_acc_memcpy_notify(cl_event event, cl_int event_status, void* data) {
-  int durdev_result = EXIT_SUCCESS;
-  const double durdev = c_dbcsr_acc_opencl_duration(event, &durdev_result);
+  int result = EXIT_SUCCESS;
+  const double durdev = c_dbcsr_acc_opencl_duration(event, &result);
   c_dbcsr_acc_opencl_info_memptr_t info;
-  cl_command_type command_type;
+  cl_command_type type;
   size_t size = 0, offset = 0;
   LIBXSMM_UNUSED(event_status);
   assert(CL_COMPLETE == event_status && NULL != data);
-  if (EXIT_SUCCESS == clGetEventInfo(event, CL_EVENT_COMMAND_TYPE, sizeof(command_type), &command_type, NULL) &&
-      EXIT_SUCCESS == c_dbcsr_acc_opencl_info_devptr_lock(&info, NULL /*lock*/, data, 1 /*elsize*/, NULL /*amount*/, &offset) &&
-      EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_SIZE, sizeof(size_t), &size, NULL) && EXIT_SUCCESS == durdev_result)
+  if (EXIT_SUCCESS == result && EXIT_SUCCESS == clGetEventInfo(event, CL_EVENT_COMMAND_TYPE, sizeof(type), &type, NULL) &&
+      EXIT_SUCCESS == c_dbcsr_acc_opencl_info_devptr_lock(&info, NULL, data, 1 /*elsize*/, NULL /*amount*/, &offset) &&
+      EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_SIZE, sizeof(size_t), &size, NULL) && offset <= size)
   {
     /*const double durhst = libxsmm_timer_duration((libxsmm_timer_tickint)info.data, libxsmm_timer_tick());
     const double durtot = durdev - LIBXSMM_MIN(durdev, durhst);*/
     const size_t amount = size - offset;
     const double vals[] = {(double)amount, durdev};
     const int mb = (int)((amount + (1 << 19)) >> 20);
-    switch (command_type) {
+    switch (type) {
       case CL_COMMAND_WRITE_BUFFER: {
         assert(NULL != c_dbcsr_acc_opencl_config.hist_h2d);
         c_dbcsr_acc_opencl_hist_set(c_dbcsr_acc_opencl_config.lock_memory, c_dbcsr_acc_opencl_config.hist_h2d, vals);
