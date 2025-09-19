@@ -18,6 +18,7 @@
 #  include <hipblas.h>
 #endif
 #include <hip/hiprtc.h>
+#include <stdio.h>
 
 #define ACC(x) hip##x
 #define ACC_DRV(x) ACC(x)
