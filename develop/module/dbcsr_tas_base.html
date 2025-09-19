@@ -270,23 +270,23 @@ As dbcsr_put_block</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
                   <li class="list-inline-item"><a href='dbcsr_block_access.html'>dbcsr_block_access</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_methods.html'>dbcsr_methods</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_operations.html'>dbcsr_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_data_types.html'>dbcsr_data_types</a></li>
               </ul>
             </li>
         </ul>
@@ -365,7 +365,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~378"></span>
+              <span class="anchor" id="variable-matrix~381"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -380,7 +380,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~29"></span>
+              <span class="anchor" id="variable-name~37"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -395,7 +395,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~89"></span>
+              <span class="anchor" id="variable-dist~101"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -410,7 +410,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~85"></span>
+              <span class="anchor" id="variable-data_type~90"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -425,7 +425,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~42"></span>
+              <span class="anchor" id="variable-row_blk_size~46"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -440,7 +440,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~41"></span>
+              <span class="anchor" id="variable-col_blk_size~45"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -494,7 +494,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~13"></span>
+              <span class="anchor" id="variable-matrix_in~14"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -509,7 +509,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~379"></span>
+              <span class="anchor" id="variable-matrix~382"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -524,7 +524,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~30"></span>
+              <span class="anchor" id="variable-name~38"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -539,7 +539,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~86"></span>
+              <span class="anchor" id="variable-data_type~91"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -588,7 +588,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~386"></span>
+              <span class="anchor" id="variable-matrix~389"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -618,7 +618,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~140"></span>
+              <span class="anchor" id="variable-col~142"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -663,7 +663,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~146"></span>
+              <span class="anchor" id="variable-found~145"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -742,7 +742,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~385"></span>
+              <span class="anchor" id="variable-matrix~388"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -772,7 +772,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~139"></span>
+              <span class="anchor" id="variable-col~141"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -882,7 +882,7 @@ matrices have same number of block rows and block columns.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~14"></span>
+              <span class="anchor" id="variable-matrix_in~15"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -936,7 +936,7 @@ matrices have same number of block rows and block columns.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~384"></span>
+              <span class="anchor" id="variable-matrix~387"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1045,7 +1045,7 @@ matrices have same number of block rows and block columns.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~44"></span>
+              <span class="anchor" id="variable-column~42"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1190,7 +1190,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~45"></span>
+              <span class="anchor" id="variable-column~43"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1345,7 +1345,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~46"></span>
+              <span class="anchor" id="variable-column~44"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1489,7 +1489,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~47"></span>
+              <span class="anchor" id="variable-column~45"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1633,7 +1633,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~48"></span>
+              <span class="anchor" id="variable-column~46"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1777,7 +1777,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~49"></span>
+              <span class="anchor" id="variable-column~47"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -1901,7 +1901,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~403"></span>
+              <span class="anchor" id="variable-matrix~406"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1931,7 +1931,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~142"></span>
+              <span class="anchor" id="variable-col~144"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2030,7 +2030,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~404"></span>
+              <span class="anchor" id="variable-matrix~407"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2060,7 +2060,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~143"></span>
+              <span class="anchor" id="variable-col~145"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2159,7 +2159,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~405"></span>
+              <span class="anchor" id="variable-matrix~408"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2189,7 +2189,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~144"></span>
+              <span class="anchor" id="variable-col~146"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2288,7 +2288,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~406"></span>
+              <span class="anchor" id="variable-matrix~409"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2318,7 +2318,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~145"></span>
+              <span class="anchor" id="variable-col~147"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2427,7 +2427,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~407"></span>
+              <span class="anchor" id="variable-matrix~410"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2457,7 +2457,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~146"></span>
+              <span class="anchor" id="variable-col~148"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2502,7 +2502,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~147"></span>
+              <span class="anchor" id="variable-found~146"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2571,7 +2571,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~408"></span>
+              <span class="anchor" id="variable-matrix~411"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2601,7 +2601,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~147"></span>
+              <span class="anchor" id="variable-col~149"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2646,7 +2646,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~148"></span>
+              <span class="anchor" id="variable-found~147"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2715,7 +2715,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~409"></span>
+              <span class="anchor" id="variable-matrix~412"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2745,7 +2745,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~148"></span>
+              <span class="anchor" id="variable-col~150"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2790,7 +2790,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~149"></span>
+              <span class="anchor" id="variable-found~148"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -2859,7 +2859,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~410"></span>
+              <span class="anchor" id="variable-matrix~413"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2889,7 +2889,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~149"></span>
+              <span class="anchor" id="variable-col~151"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -2934,7 +2934,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~150"></span>
+              <span class="anchor" id="variable-found~149"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -3013,7 +3013,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~411"></span>
+              <span class="anchor" id="variable-matrix~414"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3028,7 +3028,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~42"></span>
+              <span class="anchor" id="variable-alpha~48"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -3067,7 +3067,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~412"></span>
+              <span class="anchor" id="variable-matrix~415"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3082,7 +3082,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~43"></span>
+              <span class="anchor" id="variable-alpha~49"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -3121,7 +3121,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~413"></span>
+              <span class="anchor" id="variable-matrix~416"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3136,7 +3136,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~44"></span>
+              <span class="anchor" id="variable-alpha~50"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -3175,7 +3175,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~414"></span>
+              <span class="anchor" id="variable-matrix~417"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3190,7 +3190,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~45"></span>
+              <span class="anchor" id="variable-alpha~51"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -3239,7 +3239,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~415"></span>
+              <span class="anchor" id="variable-matrix~418"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3254,7 +3254,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~14"></span>
+              <span class="anchor" id="variable-eps~20"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -3269,7 +3269,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~7"></span>
+              <span class="anchor" id="variable-method~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3284,7 +3284,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~12"></span>
+              <span class="anchor" id="variable-use_absolute~16"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3323,7 +3323,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~416"></span>
+              <span class="anchor" id="variable-matrix~419"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3338,7 +3338,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~15"></span>
+              <span class="anchor" id="variable-eps~21"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -3353,7 +3353,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~8"></span>
+              <span class="anchor" id="variable-method~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3368,7 +3368,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~13"></span>
+              <span class="anchor" id="variable-use_absolute~17"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3407,7 +3407,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~417"></span>
+              <span class="anchor" id="variable-matrix~420"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3422,7 +3422,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~16"></span>
+              <span class="anchor" id="variable-eps~22"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -3437,7 +3437,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~9"></span>
+              <span class="anchor" id="variable-method~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3452,7 +3452,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~14"></span>
+              <span class="anchor" id="variable-use_absolute~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3491,7 +3491,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~418"></span>
+              <span class="anchor" id="variable-matrix~421"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -3506,7 +3506,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~17"></span>
+              <span class="anchor" id="variable-eps~23"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -3521,7 +3521,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~10"></span>
+              <span class="anchor" id="variable-method~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -3536,7 +3536,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~15"></span>
+              <span class="anchor" id="variable-use_absolute~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -3584,7 +3584,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~70"></span>
+              <span class="anchor" id="variable-iter~71"></span>
               type(<a href='../type/dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
 <td>intent(in)</td>
@@ -3629,7 +3629,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~388"></span>
+              <span class="anchor" id="variable-matrix~391"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3674,7 +3674,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~389"></span>
+              <span class="anchor" id="variable-matrix~392"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3719,7 +3719,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~390"></span>
+              <span class="anchor" id="variable-matrix~393"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3764,7 +3764,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~391"></span>
+              <span class="anchor" id="variable-matrix~394"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3809,7 +3809,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~392"></span>
+              <span class="anchor" id="variable-matrix~395"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3854,7 +3854,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~393"></span>
+              <span class="anchor" id="variable-matrix~396"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3899,7 +3899,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~394"></span>
+              <span class="anchor" id="variable-matrix~397"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3944,7 +3944,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~395"></span>
+              <span class="anchor" id="variable-matrix~398"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -3989,7 +3989,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~396"></span>
+              <span class="anchor" id="variable-matrix~399"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4034,7 +4034,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~397"></span>
+              <span class="anchor" id="variable-matrix~400"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4079,7 +4079,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~398"></span>
+              <span class="anchor" id="variable-matrix~401"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4124,7 +4124,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~399"></span>
+              <span class="anchor" id="variable-matrix~402"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4169,7 +4169,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~400"></span>
+              <span class="anchor" id="variable-matrix~403"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4221,7 +4221,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~378"></span>
+              <span class="anchor" id="variable-matrix~381"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -4236,7 +4236,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~29"></span>
+              <span class="anchor" id="variable-name~37"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -4251,7 +4251,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~89"></span>
+              <span class="anchor" id="variable-dist~101"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4266,7 +4266,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~85"></span>
+              <span class="anchor" id="variable-data_type~90"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4281,7 +4281,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~42"></span>
+              <span class="anchor" id="variable-row_blk_size~46"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -4296,7 +4296,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~41"></span>
+              <span class="anchor" id="variable-col_blk_size~45"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(in)</td>
@@ -4351,7 +4351,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~13"></span>
+              <span class="anchor" id="variable-matrix_in~14"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4366,7 +4366,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~379"></span>
+              <span class="anchor" id="variable-matrix~382"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(out)</td>
@@ -4381,7 +4381,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~30"></span>
+              <span class="anchor" id="variable-name~38"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -4396,7 +4396,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~86"></span>
+              <span class="anchor" id="variable-data_type~91"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -4436,7 +4436,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~380"></span>
+              <span class="anchor" id="variable-matrix~383"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4476,7 +4476,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~71"></span>
+              <span class="anchor" id="variable-matrix_b~72"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4491,7 +4491,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~117"></span>
+              <span class="anchor" id="variable-matrix_a~119"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4547,7 +4547,7 @@ matrices have same number of block rows and block columns.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~14"></span>
+              <span class="anchor" id="variable-matrix_in~15"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4602,7 +4602,7 @@ matrices have same number of block rows and block columns.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~381"></span>
+              <span class="anchor" id="variable-matrix~384"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4644,7 +4644,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~90"></span>
+              <span class="anchor" id="variable-dist~102"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(out)</td>
@@ -4659,7 +4659,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~40"></span>
+              <span class="anchor" id="variable-mp_comm~41"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4674,7 +4674,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~31"></span>
+              <span class="anchor" id="variable-row_dist~36"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -4689,7 +4689,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~31"></span>
+              <span class="anchor" id="variable-col_dist~36"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(in)</td>
@@ -4704,7 +4704,7 @@ arrays.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-split_info~7"></span>
+              <span class="anchor" id="variable-split_info~3"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in),</td>
@@ -4759,7 +4759,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~91"></span>
+              <span class="anchor" id="variable-dist~103"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -4799,7 +4799,7 @@ arrays.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~382"></span>
+              <span class="anchor" id="variable-matrix~385"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4830,7 +4830,7 @@ global matrix blocked column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~42"></span>
+              <span class="anchor" id="variable-column~40"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -4846,7 +4846,7 @@ global matrix blocked column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-processor~6"></span>
+              <span class="anchor" id="variable-processor~7"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -4887,7 +4887,7 @@ subgroup.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~383"></span>
+              <span class="anchor" id="variable-matrix~386"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -4918,7 +4918,7 @@ column of a submatrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~43"></span>
+              <span class="anchor" id="variable-column~41"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -5030,7 +5030,7 @@ This is not recommended for matrices with a very large dimension.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~18"></span>
+              <span class="anchor" id="variable-info~17"></span>
               type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),
             </td>
 <td>intent(in)</td>
@@ -5100,7 +5100,7 @@ This is not recommended for matrices with a very large dimension.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~69"></span>
+              <span class="anchor" id="variable-iter~70"></span>
               type(<a href='../type/dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -5115,7 +5115,7 @@ This is not recommended for matrices with a very large dimension.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_in~15"></span>
+              <span class="anchor" id="variable-matrix_in~16"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5155,7 +5155,7 @@ This is not recommended for matrices with a very large dimension.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~71"></span>
+              <span class="anchor" id="variable-iter~72"></span>
               type(<a href='../type/dbcsr_tas_iterator.html'>dbcsr_tas_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -5225,7 +5225,7 @@ This is not recommended for matrices with a very large dimension.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~44"></span>
+              <span class="anchor" id="variable-column~42"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -5371,7 +5371,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~45"></span>
+              <span class="anchor" id="variable-column~43"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -5487,7 +5487,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~384"></span>
+              <span class="anchor" id="variable-matrix~387"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5557,7 +5557,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~385"></span>
+              <span class="anchor" id="variable-matrix~388"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5587,7 +5587,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~139"></span>
+              <span class="anchor" id="variable-col~141"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -5687,7 +5687,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~386"></span>
+              <span class="anchor" id="variable-matrix~389"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5717,7 +5717,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~140"></span>
+              <span class="anchor" id="variable-col~142"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -5762,7 +5762,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~146"></span>
+              <span class="anchor" id="variable-found~145"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -5832,7 +5832,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_in"></span>
+              <span class="anchor" id="variable-dist_in~2"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -5847,7 +5847,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist_out"></span>
+              <span class="anchor" id="variable-dist_out~2"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td>intent(out)</td>
@@ -5902,7 +5902,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~387"></span>
+              <span class="anchor" id="variable-matrix~390"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -5932,7 +5932,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~141"></span>
+              <span class="anchor" id="variable-col~143"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -6002,7 +6002,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~401"></span>
+              <span class="anchor" id="variable-matrix~404"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -6042,7 +6042,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~402"></span>
+              <span class="anchor" id="variable-matrix~405"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(in)</td>
@@ -6057,7 +6057,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkrows_total~21"></span>
+              <span class="anchor" id="variable-nblkrows_total~23"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -6072,7 +6072,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblkcols_total~16"></span>
+              <span class="anchor" id="variable-nblkcols_total~18"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -6087,7 +6087,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullrows_total~10"></span>
+              <span class="anchor" id="variable-nfullrows_total~11"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -6102,7 +6102,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nfullcols_total~9"></span>
+              <span class="anchor" id="variable-nfullcols_total~10"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out),</td>
@@ -6177,7 +6177,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nprow"></span>
+              <span class="anchor" id="variable-nprow~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6192,7 +6192,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-npcol"></span>
+              <span class="anchor" id="variable-npcol~2"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6267,7 +6267,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-proc_row_dist~5"></span>
+              <span class="anchor" id="variable-proc_row_dist~6"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(out),</td>
@@ -6282,7 +6282,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-proc_col_dist~5"></span>
+              <span class="anchor" id="variable-proc_col_dist~6"></span>
               class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),
             </td>
 <td>intent(out),</td>
@@ -6297,7 +6297,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_size~44"></span>
+              <span class="anchor" id="variable-row_blk_size~48"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(out),</td>
@@ -6312,7 +6312,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_size~43"></span>
+              <span class="anchor" id="variable-col_blk_size~47"></span>
               class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),
             </td>
 <td>intent(out),</td>
@@ -6327,7 +6327,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution~13"></span>
+              <span class="anchor" id="variable-distribution~14"></span>
               type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),
             </td>
 <td></td>
@@ -6342,7 +6342,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~32"></span>
+              <span class="anchor" id="variable-name~40"></span>
               character(len=*),
             </td>
 <td>intent(out),</td>
@@ -6387,7 +6387,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~95"></span>
               integer,
             </td>
 <td></td>
@@ -6457,7 +6457,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~46"></span>
+              <span class="anchor" id="variable-column~44"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -6602,7 +6602,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~47"></span>
+              <span class="anchor" id="variable-column~45"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -6747,7 +6747,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~48"></span>
+              <span class="anchor" id="variable-column~46"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -6892,7 +6892,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~49"></span>
+              <span class="anchor" id="variable-column~47"></span>
               integer(kind=int_8),
             </td>
 <td>intent(out)</td>
@@ -7007,7 +7007,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~403"></span>
+              <span class="anchor" id="variable-matrix~406"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7037,7 +7037,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~142"></span>
+              <span class="anchor" id="variable-col~144"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7137,7 +7137,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~404"></span>
+              <span class="anchor" id="variable-matrix~407"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7167,7 +7167,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~143"></span>
+              <span class="anchor" id="variable-col~145"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7267,7 +7267,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~405"></span>
+              <span class="anchor" id="variable-matrix~408"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7297,7 +7297,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~144"></span>
+              <span class="anchor" id="variable-col~146"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7397,7 +7397,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~406"></span>
+              <span class="anchor" id="variable-matrix~409"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7427,7 +7427,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~145"></span>
+              <span class="anchor" id="variable-col~147"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7527,7 +7527,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~407"></span>
+              <span class="anchor" id="variable-matrix~410"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7557,7 +7557,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~146"></span>
+              <span class="anchor" id="variable-col~148"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7602,7 +7602,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~147"></span>
+              <span class="anchor" id="variable-found~146"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -7672,7 +7672,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~408"></span>
+              <span class="anchor" id="variable-matrix~411"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7702,7 +7702,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~147"></span>
+              <span class="anchor" id="variable-col~149"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7747,7 +7747,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~148"></span>
+              <span class="anchor" id="variable-found~147"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -7817,7 +7817,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~409"></span>
+              <span class="anchor" id="variable-matrix~412"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7847,7 +7847,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~148"></span>
+              <span class="anchor" id="variable-col~150"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -7892,7 +7892,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~149"></span>
+              <span class="anchor" id="variable-found~148"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -7962,7 +7962,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~410"></span>
+              <span class="anchor" id="variable-matrix~413"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -7992,7 +7992,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~149"></span>
+              <span class="anchor" id="variable-col~151"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in)</td>
@@ -8037,7 +8037,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~150"></span>
+              <span class="anchor" id="variable-found~149"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -8107,7 +8107,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~411"></span>
+              <span class="anchor" id="variable-matrix~414"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8122,7 +8122,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~42"></span>
+              <span class="anchor" id="variable-alpha~48"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -8162,7 +8162,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~412"></span>
+              <span class="anchor" id="variable-matrix~415"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8177,7 +8177,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~43"></span>
+              <span class="anchor" id="variable-alpha~49"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -8217,7 +8217,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~413"></span>
+              <span class="anchor" id="variable-matrix~416"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8232,7 +8232,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~44"></span>
+              <span class="anchor" id="variable-alpha~50"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -8272,7 +8272,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~414"></span>
+              <span class="anchor" id="variable-matrix~417"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8287,7 +8287,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~45"></span>
+              <span class="anchor" id="variable-alpha~51"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -8327,7 +8327,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~415"></span>
+              <span class="anchor" id="variable-matrix~418"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8342,7 +8342,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~14"></span>
+              <span class="anchor" id="variable-eps~20"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -8357,7 +8357,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~7"></span>
+              <span class="anchor" id="variable-method~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8372,7 +8372,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~12"></span>
+              <span class="anchor" id="variable-use_absolute~16"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8412,7 +8412,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~416"></span>
+              <span class="anchor" id="variable-matrix~419"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8427,7 +8427,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~15"></span>
+              <span class="anchor" id="variable-eps~21"></span>
               real(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -8442,7 +8442,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~8"></span>
+              <span class="anchor" id="variable-method~12"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8457,7 +8457,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~13"></span>
+              <span class="anchor" id="variable-use_absolute~17"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8497,7 +8497,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~417"></span>
+              <span class="anchor" id="variable-matrix~420"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8512,7 +8512,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~16"></span>
+              <span class="anchor" id="variable-eps~22"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -8527,7 +8527,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~9"></span>
+              <span class="anchor" id="variable-method~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8542,7 +8542,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~14"></span>
+              <span class="anchor" id="variable-use_absolute~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -8582,7 +8582,7 @@ global block column</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~418"></span>
+              <span class="anchor" id="variable-matrix~421"></span>
               type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -8597,7 +8597,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~17"></span>
+              <span class="anchor" id="variable-eps~23"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -8612,7 +8612,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~10"></span>
+              <span class="anchor" id="variable-method~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -8627,7 +8627,7 @@ global block column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~15"></span>
+              <span class="anchor" id="variable-use_absolute~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
