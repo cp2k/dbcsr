@@ -90,20 +90,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">32 statements</a>
+                 title=" 0.1% of total for procedures.">33 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a>
+              <a href="../src/dbcsr_tensor_reshape.F"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
-                <li class="breadcrumb-item"><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
             <li class="breadcrumb-item active" aria-current="page">block_buffer_get_next_block_c_sp</li>
           </ol>
         </nav>
@@ -171,7 +171,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~29"></span>
+              <span class="anchor" id="variable-buffer~38"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -186,7 +186,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~24"></span>
+              <span class="anchor" id="variable-ndata~27"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -201,12 +201,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~25"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-index~26"></span>
+              integer,
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
-              DIMENSION(2)
+              DIMENSION(ndims_buffer(buffer))
             </td>
             <td>::</td>
             <td><strong>index</strong></td>
@@ -216,12 +216,12 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~104"></span>
+              <span class="anchor" id="variable-block~178"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td>optional,</td>            <td>
-              DIMENSION(:, :)
+              DIMENSION(:), ALLOCATABLE
             </td>
             <td>::</td>
             <td><strong>block</strong></td>
