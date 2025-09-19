@@ -175,7 +175,7 @@ void c_dbcsr_acc_opencl_configure(void) {
 #  endif
 #  if defined(ACC_OPENCL_ASYNC)
   const char* const env_async = (ACC_OPENCL_ASYNC);
-  const int async_default = 1 + 2;
+  const int async_default = 1 + 2 + 4 + 8;
 #  else
   const char* const env_async = NULL;
   const int async_default = 0;
