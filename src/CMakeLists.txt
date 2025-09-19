@@ -280,6 +280,7 @@ if (USE_ACCEL)
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
+            $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
