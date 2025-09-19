@@ -131,8 +131,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~18">moduleN</a>
-            <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~5">careful_mod</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~34">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~13">careful_mod</a>
         </div>
       </div>
     </div>
@@ -225,13 +225,13 @@ dbcsr_mm_methods.
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
                   <li class="list-inline-item"><a href='dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
                   <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_config.html'>dbcsr_config</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_array_types.html'>dbcsr_array_types</a></li>
                   <li class="list-inline-item"><a href='dbcsr_types.html'>dbcsr_types</a></li>
               </ul>
             </li>
@@ -257,7 +257,7 @@ dbcsr_mm_methods.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~18"></span>
+              <span class="anchor" id="variable-modulen~34"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -274,7 +274,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-careful_mod~5"></span>
+              <span class="anchor" id="variable-careful_mod~13"></span>
               logical,
             </td>
               <td>private,</td>
@@ -345,7 +345,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~4"></span>
+              <span class="anchor" id="variable-keep_sparsity~5"></span>
               logical,
             </td>
               <td>private</td>
@@ -364,7 +364,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~3"></span>
+              <span class="anchor" id="variable-keep_product_data~6"></span>
               logical,
             </td>
               <td>private</td>
@@ -402,7 +402,7 @@ Use on-the-fly filtering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m_sizes"></span>
+              <span class="anchor" id="variable-m_sizes~3"></span>
               integer,
             </td>
               <td>private,</td>
@@ -421,7 +421,7 @@ Block sizes of A matrix columns and B matrix rows, indexed locally</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_sizes"></span>
+              <span class="anchor" id="variable-n_sizes~3"></span>
               integer,
             </td>
               <td>private,</td>
@@ -440,7 +440,7 @@ Block sizes of A matrix columns and B matrix rows, indexed locally</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k_sizes"></span>
+              <span class="anchor" id="variable-k_sizes~3"></span>
               integer,
             </td>
               <td>private,</td>
@@ -598,7 +598,7 @@ C and B matrix global columns.  Map from global columns (index) to local columns
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_max_epss"></span>
+              <span class="anchor" id="variable-row_max_epss~3"></span>
               real(kind=sp),
             </td>
               <td>private,</td>
@@ -655,7 +655,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~4"></span>
+              <span class="anchor" id="variable-eps~6"></span>
               real(kind=real_8),
             </td>
               <td>private</td>
@@ -689,7 +689,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~9"></span>
+              <span class="anchor" id="variable-flop~6"></span>
               integer(kind=int_8),
             </td>
               <td>private</td>
@@ -806,7 +806,7 @@ Norms of B matrix blocks.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~11"></span>
+              <span class="anchor" id="variable-this~23"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(in)</td>
@@ -851,7 +851,7 @@ Norms of B matrix blocks.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~12"></span>
+              <span class="anchor" id="variable-this~24"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(in)</td>
@@ -926,7 +926,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~5"></span>
+              <span class="anchor" id="variable-a"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -941,7 +941,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~2"></span>
+              <span class="anchor" id="variable-val~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1016,7 +1016,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~6"></span>
+              <span class="anchor" id="variable-a~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1031,7 +1031,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~3"></span>
+              <span class="anchor" id="variable-val~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1107,7 +1107,7 @@ Norms of B matrix blocks.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~5"></span>
+              <span class="anchor" id="variable-this~17"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1122,7 +1122,7 @@ Norms of B matrix blocks.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~2"></span>
+              <span class="anchor" id="variable-left~14"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1138,7 +1138,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~2"></span>
+              <span class="anchor" id="variable-right~14"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -1169,7 +1169,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_sparsity~5"></span>
+              <span class="anchor" id="variable-keep_sparsity~6"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -1184,7 +1184,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~5"></span>
+              <span class="anchor" id="variable-eps~7"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -1199,7 +1199,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_max_epss~2"></span>
+              <span class="anchor" id="variable-row_max_epss~4"></span>
               real(kind=sp),
             </td>
 <td>intent(in),</td>
@@ -1244,7 +1244,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m_sizes~2"></span>
+              <span class="anchor" id="variable-m_sizes~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1259,7 +1259,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n_sizes~2"></span>
+              <span class="anchor" id="variable-n_sizes~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1289,7 +1289,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-keep_product_data~4"></span>
+              <span class="anchor" id="variable-keep_product_data~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1330,7 +1330,7 @@ This routine sets up the multiplication.  Specifically, it <ul></p><a href="../p
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~6"></span>
+              <span class="anchor" id="variable-this~18"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1345,7 +1345,7 @@ This routine sets up the multiplication.  Specifically, it <ul></p><a href="../p
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~3"></span>
+              <span class="anchor" id="variable-left~15"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1361,7 +1361,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~3"></span>
+              <span class="anchor" id="variable-right~15"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1377,7 +1377,7 @@ right DBCSR matrix</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~10"></span>
+              <span class="anchor" id="variable-flop~7"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -1424,7 +1424,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k_sizes~2"></span>
+              <span class="anchor" id="variable-k_sizes~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1464,7 +1464,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~7"></span>
+              <span class="anchor" id="variable-this~19"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1504,7 +1504,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~8"></span>
+              <span class="anchor" id="variable-this~20"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1559,7 +1559,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~9"></span>
+              <span class="anchor" id="variable-this~21"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1599,7 +1599,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~10"></span>
+              <span class="anchor" id="variable-this~22"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1644,7 +1644,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~11"></span>
+              <span class="anchor" id="variable-flop~8"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -1714,7 +1714,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~13"></span>
+              <span class="anchor" id="variable-this~25"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1729,7 +1729,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~4"></span>
+              <span class="anchor" id="variable-left~16"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1744,7 +1744,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~4"></span>
+              <span class="anchor" id="variable-right~16"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1979,7 +1979,7 @@ norms of right-matrix blocks</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_i~2"></span>
+              <span class="anchor" id="variable-row_i~7"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -1994,7 +1994,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~4"></span>
+              <span class="anchor" id="variable-col_i~7"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2009,7 +2009,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~5"></span>
+              <span class="anchor" id="variable-local_rows~10"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2024,7 +2024,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~4"></span>
+              <span class="anchor" id="variable-local_cols~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2039,7 +2039,7 @@ norms of right-matrix blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-first"></span>
+              <span class="anchor" id="variable-first~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2110,7 +2110,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nle~3"></span>
+              <span class="anchor" id="variable-nle~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -2125,7 +2125,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_elements"></span>
+              <span class="anchor" id="variable-local_elements~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2196,7 +2196,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~9"></span>
+              <span class="anchor" id="variable-nblks~20"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2211,7 +2211,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~2"></span>
+              <span class="anchor" id="variable-rowi~7"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2226,7 +2226,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~2"></span>
+              <span class="anchor" id="variable-coli~7"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2241,7 +2241,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blkp"></span>
+              <span class="anchor" id="variable-blkp~2"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2286,7 +2286,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~8"></span>
+              <span class="anchor" id="variable-nze~32"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2301,7 +2301,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~10"></span>
+              <span class="anchor" id="variable-data~42"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -2357,7 +2357,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~10"></span>
+              <span class="anchor" id="variable-nblks~21"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2372,7 +2372,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~3"></span>
+              <span class="anchor" id="variable-rowi~8"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2387,7 +2387,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~3"></span>
+              <span class="anchor" id="variable-coli~8"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2402,7 +2402,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blkp~2"></span>
+              <span class="anchor" id="variable-blkp~3"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2447,7 +2447,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~9"></span>
+              <span class="anchor" id="variable-nze~33"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2462,7 +2462,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~11"></span>
+              <span class="anchor" id="variable-data~43"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -2518,7 +2518,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~11"></span>
+              <span class="anchor" id="variable-nblks~22"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2533,7 +2533,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~4"></span>
+              <span class="anchor" id="variable-rowi~9"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2548,7 +2548,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~4"></span>
+              <span class="anchor" id="variable-coli~9"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2563,7 +2563,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blkp~3"></span>
+              <span class="anchor" id="variable-blkp~4"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2608,7 +2608,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~10"></span>
+              <span class="anchor" id="variable-nze~34"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2623,7 +2623,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~12"></span>
+              <span class="anchor" id="variable-data~44"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -2679,7 +2679,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblks~12"></span>
+              <span class="anchor" id="variable-nblks~23"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2694,7 +2694,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~5"></span>
+              <span class="anchor" id="variable-rowi~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2709,7 +2709,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~5"></span>
+              <span class="anchor" id="variable-coli~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2724,7 +2724,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blkp~4"></span>
+              <span class="anchor" id="variable-blkp~5"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -2769,7 +2769,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~11"></span>
+              <span class="anchor" id="variable-nze~35"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -2784,7 +2784,7 @@ single precision elements.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data~13"></span>
+              <span class="anchor" id="variable-data~45"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
