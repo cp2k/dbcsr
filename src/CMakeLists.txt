@@ -116,16 +116,15 @@ set(DBCSR_HIP_AND_CUDA_COMMON_SRCS
     acc/cuda_hip/acc_stream.cpp)
 
 set(DBCSR_ARCH_DEPENDENT_SRCS
-    acc/cuda_hip/calculate_norms.cpp
-    acc/libsmm_acc/libsmm_acc_benchmark.cpp
-    acc/libsmm_acc/libsmm_acc_init.cpp
-    acc/libsmm_acc/libsmm_acc.cpp)
-  
+    acc/cuda_hip/calculate_norms.cpp acc/libsmm_acc/libsmm_acc_benchmark.cpp
+    acc/libsmm_acc/libsmm_acc_init.cpp acc/libsmm_acc/libsmm_acc.cpp)
 
-set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_COMMON_SRCS} ${DBCSR_ARCH_DEPENDENT_SRCS} acc/cuda/acc_cuda.cpp
-                    acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
+set(DBCSR_CUDA_SRCS
+    ${DBCSR_HIP_AND_CUDA_COMMON_SRCS} ${DBCSR_ARCH_DEPENDENT_SRCS}
+    acc/cuda/acc_cuda.cpp acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
 
-set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_COMMON_SRCS} ${DBCSR_ARCH_DEPENDENT_SRCS} acc/hip/acc_hip.cpp)
+set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_COMMON_SRCS}
+                   ${DBCSR_ARCH_DEPENDENT_SRCS} acc/hip/acc_hip.cpp)
 
 if (USE_ACCEL MATCHES "hip")
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
@@ -171,81 +170,81 @@ endif ()
 
 # =================================================================================================
 # DBCSR LIBRARY
-if(MULTI_ARCH AND MULTI_GPU_BUILD)
+if (MULTI_ARCH AND MULTI_GPU_BUILD)
   # Multi-architecture build: create separate libraries per GPU architecture
-  
+
   # First, create a common library with all architecture-independent code
   set(DBCSR_COMMON_SRCS ${DBCSR_FORTRAN_SRCS})
   if (USE_ACCEL MATCHES "cuda")
-    # Add only common CUDA sources (manually specify to exclude arch-specific ones)
-    list(APPEND DBCSR_COMMON_SRCS
-      ${DBCSR_HIP_AND_CUDA_COMMON_SRCS}
-      acc/cuda/acc_cuda.cpp
-      acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
+    # Add only common CUDA sources (manually specify to exclude arch-specific
+    # ones)
+    list(APPEND DBCSR_COMMON_SRCS ${DBCSR_HIP_AND_CUDA_COMMON_SRCS}
+         acc/cuda/acc_cuda.cpp acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
     # Note: calculate_norms.cpp and libsmm_acc files are intentionally excluded
   elseif (USE_ACCEL MATCHES "hip")
-    # Add only common HIP sources (manually specify to exclude arch-specific ones)
-    list(APPEND DBCSR_COMMON_SRCS 
-      ${DBCSR_HIP_AND_CUDA_COMMON_SRCS}
-      acc/hip/acc_hip.cpp)
+    # Add only common HIP sources (manually specify to exclude arch-specific
+    # ones)
+    list(APPEND DBCSR_COMMON_SRCS ${DBCSR_HIP_AND_CUDA_COMMON_SRCS}
+         acc/hip/acc_hip.cpp)
     # Note: calculate_norms.cpp and libsmm_acc files are intentionally excluded
   elseif (USE_ACCEL MATCHES "opencl")
     list(APPEND DBCSR_COMMON_SRCS ${DBCSR_OPENCL_SRCS})
-  endif()
+  endif ()
 
   # Create common object library (compiled once, reused for all architectures)
   add_library(dbcsr_common OBJECT ${DBCSR_COMMON_SRCS})
-  
+
   # Set common properties
-  set_target_properties(
-    dbcsr_common
-    PROPERTIES POSITION_INDEPENDENT_CODE ON)
+  set_target_properties(dbcsr_common PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
   # Now create separate libraries for each GPU architecture
-  foreach(GPU_ARCH IN LISTS WITH_GPU_LIST)
+  foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
     # Get architecture number for this GPU
     set(ARCH_NUM ${GPU_ARCH_NUMBER_${GPU_ARCH}})
-    
+
     # Create architecture-specific object library for calculate_norms.cpp
     add_library(dbcsr_arch_${GPU_ARCH} OBJECT)
-    
+
     if (USE_ACCEL MATCHES "hip|cuda")
-      target_sources(dbcsr_arch_${GPU_ARCH} PRIVATE 
-        ${DBCSR_ARCH_DEPENDENT_SRCS})
-      
-      target_include_directories(dbcsr_arch_${GPU_ARCH} PRIVATE 
-                                ${CMAKE_CURRENT_BINARY_DIR}/acc/libsmm_acc
-                                ${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc)
-      
+      target_sources(dbcsr_arch_${GPU_ARCH}
+                     PRIVATE ${DBCSR_ARCH_DEPENDENT_SRCS})
+
+      target_include_directories(
+        dbcsr_arch_${GPU_ARCH}
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/acc/libsmm_acc
+                ${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc)
+
       if (USE_ACCEL MATCHES "hip")
         set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                                     PROPERTIES LANGUAGE HIP)
         set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                                     PROPERTIES COMPILE_FLAGS "-fPIE")
-        set_target_properties(dbcsr_arch_${GPU_ARCH} PROPERTIES HIP_ARCHITECTURES "${ARCH_NUM}")
+        set_target_properties(dbcsr_arch_${GPU_ARCH}
+                              PROPERTIES HIP_ARCHITECTURES "${ARCH_NUM}")
       elseif (USE_ACCEL MATCHES "cuda")
         set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                                     PROPERTIES LANGUAGE CUDA)
         set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                                     PROPERTIES COMPILE_FLAGS "--x cu")
-        set_target_properties(dbcsr_arch_${GPU_ARCH} PROPERTIES CUDA_ARCHITECTURES "${ARCH_NUM}")
-      endif()
-      
+        set_target_properties(dbcsr_arch_${GPU_ARCH}
+                              PROPERTIES CUDA_ARCHITECTURES "${ARCH_NUM}")
+      endif ()
+
       # Set architecture-specific compile definitions
-      target_compile_definitions(dbcsr_arch_${GPU_ARCH} PRIVATE
-        __DBCSR_ACC
-        $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
-        $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
-        ARCH_NUMBER=${ARCH_NUM}
-        $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
-        $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
-    endif()
-    
+      target_compile_definitions(
+        dbcsr_arch_${GPU_ARCH}
+        PRIVATE __DBCSR_ACC
+                $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
+                $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+                ARCH_NUMBER=${ARCH_NUM}
+                $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
+                $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
+    endif ()
+
     # Create the final library combining common + arch-specific code
-    add_library(dbcsr_${GPU_ARCH} 
-      $<TARGET_OBJECTS:dbcsr_common>
-      $<TARGET_OBJECTS:dbcsr_arch_${GPU_ARCH}>)
-    
+    add_library(dbcsr_${GPU_ARCH} $<TARGET_OBJECTS:dbcsr_common>
+                                  $<TARGET_OBJECTS:dbcsr_arch_${GPU_ARCH}>)
+
     # Set library properties
     set_target_properties(
       dbcsr_${GPU_ARCH}
@@ -256,25 +255,29 @@ if(MULTI_ARCH AND MULTI_GPU_BUILD)
                  EXPORT_NAME "dbcsr_${GPU_ARCH}")
 
     set_target_properties(dbcsr_${GPU_ARCH} PROPERTIES LINKER_LANGUAGE Fortran)
-    
-    message(STATUS "Created library target: dbcsr_${GPU_ARCH} for architecture ${GPU_ARCH} (${ARCH_NUM})")
-  endforeach()
+
+    message(
+      STATUS
+        "Created library target: dbcsr_${GPU_ARCH} for architecture ${GPU_ARCH} (${ARCH_NUM})"
+    )
+  endforeach ()
 
   # Create a convenience target that builds all GPU variants
   add_custom_target(dbcsr_all_gpus)
-  foreach(GPU_ARCH IN LISTS WITH_GPU_LIST)
+  foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
     add_dependencies(dbcsr_all_gpus dbcsr_${GPU_ARCH})
-  endforeach()
-  
-  # Set the first GPU architecture as the default "dbcsr" target for compatibility
+  endforeach ()
+
+  # Set the first GPU architecture as the default "dbcsr" target for
+  # compatibility
   list(GET WITH_GPU_LIST 0 FIRST_GPU_ARCH)
   add_library(dbcsr ALIAS dbcsr_${FIRST_GPU_ARCH})
   message(STATUS "Default 'dbcsr' target aliased to: dbcsr_${FIRST_GPU_ARCH}")
 
-else()
+else ()
   # Single architecture build (existing logic)
   add_library(dbcsr ${DBCSR_SRCS})
-  
+
   # Set properties for single arch build
   set_target_properties(
     dbcsr
@@ -283,19 +286,21 @@ else()
                POSITION_INDEPENDENT_CODE ON)
 
   if (USE_ACCEL MATCHES "hip")
-    set_target_properties(dbcsr PROPERTIES HIP_ARCHITECTURES "${ACC_ARCH_NUMBER}")
+    set_target_properties(dbcsr PROPERTIES HIP_ARCHITECTURES
+                                           "${ACC_ARCH_NUMBER}")
   elseif (USE_ACCEL MATCHES "cuda")
-    set_target_properties(dbcsr PROPERTIES CUDA_ARCHITECTURES "${ACC_ARCH_NUMBER}")
-  endif()
-  
+    set_target_properties(dbcsr PROPERTIES CUDA_ARCHITECTURES
+                                           "${ACC_ARCH_NUMBER}")
+  endif ()
+
   set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
-endif()
+endif ()
 
 # =================================================================================================
 # APPLY COMMON SETTINGS TO ALL TARGETS
 
 # Function to apply common settings to a target
-function(apply_common_dbcsr_settings target_name)
+function (apply_common_dbcsr_settings target_name)
   # Apply all the existing settings...
   if (USE_SMM MATCHES "libxsmm" OR (USE_SMM MATCHES "auto" AND LIBXSMM_FOUND))
     target_compile_definitions(${target_name} PRIVATE __LIBXSMM)
@@ -319,7 +324,8 @@ function(apply_common_dbcsr_settings target_name)
   endif ()
 
   target_compile_definitions(${target_name} PRIVATE $<$<CONFIG:Release>:NDEBUG>)
-  target_link_libraries(${target_name} PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+  target_link_libraries(${target_name} PRIVATE ${BLAS_LIBRARIES}
+                                               ${LAPACK_LIBRARIES})
   target_include_directories(${target_name} PRIVATE base)
   target_include_directories(
     ${target_name}
@@ -343,8 +349,9 @@ function(apply_common_dbcsr_settings target_name)
             $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
   if (USE_ACCEL)
-    # For multi-arch, we already set ARCH_NUMBER per target, for single-arch use existing logic
-    if(NOT MULTI_ARCH)
+    # For multi-arch, we already set ARCH_NUMBER per target, for single-arch use
+    # existing logic
+    if (NOT MULTI_ARCH)
       target_compile_definitions(
         ${target_name}
         PRIVATE __DBCSR_ACC
@@ -355,7 +362,7 @@ function(apply_common_dbcsr_settings target_name)
                 $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
                 $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
                 $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
-    else()
+    else ()
       # For multi-arch common target, set basic acceleration flags
       target_compile_definitions(
         ${target_name}
@@ -365,7 +372,7 @@ function(apply_common_dbcsr_settings target_name)
                 $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
                 $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
                 $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
-    endif()
+    endif ()
 
     target_link_libraries(
       ${target_name}
@@ -381,20 +388,20 @@ function(apply_common_dbcsr_settings target_name)
               $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
               $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
   endif ()
-endfunction()
+endfunction ()
 
 # Apply settings to all targets
-if(MULTI_ARCH AND MULTI_GPU_BUILD)
+if (MULTI_ARCH AND MULTI_GPU_BUILD)
   # Apply to common target
   apply_common_dbcsr_settings(dbcsr_common)
   # Apply to all GPU-specific targets
-  foreach(GPU_ARCH IN LISTS WITH_GPU_LIST)
+  foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
     apply_common_dbcsr_settings(dbcsr_${GPU_ARCH})
-  endforeach()
-else()
+  endforeach ()
+else ()
   # Apply to single target
   apply_common_dbcsr_settings(dbcsr)
-endif()
+endif ()
 
 # =================================================================================================
 # DBCSR's C API
@@ -431,24 +438,27 @@ set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 set(config_namespace "DBCSR::")
 
 # Install targets
-if(MULTI_ARCH AND MULTI_GPU_BUILD)
+if (MULTI_ARCH AND MULTI_GPU_BUILD)
   # Install all GPU-specific libraries
-  foreach(GPU_ARCH IN LISTS WITH_GPU_LIST)
+  foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
     install(
       TARGETS dbcsr_${GPU_ARCH}
       EXPORT DBCSRTargets
       LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
       ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-  endforeach()
-  message(STATUS "Multi-arch install: Installing libraries for all GPU architectures: ${WITH_GPU_LIST}")
-else()
+  endforeach ()
+  message(
+    STATUS
+      "Multi-arch install: Installing libraries for all GPU architectures: ${WITH_GPU_LIST}"
+  )
+else ()
   # Single architecture install (existing logic)
   install(
     TARGETS dbcsr
     EXPORT DBCSRTargets
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-endif()
+endif ()
 # See https://gitlab.kitware.com/cmake/cmake/-/issues/19608
 # CMAKE_INSTALL_Fortran_MODULES may not be an "official" variable
 if (NOT CMAKE_INSTALL_Fortran_MODULES)
