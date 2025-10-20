@@ -17,9 +17,9 @@
 
 #if defined(__parallel)
 #  include <mpi.h>
-#if defined(OPEN_MPI)
-#  include <mpi-ext.h>
-#endif
+#  if defined(OPEN_MPI)
+#    include <mpi-ext.h>
+#  endif
 #endif
 
 //===========================================================================

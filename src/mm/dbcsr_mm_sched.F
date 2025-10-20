@@ -356,7 +356,7 @@ CONTAINS
 
       IF (.NOT. use_acc() .AND. dbcsr_cfg%acc_centric%val) THEN
          DBCSR_ABORT("dbcsr_mm_sched_process_stack: acc_centric is true but host was called !")
-      ENDIF
+      END IF
       !WRITE (*,*) "dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:", stack_fillcount
 
       CALL dbcsr_mm_hostdrv_process( &

@@ -840,9 +840,9 @@ CONTAINS
                               retain_sparsity, &
                               filter_eps, flop, keep_product_data)
       !! Multiplies two DBCSR matrices
-   USE iso_c_binding, ONLY: c_f_pointer
-   USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr
-   USE dbcsr_acc_event, ONLY: acc_event_record
+      USE iso_c_binding, ONLY: c_f_pointer
+      USE dbcsr_acc_devmem, ONLY: acc_devmem_cptr
+      USE dbcsr_acc_event, ONLY: acc_event_record
 
       TYPE(dbcsr_2d_array_type), POINTER                 :: left_set, right_set
          !! set of imaged left matrices
@@ -895,13 +895,13 @@ CONTAINS
       LOGICAL                                            :: keep_sparsity, list_indexing, &
                                                             otf_filtering
 
-      REAL(kind=sp), ALLOCATABLE, DIMENSION(:,:) :: left_norms, right_norms
+      REAL(kind=sp), ALLOCATABLE, DIMENSION(:, :) :: left_norms, right_norms
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:)   :: row_max_epss
-      REAL(kind=sp), ALLOCATABLE, DIMENSION(:,:) :: left_norms_comm, right_norms_comm
+      REAL(kind=sp), ALLOCATABLE, DIMENSION(:, :) :: left_norms_comm, right_norms_comm
       ! sr: send request, rr: read request
       ! array sizes will be right_row_nimages and left_col_nimages
-      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: left_norms_comm_sr,left_norms_comm_rr, &
-                                                          right_norms_comm_sr,right_norms_comm_rr
+      TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: left_norms_comm_sr, left_norms_comm_rr, &
+                                                          right_norms_comm_sr, right_norms_comm_rr
       REAL(kind=sp)                            :: filter_eps_sp
       TYPE(dbcsr_2d_array_type), POINTER :: left_buffer_2, left_buffer_calc, &
                                             left_buffer_comm, right_buffer_2, right_buffer_calc, right_buffer_comm
@@ -933,7 +933,7 @@ CONTAINS
       NULLIFY (k_sizes)
       !
       ALLOCATE (left_buffer_2, right_buffer_2)
-      acc_centric=dbcsr_cfg%acc_centric%val .AND. use_acc()
+      acc_centric = dbcsr_cfg%acc_centric%val .AND. use_acc()
       mult_id = mult_id + 1
 
       IF (PRESENT(retain_sparsity)) THEN
@@ -1055,7 +1055,7 @@ CONTAINS
       ! filtering.
       per_row_eps: IF (.NOT. otf_filtering) THEN
          ! These arrays must be valid when passed to called subroutines.
-         ALLOCATE (left_norms(0,1), right_norms(0,1), row_max_epss(0), stat=stat)
+         ALLOCATE (left_norms(0, 1), right_norms(0, 1), row_max_epss(0), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory")
       ELSE
@@ -1252,11 +1252,11 @@ CONTAINS
                                  left_set%mats(1, 1), index_size=left_max_nblks, &
                                  data_size=left_max_nze)
       IF (otf_filtering) THEN
-         ALLOCATE (left_norms(left_max_nblks,left_col_nimages), stat=stat)
+         ALLOCATE (left_norms(left_max_nblks, left_col_nimages), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory for left norms")
          IF (stat .NE. 0) otf_filtering = .FALSE.
-         ALLOCATE (left_norms_comm(left_max_nblks,left_col_nimages), stat=stat)
+         ALLOCATE (left_norms_comm(left_max_nblks, left_col_nimages), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory for left norms")
          ALLOCATE (left_norms_comm_sr(left_col_nimages))
@@ -1282,11 +1282,11 @@ CONTAINS
       CALL setup_buffer_matrices(right_buffer_2, right_row_nimages, right_col_mult, &
                                  right_set%mats(1, 1), index_size=right_max_nblks, data_size=right_max_nze)
       IF (otf_filtering) THEN
-         ALLOCATE (right_norms(right_max_nblks,right_row_nimages), stat=stat)
+         ALLOCATE (right_norms(right_max_nblks, right_row_nimages), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_WARN("Could not allocate memory for right norms")
          IF (stat .NE. 0) otf_filtering = .FALSE.
-         ALLOCATE (right_norms_comm(right_max_nblks,right_row_nimages), stat=stat)
+         ALLOCATE (right_norms_comm(right_max_nblks, right_row_nimages), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory for right norms")
          ALLOCATE (right_norms_comm_sr(right_row_nimages))
@@ -1370,25 +1370,25 @@ CONTAINS
          CALL mp_environ(numtask=mpi_size, groupid=mp_group)
          IF (mpi_size > 1 .AND. .NOT. mp_query_hip_support() .AND. .NOT. mp_query_cuda_support()) THEN
             DBCSR_ABORT("acc_centric mode requires a CUDA/HIP-aware installation of MPI.")
-         ENDIF
+         END IF
 #endif
 
          CALL timeset(routineN//"_acc_init", handle1)
-         DO v_ki_right=1,right_row_nimages
+         DO v_ki_right = 1, right_row_nimages
             CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
-         ENDDO
-         DO v_ki_left=1,left_col_nimages
+         END DO
+         DO v_ki_left = 1, left_col_nimages
             CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
-         ENDDO
+         END DO
 
-         v_ki_left=1
-         v_ki_right=1
-         DO v_ki=1,max(left_col_nimages,right_row_nimages)
+         v_ki_left = 1
+         v_ki_right = 1
+         DO v_ki = 1, max(left_col_nimages, right_row_nimages)
             IF (v_ki_right .GT. right_row_nimages) THEN
                DBCSR_ABORT("Failed assumption left_col_nimages >= right_row_nimages")
             END IF
             IF (v_ki_left .GT. left_col_nimages) THEN
-               v_ki_left=1
+               v_ki_left = 1
             END IF
             CALL dbcsr_reset_vlocals(right_buffer_calc%mats(v_ki_right, 1), &
                                      right_set%image_dist)
@@ -1400,32 +1400,32 @@ CONTAINS
                               array_data(right_buffer_calc%mats(v_ki_right, 1)%local_rows), &
                               k_sizes)
             IF (otf_filtering) THEN
-               right_norms(:,v_ki_right) = huge_norm
+               right_norms(:, v_ki_right) = huge_norm
                CALL calculate_norms(right_buffer_calc%mats(v_ki_right, 1), &
-                                    right_norms(:,v_ki_right), k_sizes, n_sizes)
-               left_norms(:,v_ki_left) = huge_norm
+                                    right_norms(:, v_ki_right), k_sizes, n_sizes)
+               left_norms(:, v_ki_left) = huge_norm
                CALL calculate_norms(left_buffer_calc%mats(1, v_ki_left), &
-                                    left_norms(:,v_ki_left), m_sizes, k_sizes)
-               left_norms_comm(:,v_ki_left) = left_norms(:,v_ki_left)
-               right_norms_comm(:,v_ki_right) = right_norms(:,v_ki_right)
+                                    left_norms(:, v_ki_left), m_sizes, k_sizes)
+               left_norms_comm(:, v_ki_left) = left_norms(:, v_ki_left)
+               right_norms_comm(:, v_ki_right) = right_norms(:, v_ki_right)
             END IF
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
                                       col_blk_sizes2enum, enum2col_blk_sizes)
-            v_ki_right=v_ki_right+1
-            v_ki_left=v_ki_left+1
-         ENDDO
-         DO v_ki_right=1,right_row_nimages
-            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
-                 right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
+            v_ki_right = v_ki_right + 1
+            v_ki_left = v_ki_left + 1
+         END DO
+         DO v_ki_right = 1, right_row_nimages
+            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready, &
+                                  right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
             CALL acc_event_synchronize(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready)
-         ENDDO
-         DO v_ki_left=1,left_col_nimages
-            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
-                 left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
+         END DO
+         DO v_ki_left = 1, left_col_nimages
+            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready, &
+                                  left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
             CALL acc_event_synchronize(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready)
-         ENDDO
+         END DO
          CALL timestop(handle1)
       END IF
       !
@@ -1459,7 +1459,7 @@ CONTAINS
                IF (otf_filtering) THEN
                   call mp_waitall(right_norms_comm_rr)
                   call mp_waitall(right_norms_comm_sr)
-                  right_norms(:,:) = right_norms_comm(:,:)
+                  right_norms(:, :) = right_norms_comm(:, :)
                END IF
             END IF
 
@@ -1563,19 +1563,19 @@ CONTAINS
                IF (acc_centric) THEN
                   IF (size(right_data_rp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(right_buffer_comm%mats(v_ki + 1, 1) &
-                        %data_area%d%acc_devmem),tmp,[1])
-                     right_data_rp%d%r_dp => tmp(lbound(right_data_rp%d%r_dp,1):ubound(right_data_rp%d%r_dp,1))
+                                                      %data_area%d%acc_devmem), tmp, [1])
+                     right_data_rp%d%r_dp => tmp(lbound(right_data_rp%d%r_dp, 1):ubound(right_data_rp%d%r_dp, 1))
                   END IF
                   IF (size(right_data_sp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(right_buffer_calc%mats(v_ki + 1, 1) &
-                        %data_area%d%acc_devmem),tmp,[1])
-                     right_data_sp%d%r_dp => tmp(lbound(right_data_sp%d%r_dp,1):ubound(right_data_sp%d%r_dp,1))
+                                                      %data_area%d%acc_devmem), tmp, [1])
+                     right_data_sp%d%r_dp => tmp(lbound(right_data_sp%d%r_dp, 1):ubound(right_data_sp%d%r_dp, 1))
                   END IF
                   IF (otf_filtering) THEN
-                     CALL mp_irecv(right_norms_comm(:,v_ki+1), right_recv_p, &
-                                   grp, right_norms_comm_rr(v_ki+1), tag=500000+right_src_vrow)
-                     CALL mp_isend(right_norms(:,v_ki+1), right_sEND_p, &
-                                   grp, right_norms_comm_sr(v_ki+1), tag=500000+right_dst_vrow)
+                     CALL mp_irecv(right_norms_comm(:, v_ki + 1), right_recv_p, &
+                                   grp, right_norms_comm_rr(v_ki + 1), tag=500000 + right_src_vrow)
+                     CALL mp_isend(right_norms(:, v_ki + 1), right_sEND_p, &
+                                   grp, right_norms_comm_sr(v_ki + 1), tag=500000 + right_dst_vrow)
                   END IF
                END IF
 #endif
@@ -1612,7 +1612,7 @@ CONTAINS
                IF (otf_filtering) THEN
                   call mp_waitall(left_norms_comm_rr)
                   call mp_waitall(left_norms_comm_sr)
-                  left_norms(:,:) = left_norms_comm(:,:)
+                  left_norms(:, :) = left_norms_comm(:, :)
                END IF
             END IF
             !
@@ -1714,19 +1714,19 @@ CONTAINS
                IF (acc_centric) THEN
                   IF (size(left_data_rp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(left_buffer_comm%mats(1, v_ki + 1) &
-                        %data_area%d%acc_devmem),tmp,[1])
-                     left_data_rp%d%r_dp => tmp(lbound(left_data_rp%d%r_dp,1):ubound(left_data_rp%d%r_dp,1))
+                                                      %data_area%d%acc_devmem), tmp, [1])
+                     left_data_rp%d%r_dp => tmp(lbound(left_data_rp%d%r_dp, 1):ubound(left_data_rp%d%r_dp, 1))
                   END IF
                   IF (size(left_data_sp%d%r_dp) > 0) THEN
                      call c_f_pointer(acc_devmem_cptr(left_buffer_calc%mats(1, v_ki + 1) &
-                        %data_area%d%acc_devmem),tmp,[1])
-                     left_data_sp%d%r_dp => tmp(lbound(left_data_sp%d%r_dp,1):ubound(left_data_sp%d%r_dp,1))
+                                                      %data_area%d%acc_devmem), tmp, [1])
+                     left_data_sp%d%r_dp => tmp(lbound(left_data_sp%d%r_dp, 1):ubound(left_data_sp%d%r_dp, 1))
                   END IF
                   IF (otf_filtering) THEN
-                     CALL mp_irecv(left_norms_comm(:,v_ki+1), left_recv_p, &
-                                   grp, left_norms_comm_rr(v_ki+1), tag=400000+left_src_vcol)
-                     CALL mp_isend(left_norms(:,v_ki+1), left_sEND_p, &
-                                   grp, left_norms_comm_sr(v_ki+1), tag=400000+left_dst_vcol)
+                     CALL mp_irecv(left_norms_comm(:, v_ki + 1), left_recv_p, &
+                                   grp, left_norms_comm_rr(v_ki + 1), tag=400000 + left_src_vcol)
+                     CALL mp_isend(left_norms(:, v_ki + 1), left_sEND_p, &
+                                   grp, left_norms_comm_sr(v_ki + 1), tag=400000 + left_dst_vcol)
                   END IF
                END IF
 #endif
@@ -1778,19 +1778,19 @@ CONTAINS
                CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
                CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
                CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
-                                       k_sizes, n_sizes, &
-                                       row_blk_sizes2enum, enum2row_blk_sizes, &
-                                       col_blk_sizes2enum, enum2col_blk_sizes)
+                                         k_sizes, n_sizes, &
+                                         row_blk_sizes2enum, enum2row_blk_sizes, &
+                                         col_blk_sizes2enum, enum2col_blk_sizes)
             END IF
 
             ! Sets the local right-matrix columns
             IF (otf_filtering) THEN
-               left_norms(:,v_ki_left) = huge_norm
-               right_norms(:,v_ki_right) = huge_norm
+               left_norms(:, v_ki_left) = huge_norm
+               right_norms(:, v_ki_right) = huge_norm
                CALL calculate_norms(right_buffer_calc%mats(v_ki_right, 1), &
-                                    right_norms(:,v_ki_right), k_sizes, n_sizes)
+                                    right_norms(:, v_ki_right), k_sizes, n_sizes)
                CALL calculate_norms(left_buffer_calc%mats(1, v_ki_left), &
-                                    left_norms(:,v_ki_left), m_sizes, k_sizes)
+                                    left_norms(:, v_ki_left), m_sizes, k_sizes)
             END IF
 
             ! Wait for left and right buffers transfer to device before proceeding
@@ -1804,7 +1804,7 @@ CONTAINS
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
-                                      col_blk_sizes2enum, enum2col_blk_sizes,update_gpu_array=.false.)
+                                      col_blk_sizes2enum, enum2col_blk_sizes, update_gpu_array=.false.)
          END IF
          !
          flop_single = 0
@@ -1830,8 +1830,8 @@ CONTAINS
                                         left=left_buffer_calc%mats(1, v_ki_left), &
                                         right=right_buffer_calc%mats(v_ki_right, 1), &
                                         flop=flop_single, &
-                                        a_norms=left_norms(:,v_ki_left), &
-                                        b_norms=right_norms(:,v_ki_right), &
+                                        a_norms=left_norms(:, v_ki_left), &
+                                        b_norms=right_norms(:, v_ki_right), &
                                         k_sizes=k_sizes)
 
          IF (metronome == nvirt_k - 1) THEN
@@ -1843,10 +1843,10 @@ CONTAINS
 
          ! This is required for acc_centric, probably makes sense to add it to original algo as well
          IF (use_acc()) THEN
-            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready,&
-               right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
-            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready,&
-               left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
+            CALL acc_event_record(right_buffer_calc%mats(v_ki_right, 1)%data_area%d%acc_ready, &
+                                  right_buffer_calc%mats(v_ki_right, 1)%data_area%d%memory_type%acc_stream)
+            CALL acc_event_record(left_buffer_calc%mats(1, v_ki_left)%data_area%d%acc_ready, &
+                                  left_buffer_calc%mats(1, v_ki_left)%data_area%d%memory_type%acc_stream)
          END IF
 
 !$OMP ATOMIC
@@ -1922,9 +1922,9 @@ CONTAINS
       DEALLOCATE (left_data_rr, left_data_sr, left_index_rr, left_index_sr, &
                   right_data_rr, right_data_sr, right_index_rr, right_index_sr)
       IF (otf_filtering) THEN
-         DEALLOCATE (right_norms_comm,left_norms_comm)
-         DEALLOCATE(right_norms_comm_sr,right_norms_comm_rr,left_norms_comm_sr, &
-                    left_norms_comm_rr)
+         DEALLOCATE (right_norms_comm, left_norms_comm)
+         DEALLOCATE (right_norms_comm_sr, right_norms_comm_rr, left_norms_comm_sr, &
+                     left_norms_comm_rr)
       END IF
       !
       !

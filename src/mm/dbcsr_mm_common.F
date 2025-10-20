@@ -346,7 +346,7 @@ CONTAINS
                                    row_blk_sizes, col_blk_sizes, &
                                    row_blk_sizes2enum, enum2row_blk_sizes, &
                                    col_blk_sizes2enum, enum2col_blk_sizes, &
-                                   noresize,update_gpu_array)
+                                   noresize, update_gpu_array)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
       INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes, &
@@ -369,7 +369,7 @@ CONTAINS
       my_update_gpu_array = .true.
       IF (PRESENT(update_gpu_array)) THEN
          my_update_gpu_array = update_gpu_array
-      ENDIF
+      END IF
       CALL timeset(routineN, handle)
 
       NULLIFY (trs_stack)
@@ -489,7 +489,7 @@ CONTAINS
             END DO
          END DO
          CALL timestop(handle1)
-      ENDIF
+      END IF
 
       CALL timeset(routineN//"_sync", handle1)
       ! make sure block-buffer are not used until transpose kernels finished
