@@ -346,14 +346,14 @@ CONTAINS
                                    row_blk_sizes, col_blk_sizes, &
                                    row_blk_sizes2enum, enum2row_blk_sizes, &
                                    col_blk_sizes2enum, enum2col_blk_sizes, &
-                                   noresize,o_gpu)
+                                   noresize,update_gpu_array)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
       INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes, &
                                                                 row_blk_sizes2enum, enum2row_blk_sizes, &
                                                                 col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
-      LOGICAL, INTENT(IN), OPTIONAL                      :: o_gpu
+      LOGICAL, INTENT(IN), OPTIONAL                      :: update_gpu_array
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks'
 
@@ -364,11 +364,11 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER                     :: blk_index
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: trs_stack
       LOGICAL                                            :: my_noresize
-      LOGICAL                                            :: update_gpu_array
+      LOGICAL                                            :: my_update_gpu_array
 
-      update_gpu_array = .true.
-      IF (PRESENT(o_gpu)) THEN
-         update_gpu_array = o_gpu
+      my_update_gpu_array = .true.
+      IF (PRESENT(update_gpu_array)) THEN
+         my_update_gpu_array = update_gpu_array
       ENDIF
       CALL timeset(routineN, handle)
 
@@ -469,7 +469,7 @@ CONTAINS
       CALL acc_stream_wait_event(trs_stackbuf%d%memory_type%acc_stream, matrix%data_area%d%acc_ready)
       CALL timestop(handle1)
 
-      IF (update_gpu_array) THEN
+      IF (my_update_gpu_array) THEN
          CALL timeset(routineN//"_kernels", handle1)
          ! launch kernels
          DO ni = 1, ni_max

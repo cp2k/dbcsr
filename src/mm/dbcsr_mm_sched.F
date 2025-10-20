@@ -328,6 +328,8 @@ CONTAINS
           flop_per_entry > dbcsr_cfg%accdrv_min_flop_process%val .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
           (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous%val) &
+          ! Use this branch unconditionally in acc_centric mode
+          ! (acc_centric implies use_acc(), see sanity check below)
           .OR. dbcsr_cfg%acc_centric%val)) THEN
          CALL dbcsr_mm_accdrv_process( &
             this%accdrv, &
@@ -352,7 +354,7 @@ CONTAINS
          END IF
       END IF
 
-      IF (dbcsr_cfg%acc_centric%val) THEN
+      IF (.NOT. use_acc() .AND. dbcsr_cfg%acc_centric%val) THEN
          DBCSR_ABORT("dbcsr_mm_sched_process_stack: acc_centric is true but host was called !")
       ENDIF
       !WRITE (*,*) "dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:", stack_fillcount

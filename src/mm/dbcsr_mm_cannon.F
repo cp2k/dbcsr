@@ -898,6 +898,8 @@ CONTAINS
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:,:) :: left_norms, right_norms
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:)   :: row_max_epss
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:,:) :: left_norms_comm, right_norms_comm
+      ! sr: send request, rr: read request
+      ! array sizes will be right_row_nimages and left_col_nimages
       TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: left_norms_comm_sr,left_norms_comm_rr, &
                                                           right_norms_comm_sr,right_norms_comm_rr
       REAL(kind=sp)                            :: filter_eps_sp
@@ -917,6 +919,7 @@ CONTAINS
                                                          left_index_sr, right_data_rr, right_data_sr, right_index_rr, right_index_sr
       LOGICAL :: acc_centric
 #ifdef __DBCSR_ACC
+      ! Used for on-the-fly casting C pointers to F pointers
       double precision, pointer, contiguous :: tmp(:)
 #endif
 !   ---------------------------------------------------------------------------
@@ -1801,7 +1804,7 @@ CONTAINS
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
-                                      col_blk_sizes2enum, enum2col_blk_sizes,o_gpu=.false.)
+                                      col_blk_sizes2enum, enum2col_blk_sizes,update_gpu_array=.false.)
          END IF
          !
          flop_single = 0

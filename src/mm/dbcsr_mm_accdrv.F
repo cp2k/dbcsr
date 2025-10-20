@@ -458,6 +458,7 @@ CONTAINS
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
       CALL timeset(routineN, error_handle)
+
       DO WHILE (.NOT. ASSOCIATED(stackbuf))
          DO i = 1, SIZE(stack_buffers)
             IF (acc_event_query(stack_buffers(i)%calculated)) THEN
