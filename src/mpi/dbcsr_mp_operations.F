@@ -677,6 +677,7 @@ CONTAINS
             IF (remainder_collective) THEN
                CALL remainder_alltoall()
             END IF
+            DEALLOCATE (new_scount, new_rcount, new_sdispl, new_rdispl)
             ! Wait for all issued sends and receives.
             IF (.NOT. most_collective) THEN
                CALL mp_waitall(row_sr(0:nrow_sr - 1))
@@ -684,10 +685,12 @@ CONTAINS
                CALL mp_waitall(row_rr(0:nrow_rr - 1))
                CALL mp_waitall(col_rr(0:ncol_rr - 1))
             END IF
+            DEALLOCATE (row_sr, row_rr, col_sr, col_rr)
             IF (.NOT. remainder_collective) THEN
                CALL mp_waitall(all_sr(1:nall_sr))
                CALL mp_waitall(all_rr(1:nall_rr))
             END IF
+            DEALLOCATE (all_sr, all_rr)
          ELSE
             CALL mp_alltoall(sb, scount, sdispl, &
                              rb, rcount, rdispl, &
