@@ -150,6 +150,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b) {
 }
 
 
+/** Setup to run prior to touching OpenCL runtime. */
+void c_dbcsr_acc_opencl_configure(void);
 void c_dbcsr_acc_opencl_configure(void) {
   const char* const env_rank = (NULL != getenv("PMI_RANK") ? getenv("PMI_RANK") : getenv("OMPI_COMM_WORLD_LOCAL_RANK"));
   const char* const env_nranks = getenv("MPI_LOCALNRANKS"); /* TODO */
@@ -762,6 +764,15 @@ int c_dbcsr_acc_finalize(void) {
 }
 
 
+int c_dbcsr_acc_opencl_use_cmem(const c_dbcsr_acc_opencl_device_t* devinfo) {
+#  if defined(ACC_OPENCL_CMEM)
+  return (0 != devinfo->size_maxalloc && devinfo->size_maxalloc <= devinfo->size_maxcmem) ? EXIT_SUCCESS : EXIT_FAILURE;
+#  else
+  return EXIT_FAILURE;
+#  endif
+}
+
+
 void c_dbcsr_acc_clear_errors(void) {}
 
 
@@ -1110,6 +1121,16 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
               clGetDeviceInfo(active_id, CL_DEVICE_HOST_UNIFIED_MEMORY, sizeof(cl_bool) /*cl_int*/, &devinfo->unified, NULL))
           {
             devinfo->unified = CL_FALSE;
+          }
+          if (EXIT_SUCCESS !=
+              clGetDeviceInfo(active_id, CL_DEVICE_MAX_MEM_ALLOC_SIZE, sizeof(cl_ulong), &devinfo->size_maxalloc, NULL))
+          {
+            devinfo->size_maxalloc = 0;
+          }
+          if (EXIT_SUCCESS !=
+              clGetDeviceInfo(active_id, CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE, sizeof(cl_ulong), &devinfo->size_maxcmem, NULL))
+          {
+            devinfo->size_maxcmem = 0;
           }
           if (EXIT_SUCCESS != clGetDeviceInfo(active_id, CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), devinfo->wgsize, NULL)) {
             devinfo->wgsize[0] = 1;

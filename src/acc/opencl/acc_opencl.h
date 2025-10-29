@@ -93,6 +93,9 @@
 #if !defined(ACC_OPENCL_DELIMS)
 #  define ACC_OPENCL_DELIMS ",;"
 #endif
+#if !defined(ACC_OPENCL_CMEM) && 1
+#  define ACC_OPENCL_CMEM
+#endif
 #if !defined(ACC_OPENCL_ASYNC) && 1
 #  define ACC_OPENCL_ASYNC getenv("ACC_OPENCL_ASYNC")
 #endif
@@ -262,6 +265,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
    * smaller if an alternative SG-size exists (SG is zero if no support).
    */
   size_t wgsize[3];
+  /** Maximum size of memory allocations and constant buffer. */
+  cl_ulong size_maxalloc, size_maxcmem;
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
   /** Whether host memory is unified. */
@@ -349,6 +354,8 @@ typedef struct c_dbcsr_acc_opencl_config_t {
 /** Global configuration setup in c_dbcsr_acc_init. */
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
+/** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
+int c_dbcsr_acc_opencl_use_cmem(const c_dbcsr_acc_opencl_device_t* devinfo);
 /** Determines host-pointer registration for modification. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
 /** Determines device-pointer registration for modification (internal); offset is measured in elsize. */
