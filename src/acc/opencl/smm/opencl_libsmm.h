@@ -74,9 +74,6 @@ typedef struct opencl_libsmm_perfest_t {
 /** Returns environment variable's value for given domain and key. */
 const char* opencl_libsmm_getenv(const char domain[], const char key[]);
 
-/** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
-int opencl_libsmm_use_cmem(cl_device_id device);
-
 /**
  * TRANS-kernel: write key and tunables into a (file-)stream.
  * If config=NULL, key/parameter names are written. The arguments

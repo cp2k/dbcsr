@@ -70,7 +70,8 @@ __attribute__((reqd_work_group_size(WG, 1, 1)))
 __attribute__((intel_reqd_sub_group_size(SG)))
 #endif
 kernel void
-FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* restrict bdata, GLOBAL const int* restrict param_stack,
+FN(global T* restrict cdata, CONSTANT const T* restrict adata, CONSTANT const T* restrict bdata,
+  CONSTANT const int* restrict param_stack,
 #if (1 < BS)
   int param_format, int stack_size, int bs) {
   const int gid = get_group_id(0), idx = get_local_id(0);
@@ -80,11 +81,11 @@ FN(global T* restrict cdata, GLOBAL const T* restrict adata, GLOBAL const T* res
 #endif
   const SINT pzero = (0 == param_format ? 1 : 0), pnext = (0 == param_format ? 3 : 6);
   /* param_stack/indexes can be one-based (Fortran) depending on param_format */
-  GLOBAL const int* restrict param_base = param_stack + gid * (pnext * bs) + (0 == param_format ? 0 : 3);
+  CONSTANT const int* restrict param_base = param_stack + gid * (pnext * bs) + (0 == param_format ? 0 : 3);
 #if defined(SLM_P) && (1 < BS)
   local int params[3 * BS]; /* bs <= BS */
 #else
-  GLOBAL const int* restrict params = param_base;
+  CONSTANT const int* restrict params = param_base;
 #endif
 #if defined(SLM_A)
 #  if (1 != BK || BM < SM || 1 != BN)
