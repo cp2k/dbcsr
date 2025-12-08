@@ -101,6 +101,45 @@ set(USE_ACCEL
     CACHE STRING "Build with acceleration support (default: none)")
 set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
+# Add new multi-architecture option
+option(MULTI_ARCH "Build for multiple GPU architectures" OFF)
+
+# Multi-architecture support (only when enabled)
+if (MULTI_ARCH AND MULTI_GPU_BUILD)
+  set(WITH_GPU_LIST
+      "P100"
+      CACHE STRING
+            "List of GPU architectures to build for (semicolon-separated)")
+
+  # Define supported architectures for the property
+  set(SUPPORTED_CUDA_ARCHITECTURES
+      K20X
+      K40
+      K80
+      P100
+      V100
+      A100
+      H100)
+  set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300)
+
+  set_property(
+    CACHE WITH_GPU_LIST PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
+                                 ${SUPPORTED_HIP_ARCHITECTURES})
+
+  # Parse the list
+  string(REPLACE ";" " " WITH_GPU_LIST_STR "${WITH_GPU_LIST}")
+  list(LENGTH WITH_GPU_LIST GPU_COUNT)
+
+  if (GPU_COUNT GREATER 1)
+    set(MULTI_GPU_BUILD ON)
+    message(STATUS "Multi-GPU build enabled for: ${WITH_GPU_LIST_STR}")
+  else ()
+    set(MULTI_GPU_BUILD OFF)
+    list(GET WITH_GPU_LIST 0 WITH_GPU)
+    message(STATUS "Single GPU build for: ${WITH_GPU}")
+  endif ()
+endif ()
+
 set(SUPPORTED_CUDA_ARCHITECTURES
     K20X
     K40
@@ -110,16 +149,24 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     A100
     H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300)
-set(WITH_GPU
-    $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
-    CACHE
-      STRING
-      "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
-)
-set(WITH_GPU_PARAMS "${WITH_GPU}")
-set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
-                                     ${SUPPORTED_HIP_ARCHITECTURES})
 
+if (NOT MULTI_ARCH)
+  set(WITH_GPU
+      $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
+      CACHE
+        STRING
+        "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+  )
+  set(WITH_GPU_PARAMS "${WITH_GPU}")
+  set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
+                                       ${SUPPORTED_HIP_ARCHITECTURES})
+else ()
+  # For multi-arch builds, set WITH_GPU_PARAMS to first architecture for
+  # compatibility
+  list(GET WITH_GPU_LIST 0 WITH_GPU_PARAMS)
+  list(GET WITH_GPU_LIST 0 WITH_GPU) # Set WITH_GPU for compatibility with
+                                     # existing code
+endif ()
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
@@ -298,12 +345,42 @@ if (USE_ACCEL MATCHES "hip")
   endif ()
   enable_language(HIP)
 
-  # Make sure the GPU required is supported
-  list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
-  if (GPU_SUPPORTED EQUAL -1)
-    message(
-      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
-                  "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
+  if (MULTI_ARCH AND MULTI_GPU_BUILD)
+    # Validate all GPU architectures in the list
+    foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
+      list(FIND SUPPORTED_HIP_ARCHITECTURES ${GPU_ARCH} GPU_SUPPORTED)
+      if (GPU_SUPPORTED EQUAL -1)
+        message(
+          FATAL_ERROR
+            "GPU architecture requested (${GPU_ARCH}) is not supported. "
+            "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
+      endif ()
+    endforeach ()
+
+    set(ACC_ARCH_NUMBERS "")
+    foreach (GPU_ARCH IN LISTS WITH_GPU_LIST)
+      list(APPEND ACC_ARCH_NUMBERS ${GPU_ARCH_NUMBER_${GPU_ARCH}})
+    endforeach ()
+
+    message(STATUS "Multi-GPU HIP build for architectures: ${WITH_GPU_LIST}")
+    message(STATUS "HIP architecture numbers: ${ACC_ARCH_NUMBERS}")
+    message(STATUS "Kernel parameters will be generated for: ${WITH_GPU_LIST}")
+
+  else ()
+    # Make sure the GPU required is supported
+    list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
+    if (GPU_SUPPORTED EQUAL -1)
+      message(
+        FATAL_ERROR
+          "GPU architecture requested (${WITH_GPU}) is not supported. "
+          "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
+    endif ()
+
+    set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
+    message(STATUS "GPU target architecture: " ${WITH_GPU})
+    message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
+    message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
+    message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
   endif ()
 
   # ROCm is typically installed in /opt/rocm; otherwise let the user set
@@ -328,12 +405,6 @@ if (USE_ACCEL MATCHES "hip")
   if (hip_VERSION LESS 4.4.0)
     message(FATAL_ERROR "HIP version >= 4.4.0 is required.")
   endif ()
-
-  set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  message(STATUS "GPU target architecture: " ${WITH_GPU})
-  message(STATUS "Kernel parameters: " ${WITH_GPU_PARAMS})
-  message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
-  message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
