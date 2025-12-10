@@ -51,6 +51,9 @@
 #  define PRINTF(...) printf(__VA_ARGS__)
 #endif
 
+#if !defined(DEDUPLICATE) && 0
+#  define DEDUPLICATE
+#endif
 #if !defined(ELEM_TYPE)
 #  define ELEM_TYPE double
 #endif
@@ -212,8 +215,10 @@ int main(int argc, char* argv[]) {
   const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
   const char* const env_nrepeat_h2d = getenv("NREPEAT_H2D");
   const int nrepeat_h2d = (NULL == env_nrepeat_h2d ? 1 : MAX(atoi(env_nrepeat_h2d), 1));
+#endif
 #if defined(USE_LIBXSMM)
   double perf_h2d = 0, perf_dev = 0, perf_hst = 0;
   const char* const env_check_h2d = getenv("CHECK_H2D");
@@ -383,6 +388,7 @@ int main(int argc, char* argv[]) {
           }
         }
       }
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result, check);
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&bmat_dev, sizeof(ELEM_TYPE) * kn * nb), &result, check);
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&cmat_dev, sizeof(ELEM_TYPE) * mn * nc), &result, check);
@@ -390,25 +396,25 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&trans_dev, sizeof(int) * nb), &result, check);
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(trans_hst, trans_dev, sizeof(int) * nb, stream), &result, check);
-#if defined(USE_LIBXSMM)
+#  if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       start = libxsmm_timer_tick();
-#endif
+#  endif
       CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
       if (1 < nrepeat_h2d) {
-#if defined(USE_LIBXSMM)
+#  if defined(USE_LIBXSMM)
         CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
         start = libxsmm_timer_tick();
-#endif
+#  endif
         for (r = 0; r < nrepeat_h2d; ++r) {
           CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
           CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
           CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
         }
       }
-#if defined(USE_LIBXSMM)
+#  if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
         const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size);
@@ -416,6 +422,14 @@ int main(int argc, char* argv[]) {
         perf_h2d = size / (duration * (1ULL << 30));
         PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration, perf_h2d);
       }
+#  endif
+#else
+      amat_dev = amat_hst;
+      bmat_dev = bmat_hst;
+      cmat_dev = cmat_hst;
+      stack_dev = stack_hst;
+      trans_dev = trans_hst;
+      CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
 #endif
 #if defined(TRANSPOSE) && defined(VALIDATE)
       /* warmup execution and prebuild transpose-kernel */
@@ -504,9 +518,11 @@ int main(int argc, char* argv[]) {
           PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_hst);
           /* validate correctness in case of successful result code/status */
           if (EXIT_SUCCESS == result) {
+#    if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
             /* transfer result from device to host for validation */
             CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
             CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
+#    endif
 #    if defined(USE_LIBXSMM)
             if (EXIT_SUCCESS == result) {
               libxsmm_matdiff_info diff;
@@ -547,11 +563,13 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_host_mem_deallocate(amat_hst, stream), NULL, check);
       CHECK(c_dbcsr_acc_host_mem_deallocate(bmat_hst, stream), NULL, check);
       CHECK(c_dbcsr_acc_host_mem_deallocate(cmat_hst, stream), NULL, check);
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
       CHECK(c_dbcsr_acc_dev_mem_deallocate(stack_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(trans_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(amat_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(bmat_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(cmat_dev), NULL, check);
+#endif
       CHECK(c_dbcsr_acc_stream_destroy(stream), NULL, check);
       if (0 == result || (0 > result && 0 == check)) {
         parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);

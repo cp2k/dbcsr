@@ -710,7 +710,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
             build_params, sizeof(build_params), build_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
         }
         if ('\0' != *tname && 0 < nchar && (int)sizeof(build_params) > nchar) {
-          result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params, buffer,
+          result = c_dbcsr_acc_opencl_kernel(0 /*source_kind*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params, buffer,
             NULL /*try*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &new_config.kernel);
           if (EXIT_SUCCESS == result) {
             size_t wgsize_max;
@@ -724,7 +724,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size, v
                 nchar = LIBXSMM_SNPRINTF(
                   build_params, sizeof(build_params), build_format, cmem, inplace, fname, m, n, (int)new_config.wgsize, tname);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
-                  result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params,
+                  result = c_dbcsr_acc_opencl_kernel(0 /*source_kind*/, OPENCL_KERNELS_SOURCE_TRANSPOSE, fname, build_params,
                     buffer, NULL /*try*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &new_config.kernel);
                 }
                 else result = EXIT_FAILURE;

@@ -71,6 +71,11 @@ ifneq (,$(ELEM_TYPE))
   CFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
 endif
 
+USM ?= 0
+ifneq (0,$(USM))
+  CFLAGS += -D__OFFLOAD_UNIFIED_MEMORY
+endif
+
 ifneq (0,$(INTEL))
   ifneq (1,$(INTEL))
     CXX := icpx

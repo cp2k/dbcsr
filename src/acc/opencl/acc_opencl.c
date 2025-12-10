@@ -295,22 +295,18 @@ void c_dbcsr_acc_opencl_configure(void) {
       if ((1 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
       }
+#  if (0 == ACC_OPENCL_USM)
       if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[1]));
       }
+#  endif
       if ((4 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("DirectSubmissionOverrideBlitterSupport")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[2]));
       }
     }
-    if (NULL == getenv("DisableScratchPages")) {
-      if (0 == c_dbcsr_acc_opencl_config.debug) {
-        static char a[] = "DisableScratchPages=0", *const apply[] = {a};
-        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
-      }
-      else {
-        static char a[] = "DisableScratchPages=1", *const apply[] = {a};
-        ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
-      }
+    if (0 != c_dbcsr_acc_opencl_config.debug && NULL == getenv("DisableScratchPages")) {
+      static char a[] = "DisableScratchPages=1", *const apply[] = {a};
+      ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
     }
   }
 }
@@ -1091,13 +1087,9 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
           char devname[ACC_OPENCL_BUFFERSIZE] = "";
           const char* const sgexts[] = {"cl_intel_required_subgroup_size", "cl_intel_subgroups", "cl_khr_subgroups"};
           size_t sgsizes[16], nbytes = 0, sgmin = (size_t)-1, i;
-#  if defined(ACC_OPENCL_CMDAGR)
           ACC_OPENCL_STREAM_PROPERTIES_TYPE properties[4] = {
             CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
           };
-#  endif
-          cl_platform_id platform = NULL;
-          cl_bitfield bitfield = 0;
           devinfo->intel = (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel", 0 /*use_platform_name*/));
           devinfo->nv = (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia", 0 /*use_platform_name*/));
           if (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_name(active_id, devname, ACC_OPENCL_BUFFERSIZE, NULL /*platform*/,
@@ -1156,35 +1148,57 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
             if (0 != devinfo->wgsize[2]) devinfo->wgsize[2] = sgmin;
           }
           else devinfo->wgsize[2] = 0;
-#  if defined(ACC_OPENCL_XHINTS)
-          if (0 != (1 & c_dbcsr_acc_opencl_config.xhints) && 2 <= *devinfo->std_level && 0 != devinfo->intel &&
-              0 == devinfo->unified && 0 == c_dbcsr_acc_opencl_config.profile &&
-              EXIT_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL) &&
-              EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel", 2 /*platform vendor*/) &&
-              EXIT_SUCCESS == clGetDeviceInfo(active_id, 0x4191 /*CL_DEVICE_DEVICE_MEM_CAPABILITIES_INTEL*/, sizeof(cl_bitfield),
-                                &bitfield, NULL) &&
-              0 != bitfield) /* cl_intel_unified_shared_memory extension */
-          {
-            void* ptr[8] = {NULL};
-            int i = 0, n = 0;
-            ptr[0] = clGetExtensionFunctionAddressForPlatform(platform, "clSetKernelArgMemPointerINTEL");
-            ptr[1] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemFillINTEL");
-            ptr[2] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemcpyINTEL");
-            ptr[3] = clGetExtensionFunctionAddressForPlatform(platform, "clDeviceMemAllocINTEL");
-            ptr[4] = clGetExtensionFunctionAddressForPlatform(platform, "clMemFreeINTEL");
-            for (; i < (int)(sizeof(ptr) / sizeof(*ptr)); ++i) {
-              if (NULL != ptr[i]) ++n;
+#  if defined(ACC_OPENCL_XHINTS) && (1 >= ACC_OPENCL_USM)
+          { /* cl_intel_unified_shared_memory extension */
+            cl_platform_id platform = NULL;
+            cl_bitfield bitfield = 0;
+            if (0 != (1 & c_dbcsr_acc_opencl_config.xhints) && 2 <= *devinfo->std_level && 0 != devinfo->intel &&
+                0 == c_dbcsr_acc_opencl_config.profile && 0 == devinfo->unified &&
+                EXIT_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL) &&
+                EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel", 2 /*platform vendor*/) &&
+                EXIT_SUCCESS == clGetDeviceInfo(active_id, 0x4191 /*CL_DEVICE_DEVICE_MEM_CAPABILITIES_INTEL*/, sizeof(cl_bitfield),
+                                  &bitfield, NULL) &&
+                0 != bitfield)
+            {
+              void* ptr[8] = {NULL};
+              int i = 0, n = 0;
+              ptr[0] = clGetExtensionFunctionAddressForPlatform(platform, "clSetKernelArgMemPointerINTEL");
+              ptr[1] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemFillINTEL");
+              ptr[2] = clGetExtensionFunctionAddressForPlatform(platform, "clEnqueueMemcpyINTEL");
+              ptr[3] = clGetExtensionFunctionAddressForPlatform(platform, "clDeviceMemAllocINTEL");
+              ptr[4] = clGetExtensionFunctionAddressForPlatform(platform, "clSharedMemAllocINTEL");
+              ptr[5] = clGetExtensionFunctionAddressForPlatform(platform, "clHostMemAllocINTEL");
+              ptr[6] = clGetExtensionFunctionAddressForPlatform(platform, "clMemFreeINTEL");
+              for (; i < (int)(sizeof(ptr) / sizeof(*ptr)); ++i) {
+                if (NULL != ptr[i]) ++n;
+              }
+              if (7 == n) {
+                LIBXSMM_ASSIGN127(&devinfo->clSetKernelArgMemPointerINTEL, ptr + 0);
+                LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemFillINTEL, ptr + 1);
+                LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemcpyINTEL, ptr + 2);
+                LIBXSMM_ASSIGN127(&devinfo->clDeviceMemAllocINTEL, ptr + 3);
+                LIBXSMM_ASSIGN127(&devinfo->clSharedMemAllocINTEL, ptr + 4);
+                LIBXSMM_ASSIGN127(&devinfo->clHostMemAllocINTEL, ptr + 5);
+                LIBXSMM_ASSIGN127(&devinfo->clMemFreeINTEL, ptr + 6);
+              }
+              else if (0 != n) {
+                fprintf(stderr, "WARN ACC/OpenCL: inconsistent state discovered!\n");
+              }
             }
-            if (5 == n) {
-              LIBXSMM_ASSIGN127(&devinfo->clSetKernelArgMemPointerINTEL, ptr + 0);
-              LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemFillINTEL, ptr + 1);
-              LIBXSMM_ASSIGN127(&devinfo->clEnqueueMemcpyINTEL, ptr + 2);
-              LIBXSMM_ASSIGN127(&devinfo->clDeviceMemAllocINTEL, ptr + 3);
-              LIBXSMM_ASSIGN127(&devinfo->clMemFreeINTEL, ptr + 4);
+          }
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+          { /* OpenCL 2.0 based SVM capabilities */
+            const char* const env_usm = getenv("ACC_OPENCL_USM");
+            cl_device_svm_capabilities svmcaps = 0;
+            if (NULL == env_usm) {
+              if (0 == devinfo->nv) { /* vendor workaround (force with ACC_OPENCL_USM=1) */
+                result = clGetDeviceInfo(active_id, CL_DEVICE_SVM_CAPABILITIES, sizeof(cl_device_svm_capabilities), &svmcaps, NULL);
+                assert(EXIT_SUCCESS == result || 0 == svmcaps);
+              }
             }
-            else if (0 != n) {
-              fprintf(stderr, "WARN ACC/OpenCL: inconsistent state discovered!\n");
-            }
+            else svmcaps = (cl_device_svm_capabilities)atoi(env_usm);
+            devinfo->usm = (cl_int)svmcaps;
           }
 #  endif
 #  if defined(ACC_OPENCL_CMDAGR)
@@ -1198,7 +1212,9 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
           }
 #  endif
           properties[1] = 0;
-          devinfo->stream.queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, active_id, properties, &result);
+          if (EXIT_SUCCESS == result) {
+            devinfo->stream.queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, active_id, properties, &result);
+          }
         }
         if (EXIT_SUCCESS == result) {
           if (NULL == devinfo->context || device_id != c_dbcsr_acc_opencl_config.device_id) {
@@ -1453,7 +1469,7 @@ int c_dbcsr_acc_opencl_kernel_flags(const char build_params[], const char build_
 }
 
 
-int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+int c_dbcsr_acc_opencl_kernel(size_t source_kind, const char source[], const char kernel_name[], const char build_params[],
   const char build_options[], const char try_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel) {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", buffer_name[ACC_OPENCL_MAXSTRLEN * 2];
@@ -1467,7 +1483,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
   assert(NULL != devinfo->context);
   assert(NULL != kernel);
   *kernel = NULL;
-  if (EXIT_SUCCESS == result && 0 != source_is_file) file_src = fopen(source, "rb");
+  if (EXIT_SUCCESS == result && (1 == source_kind)) file_src = fopen(source, "rb");
   if (NULL != file_src) {
     if (EXIT_SUCCESS == result) {
       const char* const file_ext = strrchr(source, '.');
@@ -1491,6 +1507,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     }
     fclose(file_src);
   }
+  else size_src = source_kind;
   if (EXIT_SUCCESS == result && 0 != source_is_cl) {
     const char* ext_source = source;
     size_src = strlen(ext_source);
@@ -1696,6 +1713,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
     }
   }
   else if (EXIT_SUCCESS == result) { /* binary representation */
+    assert(1 < size_src || 0 == size_src);
 #  if defined(CL_VERSION_2_1)
     if (0 != c_dbcsr_acc_opencl_config.dump) program = clCreateProgramWithIL(devinfo->context, source, size_src, &result);
     else
@@ -1741,7 +1759,7 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
   if (NULL != file_src) {
     void* p = NULL;
     LIBXSMM_ASSIGN127(&p, (const void**)&source);
-    assert(0 != source_is_file);
+    assert(1 == source_kind);
     libxsmm_free(p);
   }
   if (NULL != program) {
@@ -1766,10 +1784,28 @@ int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const cha
 
 
 int c_dbcsr_acc_opencl_set_kernel_ptr(cl_kernel kernel, cl_uint arg_index, const void* arg_value) {
-  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-  return (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL
-            ? c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL(kernel, arg_index, arg_value)
-            : clSetKernelArg(kernel, arg_index, sizeof(cl_mem), &arg_value));
+  c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
+  int result = EXIT_FAILURE;
+  assert(NULL != devinfo->context);
+#  if (1 >= ACC_OPENCL_USM)
+  if (NULL != devinfo->clSetKernelArgMemPointerINTEL) {
+    result = devinfo->clSetKernelArgMemPointerINTEL(kernel, arg_index, arg_value);
+  }
+  else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+    if (0 != devinfo->usm)
+  {
+    result = clSetKernelArgSVMPointer(kernel, arg_index, arg_value);
+  }
+  else
+#  elif defined(NDEBUG)
+  LIBXSMM_UNUSED(devinfo);
+#  endif
+  {
+    result = clSetKernelArg(kernel, arg_index, sizeof(cl_mem), &arg_value);
+  }
+  ACC_OPENCL_RETURN(result);
 }
 
 

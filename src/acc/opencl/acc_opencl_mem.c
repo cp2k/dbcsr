@@ -19,11 +19,31 @@
 #    include <unistd.h>
 #  endif
 
+#  if !defined(ACC_OPENCL_MEM_ALLOC)
+#    if 1
+#      define ACC_OPENCL_MEM_ALLOC(SIZE, ALIGNMENT) libxsmm_aligned_malloc(SIZE, ALIGNMENT)
+#      define ACC_OPENCL_MEM_FREE(PTR) libxsmm_free(PTR)
+#    else
+#      define ACC_OPENCL_MEM_ALLOC(SIZE, ALIGNMENT) aligned_alloc(ALIGNMENT, SIZE)
+#      define ACC_OPENCL_MEM_FREE(PTR) free(PTR)
+#    endif
+#  endif
 #  if !defined(ACC_OPENCL_MEM_ALIGNSCALE)
 #    define ACC_OPENCL_MEM_ALIGNSCALE 8
 #  endif
-#  if !defined(NDEBUG) && 0
-#    define ACC_OPENCL_MEM_DEBUG
+#  if !defined(ACC_OPENCL_MEM_SVM_INTEL) && 0
+#    define ACC_OPENCL_MEM_SVM_INTEL
+#  endif
+#  if !defined(ACC_OPENCL_MEM_HST_INTEL) && 0
+#    define ACC_OPENCL_MEM_HST_INTEL
+#  endif
+#  if !defined(ACC_OPENCL_MEM_SVM_USM) && 0
+#    define ACC_OPENCL_MEM_SVM_USM
+#  endif
+#  if !defined(ACC_OPENCL_MEM_DEBUG) && 0
+#    if && !defined(NDEBUG)
+#      define ACC_OPENCL_MEM_DEBUG
+#    endif
 #  endif
 
 
@@ -60,30 +80,43 @@ void c_dbcsr_acc_opencl_pfree(const void* pointer, void* pool[], size_t* i) {
 
 
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory) {
-  assert(NULL == memory || sizeof(c_dbcsr_acc_opencl_info_memptr_t) <= (uintptr_t)memory);
-  return (NULL != memory ? (c_dbcsr_acc_opencl_info_memptr_t*)((uintptr_t)memory - sizeof(c_dbcsr_acc_opencl_info_memptr_t))
-                         : (c_dbcsr_acc_opencl_info_memptr_t*)NULL);
+  c_dbcsr_acc_opencl_info_memptr_t* result = NULL;
+  if (NULL == c_dbcsr_acc_opencl_config.device.clHostMemAllocINTEL &&
+#  if (0 != ACC_OPENCL_USM)
+      0 == c_dbcsr_acc_opencl_config.device.usm &&
+#  endif
+      NULL != memory)
+  {
+    assert(sizeof(c_dbcsr_acc_opencl_info_memptr_t) < (uintptr_t)memory);
+    result = (c_dbcsr_acc_opencl_info_memptr_t*)((uintptr_t)memory - sizeof(c_dbcsr_acc_opencl_info_memptr_t));
+  }
+  return result;
 }
 
 
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset) {
   c_dbcsr_acc_opencl_info_memptr_t* result = NULL;
-  assert(0 < elsize);
+#  if !defined(ACC_OPENCL_MEM_DEBUG)
+  LIBXSMM_UNUSED(amount);
+#  endif
   if (NULL != memory) {
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-    if (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL) {
-#  if !defined(ACC_OPENCL_MEM_DEBUG)
-      LIBXSMM_UNUSED(amount);
+    if (/* USM-pointer */
+#  if (0 != ACC_OPENCL_USM)
+      0 != c_dbcsr_acc_opencl_config.device.usm ||
 #  endif
-      /* assume only first item of c_dbcsr_acc_opencl_info_memptr_t is accessed */
-      result = (c_dbcsr_acc_opencl_info_memptr_t*)memory;
+      NULL != c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL)
+    { /* assume only first item of c_dbcsr_acc_opencl_info_memptr_t is accessed */
+      assert(0 != c_dbcsr_acc_opencl_config.device.usm || NULL != c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL);
+      result = NULL; /*(c_dbcsr_acc_opencl_info_memptr_t*)memory*/
       if (NULL != offset) *offset = 0;
     }
-    else {
+    else { /* info-augmented pointer */
       const char* const pointer = (const char*)memory;
       const size_t n = ACC_OPENCL_MAXNITEMS * c_dbcsr_acc_opencl_config.nthreads;
       size_t hit = (size_t)-1, i;
+      assert(0 == c_dbcsr_acc_opencl_config.device.usm && NULL == c_dbcsr_acc_opencl_config.device.clDeviceMemAllocINTEL);
       assert(NULL != c_dbcsr_acc_opencl_config.memptrs);
       if (NULL != lock) ACC_OPENCL_ACQUIRE(lock);
       for (i = c_dbcsr_acc_opencl_config.nmemptrs; i < n; ++i) {
@@ -97,23 +130,31 @@ c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
           }
           else if (memptr < pointer && NULL != offset) {
             size_t d = pointer - memptr, s = d;
-            assert(0 != d);
-            if (d < hit &&
-#  if defined(ACC_OPENCL_MEM_DEBUG)
+            assert(0 < elsize && 0 != d);
+            if (d < hit && (1 == elsize || 0 == (d % elsize)) &&
+#  if defined(ACC_OPENCL_MEM_DEBUG) /* TODO: verify enclosed conditions */
                 (EXIT_SUCCESS == clGetMemObjectInfo(info->memory, CL_MEM_SIZE, sizeof(size_t), &s, NULL)) &&
                 (NULL == amount || (*amount * elsize + d) <= s) &&
 #  endif
-                (1 == elsize || (0 == (d % elsize) && 0 == (s % elsize))) && d <= s)
+                (1 == elsize || 0 == (s % elsize)) && d <= s)
             {
               *offset = (1 == elsize ? d : (d / elsize));
               result = info;
               hit = d;
             }
+#  if defined(ACC_OPENCL_MEM_DEBUG)
+            else if (d < hit && 0 != c_dbcsr_acc_opencl_config.debug && 0 != c_dbcsr_acc_opencl_config.verbosity) {
+              fprintf(stderr, "ERROR ACC/OpenCL: memory=%p pointer=%p size=%llu offset=%llu info failed\n",
+                (const void*)info->memory, info->memptr, (unsigned long long)s,
+                (unsigned long long)(1 == elsize ? d : (d / elsize)));
+            }
+#  endif
           }
         }
         else break;
       }
       if (NULL != lock) ACC_OPENCL_RELEASE(lock);
+      assert(NULL != result);
     }
   }
   return result;
@@ -122,32 +163,69 @@ c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
 
 int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, ACC_OPENCL_LOCKTYPE* lock, const void* memory,
   size_t elsize, const size_t* amount, size_t* offset) {
-  const c_dbcsr_acc_opencl_info_memptr_t* devptr = NULL;
+  const c_dbcsr_acc_opencl_info_memptr_t* meminfo = NULL;
   int result = EXIT_SUCCESS;
   void* non_const;
   LIBXSMM_ASSIGN127(&non_const, &memory);
+  meminfo = c_dbcsr_acc_opencl_info_devptr_modify(lock, non_const, elsize, amount, offset);
   assert(NULL != info);
-  devptr = c_dbcsr_acc_opencl_info_devptr_modify(lock, non_const, elsize, amount, offset);
-  if (NULL != devptr) { /* found memory info */
-    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-    if (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL) {
-      LIBXSMM_ASSIGN127(&info->memory, &devptr);
-      info->memptr /*= info->data*/ = NULL;
-    }
-    else {
-      LIBXSMM_ASSIGN127(info, devptr);
-    }
+  if (NULL == meminfo) { /* USM-pointer */
+    LIBXSMM_MEMZERO127(info);
+    info->memory = (cl_mem)non_const;
   }
-  else result = EXIT_FAILURE;
+  else { /* info-augmented pointer */
+    assert(NULL != c_dbcsr_acc_opencl_config.device.context);
+    LIBXSMM_ASSIGN127(info, meminfo);
+  }
   return result;
 }
 
 
 int c_dbcsr_acc_opencl_info_devptr(
   c_dbcsr_acc_opencl_info_memptr_t* info, const void* memory, size_t elsize, const size_t* amount, size_t* offset) {
-  ACC_OPENCL_LOCKTYPE* const lock_memory =
-    (NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL ? NULL : c_dbcsr_acc_opencl_config.lock_memory);
+  ACC_OPENCL_LOCKTYPE* const lock_memory = ((
+#  if (0 != ACC_OPENCL_USM)
+                                              0 != c_dbcsr_acc_opencl_config.device.usm ||
+#  endif
+                                              NULL != c_dbcsr_acc_opencl_config.device.clSetKernelArgMemPointerINTEL)
+                                              ? NULL /* no lock required */
+                                              : c_dbcsr_acc_opencl_config.lock_memory);
   return c_dbcsr_acc_opencl_info_devptr_lock(info, lock_memory, memory, elsize, amount, offset);
+}
+
+
+int c_dbcsr_acc_host_mem_deallocate_internal(void* /*host_ptr*/, cl_command_queue /*queue*/);
+int c_dbcsr_acc_host_mem_deallocate_internal(void* host_ptr, cl_command_queue queue) {
+  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
+  int result = EXIT_FAILURE;
+#  if (1 >= ACC_OPENCL_USM)
+  if (NULL != devinfo->clMemFreeINTEL) {
+#    if defined(ACC_OPENCL_MEM_SVM_INTEL) || defined(ACC_OPENCL_MEM_HST_INTEL)
+    result = devinfo->clMemFreeINTEL(devinfo->context, host_ptr);
+#    else
+    ACC_OPENCL_MEM_FREE(host_ptr);
+    result = EXIT_SUCCESS;
+#    endif
+  }
+  else
+#  endif
+#  if (0 != ACC_OPENCL_USM) && ((1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM))
+    if (0 != devinfo->usm && 0 != devinfo->unified)
+  {
+    if (0 == ((CL_DEVICE_SVM_FINE_GRAIN_BUFFER | CL_DEVICE_SVM_FINE_GRAIN_SYSTEM) & devinfo->usm)) {
+      result = clEnqueueSVMUnmap(queue, host_ptr, 0, NULL, NULL); /* clSVMFree below synchronizes */
+    }
+    else result = EXIT_SUCCESS;
+    clSVMFree(devinfo->context, host_ptr);
+  }
+  else
+#  endif
+  {
+    LIBXSMM_UNUSED(queue);
+    ACC_OPENCL_MEM_FREE(host_ptr);
+    result = EXIT_SUCCESS;
+  }
+  ACC_OPENCL_RETURN(result);
 }
 
 
@@ -164,56 +242,104 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream) 
   assert(NULL != host_mem);
   if (0 != nbytes) {
     const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
-    const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_memptr_t);
-    int alignment = sizeof(void*);
-    cl_mem_flags flags = CL_MEM_ALLOC_HOST_PTR;
+    const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
+                                                                   : c_dbcsr_acc_opencl_stream_default());
+    int alignment = LIBXSMM_MAX(0x10000, sizeof(void*));
     void* host_ptr = NULL;
     cl_mem memory = NULL;
+    assert(NULL != str);
     if ((ACC_OPENCL_MEM_ALIGNSCALE * ACC_OPENCL_CACHELINE) <= nbytes) {
-      alignment = ((ACC_OPENCL_MEM_ALIGNSCALE * ACC_OPENCL_MAXALIGN) <= nbytes ? ACC_OPENCL_MAXALIGN : ACC_OPENCL_CACHELINE);
+      const int a = ((ACC_OPENCL_MEM_ALIGNSCALE * ACC_OPENCL_MAXALIGN) <= nbytes ? ACC_OPENCL_MAXALIGN : ACC_OPENCL_CACHELINE);
+      if (alignment < a) alignment = a;
     }
-    nbytes += alignment + size_meminfo - 1;
 #  if !defined(ACC_OPENCL_ACTIVATE)
     if (NULL == devinfo->context) {
       ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_opencl_set_active_device(
                                           c_dbcsr_acc_opencl_config.lock_main, c_dbcsr_acc_opencl_config.device_id));
     }
 #  endif
-#  if defined(ACC_OPENCL_XHINTS)
-    if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) && (0 != devinfo->nv || NULL != (ACC_OPENCL_XHINTS))) {
-      host_ptr = malloc(nbytes);
-      if (NULL != host_ptr) flags = CL_MEM_USE_HOST_PTR;
+#  if (1 >= ACC_OPENCL_USM)
+    if (NULL != devinfo->clMemFreeINTEL) {
+#    if defined(ACC_OPENCL_MEM_SVM_INTEL)
+      const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
+      host_ptr = devinfo->clSharedMemAllocINTEL(devinfo->context, device_id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
+#    elif defined(ACC_OPENCL_MEM_HST_INTEL)
+      host_ptr = devinfo->clHostMemAllocINTEL(devinfo->context, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
+#    else
+      host_ptr = ACC_OPENCL_MEM_ALLOC(nbytes, alignment);
+#    endif
+      assert(NULL != host_ptr || EXIT_SUCCESS != result);
+      /*if (NULL != host_ptr)*/ *host_mem = host_ptr;
     }
+    else
 #  endif
-    memory = clCreateBuffer(devinfo->context, flags, nbytes, host_ptr, &result);
-    if (EXIT_SUCCESS == result) {
-      void* mapped = host_ptr;
-      if (NULL == host_ptr) {
-        const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
-                                                                       : c_dbcsr_acc_opencl_stream_default());
-        mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
-#  if defined(ACC_OPENCL_XHINTS) && (defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION))
-          (4 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
-#  endif
-                                                 (CL_MAP_READ | CL_MAP_WRITE),
-          0 /*offset*/, nbytes, 0, NULL, NULL, &result);
+      if (0 != devinfo->usm)
+    {
+#  if (0 != ACC_OPENCL_USM)
+#    if ((1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM))
+      if (0 != devinfo->unified) {
+        const int svmmem_fine = (0 != ((CL_DEVICE_SVM_FINE_GRAIN_BUFFER | CL_DEVICE_SVM_FINE_GRAIN_SYSTEM) & devinfo->usm)
+                                   ? CL_MEM_SVM_FINE_GRAIN_BUFFER
+                                   : 0);
+        host_ptr = clSVMAlloc(devinfo->context, CL_MEM_READ_WRITE | svmmem_fine, nbytes, 0 /*alignment*/);
+        if (NULL != host_ptr) {
+          if (0 == svmmem_fine) {
+            result = clEnqueueSVMMap(
+              str->queue, CL_TRUE /*always block*/, CL_MAP_READ | CL_MAP_WRITE, host_ptr, nbytes, 0, NULL, NULL);
+          }
+          *host_mem = host_ptr;
+        }
+        else result = EXIT_FAILURE;
       }
-      assert(EXIT_SUCCESS == result || NULL == mapped);
+      else
+#    endif
+      {
+        host_ptr = ACC_OPENCL_MEM_ALLOC(nbytes, alignment);
+        if (NULL != host_ptr) *host_mem = host_ptr;
+        else result = EXIT_FAILURE;
+      }
+#  endif
+    }
+    else {
+      const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_memptr_t);
+      int memflags = CL_MEM_ALLOC_HOST_PTR;
+      nbytes += alignment + size_meminfo - 1;
+#  if defined(ACC_OPENCL_XHINTS)
+      if (0 != (4 & c_dbcsr_acc_opencl_config.xhints) && (0 != devinfo->nv || NULL != (ACC_OPENCL_XHINTS))) {
+        host_ptr = ACC_OPENCL_MEM_ALLOC(nbytes, alignment);
+        if (NULL != host_ptr) memflags = CL_MEM_USE_HOST_PTR;
+      }
+#  endif
+      memory = clCreateBuffer(devinfo->context, (cl_mem_flags)(CL_MEM_READ_WRITE | memflags), nbytes, host_ptr, &result);
       if (EXIT_SUCCESS == result) {
-        const uintptr_t address = (uintptr_t)mapped;
-        const uintptr_t aligned = LIBXSMM_UP2(address + size_meminfo, alignment);
-        c_dbcsr_acc_opencl_info_memptr_t* const meminfo = (c_dbcsr_acc_opencl_info_memptr_t*)(aligned - size_meminfo);
-        assert(address + size_meminfo <= aligned && NULL != meminfo);
-        meminfo->memory = memory;
-        meminfo->memptr = mapped;
-        *host_mem = (void*)aligned;
-        assert(meminfo == c_dbcsr_acc_opencl_info_hostptr(*host_mem));
+        void* mapped = host_ptr;
+        if (NULL == host_ptr) {
+          mapped = clEnqueueMapBuffer(str->queue, memory, CL_TRUE /*always block*/,
+#  if defined(ACC_OPENCL_XHINTS) && (defined(CL_VERSION_1_2) || defined(CL_MAP_WRITE_INVALIDATE_REGION))
+            (16 & c_dbcsr_acc_opencl_config.xhints) ? CL_MAP_WRITE_INVALIDATE_REGION :
+#  endif
+                                                    (CL_MAP_READ | CL_MAP_WRITE),
+            0 /*offset*/, nbytes, 0, NULL, NULL, &result);
+        }
+        assert(EXIT_SUCCESS == result || NULL == mapped);
+        if (EXIT_SUCCESS == result) {
+          const uintptr_t address = (uintptr_t)mapped;
+          const uintptr_t aligned = LIBXSMM_UP2(address + size_meminfo, alignment);
+          c_dbcsr_acc_opencl_info_memptr_t* const meminfo = (c_dbcsr_acc_opencl_info_memptr_t*)(aligned - size_meminfo);
+          assert(address + size_meminfo <= aligned && NULL != meminfo);
+          meminfo->memory = memory;
+          meminfo->memptr = mapped;
+          *host_mem = (void*)aligned;
+          assert(meminfo == c_dbcsr_acc_opencl_info_hostptr(*host_mem));
+        }
       }
     }
     if (EXIT_SUCCESS != result) {
       if (NULL != memory) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseMemObject(memory));
+      if (NULL != host_ptr) {
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS == c_dbcsr_acc_host_mem_deallocate_internal(host_ptr, str->queue));
+      }
       *host_mem = NULL;
-      free(host_ptr);
     }
   }
   else *host_mem = NULL; /* consider warning */
@@ -236,54 +362,28 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream) {
   }
 #  endif
   if (NULL != host_mem) {
-    c_dbcsr_acc_opencl_info_memptr_t* const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
-    if (NULL != meminfo->memory) {
+    const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
+                                                                   : c_dbcsr_acc_opencl_stream_default());
+    const c_dbcsr_acc_opencl_info_memptr_t* const meminfo = c_dbcsr_acc_opencl_info_hostptr(host_mem);
+    assert(NULL != str);
+    if (NULL == meminfo || NULL == meminfo->memory) { /* USM-pointer */
+      assert(0 != c_dbcsr_acc_opencl_config.device.usm || NULL != c_dbcsr_acc_opencl_config.device.clMemFreeINTEL);
+      result = c_dbcsr_acc_host_mem_deallocate_internal(host_mem, str->queue);
+    }
+    else { /* info-augmented pointer */
       const c_dbcsr_acc_opencl_info_memptr_t info = *meminfo; /* copy meminfo prior to unmap */
-      int result2 = EXIT_SUCCESS;
-#  if defined(ACC_OPENCL_XHINTS)
+      int result_release = EXIT_SUCCESS;
       void* host_ptr = NULL;
-      if (0 != (8 & c_dbcsr_acc_opencl_config.xhints) &&
-          (0 != c_dbcsr_acc_opencl_config.device.nv || NULL != (ACC_OPENCL_XHINTS)) &&
-          EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_HOST_PTR, sizeof(void*), &host_ptr, NULL) && NULL != host_ptr)
-      {
-        free(host_ptr);
+      assert(0 == c_dbcsr_acc_opencl_config.device.usm && NULL == c_dbcsr_acc_opencl_config.device.clMemFreeINTEL);
+      if (EXIT_SUCCESS == clGetMemObjectInfo(info.memory, CL_MEM_HOST_PTR, sizeof(void*), &host_ptr, NULL) && NULL != host_ptr) {
+        result = c_dbcsr_acc_host_mem_deallocate_internal(host_ptr, str->queue);
       }
-      if (NULL == host_ptr)
-#  endif
-      {
-        const c_dbcsr_acc_opencl_stream_t* const str = (NULL != stream ? ACC_OPENCL_STREAM(stream)
-                                                                       : c_dbcsr_acc_opencl_stream_default());
-        cl_context ctxstr = NULL, ctxmem = NULL;
-        cl_event event = NULL;
-        assert(NULL != str);
-        if (0 != c_dbcsr_acc_opencl_config.debug) {
-          result2 = clGetCommandQueueInfo(str->queue, CL_QUEUE_CONTEXT, sizeof(cl_context), &ctxstr, NULL);
-          if (EXIT_SUCCESS == result2) {
-            result2 = clGetMemObjectInfo(info.memory, CL_MEM_CONTEXT, sizeof(cl_context), &ctxmem, NULL);
-          }
-        }
-        if (EXIT_SUCCESS == result2 && ctxstr == ctxmem) {
-          result = clEnqueueUnmapMemObject(str->queue, info.memory, info.memptr, 0, NULL, NULL != stream ? NULL : &event);
-          if (NULL != event && EXIT_SUCCESS == result) result = clWaitForEvents(1, &event);
-        }
-        else { /* ignore error and warn instead */
-          static int warned = 0;
-          result2 = clEnqueueUnmapMemObject(str->queue, info.memory, info.memptr, 0, NULL, NULL != stream ? NULL : &event);
-          if (NULL != event && EXIT_SUCCESS == result2) result2 = clWaitForEvents(1, &event);
-          if (0 != c_dbcsr_acc_opencl_config.verbosity && 0 == warned && EXIT_SUCCESS != result2) {
-            fprintf(
-              stderr, "WARN ACC/OpenCL: contexts do not match (code=%i with %p != %p).\n", result2, (void*)ctxstr, (void*)ctxmem);
-            warned = 1;
-          }
-        }
-        if (NULL != event) {
-          result2 = clReleaseEvent(event);
-          if (EXIT_SUCCESS == result) result = result2;
-        }
+      else { /* clReleaseMemObject later on synchronizes */
+        result = clEnqueueUnmapMemObject(str->queue, info.memory, info.memptr, 0, NULL, NULL);
       }
-      result2 = clReleaseMemObject(info.memory);
-      if (EXIT_SUCCESS == result) result = result2;
-    } /* not an error */
+      result_release = clReleaseMemObject(info.memory);
+      if (EXIT_SUCCESS == result) result = result_release;
+    }
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
@@ -332,50 +432,10 @@ void CL_CALLBACK c_dbcsr_acc_memcpy_notify(cl_event event, cl_int event_status, 
 }
 
 
-/* like c_dbcsr_acc_memcpy_d2h, but apply some async workaround. */
-int c_dbcsr_acc_opencl_memcpy_d2h(cl_mem /*dev_mem*/, void* /*host_mem*/, size_t /*offset*/, size_t /*nbytes*/,
-  cl_command_queue /*queue*/, int /*blocking*/, cl_event* /*event*/);
-int c_dbcsr_acc_opencl_memcpy_d2h(
-  cl_mem dev_mem, void* host_mem, size_t offset, size_t nbytes, cl_command_queue queue, int blocking, cl_event* event) {
-  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
-#  if defined(ACC_OPENCL_ASYNC)
-  const cl_bool finish = (0 != blocking || 0 == (2 & c_dbcsr_acc_opencl_config.async) ||
-                          (0 != (8 & c_dbcsr_acc_opencl_config.wa) && 0 != devinfo->intel && 0 != devinfo->unified));
-#  else
-  const cl_bool finish = CL_TRUE;
-#  endif
-  int result = EXIT_SUCCESS;
-  if (NULL != devinfo->clEnqueueMemcpyINTEL) {
-    result = devinfo->clEnqueueMemcpyINTEL(queue, finish, host_mem, dev_mem, nbytes, 0, NULL, event);
-  }
-  else {
-    result = clEnqueueReadBuffer(queue, dev_mem, finish, offset, nbytes, host_mem, 0, NULL, event);
-  }
-  if (EXIT_SUCCESS != result && !finish) { /* retry synchronously */
-    int result_sync = EXIT_SUCCESS;
-    if (NULL != devinfo->clEnqueueMemcpyINTEL) {
-      result_sync = devinfo->clEnqueueMemcpyINTEL(queue, CL_TRUE, host_mem, dev_mem, nbytes, 0, NULL, event);
-    }
-    else {
-      result_sync = clEnqueueReadBuffer(queue, dev_mem, CL_TRUE, offset, nbytes, host_mem, 0, NULL, event);
-    }
-    if (EXIT_SUCCESS == result_sync) {
-      c_dbcsr_acc_opencl_config.async &= ~2; /* retract async feature */
-      if (0 != c_dbcsr_acc_opencl_config.verbosity) {
-        fprintf(stderr, "WARN ACC/OpenCL: falling back to synchronous readback (code=%i).\n", result);
-      }
-      result = EXIT_SUCCESS;
-    }
-  }
-  return result;
-}
-
-
 int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
-  int result = EXIT_SUCCESS;
-  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
   /* assume no lock is needed to protect against context/device changes */
-  cl_mem memory = NULL;
+  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
+  int result = EXIT_SUCCESS;
   void* memptr = NULL;
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
@@ -393,18 +453,47 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
 #  endif
   assert(NULL != dev_mem && NULL != devinfo->context);
   if (0 != nbytes) {
-    if (NULL != devinfo->clDeviceMemAllocINTEL) {
+    cl_mem memory = NULL;
+#  if (1 >= ACC_OPENCL_USM)
+    if (NULL != devinfo->clMemFreeINTEL) {
       const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
-      *dev_mem = memptr = devinfo->clDeviceMemAllocINTEL(
-        devinfo->context, device_id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
+#    if defined(ACC_OPENCL_MEM_SVM_INTEL)
+      memptr = devinfo->clSharedMemAllocINTEL(devinfo->context, device_id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
+#    else
+      memptr = devinfo->clDeviceMemAllocINTEL(devinfo->context, device_id, NULL /*properties*/, nbytes, 0 /*alignment*/, &result);
+#    endif
+      *dev_mem = memptr;
     }
-    else {
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != devinfo->usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      const int svmflags = (0 != ((CL_DEVICE_SVM_FINE_GRAIN_BUFFER | CL_DEVICE_SVM_FINE_GRAIN_SYSTEM) & devinfo->usm)
+                              ? CL_MEM_SVM_FINE_GRAIN_BUFFER
+                              : 0);
+      memptr = clSVMAlloc(devinfo->context, (cl_svm_mem_flags)(CL_MEM_READ_WRITE | svmflags), nbytes, 0 /*alignment*/);
+#    else
+      int alignment = LIBXSMM_MAX(0x10000, sizeof(void*));
+      if ((ACC_OPENCL_MEM_ALIGNSCALE * ACC_OPENCL_CACHELINE) <= nbytes) {
+        const int a = ((ACC_OPENCL_MEM_ALIGNSCALE * ACC_OPENCL_MAXALIGN) <= nbytes ? ACC_OPENCL_MAXALIGN : ACC_OPENCL_CACHELINE);
+        if (alignment < a) alignment = a;
+      }
+      memptr = ACC_OPENCL_MEM_ALLOC(nbytes, alignment);
+#    endif
+      *dev_mem = memptr;
+    }
+    else
+#  endif
+    {
 #  if defined(ACC_OPENCL_XHINTS)
       const int devuid = devinfo->uid;
-      const int try_flag = ((0 != (16 & c_dbcsr_acc_opencl_config.xhints) || 0 != devinfo->unified || 0 == devinfo->intel ||
-                              (0x4905 != devuid && 0x020a != devuid && (0x0bd0 > devuid || 0x0bdb < devuid)))
-                              ? 0
-                              : (1u << 22));
+      const int try_flag =
+        ((0 != (8 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel && 0 == devinfo->unified &&
+           ((0x4905 == devuid || 0x020a == devuid || (0x0bd0 <= devuid && 0x0bdb >= devuid)) || NULL != (ACC_OPENCL_XHINTS)))
+            ? (1u << 22)
+            : 0);
       memory = clCreateBuffer(devinfo->context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag), nbytes, NULL /*host_ptr*/, &result);
       if (0 != try_flag && EXIT_SUCCESS != result) /* retry without try_flag */
 #  endif
@@ -426,7 +515,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
                                 "  ptr[i] = cast.u + i;\n"
                                 "}\n";
           assert(sizeof(size_t) == sizeof(cl_ulong));
-          result = c_dbcsr_acc_opencl_kernel(0 /*source_is_file*/, source, "memptr" /*kernel_name*/, NULL /*build_params*/,
+          result = c_dbcsr_acc_opencl_kernel(0 /*source_kind*/, source, "memptr" /*kernel_name*/, NULL /*build_params*/,
             NULL /*build_options*/, NULL /*try_build_options*/, NULL /*try_ok*/, NULL /*extnames*/, 0 /*num_exts*/, &kernel);
         }
         /* TODO: backup/restore memory */
@@ -437,13 +526,13 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
         }
         ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
         if (EXIT_SUCCESS == result) {
-          result = c_dbcsr_acc_opencl_memcpy_d2h(memory, &memptr, 0, sizeof(void*), str->queue, 1 /*blocking*/, NULL /*event*/);
+          result = clEnqueueReadBuffer(
+            str->queue, memory, CL_TRUE /*blocking*/, 0 /*offset*/, sizeof(void*), &memptr, 0, NULL, NULL /*event*/);
         }
         assert(EXIT_SUCCESS != result || NULL != memptr);
         if (EXIT_SUCCESS == result) {
           c_dbcsr_acc_opencl_info_memptr_t* const info = (c_dbcsr_acc_opencl_info_memptr_t*)c_dbcsr_acc_opencl_pmalloc(
             c_dbcsr_acc_opencl_config.lock_memory, (void**)c_dbcsr_acc_opencl_config.memptrs, &c_dbcsr_acc_opencl_config.nmemptrs);
-          assert(NULL != memptr);
           if (NULL != info) {
             info->memory = memory;
             info->memptr = memptr;
@@ -461,14 +550,6 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes) {
       if (NULL != memory) ACC_OPENCL_EXPECT(EXIT_SUCCESS == clReleaseMemObject(memory));
       *dev_mem = NULL;
     }
-#  if defined(ACC_OPENCL_MEM_DEBUG)
-    else if (0 != c_dbcsr_acc_opencl_config.debug &&
-             (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-    {
-      fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p size=%llu successfully allocated\n", (const void*)memory, memptr,
-        (unsigned long long)nbytes);
-    }
-#  endif
   }
   else *dev_mem = NULL;
   assert(EXIT_SUCCESS == result || NULL == *dev_mem);
@@ -490,19 +571,31 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
   }
 #  endif
   if (NULL != dev_mem) {
-    cl_mem memory = NULL;
     assert(NULL != c_dbcsr_acc_opencl_config.device.context);
+#  if (1 >= ACC_OPENCL_USM)
     if (NULL != c_dbcsr_acc_opencl_config.device.clMemFreeINTEL) {
       result = c_dbcsr_acc_opencl_config.device.clMemFreeINTEL(c_dbcsr_acc_opencl_config.device.context, dev_mem);
     }
-    else {
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != c_dbcsr_acc_opencl_config.device.usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      clSVMFree(c_dbcsr_acc_opencl_config.device.context, dev_mem);
+#    else
+      ACC_OPENCL_MEM_FREE(dev_mem);
+#    endif
+    }
+    else
+#  endif
+    {
       c_dbcsr_acc_opencl_info_memptr_t* info = NULL;
       ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
       info = c_dbcsr_acc_opencl_info_devptr_modify(NULL, dev_mem, 1 /*elsize*/, NULL /*amount*/, NULL /*offset*/);
       if (NULL != info && info->memptr == dev_mem && NULL != info->memory) {
         c_dbcsr_acc_opencl_info_memptr_t* const pfree = c_dbcsr_acc_opencl_config.memptrs[c_dbcsr_acc_opencl_config.nmemptrs];
-        memory = info->memory;
-        result = clReleaseMemObject(memory);
+        result = clReleaseMemObject(info->memory);
         c_dbcsr_acc_opencl_pfree(pfree, (void**)c_dbcsr_acc_opencl_config.memptrs, &c_dbcsr_acc_opencl_config.nmemptrs);
         *info = *pfree;
         LIBXSMM_MEMZERO127(pfree);
@@ -510,13 +603,6 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem) {
       else result = EXIT_FAILURE;
       ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     }
-#  if defined(ACC_OPENCL_MEM_DEBUG)
-    if (EXIT_SUCCESS == result && 0 != c_dbcsr_acc_opencl_config.debug &&
-        (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity))
-    {
-      fprintf(stderr, "INFO ACC/OpenCL: memory=%p pointer=%p deallocated\n", (const void*)memory, dev_mem);
-    }
-#  endif
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);
@@ -551,6 +637,7 @@ int c_dbcsr_acc_dev_mem_set_ptr(void** dev_mem, void* other, size_t offset) {
 
 
 int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, void* stream) {
+  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   int routine_handle;
@@ -561,9 +648,13 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
   }
 #  endif
   assert((NULL != host_mem && NULL != dev_mem) || 0 == nbytes);
-  assert(NULL != c_dbcsr_acc_opencl_config.device.context);
-  if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
-    const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
+  assert(NULL != devinfo->context);
+  if (
+#  if (0 != ACC_OPENCL_USM)
+    host_mem != dev_mem && /* fast-path only sensible without offsets */
+#  endif
+    NULL != host_mem && NULL != dev_mem && 0 != nbytes)
+  {
 #  if defined(ACC_OPENCL_ASYNC)
     const cl_bool finish = (0 == (1 & c_dbcsr_acc_opencl_config.async) || NULL == stream ||
                             (0 != (8 & c_dbcsr_acc_opencl_config.wa) && 0 != devinfo->intel && 0 != devinfo->unified));
@@ -575,10 +666,25 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
     ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
     str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL, ACC_OPENCL_OMP_TID()));
     assert(NULL != str);
+#  if (1 >= ACC_OPENCL_USM)
     if (NULL != devinfo->clEnqueueMemcpyINTEL) {
       result = devinfo->clEnqueueMemcpyINTEL(str->queue, finish, dev_mem, host_mem, nbytes, 0, NULL, NULL);
     }
-    else {
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != devinfo->usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      result = clEnqueueSVMMemcpy(
+        str->queue, finish, dev_mem, host_mem, nbytes, 0, NULL, NULL == c_dbcsr_acc_opencl_config.hist_h2d ? NULL : &event);
+#    else
+      memcpy(dev_mem, host_mem, nbytes);
+#    endif
+    }
+    else
+#  endif
+    {
       size_t offset = 0;
       c_dbcsr_acc_opencl_info_memptr_t* const info = c_dbcsr_acc_opencl_info_devptr_modify(
         NULL, dev_mem, 1 /*elsize*/, &nbytes, &offset);
@@ -608,6 +714,74 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
 }
 
 
+/* like c_dbcsr_acc_memcpy_d2h, but apply some async workaround. */
+int c_dbcsr_acc_opencl_memcpy_d2h(const void* /*dev_mem*/, void* /*host_mem*/, size_t /*offset*/, size_t /*nbytes*/,
+  cl_command_queue /*queue*/, int /*blocking*/, cl_event* /*event*/);
+int c_dbcsr_acc_opencl_memcpy_d2h(
+  const void* dev_mem, void* host_mem, size_t offset, size_t nbytes, cl_command_queue queue, int blocking, cl_event* event) {
+  const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
+#  if defined(ACC_OPENCL_ASYNC)
+  const cl_bool finish = (0 != blocking || 0 == (2 & c_dbcsr_acc_opencl_config.async) ||
+                          (0 != (8 & c_dbcsr_acc_opencl_config.wa) && 0 != devinfo->intel && 0 != devinfo->unified));
+#  else
+  const cl_bool finish = CL_TRUE;
+#  endif
+  int result = EXIT_SUCCESS;
+  assert(NULL != dev_mem);
+#  if (1 >= ACC_OPENCL_USM)
+  if (NULL != devinfo->clEnqueueMemcpyINTEL) {
+    result = devinfo->clEnqueueMemcpyINTEL(queue, finish, host_mem, (const char*)dev_mem + offset, nbytes, 0, NULL, event);
+  }
+  else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+    if (0 != devinfo->usm)
+  {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+    result = clEnqueueSVMMemcpy(queue, finish, host_mem, (const char*)dev_mem + offset, nbytes, 0, NULL, event);
+#    else
+    memcpy(host_mem, (const char*)dev_mem + offset, nbytes);
+#    endif
+  }
+  else
+#  endif
+  {
+    result = clEnqueueReadBuffer(queue, (cl_mem)(uintptr_t)dev_mem, finish, offset, nbytes, host_mem, 0, NULL, event);
+  }
+  if (EXIT_SUCCESS != result && !finish) { /* retry synchronously */
+    int result_sync = EXIT_FAILURE;
+#  if (1 >= ACC_OPENCL_USM)
+    if (NULL != devinfo->clEnqueueMemcpyINTEL) {
+      result_sync = devinfo->clEnqueueMemcpyINTEL(queue, CL_TRUE, host_mem, (const char*)dev_mem + offset, nbytes, 0, NULL, event);
+    }
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != devinfo->usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      result_sync = clEnqueueSVMMemcpy(queue, CL_TRUE, host_mem, (const char*)dev_mem + offset, nbytes, 0, NULL, event);
+#    else
+      memcpy(host_mem, (const char*)dev_mem + offset, nbytes);
+#    endif
+    }
+    else
+#  endif
+    {
+      result_sync = clEnqueueReadBuffer(queue, (cl_mem)(uintptr_t)dev_mem, CL_TRUE, offset, nbytes, host_mem, 0, NULL, event);
+    }
+    if (EXIT_SUCCESS == result_sync) {
+      c_dbcsr_acc_opencl_config.async &= ~2; /* retract async feature */
+      if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+        fprintf(stderr, "WARN ACC/OpenCL: falling back to synchronous readback (code=%i).\n", result);
+      }
+      result = EXIT_SUCCESS;
+    }
+  }
+  return result;
+}
+
+
 int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, void* stream) {
   int result = EXIT_SUCCESS;
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
@@ -619,7 +793,12 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
   }
 #  endif
   assert((NULL != dev_mem && NULL != host_mem) || 0 == nbytes);
-  if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
+  if (
+#  if (0 != ACC_OPENCL_USM)
+    host_mem != dev_mem && /* fast-path only sensible without offsets */
+#  endif
+    NULL != host_mem && NULL != dev_mem && 0 != nbytes)
+  {
     const cl_bool finish = (NULL != stream ? CL_FALSE : CL_TRUE);
     c_dbcsr_acc_opencl_info_memptr_t* info = NULL;
     cl_event event = NULL;
@@ -633,22 +812,19 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
     str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL, ACC_OPENCL_OMP_TID()));
     assert(NULL != str);
     info = c_dbcsr_acc_opencl_info_devptr_modify(NULL, nconst.ptr, 1 /*elsize*/, &nbytes, &offset);
-    if (NULL != info) {
-      const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
-      if (NULL != devinfo->clEnqueueMemcpyINTEL) {
-        result = c_dbcsr_acc_opencl_memcpy_d2h((cl_mem)info, host_mem, offset, nbytes, str->queue, finish, NULL);
-      }
-      else {
-        result = c_dbcsr_acc_opencl_memcpy_d2h(
-          info->memory, host_mem, offset, nbytes, str->queue, finish, NULL == c_dbcsr_acc_opencl_config.hist_d2h ? NULL : &event);
-      }
+    if (NULL == info) {
+      result = c_dbcsr_acc_opencl_memcpy_d2h(
+        dev_mem, host_mem, offset, nbytes, str->queue, finish, NULL == c_dbcsr_acc_opencl_config.hist_d2h ? NULL : &event);
+    }
+    else {
+      result = c_dbcsr_acc_opencl_memcpy_d2h(
+        info->memory, host_mem, offset, nbytes, str->queue, finish, NULL == c_dbcsr_acc_opencl_config.hist_d2h ? NULL : &event);
       /*if (NULL != event && EXIT_SUCCESS == result) info->data = (void*)libxsmm_timer_tick();*/
     }
-    else result = EXIT_FAILURE;
     ACC_OPENCL_RELEASE(c_dbcsr_acc_opencl_config.lock_memory);
     if (NULL != event) { /* c_dbcsr_acc_memcpy_notify must be outside of locked region */
       if (EXIT_SUCCESS == result) {
-        assert(NULL != c_dbcsr_acc_opencl_config.hist_d2h /*&& NULL == devinfo->clEnqueueMemcpyINTEL*/);
+        assert(NULL != c_dbcsr_acc_opencl_config.hist_d2h /*&& NULL == c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL*/);
         if (!finish) { /* asynchronous */
           result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
         }
@@ -675,13 +851,13 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
   }
 #  endif
   assert((NULL != devmem_src && NULL != devmem_dst) || 0 == nbytes);
-  if (NULL != devmem_src && NULL != devmem_dst && 0 != nbytes) {
+  if (NULL != devmem_src && devmem_src != devmem_dst && 0 != nbytes) {
 #  if defined(ACC_OPENCL_ASYNC)
-    cl_event event = NULL;
-    cl_event* const pevent = (0 == (4 & c_dbcsr_acc_opencl_config.async) || NULL == stream) ? &event : NULL;
+    cl_event event = NULL, *const pevent = (0 == (4 & c_dbcsr_acc_opencl_config.async) || NULL == stream) ? &event : NULL;
 #  else
     cl_event event = NULL, *const pevent = NULL;
 #  endif
+    const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
     union {
       const void* input;
       void* ptr;
@@ -689,12 +865,26 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
     const c_dbcsr_acc_opencl_stream_t* str;
     ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
     str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL, ACC_OPENCL_OMP_TID()));
-    assert(NULL != str && NULL != c_dbcsr_acc_opencl_config.device.context);
-    if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL) {
-      result = c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL(
-        str->queue, CL_FALSE /*blocking*/, devmem_dst, devmem_src, nbytes, 0, NULL, pevent);
+    assert(NULL != str && NULL != devinfo->context);
+#  if (1 >= ACC_OPENCL_USM)
+    if (NULL != devinfo->clEnqueueMemcpyINTEL) {
+      result = devinfo->clEnqueueMemcpyINTEL(str->queue, CL_FALSE /*blocking*/, devmem_dst, devmem_src, nbytes, 0, NULL, pevent);
     }
-    else {
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != devinfo->usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      result = clEnqueueSVMMemcpy(str->queue, CL_FALSE /*blocking*/, devmem_dst, devmem_src, nbytes, 0, NULL,
+        NULL == c_dbcsr_acc_opencl_config.hist_d2d ? pevent : &event);
+#    else
+      memcpy(devmem_dst, devmem_src, nbytes);
+#    endif
+    }
+    else
+#  endif
+    {
       size_t offset_src = 0, offset_dst = 0;
       c_dbcsr_acc_opencl_info_memptr_t* const info_src = c_dbcsr_acc_opencl_info_devptr_modify(
         NULL, nconst.ptr, 1 /*elsize*/, &nbytes, &offset_src);
@@ -713,7 +903,7 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
     if (NULL != event) { /* c_dbcsr_acc_memcpy_notify must be outside of locked region */
       if (EXIT_SUCCESS == result) {
         if (NULL == pevent) { /* asynchronous */
-          assert(NULL == c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL);
+          assert(NULL == devinfo->clEnqueueMemcpyINTEL);
           assert(NULL != c_dbcsr_acc_opencl_config.hist_d2d);
           result = clSetEventCallback(event, CL_COMPLETE, c_dbcsr_acc_memcpy_notify, nconst.ptr);
         }
@@ -721,7 +911,7 @@ int c_dbcsr_acc_memcpy_d2d(const void* devmem_src, void* devmem_dst, size_t nbyt
           result = clWaitForEvents(1, &event);
           if (EXIT_SUCCESS == result) {
             if (NULL != c_dbcsr_acc_opencl_config.hist_d2d) {
-              assert(NULL == c_dbcsr_acc_opencl_config.device.clEnqueueMemcpyINTEL);
+              assert(NULL == devinfo->clEnqueueMemcpyINTEL);
               c_dbcsr_acc_memcpy_notify(event, CL_COMPLETE, nconst.ptr);
             }
             else result = clReleaseEvent(event);
@@ -752,28 +942,41 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
   assert(NULL != dev_mem || 0 == nbytes);
   if (0 != nbytes) {
 #  if defined(ACC_OPENCL_ASYNC)
-    cl_event event = NULL;
-    cl_event* const pevent = (0 == (8 & c_dbcsr_acc_opencl_config.async) || NULL == stream) ? &event : NULL;
+    cl_event event = NULL, *const pevent = (0 == (8 & c_dbcsr_acc_opencl_config.async) || NULL == stream) ? &event : NULL;
 #  else
     cl_event event = NULL, *const pevent = NULL;
 #  endif
-    size_t base = 0, vsize = 1;
+    const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
     const c_dbcsr_acc_opencl_stream_t* str;
-    ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
-    str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL, ACC_OPENCL_OMP_TID()));
-    assert(NULL != str && NULL != c_dbcsr_acc_opencl_config.device.context);
+    size_t base = 0, vsize = 1;
     if (0 == LIBXSMM_MOD2(nbytes, 4)) vsize = 4;
     else if (0 == LIBXSMM_MOD2(nbytes, 2)) vsize = 2;
-    if (NULL != c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL) {
-      result = c_dbcsr_acc_opencl_config.device.clEnqueueMemFillINTEL(
-        str->queue, (char*)dev_mem + offset, &value, vsize, nbytes, 0, NULL, pevent);
+    ACC_OPENCL_ACQUIRE(c_dbcsr_acc_opencl_config.lock_memory);
+    str = (NULL != stream ? ACC_OPENCL_STREAM(stream) : c_dbcsr_acc_opencl_stream(NULL, ACC_OPENCL_OMP_TID()));
+    assert(NULL != str && NULL != devinfo->context);
+#  if (1 >= ACC_OPENCL_USM)
+    if (NULL != devinfo->clEnqueueMemFillINTEL) {
+      result = devinfo->clEnqueueMemFillINTEL(str->queue, (char*)dev_mem + offset, &value, vsize, nbytes, 0, NULL, pevent);
     }
-    else {
+    else
+#  endif
+#  if (0 != ACC_OPENCL_USM)
+      if (0 != devinfo->usm)
+    {
+#    if (1 >= ACC_OPENCL_USM) || defined(ACC_OPENCL_MEM_SVM_USM)
+      result = clEnqueueSVMMemFill(str->queue, (char*)dev_mem + offset, &value, vsize, nbytes, 0, NULL, pevent);
+#    else
+      memset((char*)dev_mem + offset, value, nbytes);
+#    endif
+    }
+    else
+#  endif
+    {
       const c_dbcsr_acc_opencl_info_memptr_t* const info = c_dbcsr_acc_opencl_info_devptr_modify(
         NULL, dev_mem, 1 /*elsize*/, &nbytes, &base);
       if (NULL != info) {
         result = clEnqueueFillBuffer(str->queue, info->memory, &value, vsize, base + offset, nbytes, 0, NULL, pevent);
-        dev_mem = info->memptr; /* ACC_OPENCL_MEM_DEBUG: to be printed */
+        dev_mem = info->memptr;
       }
       else result = EXIT_FAILURE;
     }
@@ -784,12 +987,6 @@ int c_dbcsr_acc_opencl_memset(void* dev_mem, int value, size_t offset, size_t nb
       result_release = clReleaseEvent(event);
       if (EXIT_SUCCESS == result) result = result_release;
     }
-#  if defined(ACC_OPENCL_MEM_DEBUG)
-    if (EXIT_SUCCESS != result && 0 != c_dbcsr_acc_opencl_config.verbosity) {
-      fprintf(stderr, "ERROR ACC/OpenCL: memset(memory=%p value=%i vsize=%i size=%llu base=%llu offset=%llu) failed\n", dev_mem,
-        value, vsize, (unsigned long long)nbytes, base, offset);
-    }
-#  endif
   }
 #  if defined(ACC_OPENCL_PROFILE_DBCSR)
   if (0 != c_dbcsr_acc_opencl_config.profile) c_dbcsr_timestop(&routine_handle);

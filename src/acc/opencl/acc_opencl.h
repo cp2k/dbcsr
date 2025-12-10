@@ -107,6 +107,17 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
+#if !defined(ACC_OPENCL_USM) && defined(CL_VERSION_2_0) && 1
+#  if defined(__OFFLOAD_UNIFIED_MEMORY)
+/* Do not rely on an Intel extension for pointer arithmetic */
+#    define ACC_OPENCL_USM 2
+#  else
+/* Rely on OpenCL 2.0 (eventually mix-in an Intel ext.) */
+#    define ACC_OPENCL_USM 1
+#  endif
+#else
+#  define ACC_OPENCL_USM 0
+#endif
 /* Activate device by default */
 #if !defined(ACC_OPENCL_ACTIVATE) && 0
 #  define ACC_OPENCL_ACTIVATE 0
@@ -269,8 +280,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_ulong size_maxalloc, size_maxcmem;
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
-  /** Whether host memory is unified. */
-  cl_int unified;
+  /** Whether host memory is unified, and SVM/USM capabilities. */
+  cl_int unified, usm;
   /** Device-UID. */
   cl_uint uid;
   /** Main vendor? */
@@ -280,6 +291,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_int (*clEnqueueMemFillINTEL)(cl_command_queue, void*, const void*, size_t, size_t, cl_uint, const cl_event*, cl_event*);
   cl_int (*clEnqueueMemcpyINTEL)(cl_command_queue, cl_bool, void*, const void*, size_t, cl_uint, const cl_event*, cl_event*);
   void* (*clDeviceMemAllocINTEL)(cl_context, cl_device_id, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
+  void* (*clSharedMemAllocINTEL)(cl_context, cl_device_id, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
+  void* (*clHostMemAllocINTEL)(cl_context, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
   cl_int (*clMemFreeINTEL)(cl_context, void*);
 } c_dbcsr_acc_opencl_device_t;
 
@@ -356,9 +369,12 @@ extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
 int c_dbcsr_acc_opencl_use_cmem(const c_dbcsr_acc_opencl_device_t* devinfo);
-/** Determines host-pointer registration for modification. */
+/** Determines host-pointer registration (for modification). Returns NULL if memory is SVM/USM. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
-/** Determines device-pointer registration for modification (internal); offset is measured in elsize. */
+/**
+ * Determines device-pointer registration (for modification; internal). The offset is measured in elsize.
+ * Returns NULL if memory is SVM/USM (offset is zero in this case).
+ */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset);
 /** Determines device-pointer registration for info/ro (lock-control); offset is measured in elsize. */
@@ -404,9 +420,12 @@ int c_dbcsr_acc_opencl_kernel_flags(const char build_params[], const char build_
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
- * are are meant to be compiler-flags.
+ * are are meant to be compiler-flags. The source_kind denotes source's content:
+ *  0: OpenCL source code
+ *  1: Filename (OpenCL or binary)
+ * >1: Binary code (source_kind denotes size)
  */
-int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+int c_dbcsr_acc_opencl_kernel(size_t source_kind, const char source[], const char kernel_name[], const char build_params[],
   const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
