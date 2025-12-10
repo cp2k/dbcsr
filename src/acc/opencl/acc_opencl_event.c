@@ -180,7 +180,14 @@ int c_dbcsr_acc_event_synchronize(void* event) { /* waits on the host-side */
   assert(NULL != event);
   clevent = *ACC_OPENCL_EVENT(event);
   if (NULL != clevent) {
-    if (0 == (32 & c_dbcsr_acc_opencl_config.wa)) result = clWaitForEvents(1, &clevent);
+    if (0 == (32 & c_dbcsr_acc_opencl_config.wa)) {
+      cl_int status = CL_COMPLETE + 1;
+      if (32 & c_dbcsr_acc_opencl_config.xhints) {
+        result = clGetEventInfo(clevent, CL_EVENT_COMMAND_EXECUTION_STATUS, sizeof(cl_int), &status, NULL);
+        assert(EXIT_SUCCESS == result || CL_COMPLETE != status);
+      }
+      if (CL_COMPLETE != status) result = clWaitForEvents(1, &clevent);
+    }
     else {
       cl_command_queue queue = NULL;
       result = clGetEventInfo(clevent, CL_EVENT_COMMAND_QUEUE, sizeof(cl_command_queue), &queue, NULL);
