@@ -16,10 +16,7 @@ jobs:
         use_openmp: [OPENMP=ON]
         use_smm: [SMM=blas]
         blas_impl: [accelerate,openblas]
-        mpi_suffix: [openmpi]
-        exclude:
-          - use_mpi: MPI=OFF
-            mpi_suffix: mpich
+        mpi_suffix: [mpich] # Brew openmpi doesn't provide mpi.mod
 
     steps:
     - uses: actions/checkout@v4
