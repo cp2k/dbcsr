@@ -602,7 +602,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_data_zero(area, lb, ub)
       !! Clears a part of the data area
-      !! @note Optimized for clearing big 1-D data areas from all data types.
+      !! @note
+      !! Optimized for clearing big 1-D data areas from all data types.
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area

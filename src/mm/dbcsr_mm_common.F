@@ -229,7 +229,9 @@ CONTAINS
       !!
       !! History
       !! - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
-      !! @note Always cut longest first. On a tie cut N
+      !! @note
+      !! Always cut longest first. On a tie cut N
+      !! @endnote
 
       INTEGER, INTENT(IN)                                :: mi, mf, ni, nf, nele
       INTEGER, DIMENSION(3, 1:nele), INTENT(inout)       :: a

@@ -335,7 +335,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_sendrecv_any(msgin, dest, msgout, source, comm)
       !! sendrecv of encapsulated data.
-      !! @note see mp_sendrecv
+      !! @note
+      !! see mp_sendrecv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
@@ -362,7 +364,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_isend_any(msgin, dest, comm, request, tag)
       !! Non-blocking send of encapsulated data.
-      !! @note see mp_isend_iv
+      !! @note
+      !! see mp_isend_iv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
@@ -386,7 +390,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_irecv_any(msgin, source, comm, request, tag)
       !! Non-blocking recv of encapsulated data.
-      !! @note see mp_irecv_iv
+      !! @note
+      !! see mp_irecv_iv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: source
@@ -570,7 +576,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_allgatherv(send_data, scount, recv_data, recv_count, recv_displ, gid)
       !! Allgather of encapsulated data
-      !! @note see mp_allgatherv_dv
+      !! @note
+      !! see mp_allgatherv_dv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: send_data
       INTEGER, INTENT(IN)                                :: scount

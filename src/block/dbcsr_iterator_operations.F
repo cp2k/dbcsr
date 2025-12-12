@@ -546,7 +546,9 @@ CONTAINS
 
    PURE SUBROUTINE update_row_info(iterator)
       !! Updates the row info stored in the iterator
-      !! @note Added to handle the complexity introduced with the transpose
+      !! @note
+      !! Added to handle the complexity introduced with the transpose
+      !! @endnote
 
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
          !! the iterator

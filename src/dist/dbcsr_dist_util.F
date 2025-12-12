@@ -120,7 +120,9 @@ CONTAINS
    PURE FUNCTION nfull_elements(all_offsets, local_elements)
       !! The sum of a subset of rows/columns
       !! \return sum of sizes of local elements
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       INTEGER, DIMENSION(:), INTENT(IN)                  :: all_offsets, local_elements
          !! ordered offsets of all the elements
