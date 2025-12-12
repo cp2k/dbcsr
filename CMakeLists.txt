@@ -337,6 +337,9 @@ if (USE_ACCEL MATCHES "hip")
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
+
+  # =================================== HIPRTC
+  find_package(hiprtc REQUIRED)
 endif ()
 
 # =================================================================================================
