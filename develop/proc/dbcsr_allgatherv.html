@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-recv_count~2"></span>
+              <span class="anchor" id="variable-recv_count"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -288,7 +288,9 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_allgatherv</span><span class="p">(</span><span class="n">send_data</span><span class="p">,</span><span class="w"> </span><span class="n">scount</span><span class="p">,</span><span class="w"> </span><span class="n">recv_data</span><span class="p">,</span><span class="w"> </span><span class="n">recv_count</span><span class="p">,</span><span class="w"> </span><span class="n">recv_displ</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Allgather of encapsulated data</span>
-<span class="w">      </span><span class="c">!! @note see mp_allgatherv_dv</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_allgatherv_dv</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">send_data</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">scount</span>

@@ -329,13 +329,26 @@ Have look at list_push(), list_pop() and list_peek().</p><a href="../module/dbcs
                  <td><a href='../module/dbcsr_log_handling.html'>dbcsr_log_handling</a></td>
                  <td><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></td>
                  <td><p>various routines to log and control the output.
-The idea is that decisions about where to log should not be done in
-the code that generates the log, but should be globally changeable
-a central place.
-So some care has been taken to have enough information about the
-place from where the log comes so that in the future intelligent and
-flexible decisions can be taken by the logger, without having to change
-other code.</p><a href="../module/dbcsr_log_handling.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+ The idea is that decisions about where to log should not be done in
+ the code that generates the log, but should be globally changeable
+ a central place.
+ So some care has been taken to have enough information about the
+ place from where the log comes so that in the future intelligent and
+ flexible decisions can be taken by the logger, without having to change
+ other code.
+ @note Note
+     contains also routines to convert to a string.
+     in my idea they should have been with variable length,
+     (i.e. they should have returned a trim(adjustl(actual_result)))
+     As a logger should be robust, at the moment I have given up.
+     At the moment logging and output refer to the same object
+     (dbcsr_logger_type)
+     as these are actually different it might be better to separate them
+     (they have already separate routines in a separate module
+    [[dbcsr_output_handling).]] 
+     some practices (use of print *, no dbcsr_error_type,
+     manual retain release of some objects) are dictated by the need to
+     have minimal dependency</p><a href="../module/dbcsr_log_handling.html" class="pull-right"><emph>Read more&hellip;</emph></a></td>
                </tr>
 <!--active-->			   <tr class="">
                  <td><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></td>

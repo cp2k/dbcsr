@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-count~18"></span>
+              <span class="anchor" id="variable-count~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~31"></span>
+              <span class="anchor" id="variable-group~29"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -258,7 +258,9 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_alltoall_r44</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="n">rb</span><span class="p">,</span><span class="w"> </span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! All-to-all data exchange, rank 4 data, equal sizes</span>
-<span class="w">      </span><span class="c">!! @note see mp_alltoall_r</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_alltoall_r</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">            </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">sb</span>

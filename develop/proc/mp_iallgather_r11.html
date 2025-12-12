@@ -227,7 +227,7 @@ same data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~80"></span>
+              <span class="anchor" id="variable-request~81"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(out)</td>
@@ -260,7 +260,9 @@ same data</p>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_iallgather_r11</span><span class="p">(</span><span class="n">msgout</span><span class="p">,</span><span class="w"> </span><span class="n">msgin</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Gathers rank-1 data from all processes and all processes receive the</span>
 <span class="w">      </span><span class="c">!! same data</span>
-<span class="w">      </span><span class="c">!! @note see mp_allgather_r11</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_allgather_r11</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">msgout</span><span class="p">(:)</span>
 <span class="w">         </span><span class="c">!! Rank-1 data to send</span>

@@ -603,7 +603,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_data_zero(area, lb, ub)
       !! Clears a part of the data area
-      !! @note Optimized for clearing big 1-D data areas from all data types.
+      !! @note
+      !! Optimized for clearing big 1-D data areas from all data types.
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
@@ -1047,8 +1049,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1044 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
-# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1046 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
+# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_d (area, p)
      !! Sets a data pointer.
      !!
@@ -1321,7 +1323,7 @@ CONTAINS
 
          value = encapsulated_scalar%r_dp
       END SUBROUTINE dbcsr_scalar_get_value_d
-# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_s (area, p)
      !! Sets a data pointer.
      !!
@@ -1594,7 +1596,7 @@ CONTAINS
 
          value = encapsulated_scalar%r_sp
       END SUBROUTINE dbcsr_scalar_get_value_s
-# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_z (area, p)
      !! Sets a data pointer.
      !!
@@ -1867,7 +1869,7 @@ CONTAINS
 
          value = encapsulated_scalar%c_dp
       END SUBROUTINE dbcsr_scalar_get_value_z
-# 1045 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1047 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
       SUBROUTINE set_data_p_c (area, p)
      !! Sets a data pointer.
      !!
@@ -2140,6 +2142,6 @@ CONTAINS
 
          value = encapsulated_scalar%c_sp
       END SUBROUTINE dbcsr_scalar_get_value_c
-# 1318 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1320 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
 
 END MODULE dbcsr_data_methods_low

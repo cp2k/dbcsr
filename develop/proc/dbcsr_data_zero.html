@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~13"></span>
+              <span class="anchor" id="variable-area~24"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -196,7 +196,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~14"></span>
+              <span class="anchor" id="variable-lb~33"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~14"></span>
+              <span class="anchor" id="variable-ub~29"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -243,7 +243,9 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_data_zero</span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">ub</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Clears a part of the data area</span>
-<span class="w">      </span><span class="c">!! @note Optimized for clearing big 1-D data areas from all data types.</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Optimized for clearing big 1-D data areas from all data types.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">area</span>
 <span class="w">         </span><span class="c">!! data area</span>

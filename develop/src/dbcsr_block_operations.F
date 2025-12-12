@@ -1458,7 +1458,9 @@ CONTAINS
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -1532,7 +1534,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -1622,7 +1626,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -1678,7 +1684,9 @@ CONTAINS
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2007,7 +2015,9 @@ CONTAINS
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2081,7 +2091,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2171,7 +2183,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2227,7 +2241,9 @@ CONTAINS
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2556,7 +2572,9 @@ CONTAINS
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2630,7 +2648,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2720,7 +2740,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -2776,7 +2798,9 @@ CONTAINS
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -3105,7 +3129,9 @@ CONTAINS
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -3179,7 +3205,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -3269,7 +3297,9 @@ CONTAINS
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -3325,7 +3355,9 @@ CONTAINS
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
-     !! @note see block_partial_copy_a
+     !! @note
+     !! see block_partial_copy_a
+     !! @endnote
 
 #if defined(__LIBXSMM_BLOCKOPS)
          USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
@@ -3648,6 +3680,6 @@ CONTAINS
          COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_c
-# 1998 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 2006 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

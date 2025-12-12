@@ -185,7 +185,7 @@ mpi_gather</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~81"></span>
+              <span class="anchor" id="variable-msg~82"></span>
               integer(kind=int_8),
             </td>
 <td>intent(in),</td>
@@ -215,7 +215,7 @@ mpi_gather</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-root~24"></span>
+              <span class="anchor" id="variable-root~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -268,7 +268,9 @@ mpi_gather</p>
 <span class="w">      </span><span class="c">!!</span>
 <span class="w">      </span><span class="c">!! MPI mapping</span>
 <span class="w">      </span><span class="c">!! mpi_gather</span>
-<span class="w">      </span><span class="c">!! @note see mp_gather_l</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_gather_l</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="p">(:,</span><span class="w"> </span><span class="p">:)</span>
 <span class="w">         </span><span class="c">!! Datum to send to root</span>

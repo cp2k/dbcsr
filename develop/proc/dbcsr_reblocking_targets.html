@@ -246,7 +246,7 @@ dbcsr_complete_redistribute</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src_sizes"></span>
+              <span class="anchor" id="variable-src_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -262,7 +262,7 @@ sizes of target blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst_sizes"></span>
+              <span class="anchor" id="variable-dst_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -318,8 +318,10 @@ sizes of target blocks</p>
 <span class="w">      </span><span class="c">!! elements they have in common. The third element specifies the</span>
 <span class="w">      </span><span class="c">!! offset of the intersection in the old block while the fourth</span>
 <span class="w">      </span><span class="c">!! specifies the offset of the intersection in the new block.</span>
-<span class="w">      </span><span class="c">!! @note This routine is used in the counting and sending loops in</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! This routine is used in the counting and sending loops in</span>
 <span class="w">      </span><span class="c">!! dbcsr_complete_redistribute</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">numints</span>
 <span class="w">         </span><span class="c">!! maximum number of expected intersections</span>

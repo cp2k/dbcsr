@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~39"></span>
+              <span class="anchor" id="variable-iterator~5"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -213,7 +213,9 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE SUBROUTINE </span><span class="n">update_row_info</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Updates the row info stored in the iterator</span>
-<span class="w">      </span><span class="c">!! @note Added to handle the complexity introduced with the transpose</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Added to handle the complexity introduced with the transpose</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                </span><span class="kd">::</span><span class="w"> </span><span class="n">iterator</span>
 <span class="w">         </span><span class="c">!! the iterator</span>

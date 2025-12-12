@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~14"></span>
+              <span class="anchor" id="variable-row_p~12"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -198,7 +198,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~13"></span>
+              <span class="anchor" id="variable-col_i~10"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -215,7 +215,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~49"></span>
+              <span class="anchor" id="variable-blk_p~50"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -232,7 +232,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution~9"></span>
+              <span class="anchor" id="variable-distribution~6"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>)
             </td>
 <td></td>
@@ -277,7 +277,7 @@ Storage for new index</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-meta~5"></span>
+              <span class="anchor" id="variable-meta~8"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -312,7 +312,9 @@ Storage for new index</p>
 <span class="w">      </span><span class="n">distribution</span><span class="p">,</span><span class="w"> </span><span class="n">local_row_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">local_col_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">      </span><span class="n">meta</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Makes a blocked index from a dense matrix</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">row_p</span><span class="p">,</span><span class="w"> </span><span class="n">col_i</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span>
 <span class="w">         </span><span class="c">!! Storage for new index</span>

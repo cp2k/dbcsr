@@ -11,17 +11,19 @@
 MODULE dbcsr_allocate_wrap
    !! Wrapper for allocating, copying and reshaping arrays.
    !! @todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
-   !! @note in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
+   !! @note
+   !! in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
    !! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672
+   !! @endnote
 
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
 # 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
-# 17 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 2
-# 18 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 19 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 2
+# 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
-   USE dbcsr_kinds, ONLY: real_4, real_8
+   USE dbcsr_kinds, ONLY: real_8, real_4
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -30,98 +32,100 @@ MODULE dbcsr_allocate_wrap
    PUBLIC :: allocate_any
 
    INTERFACE allocate_any
-# 29 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_1d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_2d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_3d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_4d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_5d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_6d_r_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_7d_r_dp
+# 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 # 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 29 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_1d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_2d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_3d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_4d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_5d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_6d_r_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_7d_r_sp
+# 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 # 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 29 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_1d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_2d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_3d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_4d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_5d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_6d_c_dp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_7d_c_dp
+# 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 # 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 29 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_1d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_2d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_3d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_4d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_5d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_6d_c_sp
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_7d_c_sp
+# 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 # 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 29 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
             MODULE PROCEDURE allocate_1d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_2d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_3d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_4d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_5d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_6d_i
-# 30 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-            MODULE PROCEDURE allocate_7d_i
 # 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 33 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_2d_i
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_3d_i
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_4d_i
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_5d_i
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_6d_i
+# 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+            MODULE PROCEDURE allocate_7d_i
+# 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 35 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
    END INTERFACE
 
 CONTAINS
 
-# 38 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_1d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -161,12 +165,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_2d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -206,12 +212,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_3d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -251,12 +259,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_4d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -296,12 +306,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_5d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -341,12 +353,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_6d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -380,7 +394,7 @@ CONTAINS
                   array(:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6)),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & source=source)
                END IF
             ELSE
@@ -388,12 +402,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_7d_r_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_8), DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -427,7 +443,7 @@ CONTAINS
                   array(:,:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & shape_prv(7)), source=source)
                END IF
             ELSE
@@ -435,14 +451,16 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 38 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_1d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -482,12 +500,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_2d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -527,12 +547,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_3d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -572,12 +594,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_4d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -617,12 +641,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_5d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -662,12 +688,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_6d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -701,7 +729,7 @@ CONTAINS
                   array(:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6)),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & source=source)
                END IF
             ELSE
@@ -709,12 +737,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_7d_r_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             REAL(kind=real_4), DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -748,7 +778,7 @@ CONTAINS
                   array(:,:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & shape_prv(7)), source=source)
                END IF
             ELSE
@@ -756,14 +786,16 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 38 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_1d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -803,12 +835,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_2d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -848,12 +882,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_3d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -893,12 +929,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_4d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -938,12 +976,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_5d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -983,12 +1023,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_6d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1022,7 +1064,7 @@ CONTAINS
                   array(:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6)),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & source=source)
                END IF
             ELSE
@@ -1030,12 +1072,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_7d_c_dp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_8), DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1069,7 +1113,7 @@ CONTAINS
                   array(:,:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & shape_prv(7)), source=source)
                END IF
             ELSE
@@ -1077,14 +1121,16 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 38 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_1d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1124,12 +1170,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_2d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1169,12 +1217,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_3d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1214,12 +1264,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_4d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1259,12 +1311,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_5d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1304,12 +1358,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_6d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1343,7 +1399,7 @@ CONTAINS
                   array(:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6)),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & source=source)
                END IF
             ELSE
@@ -1351,12 +1407,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_7d_c_sp (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             COMPLEX(kind=real_4), DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1390,7 +1448,7 @@ CONTAINS
                   array(:,:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & shape_prv(7)), source=source)
                END IF
             ELSE
@@ -1398,14 +1456,16 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 38 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_1d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1445,12 +1505,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_2d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1490,12 +1552,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_3d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1535,12 +1599,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_4d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1580,12 +1646,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_5d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1625,12 +1693,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_6d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1664,7 +1734,7 @@ CONTAINS
                   array(:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6)),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & source=source)
                END IF
             ELSE
@@ -1672,12 +1742,14 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 39 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
          SUBROUTINE allocate_7d_i (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             INTEGER, DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.
@@ -1711,7 +1783,7 @@ CONTAINS
                   array(:,:,:,:,:,:,:) = RESHAPE(source, shape_prv, order=order)
                ELSE
                   ALLOCATE (array(shape_prv(1), shape_prv(2), shape_prv(3), shape_prv(4), shape_prv(5), shape_prv(6),&
-# 76 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
                       & shape_prv(7)), source=source)
                END IF
             ELSE
@@ -1719,6 +1791,6 @@ CONTAINS
             END IF
 
          END SUBROUTINE
-# 84 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
-# 85 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
+# 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 END MODULE

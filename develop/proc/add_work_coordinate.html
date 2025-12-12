@@ -182,7 +182,7 @@ col_i arrays and returns its position.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~299"></span>
+              <span class="anchor" id="variable-matrix~133"></span>
               type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -197,7 +197,7 @@ col_i arrays and returns its position.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~98"></span>
+              <span class="anchor" id="variable-row~75"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -213,7 +213,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~52"></span>
+              <span class="anchor" id="variable-col~47"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -229,7 +229,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk~27"></span>
+              <span class="anchor" id="variable-blk~30"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -244,7 +244,7 @@ col data to add</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~13"></span>
+              <span class="anchor" id="variable-index"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -277,7 +277,9 @@ col data to add</p>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">add_work_coordinate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="nb">index</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Adds a coordinate (or other data) into a work matrix&#39;s row_i and</span>
 <span class="w">      </span><span class="c">!! col_i arrays and returns its position.</span>
-<span class="w">      </span><span class="c">!! @note  Uses the matrix%lastblk to keep track of the current position.</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Uses the matrix%lastblk to keep track of the current position.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">               </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">         </span><span class="c">!! work matrix</span>

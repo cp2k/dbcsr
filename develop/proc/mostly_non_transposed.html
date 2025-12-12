@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~41"></span>
+              <span class="anchor" id="variable-blk_p~30"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -220,7 +220,9 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">mostly_non_transposed</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Determines whether most blocks are stored transposed in normally.</span>
-<span class="w">      </span><span class="c">!! @note Tries to be quick and not necessarily accurate.</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Tries to be quick and not necessarily accurate.</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span>
 <span class="w">         </span><span class="c">!! Pointers to blocks</span>

@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~378"></span>
+              <span class="anchor" id="variable-matrix~194"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -256,7 +256,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~6"></span>
+              <span class="anchor" id="variable-row_map~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -271,7 +271,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~6"></span>
+              <span class="anchor" id="variable-col_map~5"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -304,7 +304,9 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_dense</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dense_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dense_dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                               </span><span class="n">dense_row_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Makes a dense matrix, inplace.</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">         </span><span class="c">!! matrix to make dense</span>

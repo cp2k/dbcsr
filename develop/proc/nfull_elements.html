@@ -198,7 +198,7 @@ enumerated local elements</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_elements~2"></span>
+              <span class="anchor" id="variable-local_elements"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -239,7 +239,9 @@ enumerated local elements</p>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">nfull_elements</span><span class="p">(</span><span class="n">all_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">local_elements</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! The sum of a subset of rows/columns</span>
 <span class="w">      </span><span class="c">!! \return sum of sizes of local elements</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">all_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">local_elements</span>
 <span class="w">         </span><span class="c">!! ordered offsets of all the elements</span>

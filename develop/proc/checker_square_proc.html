@@ -166,11 +166,8 @@
 <p class="alert-title h4">Note</p>
 <p>This routine is a more low-level version of
 dbcsr_get_stored_coordinate without the setting the row and column
-to the stored position.</p>
-<div class="alert alert-info">
-<p class="alert-title h4">Note</p>
-</div>
-<p>It assumes a square matrix.</p>
+to the stored position.
+It assumes a square matrix.</p>
 </div>
 
 
@@ -187,7 +184,7 @@ to the stored position.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~116"></span>
+              <span class="anchor" id="variable-row~95"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -203,7 +200,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~65"></span>
+              <span class="anchor" id="variable-col~64"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -219,7 +216,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~12"></span>
+              <span class="anchor" id="variable-pgrid~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -234,7 +231,7 @@ logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~20"></span>
+              <span class="anchor" id="variable-row_dist~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -250,7 +247,7 @@ column distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~20"></span>
+              <span class="anchor" id="variable-col_dist~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -269,7 +266,7 @@ column distribution</p>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-process~2"></span>
+          <span class="anchor" id="variable-process"></span>
           integer
         </small>
       </h3>
@@ -291,11 +288,12 @@ column distribution</p>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">PURE FUNCTION </span><span class="n">checker_square_proc</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                     </span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">process</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Determines the home process for a given logical matrix element.</span>
-<span class="w">      </span><span class="c">!! @note This routine is a more low-level version of</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! This routine is a more low-level version of</span>
 <span class="w">      </span><span class="c">!! dbcsr_get_stored_coordinate without the setting the row and column</span>
 <span class="w">      </span><span class="c">!! to the stored position.</span>
+<span class="w">      </span><span class="c">!! It assumes a square matrix.</span>
 <span class="w">      </span><span class="c">!! @endnote</span>
-<span class="w">      </span><span class="c">!! @note It assumes a square matrix.</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span>
 <span class="w">         </span><span class="c">!! logical row</span>

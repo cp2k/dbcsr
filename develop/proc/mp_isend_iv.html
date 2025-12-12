@@ -164,11 +164,8 @@
     <p>Non-blocking send of vector data</p>
 <div class="alert alert-info">
 <p class="alert-title h4">Note</p>
-<p>see mp_isendrecv_iv</p>
-<div class="alert alert-info">
-<p class="alert-title h4">Note</p>
-</div>
-<p>arrays can be pointers or assumed shape, but they must be contiguous!</p>
+<p>see mp_isendrecv_iv
+arrays can be pointers or assumed shape, but they must be contiguous!</p>
 </div>
 
 
@@ -200,7 +197,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~12"></span>
+              <span class="anchor" id="variable-dest~11"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -215,7 +212,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~23"></span>
+              <span class="anchor" id="variable-comm~24"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -230,7 +227,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~30"></span>
+              <span class="anchor" id="variable-request~31"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(out)</td>
@@ -277,10 +274,10 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_isend_iv</span><span class="p">(</span><span class="n">msgin</span><span class="p">,</span><span class="w"> </span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Non-blocking send of vector data</span>
-<span class="w">      </span><span class="c">!! @note see mp_isendrecv_iv</span>
-<span class="w">      </span><span class="c">!! @endnote</span>
 <span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_isendrecv_iv</span>
 <span class="w">      </span><span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">msgin</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dest</span>

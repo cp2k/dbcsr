@@ -874,7 +874,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
       !! Computes various functions (defined by func) of matrix elements
-      !! @note  sign(A,B) returns the value of A with the sign of B
+      !! @note
+      !! sign(A,B) returns the value of A with the sign of B
       !! dbcsr_func_inverse:   1/(a1*x+a0)
       !! fails if the inversion produces infinite numbers
       !! dbcsr_func_inverse_special: 1/(x+sign(a0,x))
@@ -892,6 +893,7 @@ CONTAINS
       !! dbcsr_func_ddsin:   d2(sin(a1*x+a0)) / dx2 = -a1*a1*sin(a1*x+a0)
       !! dbcsr_func_asin:    asin(a1*x+a0)
       !! fails if |a1*x+a0| > 1
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
          !! DBCSR matrix
@@ -2697,8 +2699,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 2622 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2624 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 2625 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_d (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3191,7 +3193,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_d
-# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2625 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_s (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3684,7 +3686,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_s
-# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2625 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_z (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4177,7 +4179,7 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_z
-# 2623 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2625 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_c (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4670,6 +4672,6 @@ CONTAINS
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_c
-# 3116 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3118 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations

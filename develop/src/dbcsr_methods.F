@@ -511,7 +511,9 @@ CONTAINS
    FUNCTION dbcsr_get_data_memory_type(matrix) &
       RESULT(memory_type)
       !! Returns the type of memory used for data in the matrix
-      !! @note It returns the declared data type, not the actually used type
+      !! @note
+      !! It returns the declared data type, not the actually used type
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! query this matrix

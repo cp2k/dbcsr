@@ -230,7 +230,9 @@ CONTAINS
       !!
       !! History
       !! - 2011-02-17 [UB] modified for use in DBCSR; reduced memory usage.
-      !! @note Always cut longest first. On a tie cut N
+      !! @note
+      !! Always cut longest first. On a tie cut N
+      !! @endnote
 
       INTEGER, INTENT(IN)                                :: mi, mf, ni, nf, nele
       INTEGER, DIMENSION(3, 1:nele), INTENT(inout)       :: a
@@ -696,8 +698,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
-# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
+# 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_d (norms, nblks, &
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -727,15 +729,15 @@ CONTAINS
             bp = blki(3, blk)
             row = blki(1, blk)
             col = blki(2, blk)
-# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 726 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = rbs(row)*cbs(col)
                norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
-# 730 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_d
-# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_s (norms, nblks, &
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -765,15 +767,15 @@ CONTAINS
             bp = blki(3, blk)
             row = blki(1, blk)
             col = blki(2, blk)
-# 724 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 726 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = rbs(row)*cbs(col)
                norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
-# 730 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_s
-# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_z (norms, nblks, &
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -803,15 +805,15 @@ CONTAINS
             bp = blki(3, blk)
             row = blki(1, blk)
             col = blki(2, blk)
-# 727 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 729 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = bp + rbs(row)*cbs(col) - 1
                norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 730 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_z
-# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_c (norms, nblks, &
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -841,14 +843,14 @@ CONTAINS
             bp = blki(3, blk)
             row = blki(1, blk)
             col = blki(2, blk)
-# 727 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 729 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = bp + rbs(row)*cbs(col) - 1
                norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 730 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_c
-# 735 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 737 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common

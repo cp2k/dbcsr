@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~380"></span>
+              <span class="anchor" id="variable-matrix~196"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -303,7 +303,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~9"></span>
+              <span class="anchor" id="variable-row_map~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -318,7 +318,7 @@ size of new data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~9"></span>
+              <span class="anchor" id="variable-col_map~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -397,7 +397,7 @@ make the dense blocks transposed</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-make_tr~2"></span>
+              <span class="anchor" id="variable-make_tr"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -436,7 +436,9 @@ make the dense blocks transposed</p>
 <span class="w">                              </span><span class="n">row_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">col_internal_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                              </span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="p">,</span><span class="w"> </span><span class="n">make_tr</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Shuffles the data from blocked to standard dense form</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">         </span><span class="c">!! Existing blocked matrix</span>

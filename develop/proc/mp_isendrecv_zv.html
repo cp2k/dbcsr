@@ -198,7 +198,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dest~39"></span>
+              <span class="anchor" id="variable-dest~38"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -228,7 +228,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~84"></span>
+              <span class="anchor" id="variable-source~118"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -243,7 +243,7 @@ Calls mpi_isend and mpi_irecv.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~58"></span>
+              <span class="anchor" id="variable-comm~59"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -328,6 +328,7 @@ Request handle for the receive</p>
 <span class="w">      </span><span class="c">!! Calls mpi_isend and mpi_irecv.</span>
 <span class="w">      </span><span class="c">!! @note</span>
 <span class="w">      </span><span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">msgin</span>
 <span class="w">         </span><span class="c">!! Vector data to send</span>

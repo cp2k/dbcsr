@@ -1356,7 +1356,9 @@ CONTAINS
    SUBROUTINE add_work_coordinate(matrix, row, col, blk, index)
       !! Adds a coordinate (or other data) into a work matrix's row_i and
       !! col_i arrays and returns its position.
-      !! @note  Uses the matrix%lastblk to keep track of the current position.
+      !! @note
+      !! Uses the matrix%lastblk to keep track of the current position.
+      !! @endnote
 
       TYPE(dbcsr_work_type), INTENT(INOUT)               :: matrix
          !! work matrix
@@ -1838,8 +1840,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
-# 1835 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
-# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1837 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1905,7 +1907,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_d
 
-# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1971,7 +1973,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_s
 
-# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2037,7 +2039,7 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_z
 
-# 1836 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2103,6 +2105,6 @@ CONTAINS
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_c
 
-# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1904 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 END MODULE dbcsr_work_operations

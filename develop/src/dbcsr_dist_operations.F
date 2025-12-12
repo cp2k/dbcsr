@@ -78,11 +78,12 @@ CONTAINS
    PURE FUNCTION checker_square_proc(row, col, pgrid, &
                                      row_dist, col_dist) RESULT(process)
       !! Determines the home process for a given logical matrix element.
-      !! @note This routine is a more low-level version of
+      !! @note
+      !! This routine is a more low-level version of
       !! dbcsr_get_stored_coordinate without the setting the row and column
       !! to the stored position.
+      !! It assumes a square matrix.
       !! @endnote
-      !! @note It assumes a square matrix.
 
       INTEGER, INTENT(IN)                                :: row, col
          !! logical row
@@ -425,8 +426,10 @@ CONTAINS
       !! elements they have in common. The third element specifies the
       !! offset of the intersection in the old block while the fourth
       !! specifies the offset of the intersection in the new block.
-      !! @note This routine is used in the counting and sending loops in
+      !! @note
+      !! This routine is used in the counting and sending loops in
       !! dbcsr_complete_redistribute
+      !! @endnote
 
       INTEGER, INTENT(INOUT)                             :: numints
          !! maximum number of expected intersections
@@ -656,7 +659,9 @@ CONTAINS
 
    PURE FUNCTION mostly_non_transposed(blk_p)
       !! Determines whether most blocks are stored transposed in normally.
-      !! @note Tries to be quick and not necessarily accurate.
+      !! @note
+      !! Tries to be quick and not necessarily accurate.
+      !! @endnote
 
       INTEGER, DIMENSION(:), INTENT(IN) :: blk_p
          !! Pointers to blocks

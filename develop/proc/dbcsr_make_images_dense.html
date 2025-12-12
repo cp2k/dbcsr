@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~4"></span>
+              <span class="anchor" id="variable-images~5"></span>
               type(<a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~3"></span>
+              <span class="anchor" id="variable-row_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -227,7 +227,7 @@ mapping of current (undense) columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~3"></span>
+              <span class="anchor" id="variable-col_map~4"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -308,7 +308,9 @@ make rows dense, default is yes</p>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_make_images_dense</span><span class="p">(</span><span class="k">images</span><span class="p">,</span><span class="w"> </span><span class="n">new_rdist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                      </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="p">,</span><span class="w"> </span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">new_template</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Makes dense matrices for the image matrices.</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="k">images</span>
 <span class="w">         </span><span class="c">!! current (undense) matrix images, output is the dense matrix images</span>

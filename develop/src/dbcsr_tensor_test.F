@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_test
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8
+   USE dbcsr_api, ONLY: dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
       dbcsr_t_iterator_next_block, dbcsr_t_iterator_start, dbcsr_t_iterator_stop, &
@@ -905,7 +905,8 @@ CONTAINS
                                           bounds_1, bounds_2, bounds_3, &
                                           log_verbose, write_int)
       !! test tensor contraction
-      !! @note for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
+      !! @note
+      !! for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
       !! @endnote
 
             TYPE(dbcsr_scalar_type), INTENT(IN) :: alpha
@@ -930,7 +931,7 @@ CONTAINS
             INTEGER, DIMENSION(2, ndims_tensor(tensor_2)) :: bounds_t2
             TYPE(mp_comm_type)                   :: mp_comm
 
-# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 569 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                REAL(KIND=real_8), ALLOCATABLE, &
                   DIMENSION(:,:) :: array_1_2d, &
                                                       array_2_2d, &
@@ -942,7 +943,7 @@ CONTAINS
                                                       array_2_rs2d, &
                                                       array_3_rs2d, &
                                                       array_3_0_rs2d
-# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 569 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                REAL(KIND=real_8), ALLOCATABLE, &
                   DIMENSION(:,:,:) :: array_1_3d, &
                                                       array_2_3d, &
@@ -954,7 +955,7 @@ CONTAINS
                                                       array_2_rs3d, &
                                                       array_3_rs3d, &
                                                       array_3_0_rs3d
-# 568 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 569 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                REAL(KIND=real_8), ALLOCATABLE, &
                   DIMENSION(:,:,:,:) :: array_1_4d, &
                                                       array_2_4d, &
@@ -966,7 +967,7 @@ CONTAINS
                                                       array_2_rs4d, &
                                                       array_3_rs4d, &
                                                       array_3_0_rs4d
-# 580 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 581 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             REAL(KIND=real_8), ALLOCATABLE, &
                DIMENSION(:, :)                   :: array_1_mm, &
                                                     array_2_mm, &
@@ -1008,16 +1009,16 @@ CONTAINS
             END IF
 
             SELECT CASE (ndims_tensor(tensor_3))
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 623 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   CASE (2)
                   CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_2d)
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 623 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   CASE (3)
                   CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_3d)
-# 622 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 623 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   CASE (4)
                   CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_4d)
-# 625 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 626 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             END SELECT
 
             CALL dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, &
@@ -1063,252 +1064,252 @@ CONTAINS
             END IF
 
             ! Convert tensors to simple multidimensional arrays
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 672 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_1))
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_2d_full)
                         CALL allocate_any(array_1_2d, shape_spec=SHAPE(array_1_2d_full))
                         array_1_2d = 0.0_real_8
          array_1_2d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2)) = &
          array_1_2d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_3d_full)
                         CALL allocate_any(array_1_3d, shape_spec=SHAPE(array_1_3d_full))
                         array_1_3d = 0.0_real_8
          array_1_3d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3)) = &
          array_1_3d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_4d_full)
                         CALL allocate_any(array_1_4d, shape_spec=SHAPE(array_1_4d_full))
                         array_1_4d = 0.0_real_8
          array_1_4d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3),&
-# 678 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t1(1, 4):bounds_t1(2, 4)) = &
          array_1_4d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3),&
-# 679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t1(1, 4):bounds_t1(2, 4))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 686 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 672 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_2))
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_2d_full)
                         CALL allocate_any(array_2_2d, shape_spec=SHAPE(array_2_2d_full))
                         array_2_2d = 0.0_real_8
          array_2_2d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2)) = &
          array_2_2d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_3d_full)
                         CALL allocate_any(array_2_3d, shape_spec=SHAPE(array_2_3d_full))
                         array_2_3d = 0.0_real_8
          array_2_3d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3)) = &
          array_2_3d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
-# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 676 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_4d_full)
                         CALL allocate_any(array_2_4d, shape_spec=SHAPE(array_2_4d_full))
                         array_2_4d = 0.0_real_8
          array_2_4d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3),&
-# 678 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t2(1, 4):bounds_t2(2, 4)) = &
          array_2_4d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3),&
-# 679 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t2(1, 4):bounds_t2(2, 4))
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 686 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 672 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_3))
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 682 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_2d)
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 682 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_3d)
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
-# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 682 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_4d)
-# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 684 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 686 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 687 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 688 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
             ! Get array sizes
 
-# 691 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 692 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_1))
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
                      CALL allocate_any(size_1, source=SHAPE(array_1_2d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
                      CALL allocate_any(size_1, source=SHAPE(array_1_3d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
                      CALL allocate_any(size_1, source=SHAPE(array_1_4d))
 
-# 697 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 698 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 691 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 692 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_2))
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
                      CALL allocate_any(size_2, source=SHAPE(array_2_2d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
                      CALL allocate_any(size_2, source=SHAPE(array_2_3d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
                      CALL allocate_any(size_2, source=SHAPE(array_2_4d))
 
-# 697 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 698 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 691 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 692 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                SELECT CASE (ndims_tensor(tensor_3))
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
                      CALL allocate_any(size_3, source=SHAPE(array_3_2d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
                      CALL allocate_any(size_3, source=SHAPE(array_3_3d))
 
-# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 694 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
                      CALL allocate_any(size_3, source=SHAPE(array_3_4d))
 
-# 697 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 698 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
-# 699 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 700 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 701 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                ALLOCATE (order_t1 (ndims_tensor(tensor_1)))
-# 701 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                ALLOCATE (order_t2 (ndims_tensor(tensor_2)))
-# 701 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 702 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                ALLOCATE (order_t3 (ndims_tensor(tensor_3)))
-# 703 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 704 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
             ASSOCIATE (map_t1_1 => notcontract_1, map_t1_2 => contract_1, &
                        map_t2_1 => notcontract_2, map_t2_2 => contract_2, &
                        map_t3_1 => map_1, map_t3_2 => map_2)
 
-# 709 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 710 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   order_t1 (:) = dbcsr_t_inverse_order([map_t1_1, map_t1_2])
 
                   SELECT CASE (ndims_tensor(tensor_1))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (2)
                         CALL allocate_any(array_1_rs2d, source=array_1_2d, order=order_t1)
                         CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
                         array_1_mm(:, :) = RESHAPE(array_1_rs2d, SHAPE(array_1_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (3)
                         CALL allocate_any(array_1_rs3d, source=array_1_3d, order=order_t1)
                         CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
                         array_1_mm(:, :) = RESHAPE(array_1_rs3d, SHAPE(array_1_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (4)
                         CALL allocate_any(array_1_rs4d, source=array_1_4d, order=order_t1)
                         CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
                         array_1_mm(:, :) = RESHAPE(array_1_rs4d, SHAPE(array_1_mm))
-# 718 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   END SELECT
-# 709 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 710 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   order_t2 (:) = dbcsr_t_inverse_order([map_t2_1, map_t2_2])
 
                   SELECT CASE (ndims_tensor(tensor_2))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (2)
                         CALL allocate_any(array_2_rs2d, source=array_2_2d, order=order_t2)
                         CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
                         array_2_mm(:, :) = RESHAPE(array_2_rs2d, SHAPE(array_2_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (3)
                         CALL allocate_any(array_2_rs3d, source=array_2_3d, order=order_t2)
                         CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
                         array_2_mm(:, :) = RESHAPE(array_2_rs3d, SHAPE(array_2_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (4)
                         CALL allocate_any(array_2_rs4d, source=array_2_4d, order=order_t2)
                         CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
                         array_2_mm(:, :) = RESHAPE(array_2_rs4d, SHAPE(array_2_mm))
-# 718 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   END SELECT
-# 709 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 710 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   order_t3 (:) = dbcsr_t_inverse_order([map_t3_1, map_t3_2])
 
                   SELECT CASE (ndims_tensor(tensor_3))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (2)
                         CALL allocate_any(array_3_rs2d, source=array_3_2d, order=order_t3)
                         CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                         array_3_mm(:, :) = RESHAPE(array_3_rs2d, SHAPE(array_3_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (3)
                         CALL allocate_any(array_3_rs3d, source=array_3_3d, order=order_t3)
                         CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                         array_3_mm(:, :) = RESHAPE(array_3_rs3d, SHAPE(array_3_mm))
-# 713 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 714 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                         CASE (4)
                         CALL allocate_any(array_3_rs4d, source=array_3_4d, order=order_t3)
                         CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                         array_3_mm(:, :) = RESHAPE(array_3_rs4d, SHAPE(array_3_mm))
-# 718 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 719 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                   END SELECT
-# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 721 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
                SELECT CASE (ndims_tensor(tensor_3))
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (2)
                      CALL allocate_any(array_3_0_rs2d, source=array_3_0_2d, order=order_t3)
                      CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                      array_3_test_mm(:, :) = RESHAPE(array_3_0_rs2d, SHAPE(array_3_mm))
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (3)
                      CALL allocate_any(array_3_0_rs3d, source=array_3_0_3d, order=order_t3)
                      CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                      array_3_test_mm(:, :) = RESHAPE(array_3_0_rs3d, SHAPE(array_3_mm))
-# 723 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                      CASE (4)
                      CALL allocate_any(array_3_0_rs4d, source=array_3_0_4d, order=order_t3)
                      CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
                      array_3_test_mm(:, :) = RESHAPE(array_3_0_rs4d, SHAPE(array_3_mm))
-# 728 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 729 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                END SELECT
 
                array_3_test_mm(:, :) = beta%r_dp*array_3_test_mm(:, :) + alpha%r_dp*MATMUL(array_1_mm, transpose(array_2_mm))

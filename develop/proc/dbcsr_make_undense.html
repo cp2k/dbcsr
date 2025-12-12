@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~379"></span>
+              <span class="anchor" id="variable-matrix~195"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-distribution~13"></span>
+              <span class="anchor" id="variable-distribution~5"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_offsets~3"></span>
+              <span class="anchor" id="variable-row_blk_offsets~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -246,7 +246,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_offsets~3"></span>
+              <span class="anchor" id="variable-col_blk_offsets~2"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -266,7 +266,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_blk_sizes~12"></span>
+              <span class="anchor" id="variable-row_blk_sizes~8"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -286,7 +286,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_blk_sizes~12"></span>
+              <span class="anchor" id="variable-col_blk_sizes~8"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -306,7 +306,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~8"></span>
+              <span class="anchor" id="variable-row_map~7"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -326,7 +326,7 @@ mapping from non-dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~8"></span>
+              <span class="anchor" id="variable-col_map~7"></span>
               type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -365,7 +365,9 @@ mapping from non-dense columns</p>
 <span class="w">                                 </span><span class="n">row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Makes a blocked matrix from a dense matrix, inplace</span>
-<span class="w">      </span><span class="c">!! @note Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! Used for making matrices dense/undense</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">         </span><span class="c">!! dense matrix</span>

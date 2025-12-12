@@ -403,7 +403,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_map~7"></span>
+              <span class="anchor" id="variable-row_map~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -427,7 +427,7 @@ Mapping of non-dense columns to dense columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_map~7"></span>
+              <span class="anchor" id="variable-col_map~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -505,7 +505,9 @@ Make columns dense</p>
 <span class="w">                                   </span><span class="n">dense_row_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="n">dense_col_blk_offsets</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                   </span><span class="n">row_map</span><span class="p">,</span><span class="w"> </span><span class="n">col_map</span><span class="p">,</span><span class="w"> </span><span class="n">join_rows</span><span class="p">,</span><span class="w"> </span><span class="n">join_cols</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Copies a matrix and makes its data dense.</span>
-<span class="w">      </span><span class="c">!! @note the dense_matrix must have been created</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! the dense_matrix must have been created</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">und_matrix</span>
 <span class="w">         </span><span class="c">!! Original non-dense matrix</span>

@@ -164,15 +164,9 @@
     <p>Non-blocking receive of matrix data</p>
 <div class="alert alert-info">
 <p class="alert-title h4">Note</p>
-<p>see mp_isendrecv_lv</p>
-<div class="alert alert-info">
-<p class="alert-title h4">Note</p>
-</div>
-<p>see mp_irecv_lv</p>
-<div class="alert alert-info">
-<p class="alert-title h4">Note</p>
-</div>
-<p>arrays can be pointers or assumed shape, but they must be contiguous!</p>
+<p>see mp_isendrecv_lv
+see mp_irecv_lv
+arrays can be pointers or assumed shape, but they must be contiguous!</p>
 </div>
 
 
@@ -204,7 +198,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~44"></span>
+              <span class="anchor" id="variable-source~78"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -219,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~35"></span>
+              <span class="anchor" id="variable-comm~36"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -234,7 +228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~52"></span>
+              <span class="anchor" id="variable-request~53"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(out)</td>
@@ -281,12 +275,11 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_irecv_lm2</span><span class="p">(</span><span class="n">msgout</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Non-blocking receive of matrix data</span>
-<span class="w">      </span><span class="c">!! @note see mp_isendrecv_lv</span>
-<span class="w">      </span><span class="c">!! @endnote</span>
-<span class="w">      </span><span class="c">!! @note see mp_irecv_lv</span>
-<span class="w">      </span><span class="c">!! @endnote</span>
 <span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! see mp_isendrecv_lv</span>
+<span class="w">      </span><span class="c">!! see mp_irecv_lv</span>
 <span class="w">      </span><span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">   </span><span class="kd">::</span><span class="w"> </span><span class="n">msgout</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">source</span>

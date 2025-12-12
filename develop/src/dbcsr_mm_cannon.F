@@ -753,7 +753,9 @@ CONTAINS
    SUBROUTINE dbcsr_make_images_dense(images, new_rdist, &
                                       row_map, col_map, join_cols, join_rows, new_template)
       !! Makes dense matrices for the image matrices.
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: images
          !! current (undense) matrix images, output is the dense matrix images
@@ -3005,8 +3007,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 3002 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
-# 3003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
+# 3005 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_d (negate_real, negate_imaginary, &
@@ -3085,12 +3087,12 @@ CONTAINS
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                         send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_dp
                   ELSEIF (negate_real) THEN
-# 3082 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                            -send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)
-# 3091 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
-# 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
@@ -3110,7 +3112,7 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_d
-# 3003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3005 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_s (negate_real, negate_imaginary, &
@@ -3189,12 +3191,12 @@ CONTAINS
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                         send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_sp
                   ELSEIF (negate_real) THEN
-# 3082 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                            -send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)
-# 3091 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
-# 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
@@ -3214,7 +3216,7 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_s
-# 3003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3005 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_z (negate_real, negate_imaginary, &
@@ -3293,18 +3295,18 @@ CONTAINS
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_dp
                   ELSEIF (negate_real) THEN
-# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3087 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                            CMPLX( &
                            -REAL(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_8), &
                            AIMAG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)), &
                            KIND=real_8)
-# 3091 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
-                  ELSEIF (negate_imaginary) THEN
 # 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+                  ELSEIF (negate_imaginary) THEN
+# 3095 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                            CONJG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1))
-# 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
@@ -3324,7 +3326,7 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_z
-# 3003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3005 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_c (negate_real, negate_imaginary, &
@@ -3403,18 +3405,18 @@ CONTAINS
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_sp
                   ELSEIF (negate_real) THEN
-# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3087 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                            CMPLX( &
                            -REAL(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_4), &
                            AIMAG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)), &
                            KIND=real_4)
-# 3091 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
-                  ELSEIF (negate_imaginary) THEN
 # 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+                  ELSEIF (negate_imaginary) THEN
+# 3095 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                            CONJG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1))
-# 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
@@ -3434,6 +3436,6 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_c
-# 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 END MODULE dbcsr_mm_cannon

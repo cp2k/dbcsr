@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~45"></span>
+              <span class="anchor" id="variable-dst~40"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -196,7 +196,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst_tr~19"></span>
+              <span class="anchor" id="variable-dst_tr~17"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -211,7 +211,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~38"></span>
+              <span class="anchor" id="variable-src~32"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src_tr~19"></span>
+              <span class="anchor" id="variable-src_tr~17"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -301,7 +301,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrow~22"></span>
+              <span class="anchor" id="variable-nrow~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -316,7 +316,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncol~21"></span>
+              <span class="anchor" id="variable-ncol~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -350,7 +350,9 @@
 <span class="w">                                                                      </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">src_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                                      </span><span class="n">dst_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!! Copies a block subset</span>
-<span class="w">     </span><span class="c">!! @note see block_partial_copy_a</span>
+<span class="w">     </span><span class="c">!! @note</span>
+<span class="w">     </span><span class="c">!! see block_partial_copy_a</span>
+<span class="w">     </span><span class="c">!! @endnote</span>
 
 <span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
 <span class="w">         </span><span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxsmm_matcopy</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_otrans</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_ptr0</span>

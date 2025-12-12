@@ -262,7 +262,8 @@ MODULE dbcsr_types
 
    TYPE dbcsr_iterator
       !! An iterator over a DBCSR matrix.
-      !! @note This is briefly changed to allow being included in the dbcsr_type type
+      !! @note
+      !! This is briefly changed to allow being included in the dbcsr_type type
       !! What is written here is what the structure should be and not what it
       !! is.
       !! @endnote
@@ -363,7 +364,8 @@ MODULE dbcsr_types
       !! The BCSR sparse matrix type.
       !!
       !! arrays data and index hold the bulk of the data.
-      !! @note the pointers row_p, col_i, blk_p point into the index array.
+      !! @note
+      !! the pointers row_p, col_i, blk_p point into the index array.
       !! @endnote
 
       INTEGER                                      :: serial_number = -1
