@@ -351,14 +351,11 @@ if (WITH_C_API)
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
 
-if (NOT USE_ACCEL MATCHES "none")
+if (USE_ACCEL MATCHES "opencl")
   foreach (FILE ${DBCSR_ACC_HEADER})
     cmake_path(GET FILE PARENT_PATH SUBDIR)
     install(FILES "${FILE}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${SUBDIR}")
   endforeach ()
-endif ()
-
-if (USE_ACCEL MATCHES "opencl")
   install(PROGRAMS "${DBCSR_OPENCL_SCRIPT}"
           DESTINATION "${CMAKE_INSTALL_DATADIR}/opencl")
   foreach (FILE ${DBCSR_OPENCL_COMMON})
