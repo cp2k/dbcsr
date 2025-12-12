@@ -43,6 +43,10 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "LLVMFlang")
   set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -ffree-form -std=f2018 -cpp")
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3")
   set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
+elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Flang")
+  set(CMAKE_Fortran_FLAGS          "${CMAKE_Fortran_FLAGS} -ffree-form -cpp")
+  set(CMAKE_Fortran_FLAGS_RELEASE  "-O3")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-O0 -g")
 else ()
   message(WARNING "\
 Unknown Fortran compiler, trying without any additional (optimization) flags.\n\
