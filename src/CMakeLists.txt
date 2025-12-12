@@ -243,6 +243,14 @@ if (MPI_FOUND)
   # this point. when built against MPI, a dbcsr consumer has to specify the MPI
   # flags as well, therefore: PUBLIC
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
+
+  # Workaround https://gitlab.kitware.com/cmake/cmake/-/issues/27231
+  get_target_property(opts MPI::MPI_Fortran INTERFACE_COMPILE_OPTIONS)
+  set_target_properties(
+    MPI::MPI_Fortran PROPERTIES INTERFACE_COMPILE_OPTIONS
+                                "$<$<COMPILE_LANGUAGE:Fortran>:${opts}>")
+  unset(opts)
+
 endif ()
 
 target_link_libraries(
@@ -280,7 +288,7 @@ if (USE_ACCEL)
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
-            $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc>
+            $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc::hiprtc>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
