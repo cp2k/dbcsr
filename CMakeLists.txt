@@ -77,6 +77,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
 option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
+option(BUILD_TESTING "build dbcsr unit tests" OFF)
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
@@ -127,13 +128,32 @@ option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 # LANGUAGES AND TESTING
 enable_language(Fortran)
 
-if (WITH_C_API AND WITH_EXAMPLES)
+if (USE_ACCEL MAATCHES "opencl|cuda|hip")
   enable_language(CXX)
   enable_language(C)
-endif ()
+endif()
 
-# always use at least C++11
-set(CMAKE_CXX_STANDARD 11)
+if(NOT DEFINED CMAKE_CUDA_STANDARD)
+  set(CMAKE_CUDA_STANDARD 14)
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+endif()
+
+if(NOT DEFINED CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+if(NOT DEFINED CMAKE_C_STANDARD)
+  set(CMAKE_C_STANDARD 11)
+  set(CMAKE_C_STANDARD_REQUIRED ON)
+endif()
+
+-# always use at least C++14
+if(NOT DEFINED CMAKE_HIP_STANDARD)
+  set(CMAKE_HIP_STANDARD 14)
+  set(CMAKE_HIP_STANDARD_REQUIRED ON)
+endif()
+
 
 # =================================== OpenMP
 if (USE_OPENMP)
@@ -368,8 +388,8 @@ include(CheckCompilerSupport)
 # subdirectories
 add_subdirectory(${DBCSR_SOURCE_DIR})
 
-include(CTest)
 if (BUILD_TESTING)
+  include(CTest)
   add_subdirectory(tests)
 endif ()
 
