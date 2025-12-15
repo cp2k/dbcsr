@@ -22,6 +22,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DUSE_MPI=ON \
+          -DBUILD_TESTING=ON \
           -DUSE_OPENMP=ON \
           -DUSE_SMM=libxsmm \
           -DMPI_EXECUTABLE_SUFFIX=.mpich \
