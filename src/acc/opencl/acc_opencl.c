@@ -1476,7 +1476,7 @@ int c_dbcsr_acc_opencl_kernel(size_t source_kind, const char source[], const cha
   const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
   const c_dbcsr_acc_opencl_device_t* const devinfo = &c_dbcsr_acc_opencl_config.device;
   int result = ((NULL != source && NULL != kernel_name && '\0' != *kernel_name) ? EXIT_SUCCESS : EXIT_FAILURE);
-  int ok = EXIT_SUCCESS, source_is_cl = 1, nchar = 0;
+  int ok = EXIT_SUCCESS, source_is_cl = (2 > source_kind), nchar = 0;
   size_t size_src = 0, size = 0;
   cl_program program = NULL;
   FILE* file_src = NULL;
