@@ -41,6 +41,7 @@ jobs:
           CC=gcc-15 CXX=g++-15 FC=gfortran-15 \
           cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \

@@ -51,6 +51,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Coverage \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
@@ -114,6 +115,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=cuda \
@@ -149,6 +151,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Debug \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \
           -DUSE_ACCEL=opencl \
@@ -183,6 +186,7 @@ jobs:
         cd build
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \

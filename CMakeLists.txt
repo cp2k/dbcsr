@@ -252,7 +252,6 @@ endif ()
 
 if (USE_ACCEL MATCHES "opencl")
   find_package(OpenCL REQUIRED)
-  enable_language(C)
 
   set(DBCSR_OPENCL_SCRIPT ${DBCSR_SOURCE_DIR}/acc/opencl/acc_opencl.sh)
   set(DBCSR_OPENCL_COMMON acc/opencl/common/opencl_atomics.h
@@ -262,7 +261,6 @@ if (USE_ACCEL MATCHES "opencl")
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
-  enable_language(CXX)
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
   set(GPU_ARCH_NUMBER_K80 37)
@@ -279,6 +277,11 @@ endif ()
 if (USE_ACCEL MATCHES "cuda")
   enable_language(CUDA)
   find_package(CUDAToolkit REQUIRED)
+
+  if (NOT DEFINED CMAKE_CUDA_STANDARD)
+    set(CMAKE_CUDA_STANDARD 14)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  endif ()
 
   if (CUDAToolkit_VERSION LESS 5.5)
     message(FATAL_ERROR "CUDA version >= 5.5 is required.")
@@ -306,6 +309,11 @@ if (USE_ACCEL MATCHES "hip")
     set(CMAKE_HIP_ARCHITECTURES OFF)
   endif ()
   enable_language(HIP)
+
+  if (NOT DEFINED CMAKE_HIP_STANDARD)
+    set(CMAKE_HIP_STANDARD 14)
+    set(CMAKE_HIP_STANDARD_REQUIRED ON)
+  endif ()
 
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
