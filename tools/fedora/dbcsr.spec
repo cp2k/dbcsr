@@ -96,8 +96,6 @@ developing applications that use %{name}-mpich.
 
 %prep
 %autosetup -p1
-# Use cmake's version so it can find flexiblas
-rm cmake/Find{BLAS,LAPACK}.cmake
 # Use system fypp, other tools not needed
 rm -r tools
 
