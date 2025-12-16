@@ -1,0 +1,2850 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mp_sum &ndash; DBCSR</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.9.0</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mp_sum
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 824 statements,  1.3% of total for procedures.">4 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mp_sum</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#modprocs-0"
+         aria-expanded="false" aria-controls="modprocs-0">
+         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      </a>
+      <div id="modprocs-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_i">mp_sum_i</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_iv">mp_sum_iv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_im">mp_sum_im</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_im3">mp_sum_im3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_im4">mp_sum_im4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_l">mp_sum_l</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_lv">mp_sum_lv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_lm">mp_sum_lm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_lm3">mp_sum_lm3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_lm4">mp_sum_lm4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_r">mp_sum_r</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_rv">mp_sum_rv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_rm">mp_sum_rm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_rm3">mp_sum_rm3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_rm4">mp_sum_rm4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_d">mp_sum_d</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_dv">mp_sum_dv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_dm">mp_sum_dm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_dm3">mp_sum_dm3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_dm4">mp_sum_dm4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_c">mp_sum_c</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_cv">mp_sum_cv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_cm">mp_sum_cm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_cm3">mp_sum_cm3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_cm4">mp_sum_cm4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_z">mp_sum_z</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_zv">mp_sum_zv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_zm">mp_sum_zm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_zm3">mp_sum_zm3</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_zm4">mp_sum_zm4</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_iv">mp_sum_root_iv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_im">mp_sum_root_im</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_lv">mp_sum_root_lv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_lm">mp_sum_root_lm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_rv">mp_sum_root_rv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_rm">mp_sum_root_rm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_dv">mp_sum_root_dv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_dm">mp_sum_root_dm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_cv">mp_sum_root_cv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_cm">mp_sum_root_cm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_zv">mp_sum_root_zv</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_root_zm">mp_sum_root_zm</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_b">mp_sum_b</a>
+            <a class="list-group-item" href="../interface/mp_sum.html#moduleprocedure-mp_sum_bv">mp_sum_bv</a>
+        </div>
+      </div>
+    </div>
+
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <h2>public interface mp_sum</h2>
+      
+
+
+
+        <h2>Module Procedures</h2>
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_i"></span> <h3>private  subroutine <a href='../proc/mp_sum_i.html'>mp_sum_i</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~25"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~20"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_iv"></span> <h3>private  subroutine <a href='../proc/mp_sum_iv.html'>mp_sum_iv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~26"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~21"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im"></span> <h3>private  subroutine <a href='../proc/mp_sum_im.html'>mp_sum_im</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_im.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~28"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~23"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im3"></span> <h3>private  subroutine <a href='../proc/mp_sum_im3.html'>mp_sum_im3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_im3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~29"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~24"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_im4"></span> <h3>private  subroutine <a href='../proc/mp_sum_im4.html'>mp_sum_im4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_im4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~30"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~25"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_l"></span> <h3>private  subroutine <a href='../proc/mp_sum_l.html'>mp_sum_l</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~61"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~65"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lv"></span> <h3>private  subroutine <a href='../proc/mp_sum_lv.html'>mp_sum_lv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~62"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~66"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm.html'>mp_sum_lm</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_lm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~64"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~68"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm3.html'>mp_sum_lm3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_lm3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~65"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~69"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_lm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_lm4.html'>mp_sum_lm4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_lm4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~66"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~70"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_r"></span> <h3>private  subroutine <a href='../proc/mp_sum_r.html'>mp_sum_r</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~133"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~155"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rv"></span> <h3>private  subroutine <a href='../proc/mp_sum_rv.html'>mp_sum_rv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~134"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~156"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm.html'>mp_sum_rm</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_rm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~136"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~158"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm3.html'>mp_sum_rm3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_rm3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~137"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~159"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_rm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_rm4.html'>mp_sum_rm4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_rm4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~138"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~160"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_d"></span> <h3>private  subroutine <a href='../proc/mp_sum_d.html'>mp_sum_d</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~97"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~110"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dv"></span> <h3>private  subroutine <a href='../proc/mp_sum_dv.html'>mp_sum_dv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~98"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~111"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm.html'>mp_sum_dm</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~100"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~113"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm3.html'>mp_sum_dm3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_dm3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~101"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~114"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_dm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_dm4.html'>mp_sum_dm4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_dm4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~102"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~115"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_c"></span> <h3>private  subroutine <a href='../proc/mp_sum_c.html'>mp_sum_c</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~205"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~245"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cv"></span> <h3>private  subroutine <a href='../proc/mp_sum_cv.html'>mp_sum_cv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~206"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~246"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm.html'>mp_sum_cm</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_cm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~208"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~248"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm3.html'>mp_sum_cm3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_cm3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~209"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~249"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_cm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_cm4.html'>mp_sum_cm4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_cm4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~210"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~250"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_z"></span> <h3>private  subroutine <a href='../proc/mp_sum_z.html'>mp_sum_z</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~169"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to sum (input) and result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~200"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zv"></span> <h3>private  subroutine <a href='../proc/mp_sum_zv.html'>mp_sum_zv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-1 array on all processes.</p><a href="../proc/mp_sum_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~170"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~201"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm.html'>mp_sum_zm</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-2 array on all processes.</p><a href="../proc/mp_sum_zm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~172"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~203"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm3"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm3.html'>mp_sum_zm3</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-3 array on all processes.</p><a href="../proc/mp_sum_zm3.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~173"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~204"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_zm4"></span> <h3>private  subroutine <a href='../proc/mp_sum_zm4.html'>mp_sum_zm4</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of a rank-4 array on all processes.</p><a href="../proc/mp_sum_zm4.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~174"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:,:,:)</td>
+            <td>
+<p>Array to sum and result</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~205"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_iv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_iv.html'>mp_sum_root_iv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~31"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~26"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_im"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_im.html'>mp_sum_root_im</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_im.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~32"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~27"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_lv.html'>mp_sum_root_lv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~67"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~16"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~71"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_lm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_lm.html'>mp_sum_root_lm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_lm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~68"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~17"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~72"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_rv.html'>mp_sum_root_rv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~139"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~34"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~161"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_rm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_rm.html'>mp_sum_root_rm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_rm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~140"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~35"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~162"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_dv.html'>mp_sum_root_dv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~103"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~25"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~116"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_dm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_dm.html'>mp_sum_root_dm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_dm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~104"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~26"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~117"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_cv.html'>mp_sum_root_cv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~211"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~52"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~251"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_cm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_cm.html'>mp_sum_root_cm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_cm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~212"></span>
+              complex(kind=real_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~53"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~252"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zv"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_zv.html'>mp_sum_root_zv</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~175"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:)</td>
+            <td>
+<p>Vector to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~43"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~206"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_root_zm"></span> <h3>private  subroutine <a href='../proc/mp_sum_root_zm.html'>mp_sum_root_zm</a>(msg, root, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Element-wise sum of data from all processes with result left only on
+one.</p><a href="../proc/mp_sum_root_zm.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~176"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong>(:,:)</td>
+            <td>
+<p>Matrix to sum (input) and (only on process root) result (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-root~44"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>root</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~207"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_b"></span> <h3>private  subroutine <a href='../proc/mp_sum_b.html'>mp_sum_b</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Logical OR reduction</p><a href="../proc/mp_sum_b.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~9"></span>
+              logical,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~7"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_sum_bv"></span> <h3>private  subroutine <a href='../proc/mp_sum_bv.html'>mp_sum_bv</a>(msg, gid)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Logical OR reduction</p><a href="../proc/mp_sum_bv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-msg~10"></span>
+              logical,
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              DIMENSION(:), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>msg</strong></td>
+            <td>
+<p>Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-gid~8"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>gid</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+</div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

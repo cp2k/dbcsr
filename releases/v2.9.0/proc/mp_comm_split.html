@@ -1,0 +1,478 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mp_comm_split &ndash; DBCSR</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.9.0</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mp_comm_split
+      <small>Subroutine</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for procedures.">37 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_mpiwrap.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_mpiwrap.f.html'>dbcsr_mpiwrap.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mp_comm_split</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../proc/mp_comm_split.html#src">mp_comm_split</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>public  subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, subgroup_min_size, n_subgroups, group_partition, stride)  
+</h2>
+    
+
+    <p>splits the given communicator in group in subgroups trying to organize
+them in a way that the communication within each subgroup is
+efficient (but not necessarily the communication between subgroups)</p>
+<div class="alert alert-info">
+<p class="alert-title h4">Note</p>
+<p>at least one of subgroup_min_size and n_subgroups is needed,
+the other default to the value needed to use most processors.
+if less cpus are present than needed for subgroup min size, n_subgroups,
+just one comm is created that contains all cpus</p>
+</div>
+
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm~10"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>comm</strong></td>
+            <td>
+                <p>the mpi communicator that you want to split</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sub_comm~3"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>sub_comm</strong></td>
+            <td>
+                <p>the communicator for the subgroup (created, needs to be freed later)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ngroups"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ngroups</strong></td>
+            <td>
+                <p>actual number of groups</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group_distribution"></span>
+              integer,
+            </td>
+<td></td>
+              <td></td>            <td>
+              DIMENSION(0:)
+            </td>
+            <td>::</td>
+            <td><strong>group_distribution</strong></td>
+            <td>
+                <p>input  : allocated with array with the nprocs entries (0 .. nprocs-1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-subgroup_min_size"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>subgroup_min_size</strong></td>
+            <td>
+                <p>the minimum size of the subgroup
+the number of subgroups wanted</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_subgroups"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n_subgroups</strong></td>
+            <td>
+                <p>the minimum size of the subgroup
+the number of subgroups wanted</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group_partition"></span>
+              integer,
+            </td>
+<td></td>
+              <td>optional,</td>            <td>
+              DIMENSION(0:)
+            </td>
+            <td>::</td>
+            <td><strong>group_partition</strong></td>
+            <td>
+                <p>n_subgroups sized array containing the number of cpus wanted per group. should match the total number of cpus (only used
+if present and associated) (0..ngroups-1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stride"></span>
+              integer,
+            </td>
+<td></td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stride</strong></td>
+            <td>
+                <p>create groups using a stride (default=1) through the ranks of the comm to be split.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+
+
+    
+    
+
+    
+    
+
+
+
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">mp_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">,</span><span class="w"> </span><span class="n">ngroups</span><span class="p">,</span><span class="w"> </span><span class="n">group_distribution</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">subgroup_min_size</span><span class="p">,</span><span class="w"> </span><span class="n">n_subgroups</span><span class="p">,</span><span class="w"> </span><span class="n">group_partition</span><span class="p">,</span><span class="w"> </span><span class="n">stride</span><span class="p">)</span>
+<span class="w">      </span><span class="c">!! splits the given communicator in group in subgroups trying to organize</span>
+<span class="w">      </span><span class="c">!! them in a way that the communication within each subgroup is</span>
+<span class="w">      </span><span class="c">!! efficient (but not necessarily the communication between subgroups)</span>
+<span class="w">      </span><span class="c">!! @note</span>
+<span class="w">      </span><span class="c">!! at least one of subgroup_min_size and n_subgroups is needed,</span>
+<span class="w">      </span><span class="c">!! the other default to the value needed to use most processors.</span>
+<span class="w">      </span><span class="c">!! if less cpus are present than needed for subgroup min size, n_subgroups,</span>
+<span class="w">      </span><span class="c">!! just one comm is created that contains all cpus</span>
+<span class="w">      </span><span class="c">!! @endnote</span>
+
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">comm</span>
+<span class="w">         </span><span class="c">!! the mpi communicator that you want to split</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">sub_comm</span>
+<span class="w">         </span><span class="c">!! the communicator for the subgroup (created, needs to be freed later)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">ngroups</span>
+<span class="w">         </span><span class="c">!! actual number of groups</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:)</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">group_distribution</span>
+<span class="w">         </span><span class="c">!! input  : allocated with array with the nprocs entries (0 .. nprocs-1)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">subgroup_min_size</span><span class="p">,</span><span class="w"> </span><span class="n">n_subgroups</span>
+<span class="w">         </span><span class="c">!! the minimum size of the subgroup</span>
+<span class="w">         </span><span class="c">!! the number of subgroups wanted</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">group_partition</span>
+<span class="w">         </span><span class="c">!! n_subgroups sized array containing the number of cpus wanted per group. should match the total number of cpus (only used</span>
+<span class="w">         </span><span class="c">!! if present and associated) (0..ngroups-1)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                        </span><span class="kd">::</span><span class="w"> </span><span class="n">stride</span>
+<span class="w">         </span><span class="c">!! create groups using a stride (default=1) through the ranks of the comm to be split.</span>
+
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_comm_split&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">mepos</span><span class="p">,</span><span class="w"> </span><span class="n">nnodes</span>
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                  </span><span class="n">my_subgroup_min_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                  </span><span class="n">istride</span><span class="p">,</span><span class="w"> </span><span class="n">local_stride</span><span class="p">,</span><span class="w"> </span><span class="n">irank</span>
+<span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">rank_permutation</span>
+<span class="cp">#endif</span>
+
+<span class="w">      </span><span class="n">ierr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
+
+<span class="w">      </span><span class="c">! actual number of groups</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; missing arguments&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END IF</span>
+<span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; too many arguments&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="k">      CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span><span class="w"> </span><span class="n">mepos</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">)</span>
+
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">group_distribution</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">nnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; group_distribution wrong bounds&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="cp">#if defined(__parallel)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">subgroup_min_size</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">nnodes</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; subgroup_min_size too small or too large&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nnodes</span><span class="o">/</span><span class="n">subgroup_min_size</span>
+<span class="w">         </span><span class="n">my_subgroup_min_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subgroup_min_size</span>
+<span class="w">      </span><span class="k">ELSE</span><span class="w"> </span><span class="c">! n_subgroups</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">n_subgroups</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; n_subgroups too small&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">nnodes</span><span class="o">/</span><span class="n">n_subgroups</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="c">! we have a least one cpu per group</span>
+<span class="w">            </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_subgroups</span>
+<span class="w">         </span><span class="k">ELSE</span><span class="w"> </span><span class="c">! well, only one group then</span>
+<span class="w">            </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">         </span><span class="n">my_subgroup_min_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nnodes</span><span class="o">/</span><span class="n">ngroups</span>
+<span class="w">      </span><span class="k">END IF</span>
+
+<span class="w">      </span><span class="c">! rank_permutation: is a permutation of ranks, so that groups are not necessarily continuous in rank of the master group</span>
+<span class="w">      </span><span class="c">! while the order is not critical (we only color ranks), it can e.g. be used to make groups that have just 1 rank per node</span>
+<span class="w">      </span><span class="c">! (by setting stride equal to the number of mpi ranks per node), or by sharing  a node between two groups (stride 2).</span>
+<span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">      </span><span class="n">local_stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">stride</span><span class="p">))</span><span class="w"> </span><span class="n">local_stride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stride</span>
+<span class="w">      </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="k">DO </span><span class="n">istride</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">local_stride</span>
+<span class="w">         </span><span class="k">DO </span><span class="n">irank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">istride</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">local_stride</span>
+<span class="w">            </span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">irank</span>
+<span class="w">            </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="k">END DO</span>
+<span class="k">      END DO</span>
+
+<span class="k">      DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">nnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">         </span><span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MIN</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">my_subgroup_min_size</span><span class="p">,</span><span class="w"> </span><span class="n">ngroups</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="k">END DO</span>
+<span class="w">      </span><span class="c">! even the user gave a partition, see if we can use it to overwrite this choice</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group_partition</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="k">ALL</span><span class="p">(</span><span class="n">group_partition</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">nnodes</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">ngroups</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="k">DO </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">group_partition</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
+<span class="w">                  </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">               </span><span class="k">END DO</span>
+<span class="k">            END DO</span>
+<span class="k">         ELSE</span>
+<span class="w">            </span><span class="c">! just ignore silently as we have reasonable defaults. Probably a warning would not be to bad</span>
+<span class="w">         </span><span class="k">END IF</span>
+<span class="k">      END IF</span>
+<span class="k">      </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mpi_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
+<span class="w">      </span><span class="n">debug_comm_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">debug_comm_count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">mpi_success</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;in &quot;</span><span class="o">//</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; split&quot;</span><span class="p">)</span>
+<span class="cp">#else</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">mp_comm_dup</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">sub_comm</span><span class="p">)</span>
+<span class="w">      </span><span class="n">group_distribution</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">      </span><span class="n">ngroups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stride</span><span class="p">)</span>
+<span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)</span>
+<span class="cp">#endif</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+<span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">mp_comm_split</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

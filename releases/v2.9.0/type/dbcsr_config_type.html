@@ -1,0 +1,689 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_config_type &ndash; DBCSR </title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.9.0</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>dbcsr_config_type
+      <small>Derived Type</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="<p> 2.3% of total for derived types.</p>Including implementation: 26 statements,  1.5% of total for derived types.">26 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_config.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/dbcsr_config.f.html'>dbcsr_config.F</a></li>
+                <li class="breadcrumb-item"><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_config_type</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_driver">MM_DRIVER</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_stack_size">MM_STACK_SIZE</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-avg_elements_images">AVG_ELEMENTS_IMAGES</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-num_mult_images">NUM_MULT_IMAGES</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-n_stacks">N_STACKS</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mpi_rma">USE_MPI_RMA</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-num_layers_3d">NUM_LAYERS_3D</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_comm_thread">USE_COMM_THREAD</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-comm_thread_load">COMM_THREAD_LOAD</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_dense">MM_DENSE</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-multrec_limit">MULTREC_LIMIT</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-run_on_gpu">RUN_ON_GPU</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_thread_buffers">ACCDRV_THREAD_BUFFERS</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_avoid_after_busy">ACCDRV_AVOID_AFTER_BUSY</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_min_flop_process">ACCDRV_MIN_FLOP_PROCESS</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_stack_sort">ACCDRV_STACK_SORT</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_min_flop_sort">ACCDRV_MIN_FLOP_SORT</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_do_inhomogenous">ACCDRV_DO_INHOMOGENOUS</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_binning_nbins">ACCDRV_BINNING_NBINS</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_binning_binsize">ACCDRV_BINNING_BINSIZE</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mempools_cpu">USE_MEMPOOLS_CPU</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mpi_allocator">USE_MPI_ALLOCATOR</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-tas_split_factor">TAS_SPLIT_FACTOR</a>
+            <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_acc_g2g">USE_ACC_G2G</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../type/dbcsr_config_type.html#src">dbcsr_config_type</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2 id="type-def-statement">
+        type, private :: dbcsr_config_type</h2>
+    
+    <br>
+
+    <section>
+    <h2>Components</h2>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_driver"></span>
+              type(<a href='conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>MM_DRIVER</strong></td>
+<td> =</td>
+                <td>CONF_PAR_MM_DRIVER(name=&#34;MM_DRIVER&#34;, val=mm_default_driver, defval=mm_default_driver)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_stack_size"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>MM_STACK_SIZE</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;MM_STACK_SIZE&#34;, val=mm_stack_default_size, defval=mm_stack_default_size)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-avg_elements_images"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>AVG_ELEMENTS_IMAGES</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;AVG_ELEMENTS_IMAGES&#34;, val=0, defval=0)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_mult_images"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>NUM_MULT_IMAGES</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;NUM_MULT_IMAGES&#34;, val=1, defval=1)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n_stacks"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>N_STACKS</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;N_STACKS&#34;, val=3, defval=3)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_mpi_rma"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_MPI_RMA</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_MPI_RMA&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-num_layers_3d"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>NUM_LAYERS_3D</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;NUM_LAYERS_3D&#34;, val=1, defval=1)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_comm_thread"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_COMM_THREAD</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_COMM_THREAD&#34;, val=.TRUE., defval=.TRUE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-comm_thread_load"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>COMM_THREAD_LOAD</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;COMM_THREAD_LOAD&#34;, val=100, defval=100)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mm_dense"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>MM_DENSE</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;MM_DENSE&#34;, val=mm_dense_default, defval=mm_dense_default)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-multrec_limit"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>MULTREC_LIMIT</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;MULTREC_LIMIT&#34;, val=512, defval=512)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-run_on_gpu"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>RUN_ON_GPU</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;RUN_ON_GPU&#34;, val=.TRUE., defval=.TRUE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_thread_buffers"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_THREAD_BUFFERS</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;ACCDRV_THREAD_BUFFERS&#34;, val=8, defval=8)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_avoid_after_busy"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_AVOID_AFTER_BUSY</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;ACCDRV_AVOID_AFTER_BUSY&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_min_flop_process"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_MIN_FLOP_PROCESS</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;ACCDRV_MIN_FLOP_PROCESS&#34;, val=0, defval=0)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_stack_sort"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_STACK_SORT</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;ACCDRV_STACK_SORT&#34;, val=.TRUE., defval=.TRUE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_min_flop_sort"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_MIN_FLOP_SORT</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;ACCDRV_MIN_FLOP_SORT&#34;, val=4000, defval=4000)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_do_inhomogenous"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_DO_INHOMOGENOUS</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;ACCDRV_DO_INHOMOGENOUS&#34;, val=.TRUE., defval=.TRUE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_binning_nbins"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_BINNING_NBINS</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;ACCDRV_BINNING_NBINS&#34;, val=4096, defval=4096)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-accdrv_binning_binsize"></span>
+              type(<a href='conf_par_int.html'>CONF_PAR_INT</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ACCDRV_BINNING_BINSIZE</strong></td>
+<td> =</td>
+                <td>CONF_PAR_INT(name=&#34;ACCDRV_BINNING_BINSIZE&#34;, val=16, defval=16)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_mempools_cpu"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_MEMPOOLS_CPU</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_MEMPOOLS_CPU&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_mpi_allocator"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_MPI_ALLOCATOR</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_MPI_ALLOCATOR&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tas_split_factor"></span>
+              type(<a href='conf_par_real.html'>CONF_PAR_REAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>TAS_SPLIT_FACTOR</strong></td>
+<td> =</td>
+                <td>CONF_PAR_REAL(name=&#34;TAS_SPLIT_FACTOR&#34;, val=1.0_real_8, defval=1.0_real_8)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-use_acc_g2g"></span>
+              type(<a href='conf_par_logical.html'>CONF_PAR_LOGICAL</a>),
+            </td>
+              <td>public</td>
+            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>USE_ACC_G2G</strong></td>
+<td> =</td>
+                <td>CONF_PAR_LOGICAL(name=&#34;USE_ACC_G2G&#34;, val=.FALSE., defval=.FALSE.)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    </section>
+    <br>
+    
+
+
+
+    <section>
+    <h3><span class="anchor" id="src"></span>Source Code</h3>
+    <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">dbcsr_config_type</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">CONF_PAR_MM_DRIVER</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">MM_DRIVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                  </span><span class="n">CONF_PAR_MM_DRIVER</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;MM_DRIVER&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="o">=</span><span class="n">mm_default_driver</span><span class="p">,</span><span class="w"> </span><span class="n">defval</span><span class="o">=</span><span class="n">mm_default_driver</span><span class="p">)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">CONF_PAR_INT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">MM_STACK_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                            </span><span class="n">CONF_PAR_INT</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;MM_STACK_SIZE&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="o">=</span><span class="n">mm_stack_default_size</span><span class="p">,</span><span class="w"> </span><span class="n">defval</span><span class="o">=</span><span class="n">mm_stack_default_size</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">AVG_ELEMENTS_IMAGES</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">NUM_MULT_IMAGES</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">N_STACKS</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">USE_MPI_RMA</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">NUM_LAYERS_3D</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">USE_COMM_THREAD</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">COMM_THREAD_LOAD</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">MM_DENSE</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="n">mm_dense_default</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">MULTREC_LIMIT</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">RUN_ON_GPU</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_THREAD_BUFFERS</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">CONF_PAR_LOGICAL</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ACCDRV_AVOID_AFTER_BUSY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ACCDRV_AVOID_AFTER_BUSY&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span><span class="w"> </span><span class="n">defval</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_MIN_FLOP_PROCESS</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_STACK_SORT</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_MIN_FLOP_SORT</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">4000</span><span class="p">)</span>
+<span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">CONF_PAR_LOGICAL</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ACCDRV_DO_INHOMOGENOUS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ACCDRV_DO_INHOMOGENOUS&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">val</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span><span class="w"> </span><span class="n">defval</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_BINNING_NBINS</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">4096</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">ACCDRV_BINNING_BINSIZE</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_INT</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">USE_MEMPOOLS_CPU</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">USE_MPI_ALLOCATOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">TAS_SPLIT_FACTOR</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_REAL</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_PARAMETER</span><span class="p">(</span><span class="n">USE_ACC_G2G</span><span class="p">,</span><span class="w"> </span><span class="n">CONF_PAR_LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_config_type</span>
+</pre></div>
+
+    </section>
+    
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
