@@ -70,13 +70,8 @@
 #if !defined(ACC_OPENCL_CACHELINE)
 #  define ACC_OPENCL_CACHELINE LIBXSMM_CACHELINE
 #endif
-#if !defined(ACC_OPENCL_ATOMIC)
-#  define ACC_OPENCL_ATOMIC LIBXSMM_ATOMIC_SEQ_CST
-#endif
-#if defined(LIBXSMM_ATOMIC_LOCKTYPE)
-#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile LIBXSMM_ATOMIC_LOCKTYPE
-#else
-#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile int
+#if !defined(ACC_OPENCL_TLS)
+#  define ACC_OPENCL_TLS LIBXSMM_TLS
 #endif
 #if !defined(ACC_OPENCL_MAXALIGN)
 #  define ACC_OPENCL_MAXALIGN (2 << 20 /*2MB*/)
@@ -98,8 +93,8 @@
 #if !defined(ACC_OPENCL_DELIMS)
 #  define ACC_OPENCL_DELIMS ",;"
 #endif
-#if !defined(ACC_OPENCL_LAZYINIT) && (defined(__DBCSR_ACC) || 1)
-#  define ACC_OPENCL_LAZYINIT
+#if !defined(ACC_OPENCL_CMEM) && 1
+#  define ACC_OPENCL_CMEM
 #endif
 #if !defined(ACC_OPENCL_ASYNC) && 1
 #  define ACC_OPENCL_ASYNC getenv("ACC_OPENCL_ASYNC")
@@ -112,24 +107,26 @@
 #    define ACC_OPENCL_STREAM_PRIORITIES
 #  endif
 #endif
-/* Support arithmetic for device-pointers */
-#if !defined(ACC_OPENCL_MEM_DEVPTR) && 1
-#  define ACC_OPENCL_MEM_DEVPTR
-#endif
-#if !defined(ACC_OPENCL_OMPLOCKS) && 1
-#  define ACC_OPENCL_OMPLOCKS
+#if !defined(ACC_OPENCL_USM) && defined(CL_VERSION_2_0) && 1
+#  if defined(__OFFLOAD_UNIFIED_MEMORY)
+/* Do not rely on an Intel extension for pointer arithmetic */
+#    define ACC_OPENCL_USM 2
+#  else
+/* Rely on OpenCL 2.0 (eventually mix-in an Intel ext.) */
+#    define ACC_OPENCL_USM 1
+#  endif
+#else
+#  define ACC_OPENCL_USM 0
 #endif
 /* Activate device by default */
 #if !defined(ACC_OPENCL_ACTIVATE) && 0
 #  define ACC_OPENCL_ACTIVATE 0
 #endif
-/* Use DBCSR's profile for detailed timings */
-#if !defined(ACC_OPENCL_PROFILE) && (defined(__OFFLOAD_PROFILING) || 0)
-#  define ACC_OPENCL_PROFILE
-#endif
-
-#if defined(__OFFLOAD_OPENCL) && !defined(ACC_OPENCL_MEM_DEVPTR)
-#  error Support for ACC_OPENCL_MEM_DEVPTR is required!
+/* Use DBCSR's profile for detailed timings (function name prefix-offset) */
+#if !defined(ACC_OPENCL_PROFILE_DBCSR) && (defined(__OFFLOAD_PROFILING) || 1)
+#  if defined(__DBCSR_ACC)
+#    define ACC_OPENCL_PROFILE_DBCSR 8
+#  endif
 #endif
 
 /* attaching c_dbcsr_acc_opencl_stream_t is needed */
@@ -137,30 +134,31 @@
 /* incompatible with c_dbcsr_acc_event_record */
 #define ACC_OPENCL_EVENT(A) ((const cl_event*)(A))
 
-#if defined(_OPENMP)
-#  include <omp.h>
-#  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
-#else
-#  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
-#  undef ACC_OPENCL_OMPLOCKS
-#endif
-
 #define ACC_OPENCL_ATOMIC_ACQUIRE(LOCK) \
   do { \
-    LIBXSMM_ATOMIC_ACQUIRE(LOCK, LIBXSMM_SYNC_NPAUSE, ACC_OPENCL_ATOMIC); \
+    LIBXSMM_ATOMIC_ACQUIRE(LOCK, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_SEQ_CST); \
   } while (0)
 #define ACC_OPENCL_ATOMIC_RELEASE(LOCK) \
   do { \
-    LIBXSMM_ATOMIC_RELEASE(LOCK, ACC_OPENCL_ATOMIC); \
+    LIBXSMM_ATOMIC_RELEASE(LOCK, LIBXSMM_ATOMIC_SEQ_CST); \
   } while (0)
 
-#if defined(ACC_OPENCL_OMPLOCKS)
+#if defined(LIBXSMM_ATOMIC_LOCKTYPE)
+#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile LIBXSMM_ATOMIC_LOCKTYPE
+#else
+#  define ACC_OPENCL_ATOMIC_LOCKTYPE volatile int
+#endif
+
+#if defined(_OPENMP)
+#  include <omp.h>
+#  define ACC_OPENCL_OMP_TID() omp_get_thread_num()
 #  define ACC_OPENCL_INIT(LOCK) omp_init_lock(LOCK)
 #  define ACC_OPENCL_DESTROY(LOCK) omp_destroy_lock(LOCK)
 #  define ACC_OPENCL_ACQUIRE(LOCK) omp_set_lock(LOCK)
 #  define ACC_OPENCL_RELEASE(LOCK) omp_unset_lock(LOCK)
 #  define ACC_OPENCL_LOCKTYPE omp_lock_t
 #else
+#  define ACC_OPENCL_OMP_TID() (/*main*/ 0)
 #  define ACC_OPENCL_INIT(LOCK) (*(LOCK) = 0)
 #  define ACC_OPENCL_DESTROY(LOCK)
 #  define ACC_OPENCL_ACQUIRE(LOCK) ACC_OPENCL_ATOMIC_ACQUIRE(LOCK)
@@ -186,66 +184,67 @@
 #  define LIBXSMM_STRISTR strstr
 #endif
 
-#if !defined(NDEBUG) && 1
-#  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
-    do { \
-      if (EXIT_SUCCESS == (RESULT)) { \
-        (RESULT) = (EXPR); \
-        assert((MSG) && *(MSG)); \
-        if (EXIT_SUCCESS != (RESULT)) { \
-          assert(EXIT_SUCCESS == EXIT_SUCCESS); \
-          if (-1001 != (RESULT)) { \
-            fprintf(stderr, "ERROR ACC/OpenCL: " MSG); \
-            if (EXIT_FAILURE != (RESULT)) { \
-              fprintf(stderr, " (code=%i)", RESULT); \
-            } \
-            fprintf(stderr, ".\n"); \
-            assert(EXIT_SUCCESS != (RESULT)); \
-          } \
-          else { \
-            fprintf(stderr, "ERROR ACC/OpenCL: incomplete installation (" MSG ").\n"); \
-          } \
-          assert(!MSG); \
-        } \
+#define ACC_OPENCL_ERROR() c_dbcsr_acc_opencl_config.device.error.code
+#define ACC_OPENCL_ERROR_NAME(CODE) \
+  ((EXIT_SUCCESS != c_dbcsr_acc_opencl_config.device.error.code && (CODE) == c_dbcsr_acc_opencl_config.device.error.code) \
+      ? c_dbcsr_acc_opencl_config.device.error.name \
+      : "")
+
+#define ACC_OPENCL_ERROR_REPORT(NAME) \
+  do { \
+    const char* const acc_opencl_error_report_name_ = (const char*)('\0' != *#NAME ? (uintptr_t)(NAME + 0) : 0); \
+    if (0 != c_dbcsr_acc_opencl_config.verbosity) { \
+      if (NULL != acc_opencl_error_report_name_ && '\0' != *acc_opencl_error_report_name_) { \
+        fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", acc_opencl_error_report_name_); \
       } \
-    } while (0)
-#  define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) \
-    do { \
-      const int acc_opencl_return_cause_result_ = (RESULT); \
-      if (EXIT_SUCCESS != acc_opencl_return_cause_result_) { \
-        if (NULL != (CAUSE) && '\0' != *(const char*)(CAUSE)) { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)CAUSE); \
-          assert(!"SUCCESS"); \
+      else if (0 != c_dbcsr_acc_opencl_config.device.error.code) { \
+        if (NULL != c_dbcsr_acc_opencl_config.device.error.name && '\0' != *c_dbcsr_acc_opencl_config.device.error.name) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: %s (code=%i)\n", c_dbcsr_acc_opencl_config.device.error.name, \
+            c_dbcsr_acc_opencl_config.device.error.code); \
         } \
-        else if (NULL != (LIBXSMM_FUNCNAME) && '\0' != *(const char*)(LIBXSMM_FUNCNAME)) { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failed for %s!\n", (const char*)LIBXSMM_FUNCNAME); \
-          assert(!"SUCCESS"); \
+        else if (-1001 == c_dbcsr_acc_opencl_config.device.error.code) { \
+          fprintf(stderr, "ERROR ACC/OpenCL: incomplete OpenCL installation?\n"); \
         } \
         else { \
-          fprintf(stderr, "ERROR ACC/OpenCL: failure!\n"); \
-          assert(!"SUCCESS"); \
+          fprintf(stderr, "ERROR ACC/OpenCL: unknown error (code=%i)\n", c_dbcsr_acc_opencl_config.device.error.code); \
         } \
       } \
-      return acc_opencl_return_cause_result_; \
-    } while (0)
-#else
-#  define ACC_OPENCL_CHECK(EXPR, MSG, RESULT) \
-    do { \
-      if (EXIT_SUCCESS == (RESULT)) { \
-        (RESULT) = (EXPR); \
-        assert((MSG) && *(MSG)); \
-      } \
-    } while (0)
-#  define ACC_OPENCL_RETURN_CAUSE(RESULT, CAUSE) \
-    LIBXSMM_UNUSED(CAUSE); \
-    return RESULT
-#endif
-#define ACC_OPENCL_RETURN(RESULT) ACC_OPENCL_RETURN_CAUSE(RESULT, "")
+      memset(&c_dbcsr_acc_opencl_config.device.error, 0, sizeof(c_dbcsr_acc_opencl_config.device.error)); \
+    } \
+    assert(!"SUCCESS"); \
+  } while (0)
+
+#define ACC_OPENCL_CHECK(RESULT, CMD, MSG) \
+  do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      (RESULT) = (CMD); /* update result given code from cmd */ \
+      c_dbcsr_acc_opencl_config.device.error.name = (MSG); \
+      c_dbcsr_acc_opencl_config.device.error.code = (RESULT); \
+      assert(EXIT_SUCCESS == (RESULT)); \
+    } \
+    else ACC_OPENCL_ERROR_REPORT(); \
+  } while (0)
+
+#define ACC_OPENCL_RETURN(RESULT, ...) \
+  do { \
+    if (EXIT_SUCCESS == (RESULT)) { \
+      assert(EXIT_SUCCESS == c_dbcsr_acc_opencl_config.device.error.code); \
+      memset(&c_dbcsr_acc_opencl_config.device.error, 0, sizeof(c_dbcsr_acc_opencl_config.device.error)); \
+    } \
+    else ACC_OPENCL_ERROR_REPORT(__VA_ARGS__); \
+    return (RESULT); \
+  } while (0)
 
 
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
+/** Rich type denoting an error. */
+typedef struct c_dbcsr_acc_opencl_error_t {
+  const char* name;
+  int code;
+} c_dbcsr_acc_opencl_error_t;
 
 /** Information about streams (c_dbcsr_acc_stream_create). */
 typedef struct c_dbcsr_acc_opencl_stream_t {
@@ -265,6 +264,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
    * (ACC-interface) can be NULL (synchronous)
    */
   c_dbcsr_acc_opencl_stream_t stream;
+  /** Last error (not necessarily thread-safe/specific). */
+  c_dbcsr_acc_opencl_error_t error;
   /** OpenCL compiler flag (language standard). */
   char std_flag[16];
   /** OpenCL support-level (major and minor). */
@@ -275,12 +276,12 @@ typedef struct c_dbcsr_acc_opencl_device_t {
    * smaller if an alternative SG-size exists (SG is zero if no support).
    */
   size_t wgsize[3];
+  /** Maximum size of memory allocations and constant buffer. */
+  cl_ulong size_maxalloc, size_maxcmem;
   /** Kind of device (GPU, CPU, or other). */
   cl_device_type type;
-  /** OpenCL device-ID. */
-  cl_device_id id;
-  /** Whether host memory is unified. */
-  cl_int unified;
+  /** Whether host memory is unified, and SVM/USM capabilities. */
+  cl_int unified, usm;
   /** Device-UID. */
   cl_uint uid;
   /** Main vendor? */
@@ -289,7 +290,9 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_int (*clSetKernelArgMemPointerINTEL)(cl_kernel, cl_uint, const void*);
   cl_int (*clEnqueueMemFillINTEL)(cl_command_queue, void*, const void*, size_t, size_t, cl_uint, const cl_event*, cl_event*);
   cl_int (*clEnqueueMemcpyINTEL)(cl_command_queue, cl_bool, void*, const void*, size_t, cl_uint, const cl_event*, cl_event*);
-  void* (*clDeviceMemAllocINTEL)(cl_context, cl_device_id, const void /*cl_mem_properties_intel*/*, size_t, cl_uint, cl_int*);
+  void* (*clDeviceMemAllocINTEL)(cl_context, cl_device_id, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
+  void* (*clSharedMemAllocINTEL)(cl_context, cl_device_id, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
+  void* (*clHostMemAllocINTEL)(cl_context, const /*cl_mem_properties_intel*/ void*, size_t, cl_uint, cl_int*);
   cl_int (*clMemFreeINTEL)(cl_context, void*);
 } c_dbcsr_acc_opencl_device_t;
 
@@ -297,13 +300,8 @@ typedef struct c_dbcsr_acc_opencl_device_t {
 typedef struct c_dbcsr_acc_opencl_info_memptr_t {
   cl_mem memory; /* first item! */
   void* memptr;
+  /*void *data;*/
 } c_dbcsr_acc_opencl_info_memptr_t;
-
-/** Enumeration of timer kinds used for built-in execution-profile. */
-typedef enum c_dbcsr_acc_opencl_timer_t {
-  c_dbcsr_acc_opencl_timer_device,
-  c_dbcsr_acc_opencl_timer_host
-} c_dbcsr_acc_opencl_timer_t;
 
 /** Enumeration of FP-atomic kinds. */
 typedef enum c_dbcsr_acc_opencl_atomic_fp_t {
@@ -319,33 +317,41 @@ typedef enum c_dbcsr_acc_opencl_atomic_fp_t {
 typedef struct c_dbcsr_acc_opencl_config_t {
   /** Table of ordered viable/discovered devices (matching criterion). */
   cl_device_id devices[ACC_OPENCL_MAXNDEVS];
-  /** Table of devices (thread-specific). */
+  /** Active device (per process). */
   c_dbcsr_acc_opencl_device_t device;
   /** Locks used by domain. */
   ACC_OPENCL_LOCKTYPE *lock_main, *lock_stream, *lock_event, *lock_memory;
-#if defined(ACC_OPENCL_MEM_DEVPTR)
   /** All memptrs and related storage/counter. */
   c_dbcsr_acc_opencl_info_memptr_t **memptrs, *memptr_data;
   size_t nmemptrs; /* counter */
-#endif
   /** Handle-counter. */
   size_t nstreams, nevents;
   /** All streams and related storage. */
   c_dbcsr_acc_opencl_stream_t **streams, *stream_data;
   /** All events and related storage. */
   cl_event **events, *event_data;
-  /** Kind of timer used for built-in execution-profile. */
-  c_dbcsr_acc_opencl_timer_t timer; /* c_dbcsr_acc_opencl_device_t? */
+  /** Device-ID to lookup devices-array. */
+  cl_int device_id;
   /** Kernel-parameters are matched against device's UID */
   cl_uint devmatch;
+  /** Split devices into sub-devices (if possible) */
+  cl_int devsplit;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
+  /** Guessed number of ranks per node (local), and rank-ID. */
+  cl_int nranks, nrank;
   /** Non-zero if library is initialized (negative: no device). */
   cl_int ndevices;
   /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
-  /** How to apply/use stream priorities. */
+#if defined(ACC_OPENCL_STREAM_PRIORITIES)
+  /** Runtime-adjust ACC_OPENCL_STREAM_PRIORITIES. */
   cl_int priority;
+#endif
+  /** Runtime-enable ACC_OPENCL_PROFILE_DBCSR. */
+  cl_int profile;
+  /** Detailed/optional insight. */
+  void *hist_h2d, *hist_d2h, *hist_d2d;
   /** Configuration and execution-hints. */
   cl_int xhints;
   /** Asynchronous memory operations. */
@@ -361,15 +367,20 @@ typedef struct c_dbcsr_acc_opencl_config_t {
 /** Global configuration setup in c_dbcsr_acc_init. */
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
-/** Determines host-pointer registration for modification. */
+/** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
+int c_dbcsr_acc_opencl_use_cmem(const c_dbcsr_acc_opencl_device_t* devinfo);
+/** Determines host-pointer registration (for modification). Returns NULL if memory is SVM/USM. */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_hostptr(const void* memory);
-/** Determines device-pointer registration for modification (internal). */
+/**
+ * Determines device-pointer registration (for modification; internal). The offset is measured in elsize.
+ * Returns NULL if memory is SVM/USM (offset is zero in this case).
+ */
 c_dbcsr_acc_opencl_info_memptr_t* c_dbcsr_acc_opencl_info_devptr_modify(
   ACC_OPENCL_LOCKTYPE* lock, void* memory, size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for information (lock-control). */
+/** Determines device-pointer registration for info/ro (lock-control); offset is measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr_lock(c_dbcsr_acc_opencl_info_memptr_t* info, ACC_OPENCL_LOCKTYPE* lock, const void* memory,
   size_t elsize, const size_t* amount, size_t* offset);
-/** Determines device-pointer registration for information. */
+/** Determines device-pointer registration for info/ro; offset is measured in elsize. */
 int c_dbcsr_acc_opencl_info_devptr(
   c_dbcsr_acc_opencl_info_memptr_t* info, const void* memory, size_t elsize, const size_t* amount, size_t* offset);
 /** Finds an existing stream for the given thread-ID (or NULL). */
@@ -398,31 +409,64 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char* const extname
 int c_dbcsr_acc_opencl_create_context(cl_device_id device_id, cl_context* context);
 /** Internal variant of c_dbcsr_acc_set_active_device. */
 int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_id);
+/** Assemble flags to support atomic operations. */
+int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
+  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
+/** Assemble given defines and internal definitions. */
+int c_dbcsr_acc_opencl_defines(const char defines[], char buffer[], size_t buffer_size, int cleanup);
+/** Combines build-params, build-options, and extra flags. */
+int c_dbcsr_acc_opencl_kernel_flags(const char build_params[], const char build_options[], const char try_options[],
+  cl_program program, char buffer[], size_t buffer_size);
 /**
  * Build kernel from source with given kernel_name, build_params and build_options.
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
- * are are meant to be compiler-flags.
+ * are are meant to be compiler-flags. The source_kind denotes source's content:
+ *  0: OpenCL source code
+ *  1: Filename (OpenCL or binary)
+ * >1: Binary code (source_kind denotes size)
  */
-int c_dbcsr_acc_opencl_kernel(int source_is_file, const char source[], const char kernel_name[], const char build_params[],
+int c_dbcsr_acc_opencl_kernel(size_t source_kind, const char source[], const char kernel_name[], const char build_params[],
   const char build_options[], const char try_build_options[], int* try_ok, const char* const extnames[], size_t num_exts,
   cl_kernel* kernel);
 /** Per-thread variant of c_dbcsr_acc_device_synchronize. */
 int c_dbcsr_acc_opencl_device_synchronize(ACC_OPENCL_LOCKTYPE* lock, int thread_id);
-/** Assemble flags to support atomic operations. */
-int c_dbcsr_acc_opencl_flags_atomics(const c_dbcsr_acc_opencl_device_t* devinfo, c_dbcsr_acc_opencl_atomic_fp_t kind,
-  const char* exts[], size_t* exts_maxlen, char flags[], size_t flags_maxlen);
-/** Combines build-params and build-options, optional flags (try_build_options). */
-int c_dbcsr_acc_opencl_flags(
-  const char build_params[], const char build_options[], const char try_build_options[], char buffer[], size_t buffer_size);
 /** To support USM, call this function for pointer arguments instead of clSetKernelArg. */
 int c_dbcsr_acc_opencl_set_kernel_ptr(cl_kernel kernel, cl_uint arg_index, const void* arg_value);
 
 /** Support older LIBXSMM (libxsmm_pmalloc_init). */
-void c_dbcsr_acc_opencl_pmalloc_init(ACC_OPENCL_LOCKTYPE* lock, size_t size, size_t* num, void* pool[], void* storage);
+void c_dbcsr_acc_opencl_pmalloc_init(size_t size, size_t* num, void* pool[], void* storage);
 /** Support older LIBXSMM (libxsmm_pmalloc). */
 void* c_dbcsr_acc_opencl_pmalloc(ACC_OPENCL_LOCKTYPE* lock, void* pool[], size_t* i);
 /** Support older LIBXSMM (libxsmm_pfree). */
-void c_dbcsr_acc_opencl_pfree(ACC_OPENCL_LOCKTYPE* lock, const void* pointer, void* pool[], size_t* i);
+void c_dbcsr_acc_opencl_pfree(const void* pointer, void* pool[], size_t* i);
+
+/** Measure time in seconds for the given event. */
+double c_dbcsr_acc_opencl_duration(cl_event event, int* result_code);
+
+typedef void (*c_dbcsr_acc_opencl_hist_update_fn)(double* /*dst*/, const double* /*src*/);
+typedef double (*c_dbcsr_acc_opencl_hist_adjust_fn)(double /*value*/, int count);
+void c_dbcsr_acc_opencl_hist_create(
+  void** hist, int nbuckets, int nqueue, int nvals, const c_dbcsr_acc_opencl_hist_update_fn update[]);
+void c_dbcsr_acc_opencl_hist_avg(double* dst, const double* src);
+void c_dbcsr_acc_opencl_hist_add(double* dst, const double* src);
+void c_dbcsr_acc_opencl_hist_set(ACC_OPENCL_LOCKTYPE* lock, void* hist, const double vals[]);
+void c_dbcsr_acc_opencl_hist_get(
+  ACC_OPENCL_LOCKTYPE* lock, void* hist, const int** buckets, int* nbuckets, double range[2], const double** vals, int* nvals);
+void c_dbcsr_acc_opencl_hist_print(
+  FILE* stream, void* hist, const char title[], const int prec[], const c_dbcsr_acc_opencl_hist_adjust_fn adjust[]);
+void c_dbcsr_acc_opencl_hist_free(void* hist);
+
+/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
+const char* c_dbcsr_acc_opencl_stristrn(const char a[], const char b[], size_t maxlen);
+
+/**
+ * Count the number of words in A (or B) with match in B (or A) respectively (case-insensitive).
+ * Can be used to score the equality of A and B on a word-basis. The result is independent of
+ * A-B or B-A order (symmetry). The score cannot exceed the number of words in A or B.
+ * Optional delimiters determine characters splitting words (can be NULL).
+ * Optional count yields total number of words.
+ */
+int c_dbcsr_acc_opencl_strimatch(const char a[], const char b[], const char delims[], int* count);
 
 #if defined(__cplusplus)
 }

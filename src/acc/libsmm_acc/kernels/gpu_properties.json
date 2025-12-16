@@ -209,5 +209,35 @@
         "Stream_Multiprocessors": 13312,
         "Memory_Size_(GB)": 128,
         "Memory_Interface_(bits)": 8192
+    },
+    "gfx942" : {
+        "GPU_Architecture": "CDNA3",
+        "Product_Names": ["Instinct MI300A"],
+        "Threads_/_Warp" : 64,
+        "Warps_/_Multiprocessor": 32,
+        "Threads_/_Multiprocessor": 2048,
+        "Thread_Blocks_/_Multiprocessor": 32,
+        "Max_Thread_Block_Size": 1024,
+        "Max_Shared_Memory_/_Block_(bytes)": 64000,
+        "Shared_Memory_/_Multiprocessor_(bytes)": 64000,
+        "Compute_Units": 228,
+        "Stream_Multiprocessors": 14592,
+        "Memory_Size_(GB)": 128,
+        "Memory_Interface_(bits)": 8192
+    },
+    "gfx950" : {
+        "GPU_Architecture": "CDNA4",
+        "Product_Names": ["Instinct MI350X"],
+        "Threads_/_Warp" : 64,
+        "Warps_/_Multiprocessor": 32,
+        "Threads_/_Multiprocessor": 2048,
+        "Thread_Blocks_/_Multiprocessor": 32,
+        "Max_Thread_Block_Size": 1024,
+        "Max_Shared_Memory_/_Block_(bytes)": 64000,
+        "Shared_Memory_/_Multiprocessor_(bytes)": 64000,
+        "Compute_Units": 256,
+        "Stream_Multiprocessors": 16384,
+        "Memory_Size_(GB)": 288,
+        "Memory_Interface_(bits)": 8192
     }
 }

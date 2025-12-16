@@ -9,12 +9,14 @@
 
 MODULE dbcsr_print_messages
    !! Perform an abnormal program termination.
-   !! @note These routines are low-level and thus provide also an error recovery
+   !! @note
+   !! These routines are low-level and thus provide also an error recovery
    !! when dependencies do not allow the use of the error logger. Only
    !! the master (root) process will dump, if para_env is available and
    !! properly specified. Otherwise (without any information about the
    !! parallel environment) most likely more than one process or even all
    !! processes will send their error dump to the default output unit.
+   !! @endnote
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -36,6 +38,7 @@ CONTAINS
       !! declev     : Decoration level (0,1,2, ... star lines).
       !! message    : String with the message text.
       !! output_unit: Logical unit number of output unit.
+      !! @endnote
 
       CHARACTER(LEN=*), INTENT(IN)                       :: message
       INTEGER, INTENT(IN)                                :: output_unit

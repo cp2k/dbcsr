@@ -599,6 +599,7 @@ CONTAINS
       !! initializes the system default communicator
       !! @note
       !! should only be called once
+      !! @endnote
 
       TYPE(mp_comm_type), INTENT(OUT)          :: mp_comm
          !! [output] : handle of the default communicator
@@ -658,6 +659,7 @@ CONTAINS
       !! rank order
       !! @note
       !! should only be called once, at very beginning of CP2K run
+      !! @endnote
 
       TYPE(mp_comm_type), INTENT(IN)                      :: mp_comm
          !! [output] : handle of the default communicator
@@ -731,6 +733,7 @@ CONTAINS
       !! can be used to measure performance of a sub-part of a program.
       !! timings measured here will not show up in the outer start/stops
       !! Doesn't need a fresh communicator
+      !! @endnote
 
       TYPE(mp_perf_env_type), OPTIONAL, POINTER          :: perf_env
 
@@ -917,6 +920,7 @@ CONTAINS
       !! stops *after an mpi error* translating the error code
       !! @note
       !! this function is private to mpiwrap.F
+      !! @endnote
 
       INTEGER, INTENT(IN)                       :: ierr
          !! an error code * returned by an mpi call *
@@ -993,7 +997,8 @@ CONTAINS
       !! returns number of tasks and task id for a given mpi group
       !! simple and cartesian version.. recursive needed in case of failing mpi_comm_rank.
       !! @note
-      !! ..mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
+      !! mp_world_setup is gone, use mp_environ instead (i.e. give a groupid explicitly)
+      !! @endnote
 
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       TYPE(mp_comm_type), INTENT(IN)                                :: groupid
@@ -1363,6 +1368,7 @@ CONTAINS
       !! waits for completion of the given request
       !! @note
       !! see isendrecv
+      !! @endnote
 
       TYPE(mp_request_type), INTENT(inout)                             :: request
 
@@ -1386,6 +1392,7 @@ CONTAINS
       !! waits for completion of the given requests
       !! @note
       !! see isendrecv
+      !! @endnote
 
       TYPE(mp_request_type), DIMENSION(:), INTENT(inout) :: requests
 
@@ -1678,6 +1685,7 @@ CONTAINS
       !! the other default to the value needed to use most processors.
       !! if less cpus are present than needed for subgroup min size, n_subgroups,
       !! just one comm is created that contains all cpus
+      !! @endnote
 
       TYPE(mp_comm_type), INTENT(in)                      :: comm
          !! the mpi communicator that you want to split
@@ -1894,10 +1902,10 @@ CONTAINS
 
    SUBROUTINE mp_isend_bv(msgin, dest, comm, request, tag)
       !! Non-blocking send of logical vector data
-      !! @note see mp_irecv_iv
-      !! @endnote
       !! @note
+      !! see mp_irecv_iv
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
       LOGICAL, DIMENSION(:), CONTIGUOUS        :: msgin
          !! the input message
@@ -1950,10 +1958,10 @@ CONTAINS
 
    SUBROUTINE mp_irecv_bv(msgout, source, comm, request, tag)
       !! Non-blocking receive of logical vector data
-      !! @note see mp_irecv_iv
-      !! @endnote
       !! @note
+      !! see mp_irecv_iv
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
       LOGICAL, DIMENSION(:), CONTIGUOUS        :: msgout
          !! the received message
@@ -2930,7 +2938,9 @@ CONTAINS
 
       SUBROUTINE mp_alltoall_${nametype1}$22(sb, rb, count, group)
       !! All-to-all data exchange, rank-2 arrays, equal sizes
-      !! @note see mp_alltoall_${nametype1}$
+      !! @note
+      !! see mp_alltoall_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: sb(:, :)
          ${type1}$, CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
@@ -2966,7 +2976,9 @@ CONTAINS
 
       SUBROUTINE mp_alltoall_${nametype1}$44(sb, rb, count, group)
       !! All-to-all data exchange, rank 4 data, equal sizes
-      !! @note see mp_alltoall_${nametype1}$
+      !! @note
+      !! see mp_alltoall_${nametype1}$
+      !! @endnote
 
          ${type1}$, DIMENSION(:, :, :, :), CONTIGUOUS, &
             INTENT(IN)                            :: sb
@@ -3041,7 +3053,9 @@ CONTAINS
 
       SUBROUTINE mp_send_${nametype1}$v(msg, dest, tag, gid)
       !! Send rank-1 data to another process
-      !! @note see mp_send_${nametype1}$
+      !! @note
+      !! see mp_send_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
@@ -3115,7 +3129,9 @@ CONTAINS
 
       SUBROUTINE mp_recv_${nametype1}$v(msg, source, tag, gid)
       !! Receive rank-1 data from another process
-      !! @note see mp_recv_${nametype1}$
+      !! @note
+      !! see mp_recv_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
@@ -3220,7 +3236,9 @@ CONTAINS
 
       SUBROUTINE mp_bcast_${nametype1}$v(msg, source, gid)
       !! Broadcasts rank-1 data to all processes
-      !! @note see mp_bcast_${nametype1}$1
+      !! @note
+      !! see mp_bcast_${nametype1}$1
+      !! @endnote
 
          ${type1}$, CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
@@ -3248,7 +3266,9 @@ CONTAINS
 
       SUBROUTINE mp_ibcast_${nametype1}$v(msg, source, gid, request)
       !! Broadcasts rank-1 data to all processes
-      !! @note see mp_bcast_${nametype1}$1
+      !! @note
+      !! see mp_bcast_${nametype1}$1
+      !! @endnote
 
          ${type1}$, CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
@@ -3278,7 +3298,9 @@ CONTAINS
 
       SUBROUTINE mp_bcast_${nametype1}$m(msg, source, gid)
       !! Broadcasts rank-2 data to all processes
-      !! @note see mp_bcast_${nametype1}$1
+      !! @note
+      !! see mp_bcast_${nametype1}$1
+      !! @endnote
 
          ${type1}$, CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
@@ -3306,7 +3328,9 @@ CONTAINS
 
       SUBROUTINE mp_bcast_${nametype1}$3(msg, source, gid)
       !! Broadcasts rank-3 data to all processes
-      !! @note see mp_bcast_${nametype1}$1
+      !! @note
+      !! see mp_bcast_${nametype1}$1
+      !! @endnote
 
          ${type1}$, CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
@@ -3364,7 +3388,9 @@ CONTAINS
 
       SUBROUTINE mp_sum_${nametype1}$v(msg, gid)
       !! Element-wise sum of a rank-1 array on all processes.
-      !! @note see mp_sum_${nametype1}$
+      !! @note
+      !! see mp_sum_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
@@ -3396,7 +3422,9 @@ CONTAINS
 
       SUBROUTINE mp_isum_${nametype1}$v(msg, gid, request)
       !! Element-wise sum of a rank-1 array on all processes.
-      !! @note see mp_sum_${nametype1}$
+      !! @note
+      !! see mp_sum_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
@@ -3432,7 +3460,9 @@ CONTAINS
 
       SUBROUTINE mp_sum_${nametype1}$m(msg, gid)
       !! Element-wise sum of a rank-2 array on all processes.
-      !! @note see mp_sum_${nametype1}$
+      !! @note
+      !! see mp_sum_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
          !! Matrix to sum and result
@@ -3471,7 +3501,9 @@ CONTAINS
 
       SUBROUTINE mp_sum_${nametype1}$m3(msg, gid)
       !! Element-wise sum of a rank-3 array on all processes.
-      !! @note see mp_sum_${nametype1}$
+      !! @note
+      !! see mp_sum_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
          !! Array to sum and result
@@ -3499,7 +3531,9 @@ CONTAINS
 
       SUBROUTINE mp_sum_${nametype1}$m4(msg, gid)
       !! Element-wise sum of a rank-4 array on all processes.
-      !! @note see mp_sum_${nametype1}$
+      !! @note
+      !! see mp_sum_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
          !! Array to sum and result
@@ -3576,7 +3610,9 @@ CONTAINS
       SUBROUTINE mp_sum_root_${nametype1}$m(msg, root, gid)
       !! Element-wise sum of data from all processes with result left only on
       !! one.
-      !! @note see mp_sum_root_${nametype1}$v
+      !! @note
+      !! see mp_sum_root_${nametype1}$v
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
          !! Matrix to sum (input) and (only on process root) result (output)
@@ -3687,7 +3723,9 @@ CONTAINS
       SUBROUTINE mp_max_${nametype1}$v(msg, gid)
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
-      !! @note see mp_max_${nametype1}$
+      !! @note
+      !! see mp_max_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
@@ -3747,7 +3785,9 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_allreduce
-      !! @note see mp_min_${nametype1}$
+      !! @note
+      !! see mp_min_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find minimum among these data (input) and maximum (output)
@@ -3960,7 +4000,9 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-      !! @note see mp_gather_${nametype1}$
+      !! @note
+      !! see mp_gather_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
@@ -3997,7 +4039,9 @@ CONTAINS
       !!
       !! MPI mapping
       !! mpi_gather
-      !! @note see mp_gather_${nametype1}$
+      !! @note
+      !! see mp_gather_${nametype1}$
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
@@ -4249,7 +4293,9 @@ CONTAINS
       SUBROUTINE mp_allgather_${nametype1}$23(msgout, msgin, gid)
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
@@ -4283,7 +4329,9 @@ CONTAINS
       SUBROUTINE mp_allgather_${nametype1}$34(msgout, msgin, gid)
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
@@ -4317,7 +4365,9 @@ CONTAINS
       SUBROUTINE mp_allgather_${nametype1}$22(msgout, msgin, gid)
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
@@ -4351,7 +4401,9 @@ CONTAINS
       SUBROUTINE mp_iallgather_${nametype1}$11(msgout, msgin, gid, request)
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$11
+      !! @note
+      !! see mp_allgather_${nametype1}$11
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
@@ -4387,7 +4439,9 @@ CONTAINS
       SUBROUTINE mp_iallgather_${nametype1}$13(msgout, msgin, gid, request)
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
@@ -4423,7 +4477,9 @@ CONTAINS
       SUBROUTINE mp_iallgather_${nametype1}$22(msgout, msgin, gid, request)
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
@@ -4459,7 +4515,9 @@ CONTAINS
       SUBROUTINE mp_iallgather_${nametype1}$24(msgout, msgin, gid, request)
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
@@ -4495,7 +4553,9 @@ CONTAINS
       SUBROUTINE mp_iallgather_${nametype1}$33(msgout, msgin, gid, request)
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
-      !! @note see mp_allgather_${nametype1}$12
+      !! @note
+      !! see mp_allgather_${nametype1}$12
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
@@ -4813,6 +4873,7 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
@@ -4881,10 +4942,10 @@ CONTAINS
 
       SUBROUTINE mp_isend_${nametype1}$v(msgin, dest, comm, request, tag)
       !! Non-blocking send of vector data
-      !! @note see mp_isendrecv_${nametype1}$v
-      !! @endnote
       !! @note
+      !! see mp_isendrecv_${nametype1}$v
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, DIMENSION(:)      :: msgin
          INTEGER, INTENT(IN)                      :: dest
@@ -4933,12 +4994,11 @@ CONTAINS
 
       SUBROUTINE mp_isend_${nametype1}$m2(msgin, dest, comm, request, tag)
       !! Non-blocking send of matrix data
-      !! @note see mp_isendrecv_${nametype1}$v
-      !! @endnote
-      !! @note see mp_isend_${nametype1}$v
-      !! @endnote
       !! @note
+      !! see mp_isendrecv_${nametype1}$v
+      !! see mp_isend_${nametype1}$v
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, DIMENSION(:, :), CONTIGUOUS   :: msgin
          INTEGER, INTENT(IN)                      :: dest
@@ -4987,10 +5047,10 @@ CONTAINS
 
       SUBROUTINE mp_irecv_${nametype1}$v(msgout, source, comm, request, tag)
       !! Non-blocking receive of vector data
-      !! @note see mp_isendrecv_${nametype1}$v
-      !! @endnote
       !! @note
+      !! see mp_isendrecv_${nametype1}$v
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, DIMENSION(:)      :: msgout
          INTEGER, INTENT(IN)                      :: source
@@ -5038,12 +5098,11 @@ CONTAINS
 
       SUBROUTINE mp_irecv_${nametype1}$m2(msgout, source, comm, request, tag)
       !! Non-blocking receive of matrix data
-      !! @note see mp_isendrecv_${nametype1}$v
-      !! @endnote
-      !! @note see mp_irecv_${nametype1}$v
-      !! @endnote
       !! @note
+      !! see mp_isendrecv_${nametype1}$v
+      !! see mp_irecv_${nametype1}$v
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, DIMENSION(:, :), CONTIGUOUS   :: msgout
          INTEGER, INTENT(IN)                      :: source
@@ -5093,6 +5152,7 @@ CONTAINS
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, DIMENSION(:) :: base
          TYPE(mp_comm_type), INTENT(IN)      :: comm
@@ -5131,6 +5191,7 @@ CONTAINS
       !! Single-sided get function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
+      !! @endnote
 
          ${type1}$, CONTIGUOUS, DIMENSION(:)                 :: base
          INTEGER, INTENT(IN)                                 :: source

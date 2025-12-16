@@ -335,7 +335,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_sendrecv_any(msgin, dest, msgout, source, comm)
       !! sendrecv of encapsulated data.
-      !! @note see mp_sendrecv
+      !! @note
+      !! see mp_sendrecv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
@@ -362,7 +364,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_isend_any(msgin, dest, comm, request, tag)
       !! Non-blocking send of encapsulated data.
-      !! @note see mp_isend_iv
+      !! @note
+      !! see mp_isend_iv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: dest
@@ -386,7 +390,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_irecv_any(msgin, source, comm, request, tag)
       !! Non-blocking recv of encapsulated data.
-      !! @note see mp_irecv_iv
+      !! @note
+      !! see mp_irecv_iv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: msgin
       INTEGER, INTENT(IN)                                :: source
@@ -570,7 +576,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_allgatherv(send_data, scount, recv_data, recv_count, recv_displ, gid)
       !! Allgather of encapsulated data
-      !! @note see mp_allgatherv_dv
+      !! @note
+      !! see mp_allgatherv_dv
+      !! @endnote
 
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: send_data
       INTEGER, INTENT(IN)                                :: scount
@@ -677,6 +685,7 @@ CONTAINS
             IF (remainder_collective) THEN
                CALL remainder_alltoall()
             END IF
+            DEALLOCATE (new_scount, new_rcount, new_sdispl, new_rdispl)
             ! Wait for all issued sends and receives.
             IF (.NOT. most_collective) THEN
                CALL mp_waitall(row_sr(0:nrow_sr - 1))
@@ -684,10 +693,12 @@ CONTAINS
                CALL mp_waitall(row_rr(0:nrow_rr - 1))
                CALL mp_waitall(col_rr(0:ncol_rr - 1))
             END IF
+            DEALLOCATE (row_sr, row_rr, col_sr, col_rr)
             IF (.NOT. remainder_collective) THEN
                CALL mp_waitall(all_sr(1:nall_sr))
                CALL mp_waitall(all_rr(1:nall_rr))
             END IF
+            DEALLOCATE (all_sr, all_rr)
          ELSE
             CALL mp_alltoall(sb, scount, sdispl, &
                              rb, rcount, rdispl, &

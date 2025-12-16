@@ -10,8 +10,10 @@
 MODULE dbcsr_allocate_wrap
    !! Wrapper for allocating, copying and reshaping arrays.
    !! @todo: with fortran 2008 support, this should be replaced by plain ALLOCATE
-   !! @note in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
+   !! @note
+   !! in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
    !! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672
+   !! @endnote
 
    #:include "dbcsr_tensor.fypp"
    #:set maxdim = fortran_max_ndim
@@ -39,8 +41,10 @@ CONTAINS
 
          SUBROUTINE allocate_${dim}$d_${dsuffix}$ (array, shape_spec, source, order)
       !! Allocate array according to shape_spec. Possibly assign array from source.
-      !! @note  this does not fully replace Fortran RESHAPE intrinsic since source and target array must
+      !! @note
+      !! this does not fully replace Fortran RESHAPE intrinsic since source and target array must
       !! have same rank.
+      !! @endnote
 
             ${dtype}$, DIMENSION(${shape_colon(dim)}$), ALLOCATABLE, INTENT(OUT) :: array
          !! target array.

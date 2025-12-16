@@ -36,8 +36,6 @@ MODULE dbcsr_mem_methods
    PUBLIC :: dbcsr_mempool_destruct, dbcsr_mempool_clear
    PUBLIC :: dbcsr_memtype_setup, dbcsr_memtype_equal
 
-   LOGICAL, PARAMETER :: debug = .FALSE.
-
 CONTAINS
 
    SUBROUTINE dbcsr_mempool_create(pool)

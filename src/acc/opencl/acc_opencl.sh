@@ -210,8 +210,7 @@ then
         ERRFILE=${CSVFILE}
       fi
       if [ "${ERRFILE}" ] && [ -f "${ERRFILE}" ]; then
-        >&2 echo "ERROR: ${ERRFILE} is malformed!"
-        exit 1
+        >&2 echo "WARNING: ${ERRFILE} is malformed and ignored!"
       fi
     done
     DEVPAT="s/${DELIM}..*//"

@@ -51,11 +51,11 @@
 #  define PRINTF(...) printf(__VA_ARGS__)
 #endif
 
+#if !defined(DEDUPLICATE) && 0
+#  define DEDUPLICATE
+#endif
 #if !defined(ELEM_TYPE)
 #  define ELEM_TYPE double
-#endif
-#if !defined(MAX_KERNEL_DIM)
-#  define MAX_KERNEL_DIM 80
 #endif
 #if !defined(ALIGNMENT)
 #  define ALIGNMENT 64
@@ -215,8 +215,26 @@ int main(int argc, char* argv[]) {
   const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
   const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
-#if defined(USE_LIBXSMM) && defined(VALIDATE)
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
+  const char* const env_nrepeat_h2d = getenv("NREPEAT_H2D");
+  const int nrepeat_h2d = (NULL == env_nrepeat_h2d ? 1 : MAX(atoi(env_nrepeat_h2d), 1));
+#endif
+#if defined(USE_LIBXSMM)
+  double perf_h2d = 0, perf_dev = 0, perf_hst = 0;
+  const char* const env_check_h2d = getenv("CHECK_H2D");
+  const char* const env_check_dev = getenv("CHECK_DEV");
+  const char* const env_check_hst = getenv("CHECK_HST");
+#  if defined(__OPENCL)
+  const char* const env_nrepeat_smm = getenv("NREPEAT_SMM");
+  const int nrepeat_smm = (NULL == env_nrepeat_smm ? 1 : MAX(atoi(env_nrepeat_smm), 1));
+#  else
+  const int nrepeat_smm = 1;
+#  endif
+#  if defined(VALIDATE)
   double maxdiff = 0;
+#  else
+  DBCSR_MARK_USED(check);
+#  endif
 #else
   DBCSR_MARK_USED(check);
 #endif
@@ -277,6 +295,7 @@ int main(int argc, char* argv[]) {
 #else
       const int mn = m * n, mk = m * k, kn = k * n;
 #endif
+      const int max_kernel_dim = ceil(sqrt(m * n));
       int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
       ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
       ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
@@ -285,22 +304,16 @@ int main(int argc, char* argv[]) {
       libxsmm_timer_tickint start;
       int print_offset = 0;
       char print_buffer[1024] = "";
-#  if defined(__OPENCL)
-      const char* const env_smm_repeat = getenv("SMM_NREPEAT");
-      const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
-#  else
-      const int smm_nrepeat = 1;
-#  endif
 #  if defined(TRANSPOSE) && defined(VALIDATE)
       double transpose = 0;
 #  endif
       double duration = 0;
 #endif
-      const char* const env_stack_size = getenv("SMM_BATCHSIZE");
+      const char* const env_batchsize_smm = getenv("BATCHSIZE_SMM");
       const int xrepeat = (0 != check ? NREPEAT : XREPEAT);
       int nrepeat = (0 < inr ? inr : xrepeat);
       int stack_size, na, nb, nc, nr, r;
-      if (NULL == env_stack_size) {
+      if (NULL == env_batchsize_smm) {
         stack_size = 0;
         if (NULL != sss) {
           size_t nelems, s;
@@ -319,12 +332,12 @@ int main(int argc, char* argv[]) {
         }
       }
       else { /* parse SMM_BATCHSIZE=batchsize,nrepfactor */
-        i = strcspn(env_stack_size, DELIMS);
+        i = strcspn(env_batchsize_smm, DELIMS);
         if (i < (int)sizeof(DELIMS)) {
-          r = atoi(env_stack_size + i + 1);
+          r = atoi(env_batchsize_smm + i + 1);
           if (0 < r) nrepeat = r;
         }
-        stack_size = atoi(env_stack_size);
+        stack_size = atoi(env_batchsize_smm);
       }
       if (0 >= stack_size) { /* trigger default */
         if (0 > stack_size) { /* randomize batchsize */
@@ -345,8 +358,8 @@ int main(int argc, char* argv[]) {
       PRINTF(
         "%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n, k, nc, na, nb);
       PRINTF("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
-      if (MAX_KERNEL_DIM < m || MAX_KERNEL_DIM < n || MAX_KERNEL_DIM < k) {
-        fprintf(stderr, "ERROR: Matrix shape exceeds MAX_KERNEL_DIM!\n");
+      if (MAX_KERNEL_DIM < max_kernel_dim) {
+        fprintf(stderr, "ERROR: Matrix shape (%i) exceeds MAX_KERNEL_DIM=%i\n", max_kernel_dim, MAX_KERNEL_DIM);
         result = EXIT_FAILURE;
       }
       CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1 /*default priority*/), &result, check);
@@ -363,7 +376,7 @@ int main(int argc, char* argv[]) {
 #endif
         {
 #if defined(_OPENMP)
-#  pragma omp for
+#  pragma omp for nowait
 #endif
           for (i = 0; i < na; ++i) INIT_MAT(ELEM_TYPE, i /*seed*/ + 42, &amat_hst[i * mk], m, k, 1.0 / (nr * na));
 #if defined(_OPENMP)
@@ -375,6 +388,7 @@ int main(int argc, char* argv[]) {
           }
         }
       }
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result, check);
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&bmat_dev, sizeof(ELEM_TYPE) * kn * nb), &result, check);
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&cmat_dev, sizeof(ELEM_TYPE) * mn * nc), &result, check);
@@ -382,21 +396,40 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_dev_mem_allocate((void**)(void*)&trans_dev, sizeof(int) * nb), &result, check);
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(trans_hst, trans_dev, sizeof(int) * nb, stream), &result, check);
-#if defined(USE_LIBXSMM)
+#  if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       start = libxsmm_timer_tick();
-#endif
+#  endif
       CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
       CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
-#if defined(USE_LIBXSMM)
-      CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
-      if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
-        const size_t size = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
-        duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-        PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration,
-          size / (duration * (1ULL << 30)));
+      if (1 < nrepeat_h2d) {
+#  if defined(USE_LIBXSMM)
+        CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
+        start = libxsmm_timer_tick();
+#  endif
+        for (r = 0; r < nrepeat_h2d; ++r) {
+          CHECK(c_dbcsr_acc_memcpy_h2d(amat_hst, amat_dev, sizeof(ELEM_TYPE) * mk * na, stream), &result, check);
+          CHECK(c_dbcsr_acc_memcpy_h2d(bmat_hst, bmat_dev, sizeof(ELEM_TYPE) * kn * nb, stream), &result, check);
+          CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * 3 * stack_size, stream), &result, check);
+        }
       }
+#  if defined(USE_LIBXSMM)
+      CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
+      if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst && EXIT_SUCCESS == result) {
+        const size_t size = (sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size);
+        duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) / nrepeat_h2d;
+        perf_h2d = size / (duration * (1ULL << 30));
+        PRINTF("copy-in (%i MB): %.2g ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20), 1000.0 * duration, perf_h2d);
+      }
+#  endif
+#else
+      amat_dev = amat_hst;
+      bmat_dev = bmat_hst;
+      cmat_dev = cmat_hst;
+      stack_dev = stack_hst;
+      trans_dev = trans_hst;
+      CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
 #endif
 #if defined(TRANSPOSE) && defined(VALIDATE)
       /* warmup execution and prebuild transpose-kernel */
@@ -438,22 +471,24 @@ int main(int argc, char* argv[]) {
 #if defined(USE_LIBXSMM)
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      if (0 < duration && EXIT_SUCCESS == result) {
+      if (EXIT_SUCCESS == result) {
+        if (0 < duration) {
 #  if defined(TRANSPOSE) && defined(VALIDATE)
-        PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
-          1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / (duration + transpose));
+          PRINTF("transpose: %.2g ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * nrepeat_smm),
+            1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / (duration + transpose));
 #  endif
-        PRINTF("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
-          1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
-      }
-      else {
+          perf_dev = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
+          PRINTF("device: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_dev);
+        }
+        else {
 #  if defined(TRANSPOSE)
-        PRINTF("transpose: 0 ms 0 GFLOPS/s\n");
+          PRINTF("transpose: 0 ms 0 GFLOPS/s\n");
 #  endif
-        PRINTF("device: 0 ms 0 GFLOPS/s\n");
+          PRINTF("device: 0 ms 0 GFLOPS/s\n");
+        }
       }
 #  if defined(VALIDATE)
-      {
+      if (EXIT_SUCCESS == result) {
         ELEM_TYPE* const gold_hst = (ELEM_TYPE*)(0 != check ? libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc) : NULL);
         /* determine host's performance independent of current result code/status */
         if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
@@ -473,19 +508,21 @@ int main(int argc, char* argv[]) {
           memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
           start = libxsmm_timer_tick();
           /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
-          for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
+          for (r = 0; r < (nrepeat * nrepeat_smm); ++r) {
             ACC_BENCH_GEMM_BATCH(LIBXSMM_DATATYPE(ELEM_TYPE), LIBXSMM_DATATYPE(ELEM_TYPE), &transa, &transb, m, n, k, &alpha,
               amat_hst, &m /*lda*/, stack_hst + 0 /*stride_a*/, bmat_hst, &k /*ldb*/, stack_hst + 1 /*stride_b*/, &beta, gold_hst,
               &m /*ldc*/, stack_hst + 2 /*stride_c*/, sizeof(int) * 3, 1 /*index_base*/, stack_size);
           }
           duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-          PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
-            1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
+          perf_hst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
+          PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_hst);
           /* validate correctness in case of successful result code/status */
           if (EXIT_SUCCESS == result) {
+#    if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
             /* transfer result from device to host for validation */
             CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
             CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
+#    endif
 #    if defined(USE_LIBXSMM)
             if (EXIT_SUCCESS == result) {
               libxsmm_matdiff_info diff;
@@ -526,11 +563,13 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_host_mem_deallocate(amat_hst, stream), NULL, check);
       CHECK(c_dbcsr_acc_host_mem_deallocate(bmat_hst, stream), NULL, check);
       CHECK(c_dbcsr_acc_host_mem_deallocate(cmat_hst, stream), NULL, check);
+#if !defined(__OFFLOAD_UNIFIED_MEMORY) || !defined(DEDUPLICATE)
       CHECK(c_dbcsr_acc_dev_mem_deallocate(stack_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(trans_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(amat_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(bmat_dev), NULL, check);
       CHECK(c_dbcsr_acc_dev_mem_deallocate(cmat_dev), NULL, check);
+#endif
       CHECK(c_dbcsr_acc_stream_destroy(stream), NULL, check);
       if (0 == result || (0 > result && 0 == check)) {
         parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
@@ -559,7 +598,24 @@ int main(int argc, char* argv[]) {
 #if defined(USE_LIBXSMM) && defined(VALIDATE)
   if (1 < nok) printf("\ndiff.max: %g\n", maxdiff);
 #endif
-  if (EXIT_SUCCESS != result) {
+  if (EXIT_SUCCESS == result) {
+#if defined(USE_LIBXSMM)
+    if (NULL != env_check_h2d && 0 < perf_h2d) {
+      const double check_h2d = atof(env_check_h2d);
+      if (perf_h2d < check_h2d) result = EXIT_FAILURE;
+    }
+    if (NULL != env_check_dev && 0 < perf_dev) {
+      const double check_dev = atof(env_check_dev);
+      if (perf_dev < check_dev) result = EXIT_FAILURE;
+    }
+    if (NULL != env_check_hst && 0 < perf_hst) {
+      const double check_hst = atof(env_check_hst);
+      if (perf_hst < check_hst) result = EXIT_FAILURE;
+    }
+    if (EXIT_SUCCESS != result) fprintf(stderr, "\nFAILED\n\n");
+#endif
+  }
+  else {
     if (NULL != file) fclose(file);
     if (0 < result) fprintf(stderr, "\nFAILED\n\n");
     else if (0 == check) result = EXIT_SUCCESS;

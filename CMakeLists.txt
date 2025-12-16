@@ -4,6 +4,8 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+# DBCSR's source directory
+set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # =================================================================================================
 # REQUIRE OUT-OF-SOURCE BUILDS
@@ -75,6 +77,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
 option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
+option(BUILD_TESTING "Build dbcsr unit tests" OFF)
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
@@ -89,10 +92,10 @@ set(TEST_OMP_THREADS
     CACHE STRING "Number of OpenMP threads for testing")
 
 set(USE_SMM
-    "blas"
+    "auto"
     CACHE STRING
-          "Small Matrix Multiplication implementation to use (default: blas)")
-set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
+          "Small Matrix Multiplication implementation to use (default: auto)")
+set_property(CACHE USE_SMM PROPERTY STRINGS auto blas libxsmm)
 
 set(USE_ACCEL
     ""
@@ -107,7 +110,7 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     V100
     A100
     H100)
-set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250)
+set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300 Mi350)
 set(WITH_GPU
     $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
     CACHE
@@ -125,49 +128,65 @@ option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 # LANGUAGES AND TESTING
 enable_language(Fortran)
 
-if (WITH_C_API AND WITH_EXAMPLES)
+if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
   enable_language(CXX)
   enable_language(C)
-endif ()
 
-# always use at least C++11
-set(CMAKE_CXX_STANDARD 11)
+  if (NOT DEFINED CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  endif ()
+
+  if (NOT DEFINED CMAKE_C_STANDARD)
+    set(CMAKE_C_STANDARD 11)
+    set(CMAKE_C_STANDARD_REQUIRED ON)
+  endif ()
+
+endif ()
 
 # =================================== OpenMP
 if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
-if ((USE_ACCEL MATCHES "opencl") AND (NOT USE_SMM MATCHES "libxsmm"))
-  message(FATAL_ERROR "OpenCL requires USE_SMM=libxsmm")
-endif ()
-
-# =================================== SMM (Small Matrix-Matrix multiplication)
-if (USE_SMM MATCHES "blas")
-  message(STATUS "Using BLAS for Small Matrix Multiplication")
-elseif (USE_SMM MATCHES "libxsmm")
-  message(STATUS "Using libxsmm for Small Matrix Multiplication")
-else ()
-  message(FATAL_ERROR "Unknown SMM library specified")
-endif ()
-
 # =================================== LIBXSMM (rely on pkg-config)
-if (USE_SMM MATCHES "libxsmm")
-  find_package(PkgConfig REQUIRED)
+if (USE_SMM MATCHES "libxsmm|auto")
+  if (USE_SMM MATCHES "libxsmm")
+    set(LIBXSMM_REQUIRED "REQUIRED")
+  endif ()
+  find_package(PkgConfig ${LIBXSMM_REQUIRED})
   if (USE_OPENMP)
-    if (NOT USE_SMM MATCHES "libxsmm-shared")
+    if (BUILD_SHARED_LIBS OR USE_SMM MATCHES "libxsmm-shared")
+      pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext-shared)
+    else ()
       pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext-static)
     endif ()
     if (NOT LIBXSMMEXT_FOUND)
-      pkg_check_modules(LIBXSMMEXT REQUIRED IMPORTED_TARGET GLOBAL libxsmmext)
+      pkg_check_modules(LIBXSMMEXT ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
+                        libxsmmext)
     endif ()
   endif ()
-  if (NOT USE_SMM MATCHES "libxsmm-shared")
+  if (BUILD_SHARED_LIBS OR USE_SMM MATCHES "libxsmm-shared")
+    pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf-shared)
+  else ()
     pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf-static)
   endif ()
   if (NOT LIBXSMM_FOUND)
-    pkg_check_modules(LIBXSMM REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
+    pkg_check_modules(LIBXSMM ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
+                      libxsmmf)
   endif ()
+endif ()
+
+# =================================== SMM (Small Matrix-Matrix multiplication)
+if (USE_SMM MATCHES "blas" OR (USE_SMM MATCHES "auto" AND NOT LIBXSMM_FOUND))
+  if (USE_ACCEL MATCHES "opencl")
+    message(FATAL_ERROR "OpenCL requires USE_SMM=libxsmm")
+  endif ()
+  message(STATUS "Using BLAS for Small Matrix Multiplication")
+elseif (USE_SMM MATCHES "libxsmm" OR USE_SMM MATCHES "auto")
+  message(STATUS "Using libxsmm for Small Matrix Multiplication")
+else ()
+  message(FATAL_ERROR "Unknown SMM library specified")
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
@@ -226,13 +245,22 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
 endif ()
 
 # =================================== GPU backends
+
+if (NOT USE_ACCEL MATCHES "none")
+  set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
+endif ()
+
 if (USE_ACCEL MATCHES "opencl")
   find_package(OpenCL REQUIRED)
-  enable_language(C)
+
+  set(DBCSR_OPENCL_SCRIPT ${DBCSR_SOURCE_DIR}/acc/opencl/acc_opencl.sh)
+  set(DBCSR_OPENCL_COMMON acc/opencl/common/opencl_atomics.h
+                          acc/opencl/common/opencl_common.h)
+  list(APPEND DBCSR_ACC_HEADER acc/opencl/smm/opencl_libsmm.h
+       acc/opencl/acc_opencl.h)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
-  enable_language(CXX)
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
   set(GPU_ARCH_NUMBER_K80 37)
@@ -243,11 +271,18 @@ if (USE_ACCEL MATCHES "cuda|hip")
   set(GPU_ARCH_NUMBER_Mi50 gfx906)
   set(GPU_ARCH_NUMBER_Mi100 gfx908)
   set(GPU_ARCH_NUMBER_Mi250 gfx90a)
+  set(GPU_ARCH_NUMBER_Mi300 gfx942)
+  set(GPU_ARCH_NUMBER_Mi350 gfx950)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda")
   enable_language(CUDA)
   find_package(CUDAToolkit REQUIRED)
+
+  if (NOT DEFINED CMAKE_CUDA_STANDARD)
+    set(CMAKE_CUDA_STANDARD 14)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  endif ()
 
   if (CUDAToolkit_VERSION LESS 5.5)
     message(FATAL_ERROR "CUDA version >= 5.5 is required.")
@@ -275,6 +310,11 @@ if (USE_ACCEL MATCHES "hip")
     set(CMAKE_HIP_ARCHITECTURES OFF)
   endif ()
   enable_language(HIP)
+
+  if (NOT DEFINED CMAKE_HIP_STANDARD)
+    set(CMAKE_HIP_STANDARD 14)
+    set(CMAKE_HIP_STANDARD_REQUIRED ON)
+  endif ()
 
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
@@ -315,6 +355,9 @@ if (USE_ACCEL MATCHES "hip")
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
+
+  # =================================== HIPRTC
+  find_package(hiprtc REQUIRED)
 endif ()
 
 # =================================================================================================
@@ -341,10 +384,10 @@ include(CompilerConfiguration)
 include(CheckCompilerSupport)
 
 # subdirectories
-add_subdirectory(src)
+add_subdirectory(${DBCSR_SOURCE_DIR})
 
-include(CTest)
 if (BUILD_TESTING)
+  include(CTest)
   add_subdirectory(tests)
 endif ()
 

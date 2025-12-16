@@ -801,7 +801,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
       !! Computes various functions (defined by func) of matrix elements
-      !! @note  sign(A,B) returns the value of A with the sign of B
+      !! @note
+      !! sign(A,B) returns the value of A with the sign of B
       !! dbcsr_func_inverse:   1/(a1*x+a0)
       !! fails if the inversion produces infinite numbers
       !! dbcsr_func_inverse_special: 1/(x+sign(a0,x))
@@ -819,6 +820,7 @@ CONTAINS
       !! dbcsr_func_ddsin:   d2(sin(a1*x+a0)) / dx2 = -a1*a1*sin(a1*x+a0)
       !! dbcsr_func_asin:    asin(a1*x+a0)
       !! fails if |a1*x+a0| > 1
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
          !! DBCSR matrix
@@ -1479,6 +1481,9 @@ CONTAINS
          IF (.NOT. found) THEN
             CALL dbcsr_data_clear(dst_data)
          ELSE
+            IF (dbcsr_data_get_size(src_data) .NE. dbcsr_data_get_size(dst_data)) THEN
+               DBCSR_ABORT("Block sizes not equal!")
+            END IF
             IF (checker_tr(dst_row, dst_col)) THEN
                src_tr = .NOT. src_tr
                CALL swap(src_rs, src_cs)

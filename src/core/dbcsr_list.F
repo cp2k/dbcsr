@@ -14,9 +14,11 @@ MODULE dbcsr_list
    !! allocated and the items are copied over.
    !! This list can also be used as a stack.
    !! Have look at list_push(), list_pop() and list_peek().
-   !! @note it's not possible to put all templates in a single module because this would lead to circular
+   !! @note
+   !! it's not possible to put all templates in a single module because this would lead to circular
    !! dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and
    !! list_timerenv_type contains timer_env_type)
+   !! @endnote
 
    USE dbcsr_timings_base_type, ONLY: ${uselist(usetimingsbase)}$
    USE dbcsr_list_callstackentry, ONLY: @{uselist_listmethods(callstackentry)}@

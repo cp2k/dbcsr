@@ -634,7 +634,9 @@ CONTAINS
 
    SUBROUTINE make_sizes_dense(old_sizes, mapping, nel_new, new_sizes)
       !! Matches row/block sizes and offsets to a given distribution
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_sizes, mapping
       INTEGER, INTENT(IN)                                :: nel_new

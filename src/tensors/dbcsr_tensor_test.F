@@ -539,7 +539,8 @@ CONTAINS
                                           bounds_1, bounds_2, bounds_3, &
                                           log_verbose, write_int)
       !! test tensor contraction
-      !! @note for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
+      !! @note
+      !! for testing/debugging, simply replace a call to dbcsr_t_contract with a call to this routine
       !! @endnote
 
             TYPE(dbcsr_scalar_type), INTENT(IN) :: alpha

@@ -752,7 +752,9 @@ CONTAINS
    SUBROUTINE dbcsr_make_images_dense(images, new_rdist, &
                                       row_map, col_map, join_cols, join_rows, new_template)
       !! Makes dense matrices for the image matrices.
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: images
          !! current (undense) matrix images, output is the dense matrix images

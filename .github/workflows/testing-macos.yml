@@ -16,10 +16,7 @@ jobs:
         use_openmp: [OPENMP=ON]
         use_smm: [SMM=blas]
         blas_impl: [accelerate,openblas]
-        mpi_suffix: [openmpi]
-        exclude:
-          - use_mpi: MPI=OFF
-            mpi_suffix: mpich
+        mpi_suffix: [mpich] # Brew openmpi doesn't provide mpi.mod
 
     steps:
     - uses: actions/checkout@v4
@@ -41,9 +38,10 @@ jobs:
         mkdir -p build
         cd build
         env \
-          CC=gcc-14 CXX=g++-14 FC=gfortran-14 \
+          CC=gcc-15 CXX=g++-15 FC=gfortran-15 \
           cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_${{ matrix.use_smm }} \

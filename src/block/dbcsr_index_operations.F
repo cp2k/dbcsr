@@ -91,6 +91,7 @@ CONTAINS
       !! @note
       !! This routine uses hard-coded logic as to what constitutes a
       !! canonical ordering
+      !! @endnote
 
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_row_p, new_col_i, new_blk_p
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
@@ -153,6 +154,7 @@ CONTAINS
       !! @note
       !! This routine uses hard-coded logic as to what constitutes a
       !! canonical ordering
+      !! @endnote
 
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_row_p, new_col_i, new_blk_p
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
@@ -782,7 +784,9 @@ CONTAINS
                                nblkrows_total, nblkcols_total, myblkrows, myblkcols, &
                                row_blk_offsets, col_blk_offsets, meta, make_tr)
       !! Makes the index for a dense matrix
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       !INTEGER, DIMENSION(:), INTENT(OUT)       :: row_p, col_i, blk_p
       INTEGER, INTENT(IN)                                :: nblkrows_total
@@ -865,7 +869,9 @@ CONTAINS
       distribution, local_row_offsets, local_col_offsets, &
       meta)
       !! Makes a blocked index from a dense matrix
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: row_p, col_i, blk_p
          !! Storage for new index
@@ -929,8 +935,10 @@ CONTAINS
       !! specified. This is meant for cases where the added blocks may
       !! be duplicates of existing blocks. In this way it is possible
       !! to recalculate new block pointers to avoid wasted space.
-      !! @note Used in local multiply
+      !! @note
+      !! Used in local multiply
       !! Assumes they are both pre-sorted
+      !! @endnote
 
       INTEGER, INTENT(IN)                                :: new_size
          !! size of merged index

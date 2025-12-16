@@ -49,6 +49,15 @@
 #define TO_VERSION3(MAJOR, MINOR, UPDATE) (TO_VERSION2(MAJOR, MINOR) + (UPDATE))
 #define TO_VERSION TO_VERSION2
 
+! Rely on incorrect expansion inside of quotes to avoid issue of handling hash-character.
+!&<
+#if defined(__GNUC__)
+#define DBCSR_STRINGIZE(A) "A"
+#else
+#define DBCSR_STRINGIZE(A) #A
+#endif
+!&>
+
 ! LIBXSMM has a FORTRAN-suitable header with macro/version definitions (since v1.8.2).
 ! Allows macro-toggles (in addition to parameters).
 #if defined(__LIBXSMM)

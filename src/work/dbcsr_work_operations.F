@@ -1355,7 +1355,9 @@ CONTAINS
    SUBROUTINE add_work_coordinate(matrix, row, col, blk, index)
       !! Adds a coordinate (or other data) into a work matrix's row_i and
       !! col_i arrays and returns its position.
-      !! @note  Uses the matrix%lastblk to keep track of the current position.
+      !! @note
+      !! Uses the matrix%lastblk to keep track of the current position.
+      !! @endnote
 
       TYPE(dbcsr_work_type), INTENT(INOUT)               :: matrix
          !! work matrix

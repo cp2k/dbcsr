@@ -723,7 +723,9 @@ CONTAINS
    SUBROUTINE dbcsr_make_dense(matrix, dense_matrix, dense_dist, &
                                dense_row_sizes, dense_col_sizes, row_map, col_map)
       !! Makes a dense matrix, inplace.
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! matrix to make dense
@@ -782,7 +784,9 @@ CONTAINS
                                    dense_row_blk_offsets, dense_col_blk_offsets, &
                                    row_map, col_map, join_rows, join_cols)
       !! Copies a matrix and makes its data dense.
-      !! @note the dense_matrix must have been created
+      !! @note
+      !! the dense_matrix must have been created
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(IN)                       :: und_matrix
          !! Original non-dense matrix
@@ -933,7 +937,9 @@ CONTAINS
                                  row_blk_offsets, col_blk_offsets, row_blk_sizes, col_blk_sizes, &
                                  row_map, col_map)
       !! Makes a blocked matrix from a dense matrix, inplace
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! dense matrix
@@ -1082,7 +1088,9 @@ CONTAINS
                               row_internal_offsets, col_internal_offsets, &
                               join_rows, join_cols, make_tr)
       !! Shuffles the data from blocked to standard dense form
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          !! Existing blocked matrix
@@ -1188,7 +1196,9 @@ CONTAINS
                                 dense_row_blk_offsets, dense_col_blk_offsets, &
                                 row_map, col_map, row_internal_offsets, col_internal_offsets)
       !! Shuffles the data from standard dense to blocked form
-      !! @note Used for making matrices dense/undense
+      !! @note
+      !! Used for making matrices dense/undense
+      !! @endnote
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Matrix with data to fill
