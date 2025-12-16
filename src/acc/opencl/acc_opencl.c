@@ -1086,7 +1086,7 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
         if (EXIT_SUCCESS == result) {
           char devname[ACC_OPENCL_BUFFERSIZE] = "";
           const char* const sgexts[] = {"cl_intel_required_subgroup_size", "cl_intel_subgroups", "cl_khr_subgroups"};
-          size_t sgsizes[16], nbytes = 0, sgmin = (size_t)-1, i;
+          size_t sgsizes[16], nbytes = 0, i;
           ACC_OPENCL_STREAM_PROPERTIES_TYPE properties[4] = {
             CL_QUEUE_PROPERTIES, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, 0 /* terminator */
           };
@@ -1133,19 +1133,17 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
             devinfo->wgsize[1] = 1;
           }
           assert(0 == devinfo->wgsize[2]);
-          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, sgexts, 2) &&
+          if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, sgexts, 2) && 0 != devinfo->wgsize[1] &&
               EXIT_SUCCESS ==
                 clGetDeviceInfo(active_id, 0x4108 /*CL_DEVICE_SUB_GROUP_SIZES_INTEL*/, sizeof(sgsizes), sgsizes, &nbytes))
           {
             for (i = 0; (i * sizeof(size_t)) < nbytes; ++i) {
               const size_t sgsize = sgsizes[i];
-              if (sgsize < sgmin) sgmin = sgsize;
-              if (0 != devinfo->wgsize[1] && 0 == (sgsize % devinfo->wgsize[1]) && devinfo->wgsize[2] < sgsize) {
+              if (devinfo->wgsize[2] < sgsize && (0 == (sgsize % devinfo->wgsize[1]) || 0 == (devinfo->wgsize[1] % sgsize))) {
                 if (devinfo->wgsize[1] < sgsize) devinfo->wgsize[1] = sgsize;
                 devinfo->wgsize[2] = sgsize;
               }
             }
-            if (0 != devinfo->wgsize[2]) devinfo->wgsize[2] = sgmin;
           }
           else devinfo->wgsize[2] = 0;
 #  if defined(ACC_OPENCL_XHINTS) && (1 >= ACC_OPENCL_USM)
