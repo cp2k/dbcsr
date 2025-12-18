@@ -21,6 +21,7 @@ if ("@USE_ACCEL@" MATCHES "hip")
   enable_language(HIP)
   find_dependency(hip)
   find_dependency(hipblas)
+  find_dependency(hiprtc)
 endif ()
 
 
