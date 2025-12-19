@@ -1,0 +1,301 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../../../favicon.png">
+
+    <title>Insights &ndash; DBCSR</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../../../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../../../css/brands.min.css" rel="stylesheet">
+    <link href="../../../css/regular.min.css" rel="stylesheet">
+    <link href="../../../css/solid.min.css" rel="stylesheet">
+    <link href="../../../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../../../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../../../css/local.css" rel="stylesheet">
+    <link href="../../../css/pygments.css" rel="stylesheet">
+    <script src="../../../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.9.1</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../../index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../../../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>Insights</h1>
+    <div class="container p-2 mb-4 bg-light border rounded-3">
+      <div class="row align-items-center justify-content-between">
+        <div class="col">
+          <ul class="list-inline" style="margin-bottom:0px; display:inline">
+          </ul>
+        </div>
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../../index.html'>Guide</a></li>
+                <li class="breadcrumb-item"><a href='../index.html'>Developer Guide</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>Performance</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Insights</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <div class="col-3">
+        <div class="card card-body bg-light" id="sidebar-toc">
+          <ul class="nav flex-column align-items">
+            <li class="nav-item">
+              <a class="nav-link" href="../../index.html">Guide</a>
+            </li>
+          </ul>
+          <hr>
+          <nav class="nav nav-pills flex-column">
+              <a class="nav-link" href="../../1-DBCSR/index.html">DBCSR</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../1-DBCSR/publications.html">Publications</a>
+
+                </nav>
+              <a class="nav-link" href="../../2-user-guide/index.html">User Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../2-user-guide/1-installation/index.html">Install</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../../2-user-guide/1-installation/1-cmake-build-recipes.html">CMake Build Recipes</a>
+              <a class="nav-link" href="../../2-user-guide/1-installation/2-supported-compilers.html">Supported Compilers</a>
+              <a class="nav-link" href="../../2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html">Using DBCSR in a CMake project</a>
+              <a class="nav-link" href="../../2-user-guide/1-installation/4-docker.html">Docker Images</a>
+
+                </nav>
+              <a class="nav-link" href="../../2-user-guide/2-tests/index.html">Tests</a>
+              <a class="nav-link" href="../../2-user-guide/3-examples/index.html">Examples</a>
+              <a class="nav-link" href="../../2-user-guide/4-gpu/index.html">GPUs</a>
+
+                </nav>
+              <a class="nav-link" href="../index.html">Developer Guide</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../1-tooling/index.html">Tooling</a>
+              <a class="nav-link" href="../2-documentation/index.html">Documentation</a>
+              <a class="nav-link" href="../3-programming/index.html">Programming</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../3-programming/1-overview/index.html">Overview</a>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/index.html">Accelerator Backend</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../3-programming/2-accelerator-backend/1-code-structure.html">Code Structure</a>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/2-libsmm_acc/index.html">CUDA/HIP</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html">Kernels</a>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html">Kernel Parameters</a>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html">Autotuning Framework</a>
+
+                </nav>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link" href="../3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html">Autotune</a>
+              <a class="nav-link" href="../3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html">Parameters</a>
+
+                </nav>
+
+                </nav>
+
+                </nav>
+              <a class="nav-link" href="index.html">Performance</a>
+                <nav class="nav nav-pills flex-column">
+                                <a class="nav-link active disabled" href="1-insights.html">Insights</a>
+              <a class="nav-link" href="2-just-in-time-compilation.html">JIT</a>
+
+                </nav>
+
+                </nav>
+          </nav>
+        </div>
+      </div>
+
+    <div class="col-9" id='text'>
+      <h1>Insights into Performance</h1>
+<h2>Read Timing &amp; Statistics Reports</h2>
+<p>At the end of an output file, a report of DBCSR's statistics and timings can be found.</p>
+<h3>Statistics</h3>
+<p>The STATISTICS section of the output file provides some information on matrix-matrix multiplications that were run and their performance characteristics.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code>-------------------------------------------------------------------------------
+<span class="m">-</span>                                                                             -
+<span class="m">-</span>                                DBCSR STATISTICS                             -
+<span class="gh">-                                                                             -</span>
+<span class="gh">-------------------------------------------------------------------------------</span>
+COUNTER                                    TOTAL       BLAS       SMM       ACC
+flops    23 x    23 x    23         687272462200       0.0%      0.0%    100.0%
+flops inhomo. stacks                           0       0.0%      0.0%      0.0%
+flops total                       687.272462E+09       0.0%      0.0%    100.0%
+flops max/rank                    687.272462E+09       0.0%      0.0%    100.0%
+matmuls inhomo. stacks                         0       0.0%      0.0%      0.0%
+matmuls total                           28243300       0.0%      0.0%    100.0%
+number of processed stacks                  1600       0.0%      0.0%    100.0%
+average stack size                                     0.0       0.0   17652.1
+<span class="gh">marketing flops                     1.076458E+12</span>
+<span class="gh">-------------------------------------------------------------------------------</span>
+# multiplications                             50
+max memory usage/rank              16.650822E+09
+# max total images/rank                        1
+# max 3D layers                                1
+# MPI messages exchanged                       0
+MPI messages size (bytes):
+ total size                         0.000000E+00
+ min size                           0.000000E+00
+ max size                           0.000000E+00
+ average size                       0.000000E+00
+MPI breakdown and total messages size (bytes):
+            size &lt;=      128                   0                        0
+      128 &lt; size &lt;=     8192                   0                        0
+     8192 &lt; size &lt;=    32768                   0                        0
+    32768 &lt; size &lt;=   131072                   0                        0
+   131072 &lt; size &lt;=  4194304                   0                        0
+  4194304 &lt; size &lt;= 16777216                   0                        0
+ 16777216 &lt; size                               0                        0
+-------------------------------------------------------------------------------
+</code></pre></div>
+
+<h4>How to Read the Columns</h4>
+<ul>
+<li><code>TOTAL</code>: total flops</li>
+<li><code>BLAS</code>: percentage of flops run on BLAS (this could be CUBLAS or HIPBLAS)</li>
+<li><code>SMM</code>: percentage of flops run on SMM (libsmm or libxsmm, CPU)</li>
+<li><code>ACC</code>: percentage of flops run on ACC (libsmm_acc, DBCSR's GPU-accelerated backend)</li>
+</ul>
+<h4>How to Read the Rows (Counters)</h4>
+<p>Every time "matrix-matrix multiplication" is mentionned in this paragraph, it refers <em>not</em> to the sparse multiplication of large matrices, but the multiplication of small dense blocks that the large sparse matrix was decomposed into.</p>
+<ul>
+<li><code>flops    23 x    23 x    23</code>: indicates that batched matrix-matrix multiplication kernels with matrix dimensions (m, n, k) = (23, 23, 23) was run, and provides info on its flops. If several batched matrix-matrix multiplications of different matrix dimensions (m, n, k) were run, they would appear as subsequent separate rows.</li>
+<li><code>flops inhomo. stacks</code>: flops of so-called "inhomogeneous stacks". These are stacks of batched-matrix-matrix multiplications where not all multiplications contained have the same matrix dimensions (m, n, k).</li>
+<li><code>flops total</code>: total flops for all stacks of matrix-matrix multiplication.</li>
+<li><code>flops max/rank</code>: flops of the MPI rank with the most flops.</li>
+<li><code>matmuls inhomo. stacks</code>: number of matrix-matrix multiplications run in inhomogeneous stacks.</li>
+<li><code>matmuls total</code>: number of matrix-matrix multiplications run in total.</li>
+<li><code>number of processed stacks</code>: number of stacks of batched matrix-matrix multiplication.</li>
+<li><code>average stack size</code>: average over all stacks of the stack size (i.e. the number of matrix-matrix multiplications that a stack contains).</li>
+</ul>
+<h3>Timings</h3>
+<p>Example of the statistics section of the output file:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">-------------------------------------------------------------------------------</span>
+<span class="nb">-</span><span class="c">                                                                             </span><span class="nb">-</span>
+<span class="nb">-</span><span class="c">                                T I M I N G                                  </span><span class="nb">-</span>
+<span class="nb">-</span><span class="c">                                                                             </span><span class="nb">-</span>
+<span class="nb">-------------------------------------------------------------------------------</span>
+<span class="c">SUBROUTINE                       CALLS  ASD         SELF TIME        TOTAL TIME MAXRANK</span>
+<span class="c">                               MAXIMUM       AVERAGE  MAXIMUM  AVERAGE  MAXIMUM</span>
+<span class="c">dbcsr_performance_driver             1  1</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">000    0</span><span class="nt">.</span><span class="c">000  102</span><span class="nt">.</span><span class="c">563  102</span><span class="nt">.</span><span class="c">563       0</span>
+<span class="c">dbcsr_perf_multiply_low              1  2</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">002    0</span><span class="nt">.</span><span class="c">002  102</span><span class="nt">.</span><span class="c">563  102</span><span class="nt">.</span><span class="c">563       0</span>
+<span class="c">perf_multiply                        1  3</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">003    0</span><span class="nt">.</span><span class="c">003  102</span><span class="nt">.</span><span class="c">077  102</span><span class="nt">.</span><span class="c">077       0</span>
+<span class="k">[</span><span class="nt">...</span><span class="k">]</span>
+<span class="nb">-------------------------------------------------------------------------------</span>
+</code></pre></div>
+
+<p>The columns describe:</p>
+<ul>
+<li><code>SUBROUTINE</code>: the name of the fortran subroutine (or c++ function) timed.</li>
+<li><code>CALLS</code>: number of times the subroutine was called.</li>
+<li><code>ASD</code>: average stack depth: the average number of entries on the call stack when this subroutine is called.</li>
+<li><code>SELF TIME</code>: how much time is spent in the subroutine, or in non-timed subroutines called by this subroutine.<ul>
+<li><code>AVERAGE</code>: the self time averaged over all MPI ranks,</li>
+<li><code>MAXIMUM</code>: the self time maximum over all MPI ranks,</li>
+<li><code>AVERAGE</code> and <code>MAXIMUM</code> can be used to locate load-imbalance or synchronization points.</li>
+</ul>
+</li>
+<li><code>TOTAL TIME</code>: how much time is spent in the subroutine, including the time spent in timed subroutines.<ul>
+<li><code>AVERAGE</code>: averaged over all MPI ranks</li>
+<li><code>MAXIMUM</code>: maximum over all MPI ranks</li>
+<li><code>AVERAGE</code> and <code>MAXIMUM</code> can be used to locate load-imbalance or synchronization points.</li>
+</ul>
+</li>
+<li><code>MAXRANKS</code>:</li>
+</ul>
+<h4>Time spent in Just-In-Time (JIT) Compilation</h4>
+<p>For performance debugging and in order to check how much time a program spends doing JIT, look for the functions <code>jit_kernel_multiply</code> and <code>jit_kernel_transpose</code>.</p>
+<h4>How to Time a Function</h4>
+<p>By default, the most important subroutines are timed in DBCSR.</p>
+<p>If you want to time a subroutine or function that is not timed already, call <code>timeset</code> with a routine name and a handle at the beginning of the function, and <code>timestop</code> with the same handle at the end of the function.</p>
+<p>For examples, just <code>grep</code> for <code>timeset</code> and <code>timestop</code> in the codebase.</p>
+<p>This can be done both in fortran code and in the c++ code.</p>
+    </div>
+  </div>
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

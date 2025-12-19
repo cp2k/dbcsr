@@ -1,0 +1,297 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_kinds.F &ndash; DBCSR</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.9.1</small></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Guide</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/absint.html">Abstract Interfaces</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/types.html">Derived Types</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/programs.html">Programs</a>
+                </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>dbcsr_kinds.F
+      <small>Source File</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.1% of total for source files.">37 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/dbcsr_kinds.F"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+            <li class="breadcrumb-item active" aria-current="page">dbcsr_kinds.F</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#mods-0"
+         aria-expanded="false" aria-controls="mods-0">
+         <h4 class="card-header bg-primary text-white">Modules</h4>
+      </a>
+      <div id="mods-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/dbcsr_kinds.html">dbcsr_kinds</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card card-primary">
+      <div class="card-header text-left"><h3 class="card-title">Source Code</h3></div>
+      <div class="list-group">
+        <a class="list-group-item" href="../sourcefile/dbcsr_kinds.f.html#src">dbcsr_kinds.F</a>
+      </div>
+    </div>
+
+
+  </div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+
+      <section>
+        <h2><span class="anchor" id="src"></span>Source Code</h2>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/base/dbcsr_kinds.F&quot; 1</span>
+<a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a id="ln-5" name="ln-5" href="#ln-5"></a><span class="c">!                                                                                                  !</span>
+<a id="ln-6" name="ln-6" href="#ln-6"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a id="ln-7" name="ln-7" href="#ln-7"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a id="ln-10" name="ln-10" href="#ln-10"></a>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_kinds</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">   </span><span class="c">!! Defines the basic variable types</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="w">   </span><span class="c">!! @note</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="w">   </span><span class="c">!! Data type definitions; tested on:</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">   </span><span class="c">!! - IBM AIX xlf90</span>
+<a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">   </span><span class="c">!! - SGI IRIX  f90</span>
+<a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">   </span><span class="c">!! - CRAY T3E  f90</span>
+<a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">   </span><span class="c">!! - DEC ALPHA f90</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">   </span><span class="c">!! - NAG_F90</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">   </span><span class="c">!! - SUN</span>
+<a id="ln-21" name="ln-21" href="#ln-21"></a><span class="w">   </span><span class="c">!! - HITACHI</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">   PRIVATE</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="k">   PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">print_kind_info</span><span class="p">,</span><span class="w"> </span><span class="n">dp_size</span><span class="p">,</span><span class="w"> </span><span class="n">sp_size</span><span class="p">,</span><span class="w"> </span><span class="n">int_size</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">   </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_1</span><span class="p">,</span><span class="w"> </span><span class="n">int_4</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">,</span><span class="w"> </span><span class="n">int_1_size</span><span class="p">,</span><span class="w"> </span><span class="n">int_2_size</span><span class="p">,</span><span class="w"> </span><span class="n">int_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">int_8_size</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">   </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_4</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">,</span><span class="w"> </span><span class="n">real_4_size</span><span class="p">,</span><span class="w"> </span><span class="n">real_8_size</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">   </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_string_length</span><span class="p">,</span><span class="w"> </span><span class="n">default_path_length</span><span class="p">,</span><span class="w"> </span><span class="n">max_line_length</span>
+<a id="ln-30" name="ln-30" href="#ln-30"></a>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_REAL_KIND</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_REAL_KIND</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="w">   </span><span class="c">! we rely on this (libraries) but do not check this</span>
+<a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dp_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">                         </span><span class="n">int_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">                         </span><span class="n">sp_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<a id="ln-37" name="ln-37" href="#ln-37"></a>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_REAL_KIND</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span>
+<a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_REAL_KIND</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_4_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">real_8_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a>
+<a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_1_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">int_1</span><span class="p">))</span><span class="o">/</span><span class="mi">8</span>
+<a id="ln-45" name="ln-45" href="#ln-45"></a>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_2_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">int_2</span><span class="p">))</span><span class="o">/</span><span class="mi">8</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a>
+<a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_4_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">int_4</span><span class="p">))</span><span class="o">/</span><span class="mi">8</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">int_8_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">int_8</span><span class="p">))</span><span class="o">/</span><span class="mi">8</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a>
+<a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_string_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">80</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_path_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span>
+<a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">max_line_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">default_path_length</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="w">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">default_blank_character</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
+<a id="ln-59" name="ln-59" href="#ln-59"></a>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="k">CONTAINS</span>
+<a id="ln-61" name="ln-61" href="#ln-61"></a>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">   SUBROUTINE </span><span class="n">print_kind_info</span><span class="p">(</span><span class="n">iw</span><span class="p">)</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="c">!! Print informations about the used data types.</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a>
+<a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">iw</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /, T2, A )&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;DATA TYPE INFORMATION:&#39;</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a>
+<a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /,T2,A,T79,A,2(/,T2,A,T75,I6),3(/,T2,A,T67,E14.8) )&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="w">         </span><span class="s1">&#39;REAL: Data type name:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;dp&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;      Kind value:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">         </span><span class="s1">&#39;      Precision:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">PRECISION</span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="w">         </span><span class="s1">&#39;      Smallest non-negligible quantity relative to 1:&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">         </span><span class="nb">EPSILON</span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="w">         </span><span class="s1">&#39;      Smallest positive number:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">TINY</span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">         </span><span class="s1">&#39;      Largest representable number:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="mf">0.0_dp</span><span class="p">)</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /,T2,A,T79,A,2(/,T2,A,T75,I6),3(/,T2,A,T67,E14.8) )&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">         </span><span class="s1">&#39;      Data type name:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;sp&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;      Kind value:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="w">         </span><span class="s1">&#39;      Precision:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">PRECISION</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">         </span><span class="s1">&#39;      Smallest non-negligible quantity relative to 1:&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="w">         </span><span class="nb">EPSILON</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">         </span><span class="s1">&#39;      Smallest positive number:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">TINY</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">         </span><span class="s1">&#39;      Largest representable number:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">)</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /,T2,A,T72,A,4(/,T2,A,T61,I20) )&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="w">         </span><span class="s1">&#39;INTEGER: Data type name:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(default)&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;         Kind value:&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">         </span><span class="nb">KIND</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">         </span><span class="s1">&#39;         Bit size:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">BIT_SIZE</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="w">         </span><span class="s1">&#39;         Largest representable number:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">HUGE</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /,T2,A,T72,A,/,T2,A,T75,I6,/ )&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">         </span><span class="s1">&#39;LOGICAL: Data type name:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(default)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="w">         </span><span class="s1">&#39;         Kind value:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( /,T2,A,T72,A,/,T2,A,T75,I6,/ )&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="w">         </span><span class="s1">&#39;CHARACTER: Data type name:&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(default)&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">         </span><span class="s1">&#39;           Kind value:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">)</span>
+<a id="ln-94" name="ln-94" href="#ln-94"></a>
+<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">print_kind_info</span>
+<a id="ln-96" name="ln-96" href="#ln-96"></a>
+<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="k">END MODULE </span><span class="n">dbcsr_kinds</span>
+</pre></div>
+
+      </section>
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              DBCSR
+ was developed by DBCSR Authors<br>              &copy; 2025 
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
