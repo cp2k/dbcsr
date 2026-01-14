@@ -3433,13 +3433,13 @@ have to be allocated.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
+                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/c_f_string~2.html'>c_f_string</a></td>
-                 <td><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></td>
+                 <td><a href='../module/dbcsr_tensor_api_c.html'>dbcsr_tensor_api_c</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -15780,19 +15780,19 @@ area and the index is built from the work matrix.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/random_dist.html'>random_dist</a></td>
-                 <td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td>
+                 <td><a href='../program/dbcsr_example_2.html'>dbcsr_example_2</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/random_dist~2.html'>random_dist</a></td>
-                 <td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td>
+                 <td><a href='../program/dbcsr_example_3.html'>dbcsr_example_3</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/random_dist~3.html'>random_dist</a></td>
-                 <td><a href='../program/dbcsr_example_2.html'>dbcsr_example_2</a></td>
+                 <td><a href='../program/dbcsr_example_1.html'>dbcsr_example_1</a></td>
                  <td>Subroutine</td>
                  <td></td>
                </tr>
@@ -15877,6 +15877,13 @@ Multiplicity is being ignored, maybe this is a bug</p><a href="../proc/reimage_d
                </tr>
 			   <tr>
                  <td><a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a></td>
+                 <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+the same split factor.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td>
                  <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
                  <td>Subroutine</td>
                  <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
@@ -15884,25 +15891,18 @@ matrix multiplication. This routine reshapes the two largest of the three tensor
 is avoided if tensors already in a consistent layout.</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/reshape_mm_compatible~2.html'>reshape_mm_compatible</a></td>
-                 <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
-the same split factor.</p></td>
-               </tr>
-			   <tr>
                  <td><a href='../proc/reshape_mm_small.html'>reshape_mm_small</a></td>
-                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
-matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td>
                  <td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td>
                  <td>Subroutine</td>
                  <td><p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
 the same process grid as the other 2 matrices.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/reshape_mm_small~2.html'>reshape_mm_small</a></td>
+                 <td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+matrix multiplication. This routine reshapes the smallest of the three tensors.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../proc/reshape_mm_template.html'>reshape_mm_template</a></td>
@@ -16529,7 +16529,7 @@ and decide if tensor process grid needs to be optimized</p></td>
           <div class="col">
             <p>
               DBCSR
- was developed by DBCSR Authors<br>              &copy; 2025 
+ was developed by DBCSR Authors<br>              &copy; 2026 
 </p>
           </div>
           <div class="col">
