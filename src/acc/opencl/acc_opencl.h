@@ -296,11 +296,17 @@ typedef struct c_dbcsr_acc_opencl_device_t {
   cl_int (*clMemFreeINTEL)(cl_context, void*);
 } c_dbcsr_acc_opencl_device_t;
 
+typedef enum c_dbcsr_acc_event_kind_t {
+  c_dbcsr_acc_event_kind_none,
+  c_dbcsr_acc_event_kind_h2d,
+  c_dbcsr_acc_event_kind_d2h,
+  c_dbcsr_acc_event_kind_d2d
+} c_dbcsr_acc_event_kind_t;
+
 /** Information about host/device-memory pointer. */
 typedef struct c_dbcsr_acc_opencl_info_memptr_t {
   cl_mem memory; /* first item! */
   void* memptr;
-  /*void *data;*/
 } c_dbcsr_acc_opencl_info_memptr_t;
 
 /** Enumeration of FP-atomic kinds. */
