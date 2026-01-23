@@ -170,7 +170,7 @@ void c_dbcsr_acc_opencl_configure(void) {
 #  endif
 #  if defined(ACC_OPENCL_XHINTS)
   const char* const env_xhints = (ACC_OPENCL_XHINTS);
-  const int xhints_default = 1 + 2 + 4 + 8;
+  const int xhints_default = 1 + 2 + 4 + 8 + 16;
 #  else
   const char* const env_xhints = NULL;
   const int xhints_default = 0;
@@ -295,7 +295,7 @@ void c_dbcsr_acc_opencl_configure(void) {
       if ((1 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("ZE_FLAT_DEVICE_HIERARCHY")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[0]));
       }
-#  if (0 == ACC_OPENCL_USM)
+#  if (1 >= ACC_OPENCL_USM)
       if ((2 & c_dbcsr_acc_opencl_config.wa) && NULL == getenv("EnableRecoverablePageFaults")) {
         ACC_OPENCL_EXPECT(0 == LIBXSMM_PUTENV(apply[1]));
       }
@@ -605,11 +605,14 @@ int c_dbcsr_acc_init(void) {
 #  endif
           0 > c_dbcsr_acc_opencl_config.profile)
         {
+          const char* const env_qsize = getenv("ACC_OPENCL_PROFILE_QSIZE");
+          const int psize = (NULL == env_qsize ? 0 : atoi(env_qsize));
+          const int qsize = (0 >= psize ? 1024 : LIBXSMM_MIN(psize, 65536));
           const int profile = LIBXSMM_MAX(LIBXSMM_ABS(c_dbcsr_acc_opencl_config.profile), 2);
           const c_dbcsr_acc_opencl_hist_update_fn update[] = {c_dbcsr_acc_opencl_hist_avg, c_dbcsr_acc_opencl_hist_add};
-          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_h2d, profile + 1, profile * 4, 2, update);
-          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_d2h, profile + 1, profile * 4, 2, update);
-          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_d2d, profile + 1, profile * 4, 2, update);
+          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_h2d, profile + 1, qsize, 2, update);
+          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_d2h, profile + 1, qsize, 2, update);
+          c_dbcsr_acc_opencl_hist_create(&c_dbcsr_acc_opencl_config.hist_d2d, profile + 1, qsize, 2, update);
         }
         else {
           assert(NULL == c_dbcsr_acc_opencl_config.hist_h2d);
@@ -679,7 +682,8 @@ LIBXSMM_ATTRIBUTE_CTOR void c_dbcsr_acc_opencl_init(void) {
 LIBXSMM_ATTRIBUTE_DTOR void c_dbcsr_acc_opencl_finalize(void) {
   assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_MAXNDEVS);
   if (0 != c_dbcsr_acc_opencl_config.ndevices) {
-    int precision[] = {0, 1}, i;
+    const int precision[] = {0, 1};
+    int i;
     LIBXSMM_STDIO_ACQUIRE();
     c_dbcsr_acc_opencl_hist_print(stderr, c_dbcsr_acc_opencl_config.hist_h2d, "\nPROF ACC/OpenCL: H2D", precision, NULL /*adjust*/);
     c_dbcsr_acc_opencl_hist_print(stderr, c_dbcsr_acc_opencl_config.hist_d2h, "\nPROF ACC/OpenCL: D2H", precision, NULL /*adjust*/);
@@ -1151,7 +1155,7 @@ int c_dbcsr_acc_opencl_set_active_device(ACC_OPENCL_LOCKTYPE* lock, int device_i
             cl_platform_id platform = NULL;
             cl_bitfield bitfield = 0;
             if (0 != (1 & c_dbcsr_acc_opencl_config.xhints) && 2 <= *devinfo->std_level && 0 != devinfo->intel &&
-                0 == c_dbcsr_acc_opencl_config.profile && 0 == devinfo->unified &&
+                /*0 == c_dbcsr_acc_opencl_config.profile &&*/ (0 == devinfo->unified || NULL != (ACC_OPENCL_XHINTS)) &&
                 EXIT_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL) &&
                 EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "intel", 2 /*platform vendor*/) &&
                 EXIT_SUCCESS == clGetDeviceInfo(active_id, 0x4191 /*CL_DEVICE_DEVICE_MEM_CAPABILITIES_INTEL*/, sizeof(cl_bitfield),

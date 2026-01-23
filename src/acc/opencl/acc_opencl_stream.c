@@ -122,21 +122,29 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
 #  endif
   {
     const cl_device_id device_id = c_dbcsr_acc_opencl_config.devices[c_dbcsr_acc_opencl_config.device_id];
+    if (NULL != c_dbcsr_acc_opencl_config.hist_h2d || NULL != c_dbcsr_acc_opencl_config.hist_d2h ||
+        NULL != c_dbcsr_acc_opencl_config.hist_d2d)
+    {
+      properties[1] |= CL_QUEUE_PROFILING_ENABLE;
+    }
 #  if defined(ACC_OPENCL_XHINTS)
-    if ((2 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel) { /* enable queue families */
+    if ((2 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel) {
+      properties[1] |= (((ACC_OPENCL_STREAM_PROPERTIES_TYPE)1) << 31); /* CL_QUEUE_THREAD_LOCAL_EXEC_ENABLE_INTEL */
+    }
+    if ((4 & c_dbcsr_acc_opencl_config.xhints) && 0 != devinfo->intel) {
       struct {
         cl_command_queue_properties properties;
         cl_bitfield capabilities;
         cl_uint count;
         char name[64 /*CL_QUEUE_FAMILY_MAX_NAME_SIZE_INTEL*/];
       } intel_qfprops[16];
+      const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
       size_t nbytes = 0, i;
       if (EXIT_SUCCESS == clGetDeviceInfo(device_id, 0x418B /*CL_DEVICE_QUEUE_FAMILY_PROPERTIES_INTEL*/, sizeof(intel_qfprops),
                             intel_qfprops, &nbytes))
-      {
+      { /* enable queue families */
         for (i = 0; (i * sizeof(*intel_qfprops)) < nbytes; ++i) {
           if (0 /*CL_QUEUE_DEFAULT_CAPABILITIES_INTEL*/ == intel_qfprops[i].capabilities && 1 < intel_qfprops[i].count) {
-            const int j = (0 /*terminator*/ == properties[2] ? 2 : 4);
             properties[j + 0] = 0x418C; /* CL_QUEUE_FAMILY_INTEL */
             properties[j + 1] = (int)i;
             properties[j + 2] = 0x418D; /* CL_QUEUE_INDEX_INTEL */
@@ -148,11 +156,6 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
       }
     }
 #  endif
-    if (NULL != c_dbcsr_acc_opencl_config.hist_h2d || NULL != c_dbcsr_acc_opencl_config.hist_d2h ||
-        NULL != c_dbcsr_acc_opencl_config.hist_d2d)
-    {
-      properties[1] = CL_QUEUE_PROFILING_ENABLE;
-    }
     queue = ACC_OPENCL_CREATE_COMMAND_QUEUE(devinfo->context, device_id, properties, &result);
   }
   if (EXIT_SUCCESS == result) { /* register stream */
