@@ -5,27 +5,31 @@ include(CMakeFindDependencyMacro)
 # the following should only be needed when building statically
 
 if (@USE_MPI@)
+  set(DBCSR_USE_MPI @USE_MPI@)
   find_dependency(MPI)
 endif ()
 
 if (@USE_OPENMP@)
+  set(DBCSR_USE_OPENMP @USE_OPENMP@)
   find_dependency(OpenMP)
 endif ()
 
 if ("@USE_ACCEL@" MATCHES "cuda")
+  set(DBCSR_USE_ACCEL @USE_ACCEL@)
   enable_language(CUDA)
   find_dependency(CUDAToolkit)
 endif ()
 
 if ("@USE_ACCEL@" MATCHES "hip")
+  set(DBCSR_USE_ACCEL @USE_ACCEL@)
   enable_language(HIP)
   find_dependency(hip)
   find_dependency(hipblas)
   find_dependency(hiprtc)
 endif ()
 
-
 if (("@USE_SMM@" MATCHES "libxsmm") OR ("@USE_ACCEL@" MATCHES "opencl"))
+  set(DBCSR_USE_SMM @USE_SMM@)
   find_package(PkgConfig)
   pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf)
   if (@USE_OPENMP@)
