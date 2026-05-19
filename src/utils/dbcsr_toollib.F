@@ -164,14 +164,12 @@ CONTAINS
       !! we compute it using an integer with the appropriate range
       !! we return already the index in the table as a final result
 
-      ! LIBXSMM: at least v1.9.0-6 is required
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-      USE libxsmm, ONLY: libxsmm_hash
-      INTEGER, PARAMETER                                 :: seed = 0
+#if defined(__LIBXS)
+      USE LIBXS, ONLY: libxs_hash
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
          !! a string of any length
       INTEGER                                            :: hash_index
-      hash_index = libxsmm_hash(key, seed)
+      hash_index = libxs_hash(key)
 #else
       INTEGER, DIMENSION(:), INTENT(IN)                  :: key
       INTEGER                                            :: hash_index

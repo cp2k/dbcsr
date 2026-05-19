@@ -1,5 +1,0 @@
-{
-"description": "OpenCL-accelerated library for small matrix multiplications",
-"archive": "libdbcsr",
-"requires": ["..", "../.."]
-}

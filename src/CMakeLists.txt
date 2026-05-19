@@ -136,10 +136,11 @@ elseif (USE_ACCEL MATCHES "cuda")
                               PROPERTIES COMPILE_FLAGS "--x cu")
 endif ()
 
+# OpenCL backend: SMM from LIBXSTREAM samples, ACC from LIBXSTREAM library
+set(DBCSR_SMM_DIR "${LIBXSTREAMROOT}/samples/smm")
 set(DBCSR_OPENCL_SRCS
-    acc/opencl/smm/opencl_libsmm.c acc/opencl/acc_opencl.c
-    acc/opencl/acc_opencl_event.c acc/opencl/acc_opencl_mem.c
-    acc/opencl/acc_opencl_stream.c)
+    "${DBCSR_SMM_DIR}/smm_acc.c" "${DBCSR_SMM_DIR}/smm_trans.c"
+    "${DBCSR_SMM_DIR}/smm_params.c" "${DBCSR_SMM_DIR}/smm_kernel.c")
 
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_FORTRAN_SRCS})
@@ -185,18 +186,34 @@ elseif (USE_ACCEL MATCHES "cuda")
                                          "${ACC_ARCH_NUMBER}")
 endif ()
 
-if (USE_SMM MATCHES "libxsmm" OR (USE_SMM MATCHES "auto" AND LIBXSMM_FOUND))
-  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
-  target_link_directories(dbcsr PUBLIC ${LIBXSMM_LIBRARY_DIRS})
-  if (USE_OPENMP)
-    target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMMEXT)
-  endif ()
-  target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMM)
-  target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES})
+if (LIBXS_FETCHED)
+  target_compile_definitions(dbcsr PRIVATE __LIBXS)
+  target_link_libraries(dbcsr PRIVATE libxs::libxs ${BLAS_LIBRARIES})
+elseif (LIBXS_LIBRARY)
+  target_compile_definitions(dbcsr PRIVATE __LIBXS)
+  target_include_directories(dbcsr PRIVATE "${LIBXSROOT}/include")
+  target_link_libraries(dbcsr PRIVATE ${LIBXS_LIBRARY} ${BLAS_LIBRARIES})
 endif ()
 
 if (BLAS_LIBRARIES MATCHES "mkl_")
   target_compile_definitions(dbcsr PRIVATE __MKL)
+endif ()
+
+if (LIBXSMM_FETCHED)
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+  target_include_directories(dbcsr PRIVATE "${LIBXSMMROOT}/include")
+  set_target_properties(
+    xsmm PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
+                    "$<BUILD_INTERFACE:${LIBXSMMROOT}/include>")
+  install(
+    TARGETS xsmm
+    EXPORT DBCSRTargets
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+  target_link_libraries(dbcsr PRIVATE xsmm)
+elseif (LIBXSMM_LIBRARY)
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+  target_include_directories(dbcsr PRIVATE "${LIBXSMMROOT}/include")
+  target_link_libraries(dbcsr PRIVATE ${LIBXSMM_LIBRARY})
 endif ()
 
 if (APPLE)
@@ -264,9 +281,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
   add_subdirectory(acc/libsmm_acc)
 endif ()
 
-if (USE_ACCEL MATCHES "opencl")
-  add_subdirectory(acc/opencl/smm)
-endif ()
+# OpenCL SMM is provided by LIBXSTREAM (no local subdirectory)
 
 if (USE_ACCEL)
   target_compile_definitions(
@@ -280,6 +295,41 @@ if (USE_ACCEL)
             $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
             $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
 
+  if (USE_ACCEL MATCHES "opencl")
+    target_compile_definitions(dbcsr PRIVATE __LIBXSTREAM)
+    target_include_directories(dbcsr PRIVATE "${LIBXSTREAMROOT}/include"
+                                             "${DBCSR_SMM_DIR}")
+    if (NOT LIBXS_FETCHED)
+      target_include_directories(dbcsr PRIVATE "${LIBXSROOT}/include")
+    endif ()
+    if (LIBXSTREAM_FETCHED)
+      set(LIBXSTREAM_LINK libxstream::libxstream)
+    else ()
+      find_library(
+        LIBXSTREAM_LIBRARY xstream
+        PATHS "${LIBXSTREAMROOT}/lib"
+        NO_DEFAULT_PATH)
+      if (NOT LIBXSTREAM_LIBRARY)
+        message(
+          FATAL_ERROR "libxstream library not found in ${LIBXSTREAMROOT}/lib")
+      endif ()
+      set(LIBXSTREAM_LINK ${LIBXSTREAM_LIBRARY})
+    endif ()
+    # Generate smm_kernels.h from .cl kernel sources
+    set(DBCSR_SMM_KERNELS "${DBCSR_SMM_DIR}/kernels/multiply.cl"
+                          "${DBCSR_SMM_DIR}/kernels/transpose.cl")
+    file(GLOB DBCSR_SMM_PARAMS "${DBCSR_SMM_DIR}/params/tune_multiply_*.csv")
+    set(DBCSR_SMM_GENHDR "${DBCSR_SMM_DIR}/smm_kernels.h")
+    add_custom_command(
+      OUTPUT "${DBCSR_SMM_GENHDR}"
+      COMMAND "${DBCSR_OPENCL_SCRIPT}" -I "${LIBXSTREAMROOT}/include"
+              ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS} "${DBCSR_SMM_GENHDR}"
+      DEPENDS "${DBCSR_OPENCL_SCRIPT}" ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS}
+      COMMENT "Generating OpenCL SMM kernel header")
+    add_custom_target(dbcsr_smm_kernels DEPENDS "${DBCSR_SMM_GENHDR}")
+    add_dependencies(dbcsr dbcsr_smm_kernels)
+  endif ()
+
   target_link_libraries(
     dbcsr
     PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
@@ -292,7 +342,8 @@ if (USE_ACCEL)
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
             $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
+            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:${LIBXSTREAM_LINK}>)
 endif ()
 
 # =================================================================================================
@@ -361,12 +412,6 @@ endif ()
 
 if (USE_ACCEL MATCHES "opencl")
   foreach (FILE ${DBCSR_ACC_HEADER})
-    cmake_path(GET FILE PARENT_PATH SUBDIR)
-    install(FILES "${FILE}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${SUBDIR}")
-  endforeach ()
-  install(PROGRAMS "${DBCSR_OPENCL_SCRIPT}"
-          DESTINATION "${CMAKE_INSTALL_DATADIR}/opencl")
-  foreach (FILE ${DBCSR_OPENCL_COMMON})
     cmake_path(GET FILE PARENT_PATH SUBDIR)
     install(FILES "${FILE}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${SUBDIR}")
   endforeach ()

@@ -9,8 +9,6 @@
 #ifndef DBCSR_ACC_H
 #define DBCSR_ACC_H
 
-#include <stddef.h>
-
 #define DBCSR_STRINGIFY_AUX(SYMBOL) #SYMBOL
 #define DBCSR_STRINGIFY(SYMBOL) DBCSR_STRINGIFY_AUX(SYMBOL)
 #define DBCSR_CONCATENATE2(A, B) A##B
@@ -19,9 +17,15 @@
 /** used to mark variables used */
 #define DBCSR_MARK_USED(x) (void)(x)
 
-#if defined(__cplusplus)
+#if defined(__OPENCL)
+/* ACC interface provided by LIBXSTREAM */
+#  include <libxstream_dbcsr.h>
+#else
+#  include <stddef.h>
+
+#  if defined(__cplusplus)
 extern "C" {
-#endif
+#  endif
 
 /** types */
 typedef int c_dbcsr_acc_bool_t;
@@ -29,6 +33,8 @@ typedef int c_dbcsr_acc_bool_t;
 /** initialization and finalization */
 int c_dbcsr_acc_init(void);
 int c_dbcsr_acc_finalize(void);
+
+/** error handling */
 void c_dbcsr_acc_clear_errors(void);
 
 /** devices */
@@ -67,8 +73,9 @@ int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total);
 void c_dbcsr_timeset(const char** routineN, const int* routineN_len, int* handle);
 void c_dbcsr_timestop(const int* handle);
 
-#if defined(__cplusplus)
+#  if defined(__cplusplus)
 }
-#endif
+#  endif
 
+#endif /*defined(__OPENCL)*/
 #endif /*DBCSR_ACC_H*/

@@ -1,5 +1,0 @@
-{
-"description": "OpenCL backend for accelerator API",
-"archive": "libdbcsr",
-"requires": [".."]
-}
