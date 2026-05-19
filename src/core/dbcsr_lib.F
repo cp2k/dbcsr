@@ -83,6 +83,22 @@ MODULE dbcsr_lib
 
 #if defined (__DBCSR_ACC)
    INTERFACE
+      FUNCTION libsmm_acc_init() RESULT(istat) &
+         BIND(C, name="libsmm_acc_init")
+         IMPORT :: C_INT
+         INTEGER(C_INT) :: istat
+      END FUNCTION libsmm_acc_init
+   END INTERFACE
+
+   INTERFACE
+      FUNCTION libsmm_acc_finalize() RESULT(istat) &
+         BIND(C, name="libsmm_acc_finalize")
+         IMPORT :: C_INT
+         INTEGER(C_INT) :: istat
+      END FUNCTION libsmm_acc_finalize
+   END INTERFACE
+
+   INTERFACE
       FUNCTION libsmm_acc_is_thread_safe() &
          RESULT(thread_safe) &
          BIND(C, name="libsmm_acc_is_thread_safe")
@@ -175,8 +191,8 @@ CONTAINS
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
 
-#if defined(__LIBXSMM)
-      USE libxsmm, ONLY: libxsmm_init
+#if defined(__LIBXS)
+      USE LIBXS, ONLY: libxs_init
 #endif
       TYPE(mp_comm_type), INTENT(IN)  :: mp_comm
       INTEGER, INTENT(IN), OPTIONAL :: io_unit, accdrv_active_device_id
@@ -206,8 +222,8 @@ CONTAINS
       END IF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
-#if defined(__LIBXSMM)
-      CALL libxsmm_init()
+#if defined(__LIBXS)
+      CALL libxs_init()
 #endif
 
       ! Initialize Acc and set active device
@@ -221,6 +237,10 @@ CONTAINS
             DBCSR_ABORT("dbcsr_init_lib: No recognized GPU devices")
          END IF
          CALL acc_init()
+#if defined(__DBCSR_ACC)
+         IF (libsmm_acc_init() /= 0) &
+            DBCSR_ABORT("dbcsr_init_lib: libsmm_acc_init failed")
+#endif
       END IF
 
 #if defined(__DBCSR_ACC)
@@ -277,8 +297,8 @@ CONTAINS
       !! Finalize the DBCSR library
       !! Cleans up after the DBCSR library.  Used to deallocate persistent objects.
 
-#if defined(__LIBXSMM)
-      USE libxsmm, ONLY: libxsmm_finalize
+#if defined(__LIBXS)
+      USE LIBXS, ONLY: libxs_finalize
 #endif
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib'
 
@@ -306,12 +326,16 @@ CONTAINS
       NULLIFY (dbcsr_warn_hook)
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
-#if defined(__LIBXSMM)
-      CALL libxsmm_finalize()
+#if defined(__LIBXS)
+      CALL libxs_finalize()
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
       IF (use_acc()) THEN
+#if defined(__DBCSR_ACC)
+         IF (libsmm_acc_finalize() /= 0) &
+            DBCSR_ABORT("dbcsr_finalize_lib: libsmm_acc_finalize failed")
+#endif
          CALL acc_finalize()
       END IF
 

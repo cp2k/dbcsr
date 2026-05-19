@@ -11,8 +11,8 @@ MODULE dbcsr_array_types
    !! Array objects with reference counting.
 
 #include "base/dbcsr_base_uses.f90"
-#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-   USE libxsmm, ONLY: libxsmm_diff
+#if defined(__LIBXS)
+   USE LIBXS, ONLY: libxs_diff
 #  define PURE_ARRAY_EQUALITY
 #else
 #  define PURE_ARRAY_EQUALITY PURE
@@ -170,8 +170,8 @@ CONTAINS
 
       are_equal = .FALSE.
       IF (ASSOCIATED(array1) .AND. ASSOCIATED(array2)) THEN
-#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-         are_equal = .NOT. libxsmm_diff(array1, array2)
+#if defined(__LIBXS)
+         are_equal = .NOT. libxs_diff(array1, array2)
 #else
          IF (SIZE(array1) .NE. SIZE(array2)) RETURN
          are_equal = ALL(array1 .EQ. array2)
@@ -185,8 +185,8 @@ CONTAINS
 
       are_equal = .FALSE.
       IF (ASSOCIATED(array1%low) .AND. ASSOCIATED(array2%low)) THEN
-#if TO_VERSION(1, 11) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-         are_equal = .NOT. libxsmm_diff(array1%low%data, array2%low%data)
+#if defined(__LIBXS)
+         are_equal = .NOT. libxs_diff(array1%low%data, array2%low%data)
 #else
          IF (SIZE(array1%low%data) .NE. SIZE(array2%low%data)) RETURN
          are_equal = ALL(array1%low%data .EQ. array2%low%data)

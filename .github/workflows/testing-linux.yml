@@ -33,7 +33,7 @@ jobs:
       matrix:
         use_mpi: [MPI=ON, MPI=OFF]
         use_openmp: [OPENMP=ON, OPENMP=OFF]
-        use_smm: [SMM=blas, SMM=libxsmm]
+        use_smm: [LIBXSMM=ON, LIBXSMM=OFF]
         mpi_suffix: [openmpi, mpich]
         exclude:
           - use_mpi: MPI=OFF
@@ -82,7 +82,7 @@ jobs:
 
     - name: Upload coverage data (generated files)
       uses: actions/upload-artifact@v4
-      if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.use_smm == 'SMM=blas' && matrix.mpi_suffix == 'openmpi'
+      if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.use_smm == 'LIBXSMM=OFF' && matrix.mpi_suffix == 'openmpi'
       with:
         name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-${{ matrix.mpi_suffix }}-generated-files
         path: |
@@ -137,7 +137,7 @@ jobs:
     strategy:
       matrix:
         use_openmp: [OPENMP=ON]
-        use_smm: [SMM=libxsmm]
+        use_smm: [LIBXSMM=ON]
 
     steps:
     - uses: actions/checkout@v4

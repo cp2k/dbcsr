@@ -74,7 +74,10 @@ set(DBCSR_TESTS_FTN
     dbcsr_test_csr_conversions)
 
 if (USE_ACCEL)
-  set(DBCSR_TESTS_BACKEND dbcsr_acc_test acc_bench)
+  set(DBCSR_TESTS_BACKEND dbcsr_acc_test)
+  if (LIBXS_LIBRARY OR LIBXS_FETCHED)
+    list(APPEND DBCSR_TESTS_BACKEND acc_bench)
+  endif ()
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -185,6 +188,20 @@ if (NOT USE_MPI)
     add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
     # tests may not need to link dbcsr but there is no separate dbcsr_acc
     target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
+    if (BLAS_LIBRARIES MATCHES "mkl_")
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __MKL)
+    endif ()
+    if (LIBXS_FETCHED)
+      target_link_libraries(${dbcsr_test_backend} PRIVATE libxs::libxs)
+    elseif (LIBXS_LIBRARY)
+      target_include_directories(${dbcsr_test_backend}
+                                 PRIVATE "${LIBXSROOT}/include")
+    endif ()
+    if (LIBXSMM_LIBRARY)
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXSMM)
+      target_include_directories(${dbcsr_test_backend}
+                                 PRIVATE "${LIBXSMMROOT}/include")
+    endif ()
     # register unittest executable with CMake
     add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
     set_tests_properties(
