@@ -147,7 +147,9 @@ int main(int argc, char* argv[]) {
         for (i = 0; i < NRAND; ++i) rnd[i] = rand();
         parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
       }
-      else result = EXIT_FAILURE;
+      else {
+        result = EXIT_FAILURE;
+      }
     }
   }
   else {
@@ -199,11 +201,17 @@ int main(int argc, char* argv[]) {
               na = (0 < ina ? ina : (10 * nc));
               nb = (0 < inb ? inb : (10 * nc));
               s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
-              if (s < nbytes) ++stack_size;
-              else break;
+              if (s < nbytes) {
+                ++stack_size;
+              }
+              else {
+                break;
+              }
             }
           }
-          else stack_size = (int)nelems;
+          else {
+            stack_size = (int)nelems;
+          }
         }
       }
       else { /* parse SMM_BATCHSIZE=batchsize,nrepfactor */
@@ -221,7 +229,9 @@ int main(int argc, char* argv[]) {
           stack_size = (rr % limit + 1) * BATCHGRAIN;
           nrepeat = MAX(LIBXS_UPDIV(BATCHSIZE * nrepeat, stack_size), xrepeat);
         }
-        else stack_size = BATCHSIZE; /* plain default */
+        else {
+          stack_size = BATCHSIZE; /* plain default */
+        }
       }
       nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
       na = (0 < ina ? ina : (10 * nc));
@@ -403,7 +413,9 @@ int main(int argc, char* argv[]) {
                 }
                 if (0 < check && check < epsilon) result = EXIT_FAILURE;
               }
-              else fprintf(stderr, "ERROR: failed to validate!\n");
+              else {
+                fprintf(stderr, "ERROR: failed to validate!\n");
+              }
             }
           }
         }
@@ -461,8 +473,12 @@ int main(int argc, char* argv[]) {
   }
   else {
     if (NULL != file) fclose(file);
-    if (0 < result) fprintf(stderr, "\nFAILED\n\n");
-    else if (0 == check) result = EXIT_SUCCESS;
+    if (0 < result) {
+      fprintf(stderr, "\nFAILED\n\n");
+    }
+    else if (0 == check) {
+      result = EXIT_SUCCESS;
+    }
   }
   return result;
 }
@@ -486,7 +502,9 @@ static void parse_params(int argc, char* argv[], FILE** file, const char** snr, 
         arg = strtok(buffer, DELIMS);
       }
       for (; NULL != arg; arg = strtok(NULL, DELIMS)) {
-        if (argc * sizeof(*args) < sizeof(args)) args[argc++] = arg;
+        if (argc * sizeof(*args) < sizeof(args)) {
+          args[argc++] = arg;
+        }
         else { /* malformed command-line */
           fclose(*file);
           *file = NULL;
