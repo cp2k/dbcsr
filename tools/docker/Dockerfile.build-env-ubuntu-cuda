@@ -46,26 +46,25 @@ RUN set -ex ; \
         git-archive-all \
         ;
 
-ENV PKG_CONFIG_PATH="/opt/libxstream/lib/pkgconfig:/opt/libxs/lib/pkgconfig:${PKG_CONFIG_PATH}"
-
 RUN set -ex ; \
     apt-get update ; \
     apt-get install -y --no-install-recommends opencl-c-headers ocl-icd-libopencl1 ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG libxstream_version=87bbd69f0cdf6ca23801923ee201f960fb37860f
-
-RUN set -ex ; \
-    curl -LsS https://github.com/hfp/libxstream/archive/${libxstream_version}.tar.gz | tar -xz -C /opt ; \
-    ln -s libxstream-${libxstream_version} /opt/libxstream ; \
-    make -j -C /opt/libxstream
-
 ARG libxs_version=1d776c091fb41d4aa7bc92335f6387878e1a9db6
+ARG libxstream_version=87bbd69f0cdf6ca23801923ee201f960fb37860f
 
 RUN set -ex ; \
     curl -LsS https://github.com/hfp/libxs/archive/${libxs_version}.tar.gz | tar -xz -C /opt ; \
     ln -s libxs-${libxs_version} /opt/libxs ; \
     make -j -C /opt/libxs
+
+RUN set -ex ; \
+    curl -LsS https://github.com/hfp/libxstream/archive/${libxstream_version}.tar.gz | tar -xz -C /opt ; \
+    ln -s libxstream-${libxstream_version} /opt/libxstream ; \
+    make -j -C /opt/libxstream LIBXSROOT=/opt/libxs
+
+ENV PKG_CONFIG_PATH="/opt/libxstream/lib/pkgconfig:/opt/libxs/lib/pkgconfig:${PKG_CONFIG_PATH}"
 
 # Leak suppression
 COPY lsan.supp /opt
