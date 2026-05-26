@@ -201,13 +201,13 @@ might still roll, if not called multiple times per count_max/count_rate</p>
 <span class="w">      </span><span class="c">!! same implementation for all machines.</span>
 <span class="w">      </span><span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
 
-<span class="cp">#if defined(__LIBXSMM)</span>
-<span class="w">      </span><span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span>
+<span class="cp">#if defined(__LIBXS)</span>
+<span class="w">      </span><span class="k">USE </span><span class="n">LIBXS</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxs_timer_tick</span><span class="p">,</span><span class="w"> </span><span class="n">libxs_timer_duration</span>
 <span class="cp">#endif</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">wt</span>
 
-<span class="cp">#if defined(__LIBXSMM)</span>
-<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">())</span>
+<span class="cp">#if defined(__LIBXS)</span>
+<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libxs_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">libxs_timer_tick</span><span class="p">())</span>
 <span class="cp">#else</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>

@@ -178,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~28"></span>
+              <span class="anchor" id="variable-this~32"></span>
               class(<a href='../type/conf_par_mm_driver.html'>CONF_PAR_MM_DRIVER</a>),
             </td>
 <td>intent(inout)</td>
@@ -250,7 +250,7 @@
 <span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_smm</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libsmm not compiled in.&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="n">this</span><span class="p">%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_driver_smm</span>
 <span class="w">         </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_mm_driver</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">mm_name_xsmm</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_xsmm</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libxsmm not compiled in.&quot;</span><span class="p">)</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_xsmm</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for LIBXS GEMM not compiled in.&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="n">this</span><span class="p">%</span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mm_driver_xsmm</span>
 <span class="w">         </span><span class="k">ELSE</span>
 <span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>

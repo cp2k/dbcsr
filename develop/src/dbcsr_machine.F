@@ -59,13 +59,13 @@ CONTAINS
       !! same implementation for all machines.
       !! might still roll, if not called multiple times per count_max/count_rate
 
-#if defined(__LIBXSMM)
-      USE libxsmm, ONLY: libxsmm_timer_tick, libxsmm_timer_duration
+#if defined(__LIBXS)
+      USE LIBXS, ONLY: libxs_timer_tick, libxs_timer_duration
 #endif
       REAL(KIND=dp)                                      :: wt
 
-#if defined(__LIBXSMM)
-      wt = libxsmm_timer_duration(0_int_8, libxsmm_timer_tick())
+#if defined(__LIBXS)
+      wt = libxs_timer_duration(0_int_8, libxs_timer_tick())
 #else
 
       INTEGER(KIND=int_8)                                :: count

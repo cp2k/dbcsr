@@ -172,71 +172,7 @@
       </div>
 
     <div class="col-9" id='text'>
-      <h1>Optimized Kernels</h1>
-<p>Optimized kernel parameters are stored in JSON-files and are automatically summarized into a CSV-file. Further and beyond auto-tuning kernels, <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> can be used to perform basic operations on collected data: explicitly merging all JSON-files into a CSV-file (<code>tune_multiply.py -m</code>), and updating the device name in all JSON-files according to current driver version (<code>tune_multiply.py -u</code>).</p>
-<p>Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. Practically, <code>acc_opencl.sh</code> transforms the CSV-file into source code compiled into the final binary, which is independent of <code>OPENCL_LIBSMM_SMM_PARAMS</code> accepting a CSV-file (path/filename). However, <code>acc_opencl.sh</code> currently limits the origin of parameters to a single device. Care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
-<p>Different problem sizes (like "s15"; see above) are not represented individually, but are instead collected into a maximum value. In turn, this means tuning for a non-default problem-size must be manually kept pure since the result achieved with a larger problem may dominate (maximum value).</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc/opencl
-make<span class="w"> </span>realclean
-make
-</code></pre></div>
-
-<p>This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
-</code></pre></div>
-
-<p>Tuned parameters can be also disabled at runtime like:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
-</code></pre></div>
-
-<p>By supplying a CSV-file at runtime, embedded parameters and defaults are overriden, and given parameters are applied even if the current device is different from what would match the given parameters:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc
-<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span>opencl/smm/tune_multiply.csv<span class="w"> </span>./acc_bench<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">30000</span><span class="w"> </span><span class="m">13</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">7</span>
-</code></pre></div>
-
-<p>To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh">tune_multiply.sh</a> wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (<code>opentuner.db</code>), allows to specify triplets, and splits work to auto-tune in parallel.</p>
-<p>Triplets are used to conveniently describe multiple kernels. A triplet specification consists of comma-separated groups of (M,N,K)-extents, i.e., matrix shapes according to GEMM. For example:</p>
-<div class="codehilite"><pre><span></span><code>4 10 15, 6 7 8, 23
-</code></pre></div>
-
-<p>This triplet specification expands to 55 kernels using the Cartesian product within each group and concatenating the result of such expanded groups followed by removing duplicate triplets. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the number of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc/opencl/smm
-./tune_multiply.sh<span class="w"> </span>-t<span class="w"> </span><span class="m">300</span><span class="w">  </span>-j<span class="w"> </span><span class="m">8</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w">  </span><span class="m">4</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">15</span>,<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">23</span>
-</code></pre></div>
-
-<p>The script <code>tune_multiply.sh</code> is tuning 1266 kernels by default (<code>./tune_multiply.sh -t 300 -j 8 -i 1</code> takes approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless <code>--continue</code> is given (or <code>-c</code>, or an environment variable <code>CONTINUE=1</code>).</p>
-<p>For convenience, it is possible to "update" an existing set of JSON-files (path can be given with <code>-p</code>), i.e., to parse the (M,N,K)-triplet denoted by the JSON filename and to re-tune with an almost unconstrained tuning-level (<code>-a 1</code> by default) as well as a limited duration (160 seconds per kernel by default).</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>src/acc/opencl
-make<span class="w"> </span>realclean
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Rebuild and embed smm/params/tune_multiply_P100.csv&quot;</span>
-make<span class="w"> </span><span class="nv">WITH_GPU</span><span class="o">=</span>P100
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Retune original parameters&quot;</span>
-smm/tune_multiply.sh<span class="w"> </span>-p<span class="w"> </span>smm/params/p100<span class="w"> </span>-u
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Override original parameters&quot;</span>
-cp<span class="w"> </span>tune_multiply.csv<span class="w"> </span>smm/params/tune_multiply_P100.csv
-</code></pre></div>
-
-<p>Tuning kernels further is only sensible if the previously tuned parameters are embedded into the binary (such that the process does not start from scratch). Retuned parameters are captured with JSON-files as usual.</p>
-<h1>Advanced Tuning</h1>
-<p>To utilize multiple devices per system and to accelerate tuning kernels, <code>tune_multiply.py</code> comes with built-in support for running under MPI (SPMD execution model). The basic assumption is to spawn one process per device usually with different kernels tuned per device (SPMD). Of course, tuning the same kernels in parallel on multiple devices is possible but it is a waste of resources. Tuning on multiple devices per system can be also more realistic given the common power budget of all devices and less room for an increased operating frequency per device (Turbo clock speed).</p>
-<p>For example, a single dual-socket system with two PVC cards (modules) per socket exposes eight GPU devices (two GPU stacks or tiles per card). Then 350 kernels can be tuned in less than 2 1/2 hours with a duration of 200 seconds for tuning each kernel.</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">MAXTIME</span><span class="o">=</span><span class="m">200</span><span class="w"> </span><span class="nv">NPARTS</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="nv">UPDATE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">JSONDIR</span><span class="o">=</span>params/pvc<span class="w"> </span>mpirun<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">3</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">4</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">5</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">6</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">7</span><span class="w"> </span>:<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>./tune_multiply.sh<span class="w"> </span>-i<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
-&gt;out.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
-</code></pre></div>
-
-<p><strong>NOTE</strong>: The above shown example prefers environment variables over command-line options that would be common to the eight launches of <code>tune_multiply.sh</code>.</p>
+      
     </div>
   </div>
       <hr>

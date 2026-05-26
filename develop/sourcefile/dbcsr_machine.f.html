@@ -230,13 +230,13 @@
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">      </span><span class="c">!! same implementation for all machines.</span>
 <a id="ln-60" name="ln-60" href="#ln-60"></a><span class="w">      </span><span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
 <a id="ln-61" name="ln-61" href="#ln-61"></a>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp">#if defined(__LIBXS)</span>
+<a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">      </span><span class="k">USE </span><span class="n">LIBXS</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">libxs_timer_tick</span><span class="p">,</span><span class="w"> </span><span class="n">libxs_timer_duration</span>
 <a id="ln-64" name="ln-64" href="#ln-64"></a><span class="cp">#endif</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                                      </span><span class="kd">::</span><span class="w"> </span><span class="n">wt</span>
 <a id="ln-66" name="ln-66" href="#ln-66"></a>
-<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libxsmm_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">libxsmm_timer_tick</span><span class="p">())</span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="cp">#if defined(__LIBXS)</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">libxs_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span><span class="w"> </span><span class="n">libxs_timer_tick</span><span class="p">())</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="cp">#else</span>
 <a id="ln-70" name="ln-70" href="#ln-70"></a>
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="nb">count</span>

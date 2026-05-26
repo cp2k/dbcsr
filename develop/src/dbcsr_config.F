@@ -56,7 +56,7 @@ MODULE dbcsr_config
    LOGICAL, PARAMETER :: has_smm_vec = .FALSE.
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXS)
    LOGICAL, PARAMETER :: has_xsmm = .TRUE.
 #else
    LOGICAL, PARAMETER :: has_xsmm = .FALSE.
@@ -90,7 +90,7 @@ MODULE dbcsr_config
    LOGICAL, PARAMETER :: mm_dense_default = mm_dense_default_cpu
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXS)
    INTEGER, PARAMETER :: mm_default_driver = mm_driver_xsmm
 #elif defined (__HAS_smm_dnn)
    INTEGER, PARAMETER :: mm_default_driver = mm_driver_smm
@@ -296,7 +296,7 @@ CONTAINS
             IF (.NOT. has_smm) DBCSR_ABORT("Support for libsmm not compiled in.")
             this%val = mm_driver_smm
          ELSE IF (my_mm_driver .EQ. mm_name_xsmm) THEN
-            IF (.NOT. has_xsmm) DBCSR_ABORT("Support for libxsmm not compiled in.")
+            IF (.NOT. has_xsmm) DBCSR_ABORT("Support for LIBXS GEMM not compiled in.")
             this%val = mm_driver_xsmm
          ELSE
             DBCSR_ABORT("Unknown MM driver: "//TRIM(mm_driver))

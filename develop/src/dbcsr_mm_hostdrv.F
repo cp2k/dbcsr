@@ -176,36 +176,21 @@ CONTAINS
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
-#if defined(__LIBXSMM)
+#if defined(__LIBXS)
       CASE (mm_driver_xsmm)
          SELECT CASE (this%data_area%d%data_type)
-#if TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
          CASE (dbcsr_type_real_4)
-            CALL xsmm_process_mm_batch_s(stack_descr, params, stack_size, &
-                                         left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)
+            CALL libxs_process_mm_stack_s(stack_descr, params, stack_size, &
+                                          left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)
          CASE (dbcsr_type_real_8)
-            CALL xsmm_process_mm_batch_d(stack_descr, params, stack_size, &
-                                         left%data_area%d%r_dp, right%data_area%d%r_dp, this%data_area%d%r_dp, used_smm)
+            CALL libxs_process_mm_stack_d(stack_descr, params, stack_size, &
+                                          left%data_area%d%r_dp, right%data_area%d%r_dp, this%data_area%d%r_dp, used_smm)
          CASE (dbcsr_type_complex_4)
-            CALL xsmm_process_mm_batch_c(stack_descr, params, stack_size, &
-                                         left%data_area%d%c_sp, right%data_area%d%c_sp, this%data_area%d%c_sp, used_smm)
+            CALL libxs_process_mm_stack_c(stack_descr, params, stack_size, &
+                                          left%data_area%d%c_sp, right%data_area%d%c_sp, this%data_area%d%c_sp, used_smm)
          CASE (dbcsr_type_complex_8)
-            CALL xsmm_process_mm_batch_z(stack_descr, params, stack_size, &
-                                         left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
-#else
-         CASE (dbcsr_type_real_4)
-            CALL xsmm_process_mm_stack_s(stack_descr, params, stack_size, &
-                                         left%data_area%d%r_sp, right%data_area%d%r_sp, this%data_area%d%r_sp, used_smm)
-         CASE (dbcsr_type_real_8)
-            CALL xsmm_process_mm_stack_d(stack_descr, params, stack_size, &
-                                         left%data_area%d%r_dp, right%data_area%d%r_dp, this%data_area%d%r_dp, used_smm)
-         CASE (dbcsr_type_complex_4)
-            CALL xsmm_process_mm_stack_c(stack_descr, params, stack_size, &
-                                         left%data_area%d%c_sp, right%data_area%d%c_sp, this%data_area%d%c_sp, used_smm)
-         CASE (dbcsr_type_complex_8)
-            CALL xsmm_process_mm_stack_z(stack_descr, params, stack_size, &
-                                         left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
-#endif
+            CALL libxs_process_mm_stack_z(stack_descr, params, stack_size, &
+                                          left%data_area%d%c_dp, right%data_area%d%c_dp, this%data_area%d%c_dp, used_smm)
          CASE default
             DBCSR_ABORT("Invalid data type")
          END SELECT
@@ -265,8 +250,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 262 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
-# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 247 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
+# 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_d (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -389,205 +374,119 @@ CONTAINS
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_d
 
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-      SUBROUTINE xsmm_process_mm_batch_d (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 1
-#if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
-#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
+#if defined(__LIBXS)
+      SUBROUTINE libxs_process_mm_stack_d (stack_descr, params, &
+                                                       stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack using LIBXS indexed GEMM batch.
+     !! Real types use LIBXS dispatch; complex types fall through to BLAS.
+# 376 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            USE LIBXS, ONLY: libxs_gemm_config_t, &
+                             libxs_gemm_dispatch, libxs_gemm_index, &
+                             C_LOC, C_SIZEOF, &
+                             LIBXS_DATATYPE_F64
+            USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNLOC
+# 382 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+#if defined(__MKL)
+            INTERFACE
+               FUNCTION mkl_cblas_jit_create_dgemm(jitter, &
+                                                               layout, transa, transb, m, n, k, &
+                                                               alpha, lda, ldb, beta, ldc) &
+                  RESULT(status) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_PTR, C_INT, C_DOUBLE
+                  INTEGER(C_INT) :: status
+                  TYPE(C_PTR) :: jitter
+                  INTEGER(C_INT), VALUE :: layout, transa, transb
+                  INTEGER(C_INT), VALUE :: m, n, k, lda, ldb, ldc
+                  REAL(C_DOUBLE), VALUE :: alpha, beta
+               END FUNCTION
+               FUNCTION mkl_jit_get_dgemm_ptr(jitter) &
+                  RESULT(ptr) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_PTR
+                  TYPE(C_FUNPTR) :: ptr
+                  TYPE(C_PTR), INTENT(IN), VALUE :: jitter
+               END FUNCTION
+            END INTERFACE
 #endif
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F64, &
-                            libxsmm_gemm => libxsmm_dgemm, &
-                            libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
-                            libxsmm_ptr0
-         REAL(real_8), PARAMETER :: one = 1.0_real_8
-         INTEGER :: sp
+#if defined(__LIBXSMM)
+            INTERFACE
+               FUNCTION libxsmm_dispatch_gemm(shape, flags, prefetch) &
+                  RESULT(fn) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_INT
+                  INTEGER(C_INT), INTENT(IN) :: shape(10)
+                  INTEGER(C_INT), INTENT(IN), VALUE :: flags, prefetch
+                  TYPE(C_FUNPTR) :: fn
+               END FUNCTION
+            END INTERFACE
 #endif
+#if defined(__BLAS) || defined(__MKL)
+            INTERFACE
+               SUBROUTINE dgemm_blas(transa, transb, &
+                                                 m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
+                  BIND(C, NAME="dgemm_")
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_DOUBLE
+                  CHARACTER(1, C_CHAR), INTENT(IN) :: transa, transb
+                  INTEGER(C_INT), INTENT(IN) :: m, n, k, lda, ldb, ldc
+                  REAL(C_DOUBLE), INTENT(IN) :: alpha, beta, a(*), b(*)
+                  REAL(C_DOUBLE), INTENT(INOUT) :: c(*)
+               END SUBROUTINE
+            END INTERFACE
+#endif
+# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
+            INTENT(IN), TARGET                          :: params
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
          LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
 
-#if 1
-         IF (stack_descr%defined_mnk) THEN ! homogeneous stack
-            CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
-                                    m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                                    alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data, 1))), &
-                                    lda=stack_descr%m, &
-                                    b=libxsmm_ptr0(b_data(LBOUND(b_data, 1))), &
-                                    ldb=stack_descr%k, &
-                                    beta=libxsmm_ptr0(one), c=libxsmm_ptr0(c_data(LBOUND(c_data, 1))), &
-                                    ldc=stack_descr%m, index_base=1, &
-                                    index_stride=KIND(params)*dbcsr_ps_width, &
-                                    stride_a=libxsmm_ptr0(params(p_a_first, 1)), &
-                                    stride_b=libxsmm_ptr0(params(p_b_first, 1)), &
-                                    stride_c=libxsmm_ptr0(params(p_c_first, 1)), &
-                                    batchsize=stack_size)
-            used_smm = .TRUE.
-         ELSE ! Dispatch for every (different) matrix
-            DO sp = 1, stack_size
-               CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
-                                 a=a_data(params(p_a_first, sp)), &
-                                 b=b_data(params(p_b_first, sp)), &
-                                 c=c_data(params(p_c_first, sp)), &
-                                 alpha=one, beta=one)
-            END DO
-            used_smm = .FALSE.
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_d (params, stack_size, a_data, b_data, c_data)
+# 438 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            TYPE(libxs_gemm_config_t) :: config
+            INTEGER :: m, n, k, rc
+# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+
          used_smm = .FALSE.
+# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 447 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            IF (stack_descr%defined_mnk) THEN
+               m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
+               rc = libxs_gemm_dispatch(config, &
+                                        datatype=LIBXS_DATATYPE_F64, &
+                                        transa='N', transb='N', &
+                                        m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
+                                        alpha=1D0, beta=1D0 &
+#if defined(__MKL)
+                                        , jit_create_dgemm= &
+                                        C_FUNLOC(mkl_cblas_jit_create_dgemm) &
+                                        , jit_get_dgemm= &
+                                        C_FUNLOC(mkl_jit_get_dgemm_ptr) &
 #endif
-      END SUBROUTINE xsmm_process_mm_batch_d
+#if defined(__LIBXSMM)
+                                        , xgemm_dispatch= &
+                                        C_FUNLOC(libxsmm_dispatch_gemm) &
 #endif
-
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-
-      SUBROUTINE xsmm_process_mm_stack_d (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 1
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: libxsmm_function => libxsmm_dmmfunction, &
-                            libxsmm_dispatch => libxsmm_dmmdispatch, &
-                            libxsmm_available => libxsmm_dmmavailable, &
-                            libxsmm_call => libxsmm_dmmcall, &
-                            libxsmm_gemm => libxsmm_dgemm, &
-                            LIBXSMM_PREFETCH_NONE, &
-                            LIBXSMM_PREFETCH, &
-                            LIBXSMM_MAX_MNK, &
-                            LIBXSMM_FLAGS
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_FLAGS = LIBXSMM_FLAGS
-         REAL(real_8), PARAMETER :: one = 1.0_real_8
-         REAL(real_8), DIMENSION(:, :), POINTER :: a_ptr, b_ptr, c_ptr
-         INTEGER :: m, n, k, sp, fa, fb, fc
-         LOGICAL :: processed
-         TYPE(libxsmm_function) :: func
-         INTEGER(int_8) :: threshold
-         INTEGER :: pa, pb, pc
+#if defined(__BLAS) || defined(__MKL)
+                                        , dgemm_blas= &
+                                        C_FUNLOC(dgemm_blas) &
 #endif
-         INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
-         TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
-         INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
-         REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
-         REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
-         REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
-         LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
-
-#if 1
-         processed = .FALSE.
-         used_smm = .FALSE.
-
-         ! check whether the matrix stack is homogeneous or not
-         IF (stack_descr%defined_mnk) THEN
-            threshold = INT(stack_descr%m, int_8)* &
-                        INT(stack_descr%n, int_8)* &
-                        INT(stack_descr%k, int_8)
-
-            ! check if matrices are too large for LIBXSMM (BLAS is likely more efficient)
-            IF (threshold <= LIBXSMM_MAX_MNK) THEN
-               ! try to get a function pointer from libxsmm
-               CALL libxsmm_dispatch(func, &
-                                     m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, alpha=one, beta=one, &
-                                     flags=LIBXSMM_DEFAULT_FLAGS, prefetch=LIBXSMM_DEFAULT_PREFETCH)
-
-               IF (libxsmm_available(func)) THEN
-                  ! load first stack entry
-                  DBCSR_ASSERT(stack_size > 0)
-                  pa = params(p_a_first, 1)
-                  pb = params(p_b_first, 1)
-                  pc = params(p_c_first, 1)
-
-                  DO sp = 1, stack_size - 1
-                     fa = pa; fb = pb; fc = pc
-                     ! prefetch next blocks
-                     pa = params(p_a_first, sp + 1)
-                     pb = params(p_b_first, sp + 1)
-                     pc = params(p_c_first, sp + 1)
-
-                     ! condition evaluates at compile-time (PARAMETER)
-                     IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                          ! provide locations of the next operand set
-                                          pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                     ELSE
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                     END IF
-                  END DO
-
-                  ! handle last stack entry without out-of-bounds access
-                  fa = pa; fb = pb; fc = pc
-
-                  ! condition evaluates at compile-time (PARAMETER)
-                  IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                       ! prefetch same blocks
-                                       pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                  ELSE
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                  END IF
-
-                  processed = .TRUE.
+                                        )
+               IF (0 /= rc) THEN
+                  CALL libxs_gemm_index( &
+                     C_LOC(a_data), C_LOC(params(p_a_first, 1)), &
+                     C_LOC(b_data), C_LOC(params(p_b_first, 1)), &
+                     C_LOC(c_data), C_LOC(params(p_c_first, 1)), &
+                     INT(C_SIZEOF(params(1, 1)))*dbcsr_ps_width, 1, &
+                     stack_size, config)
                   used_smm = .TRUE.
                END IF
-            ELSE
-               CALL blas_process_mm_stack_d (params, stack_size, a_data, b_data, c_data)
-               processed = .TRUE.
             END IF
+# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+         IF (.NOT. used_smm) THEN
+            CALL blas_process_mm_stack_d (params, stack_size, &
+                                                      a_data, b_data, c_data)
          END IF
-
-         IF (.NOT. processed) THEN
-            ! Dispatch interface was not used, call regular interface.
-            ! Should only happen for inhomogeneous stacks.
-            ! Counted as used_smm = .FALSE.
-            DO sp = 1, stack_size
-               m = params(p_m, sp)
-               n = params(p_n, sp)
-               k = params(p_k, sp)
-               fa = params(p_a_first, sp)
-               fb = params(p_b_first, sp)
-               fc = params(p_c_first, sp)
-               ! somewhat expensive pointer remapping required
-               a_ptr(1:m, 1:k) => a_data(fa:fa + (m*k))
-               b_ptr(1:k, 1:n) => b_data(fb:fb + (k*n))
-               c_ptr(1:m, 1:n) => c_data(fc:fc + (m*n))
-               CALL libxsmm_gemm(m=m, n=n, k=k, a=a_ptr, b=b_ptr, c=c_ptr, &
-                                 alpha=one, beta=one)
-            END DO
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_d (params, stack_size, a_data, b_data, c_data)
-         used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_stack_d
+      END SUBROUTINE libxs_process_mm_stack_d
 #endif
 
       PURE SUBROUTINE internal_mm_d_nn( &
@@ -598,7 +497,7 @@ CONTAINS
          REAL(kind=real_8), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_d_nn
-# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_s (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -721,205 +620,119 @@ CONTAINS
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_s
 
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-      SUBROUTINE xsmm_process_mm_batch_s (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 1
-#if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
-#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
+#if defined(__LIBXS)
+      SUBROUTINE libxs_process_mm_stack_s (stack_descr, params, &
+                                                       stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack using LIBXS indexed GEMM batch.
+     !! Real types use LIBXS dispatch; complex types fall through to BLAS.
+# 376 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            USE LIBXS, ONLY: libxs_gemm_config_t, &
+                             libxs_gemm_dispatch, libxs_gemm_index, &
+                             C_LOC, C_SIZEOF, &
+                             LIBXS_DATATYPE_F32
+            USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNLOC
+# 382 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+#if defined(__MKL)
+            INTERFACE
+               FUNCTION mkl_cblas_jit_create_sgemm(jitter, &
+                                                               layout, transa, transb, m, n, k, &
+                                                               alpha, lda, ldb, beta, ldc) &
+                  RESULT(status) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_PTR, C_INT, C_FLOAT
+                  INTEGER(C_INT) :: status
+                  TYPE(C_PTR) :: jitter
+                  INTEGER(C_INT), VALUE :: layout, transa, transb
+                  INTEGER(C_INT), VALUE :: m, n, k, lda, ldb, ldc
+                  REAL(C_FLOAT), VALUE :: alpha, beta
+               END FUNCTION
+               FUNCTION mkl_jit_get_sgemm_ptr(jitter) &
+                  RESULT(ptr) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_PTR
+                  TYPE(C_FUNPTR) :: ptr
+                  TYPE(C_PTR), INTENT(IN), VALUE :: jitter
+               END FUNCTION
+            END INTERFACE
 #endif
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F32, &
-                            libxsmm_gemm => libxsmm_sgemm, &
-                            libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
-                            libxsmm_ptr0
-         REAL(real_4), PARAMETER :: one = 1.0_real_4
-         INTEGER :: sp
+#if defined(__LIBXSMM)
+            INTERFACE
+               FUNCTION libxsmm_dispatch_gemm(shape, flags, prefetch) &
+                  RESULT(fn) BIND(C)
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_INT
+                  INTEGER(C_INT), INTENT(IN) :: shape(10)
+                  INTEGER(C_INT), INTENT(IN), VALUE :: flags, prefetch
+                  TYPE(C_FUNPTR) :: fn
+               END FUNCTION
+            END INTERFACE
 #endif
+#if defined(__BLAS) || defined(__MKL)
+            INTERFACE
+               SUBROUTINE sgemm_blas(transa, transb, &
+                                                 m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
+                  BIND(C, NAME="sgemm_")
+                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_FLOAT
+                  CHARACTER(1, C_CHAR), INTENT(IN) :: transa, transb
+                  INTEGER(C_INT), INTENT(IN) :: m, n, k, lda, ldb, ldc
+                  REAL(C_FLOAT), INTENT(IN) :: alpha, beta, a(*), b(*)
+                  REAL(C_FLOAT), INTENT(INOUT) :: c(*)
+               END SUBROUTINE
+            END INTERFACE
+#endif
+# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
+            INTENT(IN), TARGET                          :: params
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
          LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
 
-#if 1
-         IF (stack_descr%defined_mnk) THEN ! homogeneous stack
-            CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
-                                    m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                                    alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data, 1))), &
-                                    lda=stack_descr%m, &
-                                    b=libxsmm_ptr0(b_data(LBOUND(b_data, 1))), &
-                                    ldb=stack_descr%k, &
-                                    beta=libxsmm_ptr0(one), c=libxsmm_ptr0(c_data(LBOUND(c_data, 1))), &
-                                    ldc=stack_descr%m, index_base=1, &
-                                    index_stride=KIND(params)*dbcsr_ps_width, &
-                                    stride_a=libxsmm_ptr0(params(p_a_first, 1)), &
-                                    stride_b=libxsmm_ptr0(params(p_b_first, 1)), &
-                                    stride_c=libxsmm_ptr0(params(p_c_first, 1)), &
-                                    batchsize=stack_size)
-            used_smm = .TRUE.
-         ELSE ! Dispatch for every (different) matrix
-            DO sp = 1, stack_size
-               CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
-                                 a=a_data(params(p_a_first, sp)), &
-                                 b=b_data(params(p_b_first, sp)), &
-                                 c=c_data(params(p_c_first, sp)), &
-                                 alpha=one, beta=one)
-            END DO
-            used_smm = .FALSE.
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_s (params, stack_size, a_data, b_data, c_data)
+# 438 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            TYPE(libxs_gemm_config_t) :: config
+            INTEGER :: m, n, k, rc
+# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+
          used_smm = .FALSE.
+# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 447 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            IF (stack_descr%defined_mnk) THEN
+               m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
+               rc = libxs_gemm_dispatch(config, &
+                                        datatype=LIBXS_DATATYPE_F32, &
+                                        transa='N', transb='N', &
+                                        m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
+                                        alpha=1D0, beta=1D0 &
+#if defined(__MKL)
+                                        , jit_create_sgemm= &
+                                        C_FUNLOC(mkl_cblas_jit_create_sgemm) &
+                                        , jit_get_sgemm= &
+                                        C_FUNLOC(mkl_jit_get_sgemm_ptr) &
 #endif
-      END SUBROUTINE xsmm_process_mm_batch_s
+#if defined(__LIBXSMM)
+                                        , xgemm_dispatch= &
+                                        C_FUNLOC(libxsmm_dispatch_gemm) &
 #endif
-
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-
-      SUBROUTINE xsmm_process_mm_stack_s (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 1
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: libxsmm_function => libxsmm_smmfunction, &
-                            libxsmm_dispatch => libxsmm_smmdispatch, &
-                            libxsmm_available => libxsmm_smmavailable, &
-                            libxsmm_call => libxsmm_smmcall, &
-                            libxsmm_gemm => libxsmm_sgemm, &
-                            LIBXSMM_PREFETCH_NONE, &
-                            LIBXSMM_PREFETCH, &
-                            LIBXSMM_MAX_MNK, &
-                            LIBXSMM_FLAGS
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_FLAGS = LIBXSMM_FLAGS
-         REAL(real_4), PARAMETER :: one = 1.0_real_4
-         REAL(real_4), DIMENSION(:, :), POINTER :: a_ptr, b_ptr, c_ptr
-         INTEGER :: m, n, k, sp, fa, fb, fc
-         LOGICAL :: processed
-         TYPE(libxsmm_function) :: func
-         INTEGER(int_8) :: threshold
-         INTEGER :: pa, pb, pc
+#if defined(__BLAS) || defined(__MKL)
+                                        , sgemm_blas= &
+                                        C_FUNLOC(sgemm_blas) &
 #endif
-         INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
-         TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
-         INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
-         REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
-         REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
-         REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
-         LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
-
-#if 1
-         processed = .FALSE.
-         used_smm = .FALSE.
-
-         ! check whether the matrix stack is homogeneous or not
-         IF (stack_descr%defined_mnk) THEN
-            threshold = INT(stack_descr%m, int_8)* &
-                        INT(stack_descr%n, int_8)* &
-                        INT(stack_descr%k, int_8)
-
-            ! check if matrices are too large for LIBXSMM (BLAS is likely more efficient)
-            IF (threshold <= LIBXSMM_MAX_MNK) THEN
-               ! try to get a function pointer from libxsmm
-               CALL libxsmm_dispatch(func, &
-                                     m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, alpha=one, beta=one, &
-                                     flags=LIBXSMM_DEFAULT_FLAGS, prefetch=LIBXSMM_DEFAULT_PREFETCH)
-
-               IF (libxsmm_available(func)) THEN
-                  ! load first stack entry
-                  DBCSR_ASSERT(stack_size > 0)
-                  pa = params(p_a_first, 1)
-                  pb = params(p_b_first, 1)
-                  pc = params(p_c_first, 1)
-
-                  DO sp = 1, stack_size - 1
-                     fa = pa; fb = pb; fc = pc
-                     ! prefetch next blocks
-                     pa = params(p_a_first, sp + 1)
-                     pb = params(p_b_first, sp + 1)
-                     pc = params(p_c_first, sp + 1)
-
-                     ! condition evaluates at compile-time (PARAMETER)
-                     IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                          ! provide locations of the next operand set
-                                          pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                     ELSE
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                     END IF
-                  END DO
-
-                  ! handle last stack entry without out-of-bounds access
-                  fa = pa; fb = pb; fc = pc
-
-                  ! condition evaluates at compile-time (PARAMETER)
-                  IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                       ! prefetch same blocks
-                                       pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                  ELSE
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                  END IF
-
-                  processed = .TRUE.
+                                        )
+               IF (0 /= rc) THEN
+                  CALL libxs_gemm_index( &
+                     C_LOC(a_data), C_LOC(params(p_a_first, 1)), &
+                     C_LOC(b_data), C_LOC(params(p_b_first, 1)), &
+                     C_LOC(c_data), C_LOC(params(p_c_first, 1)), &
+                     INT(C_SIZEOF(params(1, 1)))*dbcsr_ps_width, 1, &
+                     stack_size, config)
                   used_smm = .TRUE.
                END IF
-            ELSE
-               CALL blas_process_mm_stack_s (params, stack_size, a_data, b_data, c_data)
-               processed = .TRUE.
             END IF
+# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+         IF (.NOT. used_smm) THEN
+            CALL blas_process_mm_stack_s (params, stack_size, &
+                                                      a_data, b_data, c_data)
          END IF
-
-         IF (.NOT. processed) THEN
-            ! Dispatch interface was not used, call regular interface.
-            ! Should only happen for inhomogeneous stacks.
-            ! Counted as used_smm = .FALSE.
-            DO sp = 1, stack_size
-               m = params(p_m, sp)
-               n = params(p_n, sp)
-               k = params(p_k, sp)
-               fa = params(p_a_first, sp)
-               fb = params(p_b_first, sp)
-               fc = params(p_c_first, sp)
-               ! somewhat expensive pointer remapping required
-               a_ptr(1:m, 1:k) => a_data(fa:fa + (m*k))
-               b_ptr(1:k, 1:n) => b_data(fb:fb + (k*n))
-               c_ptr(1:m, 1:n) => c_data(fc:fc + (m*n))
-               CALL libxsmm_gemm(m=m, n=n, k=k, a=a_ptr, b=b_ptr, c=c_ptr, &
-                                 alpha=one, beta=one)
-            END DO
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_s (params, stack_size, a_data, b_data, c_data)
-         used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_stack_s
+      END SUBROUTINE libxs_process_mm_stack_s
 #endif
 
       PURE SUBROUTINE internal_mm_s_nn( &
@@ -930,7 +743,7 @@ CONTAINS
          REAL(kind=real_4), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_s_nn
-# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_z (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -1053,205 +866,33 @@ CONTAINS
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_z
 
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-      SUBROUTINE xsmm_process_mm_batch_z (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 0
-#if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
-#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
-#endif
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F64, &
-                            libxsmm_gemm => libxsmm_zgemm, &
-                            libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
-                            libxsmm_ptr0
-         REAL(real_8), PARAMETER :: one = 1.0_real_8
-         INTEGER :: sp
-#endif
+#if defined(__LIBXS)
+      SUBROUTINE libxs_process_mm_stack_z (stack_descr, params, &
+                                                       stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack using LIBXS indexed GEMM batch.
+     !! Real types use LIBXS dispatch; complex types fall through to BLAS.
+# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
+            INTENT(IN), TARGET                          :: params
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
          LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
 
-#if 0
-         IF (stack_descr%defined_mnk) THEN ! homogeneous stack
-            CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
-                                    m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                                    alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data, 1))), &
-                                    lda=stack_descr%m, &
-                                    b=libxsmm_ptr0(b_data(LBOUND(b_data, 1))), &
-                                    ldb=stack_descr%k, &
-                                    beta=libxsmm_ptr0(one), c=libxsmm_ptr0(c_data(LBOUND(c_data, 1))), &
-                                    ldc=stack_descr%m, index_base=1, &
-                                    index_stride=KIND(params)*dbcsr_ps_width, &
-                                    stride_a=libxsmm_ptr0(params(p_a_first, 1)), &
-                                    stride_b=libxsmm_ptr0(params(p_b_first, 1)), &
-                                    stride_c=libxsmm_ptr0(params(p_c_first, 1)), &
-                                    batchsize=stack_size)
-            used_smm = .TRUE.
-         ELSE ! Dispatch for every (different) matrix
-            DO sp = 1, stack_size
-               CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
-                                 a=a_data(params(p_a_first, sp)), &
-                                 b=b_data(params(p_b_first, sp)), &
-                                 c=c_data(params(p_c_first, sp)), &
-                                 alpha=one, beta=one)
-            END DO
-            used_smm = .FALSE.
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_z (params, stack_size, a_data, b_data, c_data)
+# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+
          used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_batch_z
-#endif
-
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-
-      SUBROUTINE xsmm_process_mm_stack_z (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 0
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: libxsmm_function => libxsmm_zmmfunction, &
-                            libxsmm_dispatch => libxsmm_zmmdispatch, &
-                            libxsmm_available => libxsmm_zmmavailable, &
-                            libxsmm_call => libxsmm_zmmcall, &
-                            libxsmm_gemm => libxsmm_zgemm, &
-                            LIBXSMM_PREFETCH_NONE, &
-                            LIBXSMM_PREFETCH, &
-                            LIBXSMM_MAX_MNK, &
-                            LIBXSMM_FLAGS
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_FLAGS = LIBXSMM_FLAGS
-         REAL(real_8), PARAMETER :: one = 1.0_real_8
-         REAL(real_8), DIMENSION(:, :), POINTER :: a_ptr, b_ptr, c_ptr
-         INTEGER :: m, n, k, sp, fa, fb, fc
-         LOGICAL :: processed
-         TYPE(libxsmm_function) :: func
-         INTEGER(int_8) :: threshold
-         INTEGER :: pa, pb, pc
-#endif
-         INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
-         TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
-         INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
-         COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
-         COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
-         COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
-         LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
-
-#if 0
-         processed = .FALSE.
-         used_smm = .FALSE.
-
-         ! check whether the matrix stack is homogeneous or not
-         IF (stack_descr%defined_mnk) THEN
-            threshold = INT(stack_descr%m, int_8)* &
-                        INT(stack_descr%n, int_8)* &
-                        INT(stack_descr%k, int_8)
-
-            ! check if matrices are too large for LIBXSMM (BLAS is likely more efficient)
-            IF (threshold <= LIBXSMM_MAX_MNK) THEN
-               ! try to get a function pointer from libxsmm
-               CALL libxsmm_dispatch(func, &
-                                     m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, alpha=one, beta=one, &
-                                     flags=LIBXSMM_DEFAULT_FLAGS, prefetch=LIBXSMM_DEFAULT_PREFETCH)
-
-               IF (libxsmm_available(func)) THEN
-                  ! load first stack entry
-                  DBCSR_ASSERT(stack_size > 0)
-                  pa = params(p_a_first, 1)
-                  pb = params(p_b_first, 1)
-                  pc = params(p_c_first, 1)
-
-                  DO sp = 1, stack_size - 1
-                     fa = pa; fb = pb; fc = pc
-                     ! prefetch next blocks
-                     pa = params(p_a_first, sp + 1)
-                     pb = params(p_b_first, sp + 1)
-                     pc = params(p_c_first, sp + 1)
-
-                     ! condition evaluates at compile-time (PARAMETER)
-                     IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                          ! provide locations of the next operand set
-                                          pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                     ELSE
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                     END IF
-                  END DO
-
-                  ! handle last stack entry without out-of-bounds access
-                  fa = pa; fb = pb; fc = pc
-
-                  ! condition evaluates at compile-time (PARAMETER)
-                  IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                       ! prefetch same blocks
-                                       pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                  ELSE
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                  END IF
-
-                  processed = .TRUE.
-                  used_smm = .TRUE.
-               END IF
-            ELSE
-               CALL blas_process_mm_stack_z (params, stack_size, a_data, b_data, c_data)
-               processed = .TRUE.
-            END IF
+# 444 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            MARK_USED(stack_descr)
+# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+         IF (.NOT. used_smm) THEN
+            CALL blas_process_mm_stack_z (params, stack_size, &
+                                                      a_data, b_data, c_data)
          END IF
-
-         IF (.NOT. processed) THEN
-            ! Dispatch interface was not used, call regular interface.
-            ! Should only happen for inhomogeneous stacks.
-            ! Counted as used_smm = .FALSE.
-            DO sp = 1, stack_size
-               m = params(p_m, sp)
-               n = params(p_n, sp)
-               k = params(p_k, sp)
-               fa = params(p_a_first, sp)
-               fb = params(p_b_first, sp)
-               fc = params(p_c_first, sp)
-               ! somewhat expensive pointer remapping required
-               a_ptr(1:m, 1:k) => a_data(fa:fa + (m*k))
-               b_ptr(1:k, 1:n) => b_data(fb:fb + (k*n))
-               c_ptr(1:m, 1:n) => c_data(fc:fc + (m*n))
-               CALL libxsmm_gemm(m=m, n=n, k=k, a=a_ptr, b=b_ptr, c=c_ptr, &
-                                 alpha=one, beta=one)
-            END DO
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_z (params, stack_size, a_data, b_data, c_data)
-         used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_stack_z
+      END SUBROUTINE libxs_process_mm_stack_z
 #endif
 
       PURE SUBROUTINE internal_mm_z_nn( &
@@ -1262,7 +903,7 @@ CONTAINS
          COMPLEX(kind=real_8), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_z_nn
-# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_c (params, &
                                                       stack_size, &
                                                       a_data, b_data, c_data)
@@ -1385,205 +1026,33 @@ CONTAINS
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_c
 
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-      SUBROUTINE xsmm_process_mm_batch_c (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 0
-#if !defined(DBCSR_LIBXSMM_GEMM_BATCH)
-#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
-#endif
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F32, &
-                            libxsmm_gemm => libxsmm_cgemm, &
-                            libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
-                            libxsmm_ptr0
-         REAL(real_4), PARAMETER :: one = 1.0_real_4
-         INTEGER :: sp
-#endif
+#if defined(__LIBXS)
+      SUBROUTINE libxs_process_mm_stack_c (stack_descr, params, &
+                                                       stack_size, a_data, b_data, c_data, used_smm)
+     !! Processes MM stack using LIBXS indexed GEMM batch.
+     !! Real types use LIBXS dispatch; complex types fall through to BLAS.
+# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
+            INTENT(IN), TARGET                          :: params
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
          LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
 
-#if 0
-         IF (stack_descr%defined_mnk) THEN ! homogeneous stack
-            CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
-                                    m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, &
-                                    alpha=libxsmm_ptr0(one), a=libxsmm_ptr0(a_data(LBOUND(a_data, 1))), &
-                                    lda=stack_descr%m, &
-                                    b=libxsmm_ptr0(b_data(LBOUND(b_data, 1))), &
-                                    ldb=stack_descr%k, &
-                                    beta=libxsmm_ptr0(one), c=libxsmm_ptr0(c_data(LBOUND(c_data, 1))), &
-                                    ldc=stack_descr%m, index_base=1, &
-                                    index_stride=KIND(params)*dbcsr_ps_width, &
-                                    stride_a=libxsmm_ptr0(params(p_a_first, 1)), &
-                                    stride_b=libxsmm_ptr0(params(p_b_first, 1)), &
-                                    stride_c=libxsmm_ptr0(params(p_c_first, 1)), &
-                                    batchsize=stack_size)
-            used_smm = .TRUE.
-         ELSE ! Dispatch for every (different) matrix
-            DO sp = 1, stack_size
-               CALL libxsmm_gemm(m=params(p_m, sp), n=params(p_n, sp), k=params(p_k, sp), &
-                                 a=a_data(params(p_a_first, sp)), &
-                                 b=b_data(params(p_b_first, sp)), &
-                                 c=c_data(params(p_c_first, sp)), &
-                                 alpha=one, beta=one)
-            END DO
-            used_smm = .FALSE.
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_c (params, stack_size, a_data, b_data, c_data)
+# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+
          used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_batch_c
-#endif
-
-#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
-
-      SUBROUTINE xsmm_process_mm_stack_c (stack_descr, params, &
-                                                      stack_size, a_data, b_data, c_data, used_smm)
-     !! Processes MM stack and issues libxsmm calls
-#if 0
-         ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-         USE libxsmm, ONLY: libxsmm_function => libxsmm_cmmfunction, &
-                            libxsmm_dispatch => libxsmm_cmmdispatch, &
-                            libxsmm_available => libxsmm_cmmavailable, &
-                            libxsmm_call => libxsmm_cmmcall, &
-                            libxsmm_gemm => libxsmm_cgemm, &
-                            LIBXSMM_PREFETCH_NONE, &
-                            LIBXSMM_PREFETCH, &
-                            LIBXSMM_MAX_MNK, &
-                            LIBXSMM_FLAGS
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
-         INTEGER, PARAMETER :: LIBXSMM_DEFAULT_FLAGS = LIBXSMM_FLAGS
-         REAL(real_4), PARAMETER :: one = 1.0_real_4
-         REAL(real_4), DIMENSION(:, :), POINTER :: a_ptr, b_ptr, c_ptr
-         INTEGER :: m, n, k, sp, fa, fb, fc
-         LOGICAL :: processed
-         TYPE(libxsmm_function) :: func
-         INTEGER(int_8) :: threshold
-         INTEGER :: pa, pb, pc
-#endif
-         INTEGER, INTENT(IN)                            :: stack_size
-        !! Number of parameters
-         TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
-         INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
-            INTENT(IN)                                  :: params
-        !! Stack of MM parameters
-         COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
-        !! Left-matrix data
-         COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
-        !! Right-matrix data
-         COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
-        !! Product data
-         LOGICAL, INTENT(OUT)                           :: used_smm
-        !! Flag to signal if an efficient kernel was used
-
-#if 0
-         processed = .FALSE.
-         used_smm = .FALSE.
-
-         ! check whether the matrix stack is homogeneous or not
-         IF (stack_descr%defined_mnk) THEN
-            threshold = INT(stack_descr%m, int_8)* &
-                        INT(stack_descr%n, int_8)* &
-                        INT(stack_descr%k, int_8)
-
-            ! check if matrices are too large for LIBXSMM (BLAS is likely more efficient)
-            IF (threshold <= LIBXSMM_MAX_MNK) THEN
-               ! try to get a function pointer from libxsmm
-               CALL libxsmm_dispatch(func, &
-                                     m=stack_descr%m, n=stack_descr%n, k=stack_descr%k, alpha=one, beta=one, &
-                                     flags=LIBXSMM_DEFAULT_FLAGS, prefetch=LIBXSMM_DEFAULT_PREFETCH)
-
-               IF (libxsmm_available(func)) THEN
-                  ! load first stack entry
-                  DBCSR_ASSERT(stack_size > 0)
-                  pa = params(p_a_first, 1)
-                  pb = params(p_b_first, 1)
-                  pc = params(p_c_first, 1)
-
-                  DO sp = 1, stack_size - 1
-                     fa = pa; fb = pb; fc = pc
-                     ! prefetch next blocks
-                     pa = params(p_a_first, sp + 1)
-                     pb = params(p_b_first, sp + 1)
-                     pc = params(p_c_first, sp + 1)
-
-                     ! condition evaluates at compile-time (PARAMETER)
-                     IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                          ! provide locations of the next operand set
-                                          pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                     ELSE
-                        CALL libxsmm_call(func, &
-                                          a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                     END IF
-                  END DO
-
-                  ! handle last stack entry without out-of-bounds access
-                  fa = pa; fb = pb; fc = pc
-
-                  ! condition evaluates at compile-time (PARAMETER)
-                  IF (LIBXSMM_DEFAULT_PREFETCH /= LIBXSMM_PREFETCH_NONE) THEN
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc), &
-                                       ! prefetch same blocks
-                                       pa=a_data(pa), pb=b_data(pb), pc=c_data(pc))
-                  ELSE
-                     CALL libxsmm_call(func, &
-                                       a=a_data(fa), b=b_data(fb), c=c_data(fc))
-                  END IF
-
-                  processed = .TRUE.
-                  used_smm = .TRUE.
-               END IF
-            ELSE
-               CALL blas_process_mm_stack_c (params, stack_size, a_data, b_data, c_data)
-               processed = .TRUE.
-            END IF
+# 444 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            MARK_USED(stack_descr)
+# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+         IF (.NOT. used_smm) THEN
+            CALL blas_process_mm_stack_c (params, stack_size, &
+                                                      a_data, b_data, c_data)
          END IF
-
-         IF (.NOT. processed) THEN
-            ! Dispatch interface was not used, call regular interface.
-            ! Should only happen for inhomogeneous stacks.
-            ! Counted as used_smm = .FALSE.
-            DO sp = 1, stack_size
-               m = params(p_m, sp)
-               n = params(p_n, sp)
-               k = params(p_k, sp)
-               fa = params(p_a_first, sp)
-               fb = params(p_b_first, sp)
-               fc = params(p_c_first, sp)
-               ! somewhat expensive pointer remapping required
-               a_ptr(1:m, 1:k) => a_data(fa:fa + (m*k))
-               b_ptr(1:k, 1:n) => b_data(fb:fb + (k*n))
-               c_ptr(1:m, 1:n) => c_data(fc:fc + (m*n))
-               CALL libxsmm_gemm(m=m, n=n, k=k, a=a_ptr, b=b_ptr, c=c_ptr, &
-                                 alpha=one, beta=one)
-            END DO
-         END IF
-#else
-         MARK_USED(stack_descr)
-         ! We do not want to abort here, fall back to BLAS.
-         CALL blas_process_mm_stack_c (params, stack_size, a_data, b_data, c_data)
-         used_smm = .FALSE.
-#endif
-      END SUBROUTINE xsmm_process_mm_stack_c
+      END SUBROUTINE libxs_process_mm_stack_c
 #endif
 
       PURE SUBROUTINE internal_mm_c_nn( &
@@ -1594,6 +1063,6 @@ CONTAINS
          COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_c_nn
-# 595 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 496 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv
