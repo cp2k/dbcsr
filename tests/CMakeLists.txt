@@ -187,7 +187,7 @@ if (NOT USE_MPI)
   foreach (dbcsr_test_backend ${DBCSR_TESTS_BACKEND})
     add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
     # tests may not need to link dbcsr but there is no separate dbcsr_acc
-    target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
+    target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr m)
     if (BLAS_LIBRARIES MATCHES "mkl_")
       target_compile_definitions(${dbcsr_test_backend} PRIVATE __MKL)
     endif ()

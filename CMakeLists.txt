@@ -73,7 +73,7 @@ set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 # OPTIONS
 include(CMakeDependentOption)
 
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" ON)
 option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
@@ -95,6 +95,7 @@ set(USE_ACCEL
     ""
     CACHE STRING "Build with acceleration support (default: none)")
 set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
+string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
 
 set(SUPPORTED_CUDA_ARCHITECTURES
     K20X
@@ -144,6 +145,10 @@ if (USE_OPENMP)
 endif ()
 
 # =================================== SMM (Small Matrix-Matrix multiplication)
+# Ensure all targets (including fetched dependencies) are built with -fPIC so
+# they can be linked into shared libraries.
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # LIBXS provides host-side batched GEMM for all backends. LIBXSMM provides JIT
 # kernels within LIBXS (optional, auto-detected). Set LIBXSROOT to use a
 # prebuilt installation, or let FetchContent download it. Set USE_LIBXS=OFF to
