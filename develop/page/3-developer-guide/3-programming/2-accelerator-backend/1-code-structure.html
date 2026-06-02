@@ -148,7 +148,7 @@
               <a class="nav-link" href="2-libsmm_acc/3-tune.html">Autotuning Framework</a>
 
                 </nav>
-              <a class="nav-link" href="3-libsmm_ocl/index.html">OpenCL</a>
+              <a class="nav-link" href="3-libsmm_ocl/index.html">OpenCL / LIBXSTREAM</a>
                 <nav class="nav nav-pills flex-column">
                                 <a class="nav-link" href="3-libsmm_ocl/1-autotune.html">Autotune</a>
               <a class="nav-link" href="3-libsmm_ocl/2-bulktune.html">Parameters</a>
@@ -172,15 +172,14 @@
 
     <div class="col-9" id='text'>
       <h1>GPU Backend Code Architecture</h1>
-<div class="codehilite"><pre><span></span><code><span class="nx">dbcsr</span><span class="o">/</span>
-<span class="o">--</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span>
-<span class="o">----</span><span class="w"> </span><span class="nx">acc</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">contains</span><span class="w"> </span><span class="nx">interfaces</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">ACC</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">LIBSMM</span><span class="w"> </span><span class="p">(</span><span class="nx">top</span><span class="o">-</span><span class="nx">level</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">well</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nx">backends</span><span class="w"> </span><span class="p">(</span><span class="nx">subdirectories</span><span class="p">)</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">cuda</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">CUDA</span><span class="w"> </span><span class="nx">backend</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">hip</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">HIP</span><span class="w"> </span><span class="nx">backend</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">cuda_hip</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">common</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">CUDA</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">HIP</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">libsmm_acc</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">small</span><span class="w"> </span><span class="nx">matrix</span><span class="o">-</span><span class="nx">matrix</span><span class="w"> </span><span class="nx">operations</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">GPU</span><span class="w"> </span><span class="p">(</span><span class="nx">can</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">either</span><span class="w"> </span><span class="nx">cuda</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="nx">hip</span><span class="w"> </span><span class="kd">interface</span><span class="p">)</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">opencl</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">OpenCL</span><span class="w"> </span><span class="nx">backend</span>
-<span class="o">------</span><span class="w"> </span><span class="nx">opencl</span><span class="o">/</span><span class="nx">smm</span><span class="o">/</span><span class="p">:</span><span class="w"> </span><span class="nx">LIBSMM</span><span class="w"> </span><span class="nx">implementation</span><span class="w"> </span><span class="nx">based</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">OpenCL</span>
+<div class="codehilite"><pre><span></span><code>dbcsr/
+-- src/
+---- acc/: contains interfaces to ACC and LIBSMM (top-level) as well as backends (subdirectories)
+------ cuda/: CUDA backend
+------ hip/: HIP backend
+------ cuda_hip/: common code for CUDA and HIP
+------ libsmm_acc/: small matrix-matrix operations on GPU (can use either cuda or hip interface)
+------ smm_*.c, smm_*.h: OpenCL SMM integration using LIBXSTREAM and LIBXS
 </code></pre></div>
     </div>
   </div>

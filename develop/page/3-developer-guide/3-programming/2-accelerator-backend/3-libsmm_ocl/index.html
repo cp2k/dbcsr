@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../../../favicon.png">
 
-    <title>OpenCL &ndash; DBCSR</title>
+    <title>OpenCL / LIBXSTREAM &ndash; DBCSR</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -79,7 +79,7 @@
 
     <div class="container">
   <div class="row">
-    <h1>OpenCL</h1>
+    <h1>OpenCL / LIBXSTREAM</h1>
     <div class="container p-2 mb-4 bg-light border rounded-3">
       <div class="row align-items-center justify-content-between">
         <div class="col">
@@ -93,7 +93,7 @@
                 <li class="breadcrumb-item"><a href='../../../index.html'>Developer Guide</a></li>
                 <li class="breadcrumb-item"><a href='../../index.html'>Programming</a></li>
                 <li class="breadcrumb-item"><a href='../index.html'>Accelerator Backend</a></li>
-              <li class="breadcrumb-item active" aria-current="page">OpenCL</li>
+              <li class="breadcrumb-item active" aria-current="page">OpenCL / LIBXSTREAM</li>
             </ol>
           </nav>
         </div>
@@ -148,7 +148,7 @@
               <a class="nav-link" href="../2-libsmm_acc/3-tune.html">Autotuning Framework</a>
 
                 </nav>
-              <a class="nav-link active disabled" href="index.html">OpenCL</a>
+              <a class="nav-link active disabled" href="index.html">OpenCL / LIBXSTREAM</a>
                 <nav class="nav nav-pills flex-column">
                                 <a class="nav-link" href="1-autotune.html">Autotune</a>
               <a class="nav-link" href="2-bulktune.html">Parameters</a>
@@ -171,7 +171,10 @@
       </div>
 
     <div class="col-9" id='text'>
-      
+      <h1>OpenCL / LIBXSTREAM</h1>
+<p>DBCSR's OpenCL accelerator path no longer carries a separate <code>src/acc/opencl/smm</code> implementation in the documentation tree. The OpenCL SMM code, sample benchmark, tuned-parameter files, and OpenTuner workflow are maintained in <a href="https://libxstream.readthedocs.io/">LIBXSTREAM</a>. LIBXSTREAM in turn uses <a href="https://libxs.readthedocs.io/">LIBXS</a>, which also provides host-side batched small matrix multiplication support relevant to DBCSR's CPU path.</p>
+<p>Inside DBCSR, <code>-DUSE_ACCEL=opencl</code> enables the OpenCL accelerator backend. The build requires OpenCL headers/runtime support, LIBXS, and LIBXSTREAM; CMake can use prebuilt installations through <code>pkg-config</code>, <code>LIBXSROOT</code>, and <code>LIBXSTREAMROOT</code>, or obtain sources through the configured dependency mechanism.</p>
+<p>For kernel-level experimentation, benchmarking, tuned-parameter management, and auto-tuning, use the LIBXSTREAM SMM sample documentation rather than the historical DBCSR OpenCL tuning notes.</p>
     </div>
   </div>
       <hr>

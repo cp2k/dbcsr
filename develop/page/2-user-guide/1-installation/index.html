@@ -146,7 +146,7 @@
               <a class="nav-link" href="../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html">Autotuning Framework</a>
 
                 </nav>
-              <a class="nav-link" href="../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL</a>
+              <a class="nav-link" href="../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL / LIBXSTREAM</a>
                 <nav class="nav nav-pills flex-column">
                                 <a class="nav-link" href="../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html">Autotune</a>
               <a class="nav-link" href="../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/2-bulktune.html">Parameters</a>
@@ -181,7 +181,7 @@
 </ul>
 <p>Optional:</p>
 <ul>
-<li><a href="https://github.com/hfp/libxsmm">LIBXSMM</a> (1.10+, and <code>pkg-config</code>) for Small Matrix Multiplication acceleration</li>
+<li><a href="https://libxs.readthedocs.io/">LIBXS</a> for host-side batched Small Matrix Multiplication acceleration. LIBXS can use <a href="https://github.com/libxsmm/libxsmm">LIBXSMM</a> for JIT-compiled CPU kernels when LIBXSMM is available.</li>
 <li>LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested), required when building the tests</li>
 </ul>
 <p>To build DBCSR's GPU backend:</p>
@@ -198,6 +198,7 @@
 <li>Vendor specific OpenCL package, e.g.,
   <a href="https://github.com/intel/compute-runtime/releases/latest">Intel Compute Runtime</a>,
   or CUDA Toolkit (includes OpenCL)</li>
+<li><a href="https://libxs.readthedocs.io/">LIBXS</a> and <a href="https://libxstream.readthedocs.io/">LIBXSTREAM</a>. CMake can use prebuilt installations, local sibling checkouts, or FetchContent.</li>
 <li>Nvidia GPU mode shall be <code>DEFAULT</code> (<code>nvidia-smi -c DEFAULT</code>) if MPI puts multiple ranks onto a single GPU;
   MPS daemon with GPU mode <code>EXCLUSIVE_PROCESS</code> is not an option</li>
 <li>For the OpenCL backend, a plain C compiler is sufficient (C90 standard)</li>
@@ -229,8 +230,12 @@ make
 <p>The configuration flags for the CMake command are (default first):</p>
 <div class="codehilite"><pre><span></span><code>-DUSE_MPI<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
 -DUSE_OPENMP<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
--DUSE_SMM<span class="o">=</span>&lt;blas<span class="p">|</span>libxsmm&gt;
+-DUSE_LIBXS<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DLIBXSROOT<span class="o">=</span>&lt;path&gt;
+-DUSE_LIBXSMM<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DLIBXSMMROOT<span class="o">=</span>&lt;path&gt;
 -DUSE_ACCEL<span class="o">=</span>&lt;opencl<span class="p">|</span>cuda<span class="p">|</span>hip&gt;
+-DLIBXSTREAMROOT<span class="o">=</span>&lt;path&gt;
 -DWITH_CUDA_PROFILING<span class="o">=</span>&lt;OFF<span class="p">|</span>ON&gt;
 -DWITH_HIP_PROFILING<span class="o">=</span>&lt;OFF<span class="p">|</span>ON&gt;
 -DWITH_C_API<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
@@ -242,11 +247,11 @@ make
 -DTEST_OMP_THREADS<span class="o">=</span>&lt;<span class="m">2</span><span class="p">|</span>N&gt;
 </code></pre></div>
 
-<p>When providing a build of LIBXSMM, make sure the <code>lib</code> directory is added to the <code>PKG_CONFIG_PATH</code> variable prior
-to running <code>cmake</code>. For example, if LIBXSMM was checked out using Git to your home folder:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PKG_CONFIG_PATH</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxsmm/lib&quot;</span>
+<p>When providing prebuilt LIBXS or LIBXSTREAM installations, either set <code>LIBXSROOT</code> and <code>LIBXSTREAMROOT</code> explicitly or make sure their <code>lib</code> directories are available to <code>pkg-config</code> before running <code>cmake</code>. For example, if LIBXS and LIBXSTREAM were checked out and built in your home folder:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PKG_CONFIG_PATH</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxs/lib:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxstream/lib&quot;</span>
 </code></pre></div>
 
+<p>LIBXSMM is still useful as an optional CPU JIT kernel provider through LIBXS. If a prebuilt LIBXSMM should be used, set <code>LIBXSMMROOT</code> or make its <code>pkg-config</code> metadata visible in the same way.</p>
 <h3>CMake Build Recipes</h3>
 <p>For build recipes on different platforms, make sure to also read the <a href="1-cmake-build-recipes.html">CMake Build Recipes</a>.</p>
 <h3>Building with spack</h3>

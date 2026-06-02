@@ -147,7 +147,7 @@
               <a class="nav-link" href="../2-accelerator-backend/2-libsmm_acc/3-tune.html">Autotuning Framework</a>
 
                 </nav>
-              <a class="nav-link" href="../2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL</a>
+              <a class="nav-link" href="../2-accelerator-backend/3-libsmm_ocl/index.html">OpenCL / LIBXSTREAM</a>
                 <nav class="nav nav-pills flex-column">
                                 <a class="nav-link" href="../2-accelerator-backend/3-libsmm_ocl/1-autotune.html">Autotune</a>
               <a class="nav-link" href="../2-accelerator-backend/3-libsmm_ocl/2-bulktune.html">Parameters</a>
@@ -240,8 +240,13 @@
 <td>Fortran</td>
 </tr>
 <tr>
+<td><code>__LIBXS</code></td>
+<td>Enable <a href="https://libxs.readthedocs.io/">LIBXS</a> for host-side batched small matrix multiplications on CPU</td>
+<td>Fortran</td>
+</tr>
+<tr>
 <td><code>__LIBXSMM</code></td>
-<td>Enable <a href="https://github.com/hfp/libxsmm/">LIBXSMM</a> link for optimized small matrix multiplications on CPU</td>
+<td>Enable <a href="https://github.com/libxsmm/libxsmm/">LIBXSMM</a> link for optimized small matrix multiplications on CPU through LIBXS</td>
 <td>Fortran</td>
 </tr>
 <tr>
@@ -266,7 +271,7 @@
 </tr>
 <tr>
 <td><code>__OPENCL</code></td>
-<td>Enable OpenCL acceleration</td>
+<td>Enable OpenCL acceleration through LIBXSTREAM and LIBXS</td>
 <td>C</td>
 </tr>
 <tr>

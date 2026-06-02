@@ -93,7 +93,7 @@
                 <li class="breadcrumb-item"><a href='../../../index.html'>Developer Guide</a></li>
                 <li class="breadcrumb-item"><a href='../../index.html'>Programming</a></li>
                 <li class="breadcrumb-item"><a href='../index.html'>Accelerator Backend</a></li>
-                <li class="breadcrumb-item"><a href='index.html'>OpenCL</a></li>
+                <li class="breadcrumb-item"><a href='index.html'>OpenCL / LIBXSTREAM</a></li>
               <li class="breadcrumb-item active" aria-current="page">Autotune</li>
             </ol>
           </nav>
@@ -149,7 +149,7 @@
               <a class="nav-link" href="../2-libsmm_acc/3-tune.html">Autotuning Framework</a>
 
                 </nav>
-              <a class="nav-link" href="index.html">OpenCL</a>
+              <a class="nav-link" href="index.html">OpenCL / LIBXSTREAM</a>
                 <nav class="nav nav-pills flex-column">
                                 <a class="nav-link active disabled" href="1-autotune.html">Autotune</a>
               <a class="nav-link" href="2-bulktune.html">Parameters</a>
@@ -172,7 +172,9 @@
       </div>
 
     <div class="col-9" id='text'>
-      
+      <h1>Autotune</h1>
+<p>OpenCL SMM auto-tuning has moved out of DBCSR. The benchmark driver, <code>tune_multiply.py</code> workflow, tuned-parameter CSV files, and related OpenTuner setup are maintained with the SMM sample in <a href="https://libxstream.readthedocs.io/">LIBXSTREAM</a>.</p>
+<p>DBCSR consumes this functionality through its OpenCL backend when built with <code>-DUSE_ACCEL=opencl</code> and linked with LIBXS and LIBXSTREAM. Use the LIBXSTREAM documentation for current tuning commands and parameter-management details.</p>
     </div>
   </div>
       <hr>

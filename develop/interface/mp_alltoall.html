@@ -211,7 +211,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~8"></span>
+              <span class="anchor" id="variable-sb~2"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in),</td>
@@ -226,8 +226,786 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~8"></span>
+              <span class="anchor" id="variable-rb~2"></span>
               integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:)</td>
+            <td>
+<p>array into which data is received</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+<p>number of elements to send/receive (product of the extents of the first two dimensions)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~19"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i22.html'>mp_alltoall_i22</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_i22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~3"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~3"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~3"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~20"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i44.html'>mp_alltoall_i44</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_i44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~4"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :, :, :), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~4"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              DIMENSION(:, :, :, :), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~4"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~21"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i11v.html'>mp_alltoall_i11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_i11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:)</td>
+            <td>
+<p>Data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scount"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>scount</strong>(:)</td>
+            <td>
+<p>Data counts for data sent to other processes
+Respective data offsets for data sent to process</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sdispl"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sdispl</strong>(:)</td>
+            <td>
+<p>Data counts for data sent to other processes
+Respective data offsets for data sent to process</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb"></span>
+              integer(kind=int_4),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:)</td>
+            <td>
+<p>Buffer into which to receive data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong>(:)</td>
+            <td>
+<p>Data counts for data received from other processes
+Respective data offsets for data received from other processes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong>(:)</td>
+            <td>
+<p>Data counts for data received from other processes
+Respective data offsets for data received from other processes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~18"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l.html'>mp_alltoall_l</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~6"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:)</td>
+            <td>
+<p>array with data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~6"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:)</td>
+            <td>
+<p>array into which data is received</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~6"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+<p>number of elements to send/receive (product of the extents of the first two dimensions)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~23"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l22.html'>mp_alltoall_l22</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_l22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~7"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~7"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~7"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~24"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l44.html'>mp_alltoall_l44</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_l44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~8"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(:, :, :, :), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~8"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(out),</td>
+              <td></td>            <td>
+              DIMENSION(:, :, :, :), CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~8"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~25"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l11v.html'>mp_alltoall_l11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_l11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~5"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:)</td>
+            <td>
+<p>Data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scount~2"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>scount</strong>(:)</td>
+            <td>
+<p>Data counts for data sent to other processes
+Respective data offsets for data sent to process</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sdispl~2"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sdispl</strong>(:)</td>
+            <td>
+<p>Data counts for data sent to other processes
+Respective data offsets for data sent to process</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~5"></span>
+              integer(kind=int_8),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rb</strong>(:)</td>
+            <td>
+<p>Buffer into which to receive data</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcount~5"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rcount</strong>(:)</td>
+            <td>
+<p>Data counts for data received from other processes
+Respective data offsets for data received from other processes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rdispl~5"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>rdispl</strong>(:)</td>
+            <td>
+<p>Data counts for data received from other processes
+Respective data offsets for data received from other processes</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-group~22"></span>
+              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>group</strong></td>
+            <td>
+<p>Message passing environment identifier</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d.html'>mp_alltoall_d</a>(sb, rb, count, group)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-sb~10"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              CONTIGUOUS
+            </td>
+            <td>::</td>
+            <td><strong>sb</strong>(:)</td>
+            <td>
+<p>array with data to send</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rb~10"></span>
+              real(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -277,11 +1055,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i22.html'>mp_alltoall_i22</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d22.html'>mp_alltoall_d22</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_i22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_d22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -296,8 +1074,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~9"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-sb~11"></span>
+              real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -311,8 +1089,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~9"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-rb~11"></span>
+              real(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -362,11 +1140,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i44.html'>mp_alltoall_i44</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d44.html'>mp_alltoall_d44</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_i44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_d44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -381,8 +1159,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~10"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-sb~12"></span>
+              real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -396,8 +1174,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~10"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-rb~12"></span>
+              real(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -447,11 +1225,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_i11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_i11v.html'>mp_alltoall_i11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d11v.html'>mp_alltoall_d11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_i11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_d11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -466,8 +1244,8 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~7"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-sb~9"></span>
+              real(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -481,7 +1259,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~8"></span>
+              <span class="anchor" id="variable-scount~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -497,7 +1275,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~7"></span>
+              <span class="anchor" id="variable-sdispl~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -513,8 +1291,8 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~7"></span>
-              integer(kind=int_4),
+              <span class="anchor" id="variable-rb~9"></span>
+              real(kind=real_8),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -528,7 +1306,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~7"></span>
+              <span class="anchor" id="variable-rcount~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -544,7 +1322,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~7"></span>
+              <span class="anchor" id="variable-rdispl~9"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -581,11 +1359,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l.html'>mp_alltoall_l</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r.html'>mp_alltoall_r</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -600,8 +1378,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~12"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-sb~14"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -615,8 +1393,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~12"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-rb~14"></span>
+              real(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -666,11 +1444,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l22.html'>mp_alltoall_l22</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r22.html'>mp_alltoall_r22</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_l22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_r22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -685,8 +1463,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~13"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-sb~15"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -700,8 +1478,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~13"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-rb~15"></span>
+              real(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -751,11 +1529,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l44.html'>mp_alltoall_l44</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r44.html'>mp_alltoall_r44</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_l44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_r44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -770,8 +1548,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~14"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-sb~16"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -785,8 +1563,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~14"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-rb~16"></span>
+              real(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -836,11 +1614,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_l11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_l11v.html'>mp_alltoall_l11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r11v.html'>mp_alltoall_r11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_l11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_r11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -855,8 +1633,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~11"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-sb~13"></span>
+              real(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -870,7 +1648,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~9"></span>
+              <span class="anchor" id="variable-scount~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -886,7 +1664,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~8"></span>
+              <span class="anchor" id="variable-sdispl~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -902,8 +1680,8 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~11"></span>
-              integer(kind=int_8),
+              <span class="anchor" id="variable-rb~13"></span>
+              real(kind=real_4),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -917,7 +1695,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~11"></span>
+              <span class="anchor" id="variable-rcount~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -933,7 +1711,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~11"></span>
+              <span class="anchor" id="variable-rdispl~13"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -970,11 +1748,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d.html'>mp_alltoall_d</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z.html'>mp_alltoall_z</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -989,8 +1767,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~16"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-sb~18"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1004,8 +1782,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~16"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-rb~18"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1055,11 +1833,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d22.html'>mp_alltoall_d22</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z22.html'>mp_alltoall_z22</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_d22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_z22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1074,8 +1852,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~17"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-sb~19"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1089,8 +1867,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~17"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-rb~19"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1140,11 +1918,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d44.html'>mp_alltoall_d44</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z44.html'>mp_alltoall_z44</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_d44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_z44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1159,8 +1937,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~18"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-sb~20"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1174,8 +1952,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~18"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-rb~20"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1225,11 +2003,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_d11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_d11v.html'>mp_alltoall_d11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z11v.html'>mp_alltoall_z11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_d11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_z11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1244,8 +2022,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~15"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-sb~17"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1259,7 +2037,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~10"></span>
+              <span class="anchor" id="variable-scount~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1275,7 +2053,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~9"></span>
+              <span class="anchor" id="variable-sdispl~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1291,8 +2069,8 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~15"></span>
-              real(kind=real_8),
+              <span class="anchor" id="variable-rb~17"></span>
+              complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -1306,7 +2084,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~15"></span>
+              <span class="anchor" id="variable-rcount~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1322,7 +2100,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~15"></span>
+              <span class="anchor" id="variable-rdispl~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1359,11 +2137,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r.html'>mp_alltoall_r</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c.html'>mp_alltoall_c</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1378,8 +2156,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~20"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-sb~22"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1393,8 +2171,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~20"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-rb~22"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1444,11 +2222,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r22.html'>mp_alltoall_r22</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c22.html'>mp_alltoall_c22</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_r22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_c22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1463,8 +2241,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~21"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-sb~23"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1478,8 +2256,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~21"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-rb~23"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1529,11 +2307,11 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r44.html'>mp_alltoall_r44</a>(sb, rb, count, group)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c44.html'>mp_alltoall_c44</a>(sb, rb, count, group)  
 </h3></div>
     <div class="card-body">
           
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_r44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_c44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -1548,8 +2326,8 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~22"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-sb~24"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -1563,8 +2341,8 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~22"></span>
-              real(kind=real_4),
+              <span class="anchor" id="variable-rb~24"></span>
+              complex(kind=real_4),
             </td>
 <td>intent(out),</td>
               <td></td>            <td>
@@ -1614,784 +2392,6 @@ Respective data offsets for data received from other processes</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_r11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_r11v.html'>mp_alltoall_r11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_r11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~19"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:)</td>
-            <td>
-<p>Data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scount~11"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>scount</strong>(:)</td>
-            <td>
-<p>Data counts for data sent to other processes
-Respective data offsets for data sent to process</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sdispl~10"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sdispl</strong>(:)</td>
-            <td>
-<p>Data counts for data sent to other processes
-Respective data offsets for data sent to process</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~19"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:)</td>
-            <td>
-<p>Buffer into which to receive data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~19"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong>(:)</td>
-            <td>
-<p>Data counts for data received from other processes
-Respective data offsets for data received from other processes</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~19"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong>(:)</td>
-            <td>
-<p>Data counts for data received from other processes
-Respective data offsets for data received from other processes</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~38"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z.html'>mp_alltoall_z</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~24"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:)</td>
-            <td>
-<p>array with data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~24"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:)</td>
-            <td>
-<p>array into which data is received</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~26"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-<p>number of elements to send/receive (product of the extents of the first two dimensions)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~43"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z22.html'>mp_alltoall_z22</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_z22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~25"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~25"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~27"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~44"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z44.html'>mp_alltoall_z44</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_z44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~26"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:, :, :, :), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~26"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              DIMENSION(:, :, :, :), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~28"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~45"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_z11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_z11v.html'>mp_alltoall_z11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank-1 data of different sizes</p><a href="../proc/mp_alltoall_z11v.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~23"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:)</td>
-            <td>
-<p>Data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-scount~12"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>scount</strong>(:)</td>
-            <td>
-<p>Data counts for data sent to other processes
-Respective data offsets for data sent to process</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sdispl~11"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sdispl</strong>(:)</td>
-            <td>
-<p>Data counts for data sent to other processes
-Respective data offsets for data sent to process</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~23"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:)</td>
-            <td>
-<p>Buffer into which to receive data</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcount~23"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rcount</strong>(:)</td>
-            <td>
-<p>Data counts for data received from other processes
-Respective data offsets for data received from other processes</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rdispl~23"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rdispl</strong>(:)</td>
-            <td>
-<p>Data counts for data received from other processes
-Respective data offsets for data received from other processes</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~42"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c.html'>mp_alltoall_c</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank 1 arrays, equal sizes</p><a href="../proc/mp_alltoall_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~28"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:)</td>
-            <td>
-<p>array with data to send</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~28"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:)</td>
-            <td>
-<p>array into which data is received</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~30"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-<p>number of elements to send/receive (product of the extents of the first two dimensions)</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~47"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-<p>Message passing environment identifier</p>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c22"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c22.html'>mp_alltoall_c22</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank-2 arrays, equal sizes</p><a href="../proc/mp_alltoall_c22.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~29"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~29"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~31"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~48"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c44"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c44.html'>mp_alltoall_c44</a>(sb, rb, count, group)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>All-to-all data exchange, rank 4 data, equal sizes</p><a href="../proc/mp_alltoall_c44.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-sb~30"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(:, :, :, :), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>sb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rb~30"></span>
-              complex(kind=real_4),
-            </td>
-<td>intent(out),</td>
-              <td></td>            <td>
-              DIMENSION(:, :, :, :), CONTIGUOUS
-            </td>
-            <td>::</td>
-            <td><strong>rb</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-count~32"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>count</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-group~49"></span>
-              type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>group</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-mp_alltoall_c11v"></span> <h3>private  subroutine <a href='../proc/mp_alltoall_c11v.html'>mp_alltoall_c11v</a>(sb, scount, sdispl, rb, rcount, rdispl, group)  
 </h3></div>
     <div class="card-body">
@@ -2411,7 +2411,7 @@ Respective data offsets for data received from other processes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~27"></span>
+              <span class="anchor" id="variable-sb~21"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -2426,7 +2426,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~13"></span>
+              <span class="anchor" id="variable-scount~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2442,7 +2442,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~12"></span>
+              <span class="anchor" id="variable-sdispl~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2458,7 +2458,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~27"></span>
+              <span class="anchor" id="variable-rb~21"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -2473,7 +2473,7 @@ Respective data offsets for data sent to process</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~27"></span>
+              <span class="anchor" id="variable-rcount~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2489,7 +2489,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~27"></span>
+              <span class="anchor" id="variable-rdispl~21"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -2505,7 +2505,7 @@ Respective data offsets for data received from other processes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~46"></span>
+              <span class="anchor" id="variable-group~38"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
