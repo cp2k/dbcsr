@@ -54,7 +54,7 @@ MPI breakdown and total messages size (bytes):
 
 - `TOTAL`: total flops
 - `BLAS`: percentage of flops run on BLAS (this could be CUBLAS or HIPBLAS)
-- `SMM`: percentage of flops run on SMM (libsmm or libxsmm, CPU)
+- `SMM`: percentage of flops run on SMM (LIBXS on CPU, optionally using LIBXSMM JIT kernels)
 - `ACC`: percentage of flops run on ACC (libsmm_acc, DBCSR's GPU-accelerated backend)
 
 #### How to Read the Rows (Counters)

@@ -59,7 +59,11 @@
 #  define WARMUP 2
 #endif
 #if !defined(DELIMS)
-#  define DELIMS ",;:|/\n\t "
+#  if defined(LIBXS_DELIMS)
+#    define DELIMS LIBXS_DELIMS "|/\n\t "
+#  else
+#    define DELIMS ",;:|/\n\t "
+#  endif
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
@@ -356,7 +360,7 @@ int main(int argc, char* argv[]) {
         if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
           const ELEM_TYPE alpha = 1, beta = 1;
           const char transa = 'N', transb = 'N';
-          libxs_registry_t* host_registry = libxs_registry_create();
+          libxs_registry_t* const host_registry = libxs_registry_create();
           const libxs_gemm_config_t* const host_config = libxs_gemm_dispatch(
             LIBXS_DATATYPE(ELEM_TYPE), transa, transb, m, n, k, m, k, m, &alpha, &beta, host_registry);
           memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
@@ -384,8 +388,8 @@ int main(int argc, char* argv[]) {
               stack_hst + 2 /*stride_c*/, sizeof(int) * 3, 1 /*index_base*/, stack_size, host_config);
 #endif
           }
-          libxs_gemm_release_registry(host_registry);
           duration = libxs_timer_duration(start, libxs_timer_tick());
+          libxs_gemm_release_registry(host_registry);
           perf_hst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
           PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_hst);
           if (EXIT_SUCCESS == result) {

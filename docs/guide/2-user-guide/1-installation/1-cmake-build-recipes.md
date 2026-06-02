@@ -6,7 +6,7 @@ Following are recipes for different combinations of compilers, platforms and lib
 Unless otherwise noted, the examples assume that after fetching/unpacking DBCSR you created
 a directory `build/` inside the DBCSR directory and switched into it using `cd build/`.
 
-The listed examples can usually be combined with other build options like *libxsmm* or *CUDA*
+The listed examples can usually be combined with other build options like *LIBXS*, *LIBXSMM*, *LIBXSTREAM*, or *CUDA*
 even if the examples are not explicitly given.
 
 The instructions used for building in the Continuous Integration can be found in
