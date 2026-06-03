@@ -305,10 +305,24 @@ if (USE_ACCEL)
     if (LIBXSTREAM_FETCHED)
       set(LIBXSTREAM_LINK libxstream::libxstream)
     else ()
+      set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      if (BUILD_SHARED_LIBS)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
+      else ()
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+      endif ()
       find_library(
         LIBXSTREAM_LIBRARY xstream
         PATHS "${LIBXSTREAMROOT}/lib"
         NO_DEFAULT_PATH)
+      if (NOT LIBXSTREAM_LIBRARY)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
+        find_library(
+          LIBXSTREAM_LIBRARY xstream
+          PATHS "${LIBXSTREAMROOT}/lib"
+          NO_DEFAULT_PATH)
+      endif ()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
       if (NOT LIBXSTREAM_LIBRARY)
         message(
           FATAL_ERROR "libxstream library not found in ${LIBXSTREAMROOT}/lib")
@@ -332,18 +346,21 @@ if (USE_ACCEL)
 
   target_link_libraries(
     dbcsr
-    PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
-            $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
-            $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
-            $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc::hiprtc>
-            $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:${LIBXSTREAM_LINK}>)
+    PRIVATE
+      $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
+      $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
+      $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
+      $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
+      $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
+      $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
+      $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc::hiprtc>
+      $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+      $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
+      $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
+      $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
+      $<$<STREQUAL:${USE_ACCEL},opencl>:${LIBXSTREAM_LINK}>
+      $<$<STREQUAL:${USE_ACCEL},opencl>:$<IF:$<BOOL:${LIBXS_FETCHED}>,libxs::libxs,${LIBXS_LIBRARY}>>
+  )
 endif ()
 
 # =================================================================================================
