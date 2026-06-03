@@ -60,8 +60,8 @@ RUN set -ex ; \
     apt-get install -y --no-install-recommends opencl-c-headers ocl-icd-libopencl1 ; \
     rm -rf /var/lib/apt/lists/*
 
-ARG libxs_version=db4bbb98754f467b4c3f7134ef6f8f65ea63af2e
-ARG libxstream_version=afb97132fffe84c2dc1c050d3e0fb98ba6fad869
+ARG libxs_version=1a9fad72958a07f28e7514c19328162485c3c358
+ARG libxstream_version=eb9acbb55f83e65572add7569c2aa0a6f38a5a41
 
 RUN set -ex ; \
     curl -LsS https://github.com/hfp/libxs/archive/${libxs_version}.tar.gz | tar -xz -C /opt ; \
@@ -75,7 +75,7 @@ RUN set -ex ; \
 
 ENV PKG_CONFIG_PATH="/opt/libxstream/lib/pkgconfig:/opt/libxs/lib/pkgconfig:${PKG_CONFIG_PATH}"
 
-ARG libxs_version=db4bbb98754f467b4c3f7134ef6f8f65ea63af2e
+ARG libxs_version=1a9fad72958a07f28e7514c19328162485c3c358
 
 RUN set -ex ; \
     curl -LsS https://github.com/hfp/libxs/archive/${libxs_version}.tar.gz | tar -xz -C /opt ; \

@@ -178,11 +178,26 @@ if (USE_LIBXS)
     endforeach ()
   endif ()
   if (LIBXSROOT AND EXISTS "${LIBXSROOT}/include/libxs.f")
+    set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    if (BUILD_SHARED_LIBS)
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
+    else ()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif ()
     find_library(
       LIBXS_LIBRARY
       NAMES xs
       PATHS "${LIBXSROOT}/lib"
       NO_DEFAULT_PATH)
+    if (NOT LIBXS_LIBRARY)
+      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
+      find_library(
+        LIBXS_LIBRARY
+        NAMES xs
+        PATHS "${LIBXSROOT}/lib"
+        NO_DEFAULT_PATH)
+    endif ()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
     if (LIBXS_LIBRARY)
       message(STATUS "Using prebuilt LIBXS from ${LIBXSROOT}")
     else ()
@@ -228,11 +243,26 @@ if (USE_LIBXS)
       endforeach ()
     endif ()
     if (LIBXSMMROOT AND EXISTS "${LIBXSMMROOT}/include/libxsmm.h")
+      set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      if (BUILD_SHARED_LIBS)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
+      else ()
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+      endif ()
       find_library(
         LIBXSMM_LIBRARY
         NAMES xsmm
         PATHS "${LIBXSMMROOT}/lib"
         NO_DEFAULT_PATH)
+      if (NOT LIBXSMM_LIBRARY)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
+        find_library(
+          LIBXSMM_LIBRARY
+          NAMES xsmm
+          PATHS "${LIBXSMMROOT}/lib"
+          NO_DEFAULT_PATH)
+      endif ()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
       if (LIBXSMM_LIBRARY)
         message(STATUS "Using prebuilt LIBXSMM from ${LIBXSMMROOT}")
       else ()
@@ -367,10 +397,24 @@ if (USE_ACCEL MATCHES "opencl")
     endforeach ()
   endif ()
   if (LIBXSTREAMROOT AND EXISTS "${LIBXSTREAMROOT}/include/libxstream.h")
+    set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    if (BUILD_SHARED_LIBS)
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
+    else ()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif ()
     find_library(
       LIBXSTREAM_LIBRARY xstream
       PATHS "${LIBXSTREAMROOT}/lib"
       NO_DEFAULT_PATH)
+    if (NOT LIBXSTREAM_LIBRARY)
+      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
+      find_library(
+        LIBXSTREAM_LIBRARY xstream
+        PATHS "${LIBXSTREAMROOT}/lib"
+        NO_DEFAULT_PATH)
+    endif ()
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
     if (LIBXSTREAM_LIBRARY)
       message(STATUS "Using prebuilt LIBXSTREAM from ${LIBXSTREAMROOT}")
     else ()
