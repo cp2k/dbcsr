@@ -160,6 +160,7 @@ include(cmake/dependencies.cmake)
 find_package(PkgConfig QUIET)
 
 set(DBCSR_USE_LIBXSMM FALSE)
+set(LIBXSMM_COMPILE_DEFINITIONS "")
 
 if (USE_LIBXS)
   set(_dbcsr_libxs_pkg_names libxs)
@@ -279,8 +280,8 @@ if (USE_LIBXS)
       FetchContent_MakeAvailable(libxsmm)
       set(LIBXSMM_FETCHED TRUE)
       set(DBCSR_USE_LIBXSMM TRUE)
-      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include"
-                              "${libxsmm_BINARY_DIR}/include")
+      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include")
+      set(LIBXSMM_COMPILE_DEFINITIONS LIBXSMM_DEFAULT_CONFIG)
       get_target_property(_xsmm_srcs xsmm SOURCES)
       list(FILTER _xsmm_srcs EXCLUDE REGEX
            "(binaryexport_generator|gemm_driver)")

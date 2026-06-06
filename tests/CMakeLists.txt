@@ -195,7 +195,7 @@ if (NOT USE_MPI)
       target_link_libraries(${dbcsr_test_backend} PRIVATE DBCSR::LIBXS)
     endif ()
     if (LIBXSMM_FOUND OR LIBXSMM_FETCHED)
-      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXSMM)
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXSMM ${LIBXSMM_COMPILE_DEFINITIONS})
       target_include_directories(${dbcsr_test_backend}
                                  PRIVATE "${LIBXSMM_INCLUDE_DIRS}")
     endif ()
