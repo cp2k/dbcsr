@@ -401,33 +401,31 @@ if (USE_ACCEL MATCHES "opencl")
   endif ()
 
   if (LIBXSTREAM_FOUND)
-     set(_dbcsr_libxstream_prefix_hints)
-     if (DBCSR_LIBXSTREAM_PREFIX)
-       list(APPEND _dbcsr_libxstream_prefix_hints
-            "${DBCSR_LIBXSTREAM_PREFIX}")
-     endif ()
-     foreach (_dbcsr_libxstream_include_dir IN LISTS LIBXSTREAM_INCLUDE_DIRS)
-       get_filename_component(
-         _dbcsr_libxstream_prefix "${_dbcsr_libxstream_include_dir}/.."
-         ABSOLUTE)
-       list(APPEND _dbcsr_libxstream_prefix_hints
-            "${_dbcsr_libxstream_prefix}")
-     endforeach ()
+    set(_dbcsr_libxstream_prefix_hints)
+    if (DBCSR_LIBXSTREAM_PREFIX)
+      list(APPEND _dbcsr_libxstream_prefix_hints "${DBCSR_LIBXSTREAM_PREFIX}")
+    endif ()
+    foreach (_dbcsr_libxstream_include_dir IN LISTS LIBXSTREAM_INCLUDE_DIRS)
+      get_filename_component(_dbcsr_libxstream_prefix
+                             "${_dbcsr_libxstream_include_dir}/.." ABSOLUTE)
+      list(APPEND _dbcsr_libxstream_prefix_hints "${_dbcsr_libxstream_prefix}")
+    endforeach ()
 
-     find_program(
-       LIBXSTREAM_OPENCL_SCRIPT
-       NAMES tool_opencl.sh
-       HINTS ${_dbcsr_libxstream_prefix_hints}
-       PATH_SUFFIXES scripts bin)
-     find_path(
-       LIBXSTREAM_SMM_DIR
-       NAMES smm_acc.c
-       HINTS ${_dbcsr_libxstream_prefix_hints}
-       PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
+    find_program(
+      LIBXSTREAM_OPENCL_SCRIPT
+      NAMES tool_opencl.sh
+      HINTS ${_dbcsr_libxstream_prefix_hints}
+      PATH_SUFFIXES scripts bin)
+    find_path(
+      LIBXSTREAM_SMM_DIR
+      NAMES smm_acc.c
+      HINTS ${_dbcsr_libxstream_prefix_hints}
+      PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
     if (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
       message(
         STATUS
-          "Prebuilt LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found -- downloading via FetchContent")
+          "Prebuilt LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found -- downloading via FetchContent"
+      )
       set(LIBXSTREAM_FOUND FALSE)
     elseif (NOT TARGET DBCSR::LIBXSTREAM)
       add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
