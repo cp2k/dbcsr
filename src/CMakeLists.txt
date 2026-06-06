@@ -196,7 +196,8 @@ if (BLAS_LIBRARIES MATCHES "mkl_")
 endif ()
 
 if (LIBXSMM_FETCHED)
-  target_compile_definitions(dbcsr PRIVATE __LIBXSMM ${LIBXSMM_COMPILE_DEFINITIONS})
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM
+                                           ${LIBXSMM_COMPILE_DEFINITIONS})
   target_include_directories(dbcsr PRIVATE "${LIBXSMM_INCLUDE_DIRS}")
   set_target_properties(
     xsmm PROPERTIES INTERFACE_INCLUDE_DIRECTORIES
@@ -207,7 +208,8 @@ if (LIBXSMM_FETCHED)
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
   target_link_libraries(dbcsr PRIVATE xsmm)
 elseif (LIBXSMM_FOUND)
-  target_compile_definitions(dbcsr PRIVATE __LIBXSMM ${LIBXSMM_COMPILE_DEFINITIONS})
+  target_compile_definitions(dbcsr PRIVATE __LIBXSMM
+                                           ${LIBXSMM_COMPILE_DEFINITIONS})
   target_include_directories(dbcsr PRIVATE "${LIBXSMM_INCLUDE_DIRS}")
   target_link_libraries(dbcsr PRIVATE ${LIBXSMM_LINK_LIBRARIES})
 endif ()
