@@ -401,21 +401,35 @@ if (USE_ACCEL MATCHES "opencl")
   endif ()
 
   if (LIBXSTREAM_FOUND)
-    find_program(
-      LIBXSTREAM_OPENCL_SCRIPT
-      NAMES tool_opencl.sh
-      PATH_SUFFIXES scripts)
-    find_path(
-      LIBXSTREAM_SMM_DIR
-      NAMES smm_acc.c
-      PATH_SUFFIXES samples/smm)
+     set(_dbcsr_libxstream_prefix_hints)
+     if (DBCSR_LIBXSTREAM_PREFIX)
+       list(APPEND _dbcsr_libxstream_prefix_hints
+            "${DBCSR_LIBXSTREAM_PREFIX}")
+     endif ()
+     foreach (_dbcsr_libxstream_include_dir IN LISTS LIBXSTREAM_INCLUDE_DIRS)
+       get_filename_component(
+         _dbcsr_libxstream_prefix "${_dbcsr_libxstream_include_dir}/.."
+         ABSOLUTE)
+       list(APPEND _dbcsr_libxstream_prefix_hints
+            "${_dbcsr_libxstream_prefix}")
+     endforeach ()
+
+     find_program(
+       LIBXSTREAM_OPENCL_SCRIPT
+       NAMES tool_opencl.sh
+       HINTS ${_dbcsr_libxstream_prefix_hints}
+       PATH_SUFFIXES scripts bin)
+     find_path(
+       LIBXSTREAM_SMM_DIR
+       NAMES smm_acc.c
+       HINTS ${_dbcsr_libxstream_prefix_hints}
+       PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
     if (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
       message(
-        FATAL_ERROR
-          "LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found."
-      )
-    endif ()
-    if (NOT TARGET DBCSR::LIBXSTREAM)
+        STATUS
+          "Prebuilt LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found -- downloading via FetchContent")
+      set(LIBXSTREAM_FOUND FALSE)
+    elseif (NOT TARGET DBCSR::LIBXSTREAM)
       add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
       target_include_directories(DBCSR::LIBXSTREAM
                                  INTERFACE "${LIBXSTREAM_INCLUDE_DIRS}")
