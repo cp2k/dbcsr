@@ -1,4 +1,5 @@
-# Currently does not build with opencl/libxsmm
+# OpenCL support requires packaged libxs/libxstream/libxsmm dependencies.
+# Keep it disabled until those packages are available in Fedora.
 %bcond_with opencl
 
 # No openmpi on i668 with openmpi 5 in Fedora 40+
@@ -26,6 +27,8 @@ BuildRequires: gcc-gfortran
 BuildRequires: make
 BuildRequires: flexiblas-devel
 %if %{with opencl}
+BuildRequires: libxs-devel
+BuildRequires: libxstream-devel
 BuildRequires: libxsmm-devel
 %endif
 BuildRequires: python3-fypp
@@ -109,15 +112,24 @@ export CXXFLAGS="%{optflags} -fPIC"
 export FFLAGS="%{optflags} -fPIC"
 %cmake \
   -DCMAKE_INSTALL_Fortran_MODULES=%{_fmoddir} \
+  -DBUILD_SHARED_LIBS=ON \
+  -DBUILD_TESTING=ON \
   -DUSE_MPI=OFF \
-  %{?with_opencl:-DUSE_ACCEL=opencl -DUSE_SMM=libxsmm}
+  -DUSE_LIBXS=OFF \
+  -DUSE_LIBXSMM=OFF \
+  %{?with_opencl:-DUSE_ACCEL=opencl -DUSE_LIBXS=ON -DUSE_LIBXSMM=ON}
 %cmake_build
 for mpi in %{mpi_list}
 do
   module load mpi/$mpi-%{_arch}
   %cmake \
     -DCMAKE_INSTALL_Fortran_MODULES=$MPI_FORTRAN_MOD_DIR \
-    %{?with_opencl:-DUSE_ACCEL=opencl -DUSE_SMM=libxsmm} \
+    -DBUILD_SHARED_LIBS=ON \
+    -DBUILD_TESTING=ON \
+    -DUSE_MPI=ON \
+    -DUSE_LIBXS=OFF \
+    -DUSE_LIBXSMM=OFF \
+    %{?with_opencl:-DUSE_ACCEL=opencl -DUSE_LIBXS=ON -DUSE_LIBXSMM=ON} \
     -DCMAKE_INSTALL_PREFIX:PATH=$MPI_HOME \
     -DCMAKE_INSTALL_LIBDIR:PATH=$MPI_LIB \
     -DUSE_MPI_F08=ON \

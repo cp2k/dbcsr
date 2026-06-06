@@ -149,6 +149,7 @@ jobs:
       matrix:
         use_openmp: [OPENMP=ON]
         use_libxsmm: [LIBXSMM=ON]
+        use_libxs: [LIBXS=ON]
 
     steps:
     - uses: actions/checkout@v4

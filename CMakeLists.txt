@@ -422,9 +422,7 @@ if (USE_ACCEL MATCHES "opencl")
       target_link_libraries(DBCSR::LIBXSTREAM
                             INTERFACE ${LIBXSTREAM_LINK_LIBRARIES})
     endif ()
-  endif ()
-
-  if (NOT LIBXSTREAM_FOUND)
+  else ()
     message(
       STATUS "LIBXSTREAM not found locally -- downloading via FetchContent")
     FetchContent_Declare(
