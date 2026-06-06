@@ -155,28 +155,25 @@ int main(int argc, char* argv[]) {
 
 
   // block sizes
-  std::vector<int> blk1, blk2, blk3, blk4, blk5;
+  std::vector<int> blk1 = {3, 9, 12, 1};
+  std::vector<int> blk2 = {4, 2, 3, 1, 9, 2, 32, 10, 5, 8, 7};
+  std::vector<int> blk3 = {7, 3, 8, 7, 9, 5, 10, 23, 2};
+  std::vector<int> blk4 = {8, 1, 4, 13, 6};
+  std::vector<int> blk5 = {4, 2, 22};
+
   // blk indices of non-zero blocks
-  std::vector<int> nz11, nz12, nz13, nz21, nz22, nz24, nz25, nz33, nz34, nz35;
+  std::vector<int> nz11 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3};
+  std::vector<int> nz12 = {2, 4, 4, 4, 5, 5, 6, 7, 9, 10, 10, 0, 0, 3, 6, 6, 8, 9, 1, 1, 4, 5, 7, 7, 8, 10, 10, 1, 3, 4, 4, 7};
+  std::vector<int> nz13 = {6, 2, 4, 8, 5, 7, 1, 7, 2, 1, 2, 0, 3, 5, 1, 6, 4, 7, 2, 6, 0, 3, 2, 6, 7, 4, 7, 8, 5, 0, 1, 6};
 
-  blk1 = {3, 9, 12, 1};
-  blk2 = {4, 2, 3, 1, 9, 2, 32, 10, 5, 8, 7};
-  blk3 = {7, 3, 8, 7, 9, 5, 10, 23, 2};
-  blk4 = {8, 1, 4, 13, 6};
-  blk5 = {4, 2, 22};
+  std::vector<int> nz21 = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3};
+  std::vector<int> nz22 = {0, 2, 3, 5, 9, 1, 1, 3, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 9, 10, 0, 2, 2, 3, 4, 5, 7, 8, 10, 10, 0, 2, 3, 5, 9, 10};
+  std::vector<int> nz24 = {2, 4, 1, 2, 1, 2, 4, 0, 0, 3, 1, 2, 3, 0, 3, 2, 3, 3, 1, 0, 2, 0, 0, 2, 3, 2, 3, 1, 1, 2, 0, 0, 2, 1, 4, 4};
+  std::vector<int> nz25 = {0, 2, 1, 0, 0, 1, 2, 0, 2, 0, 1, 2, 1, 0, 2, 1, 2, 1, 0, 1, 2, 0, 1, 2, 1, 1, 1, 2, 0, 1, 0, 2, 1, 0, 2, 1};
 
-  nz11 = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3};
-  nz12 = {2, 4, 4, 4, 5, 5, 6, 7, 9, 10, 10, 0, 0, 3, 6, 6, 8, 9, 1, 1, 4, 5, 7, 7, 8, 10, 10, 1, 3, 4, 4, 7};
-  nz13 = {6, 2, 4, 8, 5, 7, 1, 7, 2, 1, 2, 0, 3, 5, 1, 6, 4, 7, 2, 6, 0, 3, 2, 6, 7, 4, 7, 8, 5, 0, 1, 6};
-
-  nz21 = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3};
-  nz22 = {0, 2, 3, 5, 9, 1, 1, 3, 4, 4, 5, 5, 5, 6, 6, 8, 8, 8, 9, 10, 0, 2, 2, 3, 4, 5, 7, 8, 10, 10, 0, 2, 3, 5, 9, 10};
-  nz24 = {2, 4, 1, 2, 1, 2, 4, 0, 0, 3, 1, 2, 3, 0, 3, 2, 3, 3, 1, 0, 2, 0, 0, 2, 3, 2, 3, 1, 1, 2, 0, 0, 2, 1, 4, 4};
-  nz25 = {0, 2, 1, 0, 0, 1, 2, 0, 2, 0, 1, 2, 1, 0, 2, 1, 2, 1, 0, 1, 2, 0, 1, 2, 1, 1, 1, 2, 0, 1, 0, 2, 1, 0, 2, 1};
-
-  nz33 = {1, 3, 4, 4, 4, 5, 5, 7};
-  nz34 = {2, 1, 0, 0, 2, 1, 3, 4};
-  nz35 = {2, 1, 0, 1, 2, 1, 0, 0};
+  std::vector<int> nz33 = {1, 3, 4, 4, 4, 5, 5, 7};
+  std::vector<int> nz34 = {2, 1, 0, 0, 2, 1, 3, 4};
+  std::vector<int> nz35 = {2, 1, 0, 1, 2, 1, 0, 0};
 
   // (13|2)x(54|21)=(3|45)
   // distribute blocks
@@ -231,14 +228,12 @@ int main(int argc, char* argv[]) {
   void* dist3 = nullptr;
 
   // (13|2)x(54|21)=(3|45)
-  std::vector<int> map11, map12, map21, map22, map31, map32;
-
-  map11 = {0, 2};
-  map12 = {1};
-  map21 = {3, 2};
-  map22 = {1, 0};
-  map31 = {0};
-  map32 = {1, 2};
+  std::vector<int> map11 = {0, 2};
+  std::vector<int> map12 = {1};
+  std::vector<int> map21 = {3, 2};
+  std::vector<int> map22 = {1, 0};
+  std::vector<int> map31 = {0};
+  std::vector<int> map32 = {1, 2};
 
   if (mpi_rank == 0) std::cout << "Creating dist objects..." << '\n' << std::endl;
 
@@ -290,13 +285,12 @@ int main(int argc, char* argv[]) {
   // cn : indices to be contracted
   // noncn : indices not to be contracted
   // mapn : how nonc indices map to tensor 3
-  std::vector<int> c1, nonc1, c2, nonc2, map1, map2;
-  c1 = {0, 1};
-  nonc1 = {2};
-  c2 = {0, 1};
-  nonc2 = {2, 3};
-  map1 = {0};
-  map2 = {1, 2};
+  std::vector<int> c1 = {0, 1};
+  std::vector<int> nonc1 = {2};
+  std::vector<int> c2 = {0, 1};
+  std::vector<int> nonc2 = {2, 3};
+  std::vector<int> map1 = {0};
+  std::vector<int> map2 = {1, 2};
 
 
   int unit_nr = -1;
