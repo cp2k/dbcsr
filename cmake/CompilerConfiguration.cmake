@@ -168,6 +168,6 @@ set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 
 # Suppress GFortran runtime warnings when LIBXS provides the wrapper
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
-    AND NOT USE_ASAN AND (LIBXS_FETCHED OR LIBXS_LIBRARY))
+    AND NOT USE_ASAN AND USE_LIBXS AND TARGET DBCSR::LIBXS)
   add_link_options("-Wl,--wrap=_gfortran_runtime_warning_at")
 endif ()

@@ -73,15 +73,22 @@ set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 # OPTIONS
 include(CMakeDependentOption)
 
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
-option(USE_MPI "Build with MPI support" ON)
-option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
+option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
+option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication" OFF)
+option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF)
+option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
+option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
+
 cmake_dependent_option(
-  WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
+  USE_MPI_F08 "Build with the mpi_f08 module support" ON "${USE_MPI}" OFF
+)# MPI_F08 is a module included in MPI
+cmake_dependent_option(
+  WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "${USE_MPI}" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
-cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF
+cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "${USE_MPI}" OFF
 )# all examples require MPI
 
 set(TEST_MPI_RANKS
@@ -116,9 +123,6 @@ set(WITH_GPU_PARAMS "${WITH_GPU}")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
-option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
-option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
-
 # =================================================================================================
 # LANGUAGES AND TESTING
 enable_language(Fortran)
@@ -150,69 +154,55 @@ endif ()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # LIBXS provides host-side batched GEMM for all backends. LIBXSMM provides JIT
-# kernels within LIBXS (optional, auto-detected). Set LIBXSROOT to use a
-# prebuilt installation, or let FetchContent download it. Set USE_LIBXS=OFF to
-# disable entirely.
+# kernels within LIBXS and is optional. Prefer already installed packages and
+# standard CMake/pkg-config search paths before falling back to FetchContent.
 include(FetchContent)
 include(cmake/dependencies.cmake)
-option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication" ON)
 find_package(PkgConfig QUIET)
-set(LIBXSROOT
-    ""
-    CACHE PATH "Root directory of a prebuilt LIBXS (skips FetchContent)")
+
+set(DBCSR_USE_LIBXSMM FALSE)
+
 if (USE_LIBXS)
-  # Try prebuilt: pkg-config > explicit root > path probing
-  if (NOT LIBXSROOT AND PkgConfig_FOUND)
-    pkg_check_modules(_LIBXS QUIET libxs)
-    if (_LIBXS_FOUND)
-      pkg_get_variable(LIBXSROOT libxs prefix)
-    endif ()
+  set(_dbcsr_libxs_pkg_names libxs)
+  if (BUILD_SHARED_LIBS)
+    list(PREPEND _dbcsr_libxs_pkg_names libxs-shared)
+  else ()
+    list(PREPEND _dbcsr_libxs_pkg_names libxs-static)
   endif ()
-  if (NOT LIBXSROOT)
-    foreach (_dir "${CMAKE_SOURCE_DIR}/../libxs" "$ENV{HOME}/libxs"
-                  "/opt/libxs")
-      if (EXISTS "${_dir}/include/libxs.f")
-        set(LIBXSROOT "${_dir}")
+
+  if (PkgConfig_FOUND)
+    foreach (_dbcsr_libxs_pkg IN LISTS _dbcsr_libxs_pkg_names)
+      pkg_check_modules(DBCSR_LIBXS QUIET IMPORTED_TARGET GLOBAL
+                        ${_dbcsr_libxs_pkg})
+      if (DBCSR_LIBXS_FOUND)
         break()
       endif ()
     endforeach ()
   endif ()
-  if (LIBXSROOT AND EXISTS "${LIBXSROOT}/include/libxs.f")
-    set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
-    if (BUILD_SHARED_LIBS)
-      set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
-    else ()
-      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
-    endif ()
-    find_library(
-      LIBXS_LIBRARY
-      NAMES xs
-      PATHS "${LIBXSROOT}/lib"
-      NO_DEFAULT_PATH)
-    if (NOT LIBXS_LIBRARY)
-      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-      find_library(
-        LIBXS_LIBRARY
-        NAMES xs
-        PATHS "${LIBXSROOT}/lib"
-        NO_DEFAULT_PATH)
-    endif ()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-    if (LIBXS_LIBRARY)
-      message(STATUS "Using prebuilt LIBXS from ${LIBXSROOT}")
-    else ()
-      message(
-        STATUS "LIBXS source found at ${LIBXSROOT} -- building as subdirectory")
-      set(LIBXS_FORTRAN
-          ON
-          CACHE BOOL "" FORCE)
-      set(LIBXS_SHARED
-          ${BUILD_SHARED_LIBS}
-          CACHE BOOL "" FORCE)
-      add_subdirectory("${LIBXSROOT}" "${CMAKE_BINARY_DIR}/_deps/libxs-build")
-      set(LIBXS_FETCHED TRUE)
-    endif ()
+
+  if (DBCSR_LIBXS_FOUND)
+    set(LIBXS_FOUND TRUE)
+    set(LIBXS_INCLUDE_DIRS ${DBCSR_LIBXS_INCLUDE_DIRS})
+    set(LIBXS_LINK_LIBRARIES PkgConfig::DBCSR_LIBXS)
+    set(LIBXS_LIBRARY TRUE)
+    message(STATUS "Using prebuilt LIBXS from pkg-config")
   else ()
+    find_path(LIBXS_INCLUDE_DIRS NAMES libxs.h PATH_SUFFIXES include)
+    find_library(LIBXS_LIBRARY NAMES xs)
+    if (LIBXS_INCLUDE_DIRS AND LIBXS_LIBRARY)
+      set(LIBXS_FOUND TRUE)
+      set(LIBXS_LINK_LIBRARIES ${LIBXS_LIBRARY})
+      message(STATUS "Using prebuilt LIBXS")
+    endif ()
+  endif ()
+
+  if (LIBXS_FOUND AND NOT TARGET DBCSR::LIBXS)
+    add_library(DBCSR::LIBXS INTERFACE IMPORTED GLOBAL)
+    target_include_directories(DBCSR::LIBXS INTERFACE "${LIBXS_INCLUDE_DIRS}")
+    target_link_libraries(DBCSR::LIBXS INTERFACE ${LIBXS_LINK_LIBRARIES})
+  endif ()
+
+  if (NOT LIBXS_FOUND)
     message(STATUS "LIBXS not found locally -- downloading via FetchContent")
     FetchContent_Declare(
       libxs
@@ -226,61 +216,52 @@ if (USE_LIBXS)
         CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(libxs)
     set(LIBXS_FETCHED TRUE)
-    set(LIBXSROOT "${libxs_SOURCE_DIR}")
+    set(LIBXS_FOUND TRUE)
+    set(LIBXS_INCLUDE_DIRS "${libxs_SOURCE_DIR}/include")
+    set(LIBXS_LINK_LIBRARIES libxs::libxs)
+    if (NOT TARGET DBCSR::LIBXS)
+      add_library(DBCSR::LIBXS INTERFACE IMPORTED GLOBAL)
+      target_link_libraries(DBCSR::LIBXS INTERFACE libxs::libxs)
+      target_include_directories(DBCSR::LIBXS INTERFACE "${LIBXS_INCLUDE_DIRS}")
+    endif ()
   endif ()
-  # Optional LIBXSMM for JIT-compiled GEMM kernels
-  option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" ON)
+
   if (USE_LIBXSMM)
-    set(LIBXSMMROOT
-        ""
-        CACHE PATH "Root directory of LIBXSMM (optional)")
-    if (NOT LIBXSMMROOT)
-      foreach (_dir "${LIBXSROOT}/../libxsmm" "$ENV{HOME}/libxsmm")
-        if (EXISTS "${_dir}/include/libxsmm.h")
-          set(LIBXSMMROOT "${_dir}")
+    set(_dbcsr_libxsmm_pkg_names libxsmm)
+    if (BUILD_SHARED_LIBS)
+      list(PREPEND _dbcsr_libxsmm_pkg_names libxsmm-shared)
+    else ()
+      list(PREPEND _dbcsr_libxsmm_pkg_names libxsmm-static)
+    endif ()
+
+    if (PkgConfig_FOUND)
+      foreach (_dbcsr_libxsmm_pkg IN LISTS _dbcsr_libxsmm_pkg_names)
+        pkg_check_modules(DBCSR_LIBXSMM QUIET IMPORTED_TARGET GLOBAL
+                          ${_dbcsr_libxsmm_pkg})
+        if (DBCSR_LIBXSMM_FOUND)
           break()
         endif ()
       endforeach ()
     endif ()
-    if (LIBXSMMROOT AND EXISTS "${LIBXSMMROOT}/include/libxsmm.h")
-      set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
-      if (BUILD_SHARED_LIBS)
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
-      else ()
-        set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
-      endif ()
-      find_library(
-        LIBXSMM_LIBRARY
-        NAMES xsmm
-        PATHS "${LIBXSMMROOT}/lib"
-        NO_DEFAULT_PATH)
-      if (NOT LIBXSMM_LIBRARY)
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-        find_library(
-          LIBXSMM_LIBRARY
-          NAMES xsmm
-          PATHS "${LIBXSMMROOT}/lib"
-          NO_DEFAULT_PATH)
-      endif ()
-      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-      if (LIBXSMM_LIBRARY)
-        message(STATUS "Using prebuilt LIBXSMM from ${LIBXSMMROOT}")
-      else ()
-        message(
-          STATUS
-            "LIBXSMM source found at ${LIBXSMMROOT} -- building as subdirectory"
-        )
-        set(XSMM_STATIC
-            ON
-            CACHE BOOL "" FORCE)
-        add_subdirectory("${LIBXSMMROOT}"
-                         "${CMAKE_BINARY_DIR}/_deps/libxsmm-build")
-        set(LIBXSMM_FETCHED TRUE)
-        get_target_property(_xsmm_srcs xsmm SOURCES)
-        list(FILTER _xsmm_srcs EXCLUDE REGEX "binaryexport_generator")
-        set_target_properties(xsmm PROPERTIES SOURCES "${_xsmm_srcs}")
-      endif ()
+
+    if (DBCSR_LIBXSMM_FOUND)
+      set(LIBXSMM_FOUND TRUE)
+      set(LIBXSMM_INCLUDE_DIRS ${DBCSR_LIBXSMM_INCLUDE_DIRS})
+      set(LIBXSMM_LINK_LIBRARIES PkgConfig::DBCSR_LIBXSMM)
+      set(DBCSR_USE_LIBXSMM TRUE)
+      message(STATUS "Using prebuilt LIBXSMM from pkg-config")
     else ()
+      find_path(LIBXSMM_INCLUDE_DIRS NAMES libxsmm.h PATH_SUFFIXES include)
+      find_library(LIBXSMM_LIBRARY NAMES xsmm)
+      if (LIBXSMM_INCLUDE_DIRS AND LIBXSMM_LIBRARY)
+        set(LIBXSMM_FOUND TRUE)
+        set(LIBXSMM_LINK_LIBRARIES ${LIBXSMM_LIBRARY})
+        set(DBCSR_USE_LIBXSMM TRUE)
+        message(STATUS "Using prebuilt LIBXSMM")
+      endif ()
+    endif ()
+
+    if (NOT LIBXSMM_FOUND)
       message(
         STATUS "LIBXSMM not found locally -- downloading via FetchContent")
       FetchContent_Declare(
@@ -291,8 +272,9 @@ if (USE_LIBXS)
           ON
           CACHE BOOL "" FORCE)
       FetchContent_MakeAvailable(libxsmm)
-      set(LIBXSMMROOT "${libxsmm_SOURCE_DIR}")
       set(LIBXSMM_FETCHED TRUE)
+      set(DBCSR_USE_LIBXSMM TRUE)
+      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include")
       get_target_property(_xsmm_srcs xsmm SOURCES)
       list(FILTER _xsmm_srcs EXCLUDE REGEX
            "(binaryexport_generator|gemm_driver)")
@@ -371,87 +353,92 @@ if (USE_ACCEL MATCHES "opencl")
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CUDA_PATH}")
   endif ()
   find_package(OpenCL REQUIRED)
-  # LIBXS is required for the OpenCL backend
-  if (NOT LIBXS_LIBRARY AND NOT LIBXS_FETCHED)
+
+  if (NOT USE_LIBXS OR NOT TARGET DBCSR::LIBXS)
     message(
       FATAL_ERROR
         "LIBXS not found. OpenCL backend requires LIBXS (USE_LIBXS=ON).")
   endif ()
-  # Locate LIBXSTREAM: prebuilt > pkg-config > path probing > FetchContent
-  set(LIBXSTREAMROOT
-      ""
-      CACHE PATH "Root directory of a prebuilt LIBXSTREAM (skips FetchContent)")
-  if (NOT LIBXSTREAMROOT AND PkgConfig_FOUND)
-    pkg_check_modules(_LIBXSTREAM QUIET libxstream)
-    if (_LIBXSTREAM_FOUND)
-      pkg_get_variable(LIBXSTREAMROOT libxstream prefix)
-    endif ()
+
+  set(_dbcsr_libxstream_pkg_names libxstream)
+  if (BUILD_SHARED_LIBS)
+    list(PREPEND _dbcsr_libxstream_pkg_names libxstream-shared)
+  else ()
+    list(PREPEND _dbcsr_libxstream_pkg_names libxstream-static)
   endif ()
-  if (NOT LIBXSTREAMROOT)
-    foreach (_dir "${CMAKE_SOURCE_DIR}/../libxstream" "$ENV{HOME}/libxstream"
-                  "/opt/libxstream")
-      if (EXISTS "${_dir}/include/libxstream.h")
-        set(LIBXSTREAMROOT "${_dir}")
+
+  if (PkgConfig_FOUND)
+    foreach (_dbcsr_libxstream_pkg IN LISTS _dbcsr_libxstream_pkg_names)
+      pkg_check_modules(DBCSR_LIBXSTREAM QUIET IMPORTED_TARGET GLOBAL
+                        ${_dbcsr_libxstream_pkg})
+      if (DBCSR_LIBXSTREAM_FOUND)
         break()
       endif ()
     endforeach ()
   endif ()
-  if (LIBXSTREAMROOT AND EXISTS "${LIBXSTREAMROOT}/include/libxstream.h")
-    set(_dbcsr_suffixes_save ${CMAKE_FIND_LIBRARY_SUFFIXES})
-    if (BUILD_SHARED_LIBS)
-      set(CMAKE_FIND_LIBRARY_SUFFIXES .so .dylib)
-    else ()
-      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
-    endif ()
-    find_library(
-      LIBXSTREAM_LIBRARY xstream
-      PATHS "${LIBXSTREAMROOT}/lib"
-      NO_DEFAULT_PATH)
-    if (NOT LIBXSTREAM_LIBRARY)
-      set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-      find_library(
-        LIBXSTREAM_LIBRARY xstream
-        PATHS "${LIBXSTREAMROOT}/lib"
-        NO_DEFAULT_PATH)
-    endif ()
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ${_dbcsr_suffixes_save})
-    if (LIBXSTREAM_LIBRARY)
-      message(STATUS "Using prebuilt LIBXSTREAM from ${LIBXSTREAMROOT}")
-    else ()
-      message(
-        STATUS
-          "LIBXSTREAM source found at ${LIBXSTREAMROOT} -- building as subdirectory"
-      )
-      set(LIBXSROOT
-          "${LIBXSROOT}"
-          CACHE PATH "" FORCE)
-      set(LIBXSTREAM_SHARED
-          ${BUILD_SHARED_LIBS}
-          CACHE BOOL "" FORCE)
-      add_subdirectory("${LIBXSTREAMROOT}"
-                       "${CMAKE_BINARY_DIR}/_deps/libxstream-build")
-      set(LIBXSTREAM_FETCHED TRUE)
-    endif ()
+
+  if (DBCSR_LIBXSTREAM_FOUND)
+    set(LIBXSTREAM_FOUND TRUE)
+    set(LIBXSTREAM_INCLUDE_DIRS ${DBCSR_LIBXSTREAM_INCLUDE_DIRS})
+    set(LIBXSTREAM_LINK_LIBRARIES PkgConfig::DBCSR_LIBXSTREAM)
+    message(STATUS "Using prebuilt LIBXSTREAM from pkg-config")
   else ()
+    find_path(LIBXSTREAM_INCLUDE_DIRS NAMES libxstream.h PATH_SUFFIXES include)
+    find_library(LIBXSTREAM_LIBRARY NAMES xstream)
+    if (LIBXSTREAM_INCLUDE_DIRS AND LIBXSTREAM_LIBRARY)
+      set(LIBXSTREAM_FOUND TRUE)
+      set(LIBXSTREAM_LINK_LIBRARIES ${LIBXSTREAM_LIBRARY})
+      message(STATUS "Using prebuilt LIBXSTREAM")
+    endif ()
+  endif ()
+
+  if (LIBXSTREAM_FOUND)
+    find_program(LIBXSTREAM_OPENCL_SCRIPT NAMES tool_opencl.sh
+                 PATH_SUFFIXES scripts)
+    find_path(LIBXSTREAM_SMM_DIR NAMES smm_acc.c PATH_SUFFIXES samples/smm)
+    if (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
+      message(
+        FATAL_ERROR
+          "LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found.")
+    endif ()
+    if (NOT TARGET DBCSR::LIBXSTREAM)
+      add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
+      target_include_directories(DBCSR::LIBXSTREAM
+                                 INTERFACE "${LIBXSTREAM_INCLUDE_DIRS}")
+      target_link_libraries(DBCSR::LIBXSTREAM
+                            INTERFACE ${LIBXSTREAM_LINK_LIBRARIES})
+    endif ()
+  endif ()
+
+  if (NOT LIBXSTREAM_FOUND)
     message(
       STATUS "LIBXSTREAM not found locally -- downloading via FetchContent")
     FetchContent_Declare(
       libxstream
       GIT_REPOSITORY ${LIBXSTREAM_GIT_REPOSITORY}
       GIT_TAG ${LIBXSTREAM_GIT_TAG})
-    set(LIBXSROOT
-        "${LIBXSROOT}"
-        CACHE PATH "" FORCE)
     set(LIBXSTREAM_SHARED
         ${BUILD_SHARED_LIBS}
         CACHE BOOL "" FORCE)
     FetchContent_MakeAvailable(libxstream)
-    set(LIBXSTREAMROOT "${libxstream_SOURCE_DIR}")
     set(LIBXSTREAM_FETCHED TRUE)
+    set(LIBXSTREAM_FOUND TRUE)
+    set(LIBXSTREAM_INCLUDE_DIRS "${libxstream_SOURCE_DIR}/include")
+    set(LIBXSTREAM_LINK_LIBRARIES libxstream::libxstream)
+    set(LIBXSTREAM_OPENCL_SCRIPT "${libxstream_SOURCE_DIR}/scripts/tool_opencl.sh")
+    set(LIBXSTREAM_SMM_DIR "${libxstream_SOURCE_DIR}/samples/smm")
+    if (NOT TARGET DBCSR::LIBXSTREAM)
+      add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
+      target_link_libraries(DBCSR::LIBXSTREAM INTERFACE libxstream::libxstream)
+      target_include_directories(DBCSR::LIBXSTREAM
+                                 INTERFACE "${LIBXSTREAM_INCLUDE_DIRS}")
+    endif ()
   endif ()
-  message(STATUS "Using LIBXSTREAM from ${LIBXSTREAMROOT}")
-  # Kernel build script and common OpenCL headers
-  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAMROOT}/scripts/tool_opencl.sh")
+
+  message(STATUS "Using LIBXSTREAM")
+  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
+  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAM_SMM_DIR}")
+  list(GET LIBXSTREAM_INCLUDE_DIRS 0 DBCSR_LIBXSTREAM_INCLUDE_DIR)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")
