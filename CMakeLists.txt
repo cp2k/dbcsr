@@ -83,11 +83,11 @@ option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
 cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF
-                       "${USE_MPI}" OFF) # MPI_F08 is a module included in MPI
+                       "USE_MPI" OFF) # MPI_F08 is a module included in MPI
 cmake_dependent_option(
-  WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "${USE_MPI}" OFF
+  WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
-cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "${USE_MPI}" OFF
+cmake_dependent_option(WITH_EXAMPLES "Build the examples" ON "USE_MPI" OFF
 )# all examples require MPI
 
 set(TEST_MPI_RANKS
@@ -279,7 +279,8 @@ if (USE_LIBXS)
       FetchContent_MakeAvailable(libxsmm)
       set(LIBXSMM_FETCHED TRUE)
       set(DBCSR_USE_LIBXSMM TRUE)
-      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include")
+      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include"
+                              "${libxsmm_BINARY_DIR}/include")
       get_target_property(_xsmm_srcs xsmm SOURCES)
       list(FILTER _xsmm_srcs EXCLUDE REGEX
            "(binaryexport_generator|gemm_driver)")
