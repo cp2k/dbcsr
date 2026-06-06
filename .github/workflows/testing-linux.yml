@@ -33,7 +33,7 @@ jobs:
       matrix:
         use_mpi: [MPI=ON, MPI=OFF]
         use_openmp: [OPENMP=ON, OPENMP=OFF]
-        use_smm: [LIBXSMM=ON, LIBXSMM=OFF]
+        smm_backend: [BLAS, LIBXS, LIBXSMM]
         mpi_suffix: [openmpi, mpich]
         exclude:
           - use_mpi: MPI=OFF
@@ -49,15 +49,26 @@ jobs:
       run: |
         mkdir -p build
         cd build
+        case "${{ matrix.smm_backend }}" in
+          BLAS)
+            smm_flags="-DUSE_LIBXS=OFF -DUSE_LIBXSMM=OFF"
+            ;;
+          LIBXS)
+            smm_flags="-DUSE_LIBXS=ON -DUSE_LIBXSMM=OFF"
+            ;;
+          LIBXSMM)
+            smm_flags="-DUSE_LIBXS=ON -DUSE_LIBXSMM=ON"
+            ;;
+        esac
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Coverage \
           -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
-          -DUSE_${{ matrix.use_smm }} \
+          ${smm_flags} \
           -DMPI_EXECUTABLE_SUFFIX=.${{ matrix.mpi_suffix }} \
           -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root --oversubscribe")" \
-          -DLCOV_ARGS="--test-name;${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu" \
+          -DLCOV_ARGS="--test-name;${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.smm_backend }}-cpu" \
           -DTEST_MPI_RANKS=auto \
           ..
 
@@ -72,19 +83,19 @@ jobs:
     - name: Generate coverage info
       run: |
         cmake --build build -- cov-info
-        mv build/coverage.info build/coverage-Linux-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu.info
+        mv build/coverage.info build/coverage-Linux-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.smm_backend }}-cpu.info
 
     - name: Upload coverage data
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-${{ matrix.mpi_suffix }}
+        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.smm_backend }}-${{ matrix.mpi_suffix }}
         path: build/coverage-*.info
 
     - name: Upload coverage data (generated files)
       uses: actions/upload-artifact@v4
-      if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.use_smm == 'LIBXSMM=OFF' && matrix.mpi_suffix == 'openmpi'
+      if: matrix.use_mpi == 'MPI=ON' && matrix.use_openmp == 'OPENMP=ON' && matrix.smm_backend == 'BLAS' && matrix.mpi_suffix == 'openmpi'
       with:
-        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-${{ matrix.mpi_suffix }}-generated-files
+        name: coverage-data-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.smm_backend }}-${{ matrix.mpi_suffix }}-generated-files
         path: |
           build/src/dbcsr.h
           build/src/tensors/dbcsr_tensor.h
@@ -137,7 +148,7 @@ jobs:
     strategy:
       matrix:
         use_openmp: [OPENMP=ON]
-        use_smm: [LIBXSMM=ON]
+        use_libxsmm: [LIBXSMM=ON]
 
     steps:
     - uses: actions/checkout@v4
@@ -153,7 +164,8 @@ jobs:
           -DCMAKE_BUILD_TYPE=Debug \
           -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_openmp }} \
-          -DUSE_${{ matrix.use_smm }} \
+          -DUSE_LIBXS=ON \
+          -DUSE_${{ matrix.use_libxsmm }} \
           -DUSE_ACCEL=opencl \
           -DWITH_EXAMPLES=ON \
           ..

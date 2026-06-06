@@ -14,7 +14,6 @@ jobs:
       matrix:
         use_mpi: [MPI=ON]
         use_openmp: [OPENMP=ON]
-        use_smm: [SMM=blas]
         blas_impl: [accelerate,openblas]
         mpi_suffix: [mpich] # Brew openmpi doesn't provide mpi.mod
 
@@ -44,7 +43,6 @@ jobs:
           -DBUILD_TESTING=ON \
           -DUSE_${{ matrix.use_mpi }} \
           -DUSE_${{ matrix.use_openmp }} \
-          -DUSE_${{ matrix.use_smm }} \
           $([ "${{ matrix.blas_impl }}" = "openblas" ] && echo '-DCMAKE_PREFIX_PATH=/usr/local/opt/openblas') \
           -DMPIEXEC_PREFLAGS="$([ "${{ matrix.mpi_suffix }}" = "openmpi" ] && echo "-mca btl ^openib --allow-run-as-root")" \
           -DTEST_MPI_RANKS=auto \
