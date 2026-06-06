@@ -82,7 +82,7 @@ option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF)
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
-cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" ON
+cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF
                        "${USE_MPI}" OFF) # MPI_F08 is a module included in MPI
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "${USE_MPI}" OFF
