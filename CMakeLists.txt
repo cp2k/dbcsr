@@ -82,9 +82,8 @@ option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF)
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
-cmake_dependent_option(
-  USE_MPI_F08 "Build with the mpi_f08 module support" ON "${USE_MPI}" OFF
-)# MPI_F08 is a module included in MPI
+cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" ON
+                       "${USE_MPI}" OFF) # MPI_F08 is a module included in MPI
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "${USE_MPI}" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
@@ -187,7 +186,10 @@ if (USE_LIBXS)
     set(LIBXS_LIBRARY TRUE)
     message(STATUS "Using prebuilt LIBXS from pkg-config")
   else ()
-    find_path(LIBXS_INCLUDE_DIRS NAMES libxs.h PATH_SUFFIXES include)
+    find_path(
+      LIBXS_INCLUDE_DIRS
+      NAMES libxs.h
+      PATH_SUFFIXES include)
     find_library(LIBXS_LIBRARY NAMES xs)
     if (LIBXS_INCLUDE_DIRS AND LIBXS_LIBRARY)
       set(LIBXS_FOUND TRUE)
@@ -251,7 +253,10 @@ if (USE_LIBXS)
       set(DBCSR_USE_LIBXSMM TRUE)
       message(STATUS "Using prebuilt LIBXSMM from pkg-config")
     else ()
-      find_path(LIBXSMM_INCLUDE_DIRS NAMES libxsmm.h PATH_SUFFIXES include)
+      find_path(
+        LIBXSMM_INCLUDE_DIRS
+        NAMES libxsmm.h
+        PATH_SUFFIXES include)
       find_library(LIBXSMM_LIBRARY NAMES xsmm)
       if (LIBXSMM_INCLUDE_DIRS AND LIBXSMM_LIBRARY)
         set(LIBXSMM_FOUND TRUE)
@@ -383,7 +388,10 @@ if (USE_ACCEL MATCHES "opencl")
     set(LIBXSTREAM_LINK_LIBRARIES PkgConfig::DBCSR_LIBXSTREAM)
     message(STATUS "Using prebuilt LIBXSTREAM from pkg-config")
   else ()
-    find_path(LIBXSTREAM_INCLUDE_DIRS NAMES libxstream.h PATH_SUFFIXES include)
+    find_path(
+      LIBXSTREAM_INCLUDE_DIRS
+      NAMES libxstream.h
+      PATH_SUFFIXES include)
     find_library(LIBXSTREAM_LIBRARY NAMES xstream)
     if (LIBXSTREAM_INCLUDE_DIRS AND LIBXSTREAM_LIBRARY)
       set(LIBXSTREAM_FOUND TRUE)
@@ -393,13 +401,19 @@ if (USE_ACCEL MATCHES "opencl")
   endif ()
 
   if (LIBXSTREAM_FOUND)
-    find_program(LIBXSTREAM_OPENCL_SCRIPT NAMES tool_opencl.sh
-                 PATH_SUFFIXES scripts)
-    find_path(LIBXSTREAM_SMM_DIR NAMES smm_acc.c PATH_SUFFIXES samples/smm)
+    find_program(
+      LIBXSTREAM_OPENCL_SCRIPT
+      NAMES tool_opencl.sh
+      PATH_SUFFIXES scripts)
+    find_path(
+      LIBXSTREAM_SMM_DIR
+      NAMES smm_acc.c
+      PATH_SUFFIXES samples/smm)
     if (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
       message(
         FATAL_ERROR
-          "LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found.")
+          "LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found."
+      )
     endif ()
     if (NOT TARGET DBCSR::LIBXSTREAM)
       add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
@@ -425,7 +439,8 @@ if (USE_ACCEL MATCHES "opencl")
     set(LIBXSTREAM_FOUND TRUE)
     set(LIBXSTREAM_INCLUDE_DIRS "${libxstream_SOURCE_DIR}/include")
     set(LIBXSTREAM_LINK_LIBRARIES libxstream::libxstream)
-    set(LIBXSTREAM_OPENCL_SCRIPT "${libxstream_SOURCE_DIR}/scripts/tool_opencl.sh")
+    set(LIBXSTREAM_OPENCL_SCRIPT
+        "${libxstream_SOURCE_DIR}/scripts/tool_opencl.sh")
     set(LIBXSTREAM_SMM_DIR "${libxstream_SOURCE_DIR}/samples/smm")
     if (NOT TARGET DBCSR::LIBXSTREAM)
       add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
