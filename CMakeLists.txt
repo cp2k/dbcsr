@@ -152,142 +152,17 @@ endif ()
 # they can be linked into shared libraries.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# LIBXS provides host-side batched GEMM for all backends. LIBXSMM provides JIT
-# kernels within LIBXS and is optional. Prefer already installed packages and
-# standard CMake/pkg-config search paths before falling back to FetchContent.
-include(FetchContent)
-include(cmake/dependencies.cmake)
-find_package(PkgConfig QUIET)
-
 set(DBCSR_USE_LIBXSMM FALSE)
 set(LIBXSMM_COMPILE_DEFINITIONS "")
+set(LIBXSMM_FETCHED FALSE)
 
 if (USE_LIBXS)
-  set(_dbcsr_libxs_pkg_names libxs)
-  if (BUILD_SHARED_LIBS)
-    list(PREPEND _dbcsr_libxs_pkg_names libxs-shared)
-  else ()
-    list(PREPEND _dbcsr_libxs_pkg_names libxs-static)
-  endif ()
-
-  if (PkgConfig_FOUND)
-    foreach (_dbcsr_libxs_pkg IN LISTS _dbcsr_libxs_pkg_names)
-      pkg_check_modules(DBCSR_LIBXS QUIET IMPORTED_TARGET GLOBAL
-                        ${_dbcsr_libxs_pkg})
-      if (DBCSR_LIBXS_FOUND)
-        break()
-      endif ()
-    endforeach ()
-  endif ()
-
-  if (DBCSR_LIBXS_FOUND)
-    set(LIBXS_FOUND TRUE)
-    set(LIBXS_INCLUDE_DIRS ${DBCSR_LIBXS_INCLUDE_DIRS})
-    set(LIBXS_LINK_LIBRARIES PkgConfig::DBCSR_LIBXS)
-    set(LIBXS_LIBRARY TRUE)
-    message(STATUS "Using prebuilt LIBXS from pkg-config")
-  else ()
-    find_path(
-      LIBXS_INCLUDE_DIRS
-      NAMES libxs.h
-      PATH_SUFFIXES include)
-    find_library(LIBXS_LIBRARY NAMES xs)
-    if (LIBXS_INCLUDE_DIRS AND LIBXS_LIBRARY)
-      set(LIBXS_FOUND TRUE)
-      set(LIBXS_LINK_LIBRARIES ${LIBXS_LIBRARY})
-      message(STATUS "Using prebuilt LIBXS")
-    endif ()
-  endif ()
-
-  if (LIBXS_FOUND AND NOT TARGET DBCSR::LIBXS)
-    add_library(DBCSR::LIBXS INTERFACE IMPORTED GLOBAL)
-    target_include_directories(DBCSR::LIBXS INTERFACE "${LIBXS_INCLUDE_DIRS}")
-    target_link_libraries(DBCSR::LIBXS INTERFACE ${LIBXS_LINK_LIBRARIES})
-  endif ()
-
-  if (NOT LIBXS_FOUND)
-    message(STATUS "LIBXS not found locally -- downloading via FetchContent")
-    FetchContent_Declare(
-      libxs
-      GIT_REPOSITORY ${LIBXS_GIT_REPOSITORY}
-      GIT_TAG ${LIBXS_GIT_TAG})
-    set(LIBXS_FORTRAN
-        ON
-        CACHE BOOL "" FORCE)
-    set(LIBXS_SHARED
-        ${BUILD_SHARED_LIBS}
-        CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(libxs)
-    set(LIBXS_FETCHED TRUE)
-    set(LIBXS_FOUND TRUE)
-    set(LIBXS_INCLUDE_DIRS "${libxs_SOURCE_DIR}/include")
-    set(LIBXS_LINK_LIBRARIES libxs::libxs)
-    if (NOT TARGET DBCSR::LIBXS)
-      add_library(DBCSR::LIBXS INTERFACE IMPORTED GLOBAL)
-      target_link_libraries(DBCSR::LIBXS INTERFACE libxs::libxs)
-      target_include_directories(DBCSR::LIBXS INTERFACE "${LIBXS_INCLUDE_DIRS}")
-    endif ()
-  endif ()
-
+  find_package(LIBXS REQUIRED)
   if (USE_LIBXSMM)
-    set(_dbcsr_libxsmm_pkg_names libxsmm)
-    if (BUILD_SHARED_LIBS)
-      list(PREPEND _dbcsr_libxsmm_pkg_names libxsmm-shared)
-    else ()
-      list(PREPEND _dbcsr_libxsmm_pkg_names libxsmm-static)
-    endif ()
-
-    if (PkgConfig_FOUND)
-      foreach (_dbcsr_libxsmm_pkg IN LISTS _dbcsr_libxsmm_pkg_names)
-        pkg_check_modules(DBCSR_LIBXSMM QUIET IMPORTED_TARGET GLOBAL
-                          ${_dbcsr_libxsmm_pkg})
-        if (DBCSR_LIBXSMM_FOUND)
-          break()
-        endif ()
-      endforeach ()
-    endif ()
-
-    if (DBCSR_LIBXSMM_FOUND)
-      set(LIBXSMM_FOUND TRUE)
-      set(LIBXSMM_INCLUDE_DIRS ${DBCSR_LIBXSMM_INCLUDE_DIRS})
-      set(LIBXSMM_LINK_LIBRARIES PkgConfig::DBCSR_LIBXSMM)
-      set(DBCSR_USE_LIBXSMM TRUE)
-      message(STATUS "Using prebuilt LIBXSMM from pkg-config")
-    else ()
-      find_path(
-        LIBXSMM_INCLUDE_DIRS
-        NAMES libxsmm.h
-        PATH_SUFFIXES include)
-      find_library(LIBXSMM_LIBRARY NAMES xsmm)
-      if (LIBXSMM_INCLUDE_DIRS AND LIBXSMM_LIBRARY)
-        set(LIBXSMM_FOUND TRUE)
-        set(LIBXSMM_LINK_LIBRARIES ${LIBXSMM_LIBRARY})
-        set(DBCSR_USE_LIBXSMM TRUE)
-        message(STATUS "Using prebuilt LIBXSMM")
-      endif ()
-    endif ()
-
-    if (NOT LIBXSMM_FOUND)
-      message(
-        STATUS "LIBXSMM not found locally -- downloading via FetchContent")
-      FetchContent_Declare(
-        libxsmm
-        GIT_REPOSITORY "https://github.com/libxsmm/libxsmm.git"
-        GIT_TAG ${LIBXSMM_GIT_TAG})
-      set(XSMM_STATIC
-          ON
-          CACHE BOOL "" FORCE)
-      FetchContent_MakeAvailable(libxsmm)
-      set(LIBXSMM_FETCHED TRUE)
-      set(DBCSR_USE_LIBXSMM TRUE)
-      set(LIBXSMM_INCLUDE_DIRS "${libxsmm_SOURCE_DIR}/include")
-      set(LIBXSMM_COMPILE_DEFINITIONS LIBXSMM_DEFAULT_CONFIG)
-      get_target_property(_xsmm_srcs xsmm SOURCES)
-      list(FILTER _xsmm_srcs EXCLUDE REGEX
-           "(binaryexport_generator|gemm_driver)")
-      set_target_properties(xsmm PROPERTIES SOURCES "${_xsmm_srcs}")
-    endif ()
+    find_package(LIBXSMM REQUIRED)
   endif ()
+elseif (USE_LIBXSMM)
+  message(WARNING "USE_LIBXSMM=ON requires USE_LIBXS=ON; ignoring USE_LIBXSMM.")
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
@@ -359,7 +234,6 @@ if (USE_ACCEL MATCHES "opencl")
   if (DEFINED ENV{CUDA_PATH})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CUDA_PATH}")
   endif ()
-  find_package(OpenCL REQUIRED)
 
   if (NOT USE_LIBXS OR NOT TARGET DBCSR::LIBXS)
     message(
@@ -367,100 +241,8 @@ if (USE_ACCEL MATCHES "opencl")
         "LIBXS not found. OpenCL backend requires LIBXS (USE_LIBXS=ON).")
   endif ()
 
-  set(_dbcsr_libxstream_pkg_names libxstream)
-  if (BUILD_SHARED_LIBS)
-    list(PREPEND _dbcsr_libxstream_pkg_names libxstream-shared)
-  else ()
-    list(PREPEND _dbcsr_libxstream_pkg_names libxstream-static)
-  endif ()
-
-  if (PkgConfig_FOUND)
-    foreach (_dbcsr_libxstream_pkg IN LISTS _dbcsr_libxstream_pkg_names)
-      pkg_check_modules(DBCSR_LIBXSTREAM QUIET IMPORTED_TARGET GLOBAL
-                        ${_dbcsr_libxstream_pkg})
-      if (DBCSR_LIBXSTREAM_FOUND)
-        break()
-      endif ()
-    endforeach ()
-  endif ()
-
-  if (DBCSR_LIBXSTREAM_FOUND)
-    set(LIBXSTREAM_FOUND TRUE)
-    set(LIBXSTREAM_INCLUDE_DIRS ${DBCSR_LIBXSTREAM_INCLUDE_DIRS})
-    set(LIBXSTREAM_LINK_LIBRARIES PkgConfig::DBCSR_LIBXSTREAM)
-    message(STATUS "Using prebuilt LIBXSTREAM from pkg-config")
-  else ()
-    find_path(
-      LIBXSTREAM_INCLUDE_DIRS
-      NAMES libxstream.h
-      PATH_SUFFIXES include)
-    find_library(LIBXSTREAM_LIBRARY NAMES xstream)
-    if (LIBXSTREAM_INCLUDE_DIRS AND LIBXSTREAM_LIBRARY)
-      set(LIBXSTREAM_FOUND TRUE)
-      set(LIBXSTREAM_LINK_LIBRARIES ${LIBXSTREAM_LIBRARY})
-      message(STATUS "Using prebuilt LIBXSTREAM")
-    endif ()
-  endif ()
-
-  if (LIBXSTREAM_FOUND)
-    set(_dbcsr_libxstream_prefix_hints)
-    if (DBCSR_LIBXSTREAM_PREFIX)
-      list(APPEND _dbcsr_libxstream_prefix_hints "${DBCSR_LIBXSTREAM_PREFIX}")
-    endif ()
-    foreach (_dbcsr_libxstream_include_dir IN LISTS LIBXSTREAM_INCLUDE_DIRS)
-      get_filename_component(_dbcsr_libxstream_prefix
-                             "${_dbcsr_libxstream_include_dir}/.." ABSOLUTE)
-      list(APPEND _dbcsr_libxstream_prefix_hints "${_dbcsr_libxstream_prefix}")
-    endforeach ()
-
-    find_program(
-      LIBXSTREAM_OPENCL_SCRIPT
-      NAMES tool_opencl.sh
-      HINTS ${_dbcsr_libxstream_prefix_hints}
-      PATH_SUFFIXES scripts bin)
-    find_path(
-      LIBXSTREAM_SMM_DIR
-      NAMES smm_acc.c
-      HINTS ${_dbcsr_libxstream_prefix_hints}
-      PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
-    if (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
-      message(
-        STATUS
-          "Prebuilt LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found -- downloading via FetchContent"
-      )
-      set(LIBXSTREAM_FOUND FALSE)
-    elseif (NOT TARGET DBCSR::LIBXSTREAM)
-      add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
-      target_include_directories(DBCSR::LIBXSTREAM
-                                 INTERFACE "${LIBXSTREAM_INCLUDE_DIRS}")
-      target_link_libraries(DBCSR::LIBXSTREAM
-                            INTERFACE ${LIBXSTREAM_LINK_LIBRARIES})
-    endif ()
-  else ()
-    message(
-      STATUS "LIBXSTREAM not found locally -- downloading via FetchContent")
-    FetchContent_Declare(
-      libxstream
-      GIT_REPOSITORY ${LIBXSTREAM_GIT_REPOSITORY}
-      GIT_TAG ${LIBXSTREAM_GIT_TAG})
-    set(LIBXSTREAM_SHARED
-        ${BUILD_SHARED_LIBS}
-        CACHE BOOL "" FORCE)
-    FetchContent_MakeAvailable(libxstream)
-    set(LIBXSTREAM_FETCHED TRUE)
-    set(LIBXSTREAM_FOUND TRUE)
-    set(LIBXSTREAM_INCLUDE_DIRS "${libxstream_SOURCE_DIR}/include")
-    set(LIBXSTREAM_LINK_LIBRARIES libxstream::libxstream)
-    set(LIBXSTREAM_OPENCL_SCRIPT
-        "${libxstream_SOURCE_DIR}/scripts/tool_opencl.sh")
-    set(LIBXSTREAM_SMM_DIR "${libxstream_SOURCE_DIR}/samples/smm")
-    if (NOT TARGET DBCSR::LIBXSTREAM)
-      add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED GLOBAL)
-      target_link_libraries(DBCSR::LIBXSTREAM INTERFACE libxstream::libxstream)
-      target_include_directories(DBCSR::LIBXSTREAM
-                                 INTERFACE "${LIBXSTREAM_INCLUDE_DIRS}")
-    endif ()
-  endif ()
+  find_package(OpenCL REQUIRED)
+  find_package(LIBXSTREAM REQUIRED)
 
   message(STATUS "Using LIBXSTREAM")
   set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
