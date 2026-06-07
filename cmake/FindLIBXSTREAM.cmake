@@ -2,20 +2,15 @@
 #
 # A usable LIBXSTREAM dependency must provide the library/header as well as the
 # OpenCL helper script and the SMM sample sources used by DBCSR.  This module
-# first searches already installed packages through pkg-config and standard CMake
-# search paths.  When it is used from the DBCSR build tree and no complete local
-# installation is found, it falls back to FetchContent.
+# first searches already installed packages through pkg-config and standard
+# CMake search paths.  When it is used from the DBCSR build tree and no complete
+# local installation is found, it falls back to FetchContent.
 #
-# Result variables:
-#   LIBXSTREAM_FOUND
-#   LIBXSTREAM_INCLUDE_DIRS
-#   LIBXSTREAM_LINK_LIBRARIES
-#   LIBXSTREAM_OPENCL_SCRIPT
-#   LIBXSTREAM_SMM_DIR
-#   LIBXSTREAM_FETCHED
+# Result variables: LIBXSTREAM_FOUND LIBXSTREAM_INCLUDE_DIRS
+# LIBXSTREAM_LINK_LIBRARIES LIBXSTREAM_OPENCL_SCRIPT LIBXSTREAM_SMM_DIR
+# LIBXSTREAM_FETCHED
 #
-# Imported target:
-#   DBCSR::LIBXSTREAM
+# Imported target: DBCSR::LIBXSTREAM
 
 include(FindPackageHandleStandardArgs)
 include("${CMAKE_CURRENT_LIST_DIR}/dependencies.cmake" OPTIONAL)
@@ -99,8 +94,11 @@ if (LIBXSTREAM_INCLUDE_DIRS AND LIBXSTREAM_LINK_LIBRARIES)
     PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
 endif ()
 
-if ((NOT LIBXSTREAM_INCLUDE_DIRS OR NOT LIBXSTREAM_LINK_LIBRARIES
-     OR NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR)
+if ((NOT LIBXSTREAM_INCLUDE_DIRS
+     OR NOT LIBXSTREAM_LINK_LIBRARIES
+     OR NOT LIBXSTREAM_OPENCL_SCRIPT
+     OR NOT LIBXSTREAM_SMM_DIR
+    )
     AND DBCSR_FETCH_MISSING_DEPS)
   include(FetchContent)
   if (LIBXSTREAM_INCLUDE_DIRS AND LIBXSTREAM_LINK_LIBRARIES)
@@ -109,7 +107,8 @@ if ((NOT LIBXSTREAM_INCLUDE_DIRS OR NOT LIBXSTREAM_LINK_LIBRARIES
         "Prebuilt LIBXSTREAM was found, but its OpenCL helper script or SMM samples were not found -- downloading via FetchContent"
     )
   else ()
-    message(STATUS "LIBXSTREAM not found locally -- downloading via FetchContent")
+    message(
+      STATUS "LIBXSTREAM not found locally -- downloading via FetchContent")
   endif ()
   FetchContent_Declare(
     libxstream

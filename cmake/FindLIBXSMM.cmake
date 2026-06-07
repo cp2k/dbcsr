@@ -4,17 +4,10 @@
 # standard CMake search paths.  When it is used from the DBCSR build tree and no
 # local installation is found, it falls back to FetchContent.
 #
-# Result variables:
-#   LIBXSMM_FOUND
-#   LIBXSMM_INCLUDE_DIRS
-#   LIBXSMM_LINK_LIBRARIES
-#   LIBXSMM_COMPILE_DEFINITIONS
-#   LIBXSMM_FETCHED
-#   DBCSR_USE_LIBXSMM
+# Result variables: LIBXSMM_FOUND LIBXSMM_INCLUDE_DIRS LIBXSMM_LINK_LIBRARIES
+# LIBXSMM_COMPILE_DEFINITIONS LIBXSMM_FETCHED DBCSR_USE_LIBXSMM
 #
-# Imported targets:
-#   DBCSR::LIBXSMM
-#   xsmm
+# Imported targets: DBCSR::LIBXSMM xsmm
 
 include(FindPackageHandleStandardArgs)
 include("${CMAKE_CURRENT_LIST_DIR}/dependencies.cmake" OPTIONAL)
@@ -124,8 +117,7 @@ if (LIBXSMM_FOUND)
       add_library(xsmm UNKNOWN IMPORTED GLOBAL)
       set_target_properties(
         xsmm PROPERTIES IMPORTED_LOCATION "${LIBXSMM_LIBRARY}"
-                        INTERFACE_INCLUDE_DIRECTORIES
-                        "${LIBXSMM_INCLUDE_DIRS}")
+                        INTERFACE_INCLUDE_DIRECTORIES "${LIBXSMM_INCLUDE_DIRS}")
     endif ()
   endif ()
 endif ()

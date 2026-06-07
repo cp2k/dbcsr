@@ -4,14 +4,10 @@
 # standard CMake search paths.  When it is used from the DBCSR build tree and no
 # local installation is found, it falls back to FetchContent.
 #
-# Result variables:
-#   LIBXS_FOUND
-#   LIBXS_INCLUDE_DIRS
-#   LIBXS_LINK_LIBRARIES
-#   LIBXS_FETCHED
+# Result variables: LIBXS_FOUND LIBXS_INCLUDE_DIRS LIBXS_LINK_LIBRARIES
+# LIBXS_FETCHED
 #
-# Imported target:
-#   DBCSR::LIBXS
+# Imported target: DBCSR::LIBXS
 
 include(FindPackageHandleStandardArgs)
 include("${CMAKE_CURRENT_LIST_DIR}/dependencies.cmake" OPTIONAL)
