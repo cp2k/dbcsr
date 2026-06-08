@@ -81,7 +81,8 @@ option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
 option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication" OFF)
 
-cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF "USE_LIBXS" OFF)
+cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels"
+                       OFF "USE_LIBXS" OFF)
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
