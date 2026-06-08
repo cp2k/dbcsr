@@ -35,7 +35,8 @@ if (TARGET libxstream::libxstream)
   set(LIBXSTREAM_LINK_LIBRARIES libxstream::libxstream)
   get_target_property(LIBXSTREAM_INCLUDE_DIRS libxstream::libxstream
                       INTERFACE_INCLUDE_DIRECTORIES)
-  if (NOT LIBXSTREAM_INCLUDE_DIRS OR LIBXSTREAM_INCLUDE_DIRS MATCHES "-NOTFOUND")
+  if (NOT LIBXSTREAM_INCLUDE_DIRS OR LIBXSTREAM_INCLUDE_DIRS MATCHES
+                                     "-NOTFOUND")
     set(LIBXSTREAM_INCLUDE_DIRS "")
   endif ()
   message(STATUS "Using LIBXSTREAM from CMake package")
@@ -45,14 +46,12 @@ foreach (_dbcsr_libxstream_include_dir IN LISTS LIBXSTREAM_INCLUDE_DIRS)
   if (IS_ABSOLUTE "${_dbcsr_libxstream_include_dir}")
     get_filename_component(_dbcsr_libxstream_prefix
                            "${_dbcsr_libxstream_include_dir}/.." ABSOLUTE)
-    list(APPEND _dbcsr_libxstream_prefix_hints
-         "${_dbcsr_libxstream_prefix}")
+    list(APPEND _dbcsr_libxstream_prefix_hints "${_dbcsr_libxstream_prefix}")
 
     if (_dbcsr_libxstream_prefix MATCHES "/include$")
       get_filename_component(_dbcsr_libxstream_prefix
                              "${_dbcsr_libxstream_prefix}/.." ABSOLUTE)
-      list(APPEND _dbcsr_libxstream_prefix_hints
-           "${_dbcsr_libxstream_prefix}")
+      list(APPEND _dbcsr_libxstream_prefix_hints "${_dbcsr_libxstream_prefix}")
     endif ()
   endif ()
 endforeach ()
@@ -70,8 +69,8 @@ if (LIBXSTREAM_LINK_LIBRARIES)
     PATH_SUFFIXES samples/smm share/libxstream/samples/smm)
 endif ()
 
-if (LIBXSTREAM_LINK_LIBRARIES
-    AND (NOT LIBXSTREAM_OPENCL_SCRIPT OR NOT LIBXSTREAM_SMM_DIR))
+if (LIBXSTREAM_LINK_LIBRARIES AND (NOT LIBXSTREAM_OPENCL_SCRIPT
+                                   OR NOT LIBXSTREAM_SMM_DIR))
   message(
     FATAL_ERROR
       "LIBXSTREAM CMake package was found, but its OpenCL helper script or SMM samples were not found"
@@ -95,8 +94,8 @@ if (NOT LIBXSTREAM_LINK_LIBRARIES AND DBCSR_FETCH_MISSING_DEPS)
     set(LIBXSTREAM_LINK_LIBRARIES libxstream::libxstream)
     get_target_property(LIBXSTREAM_INCLUDE_DIRS libxstream::libxstream
                         INTERFACE_INCLUDE_DIRECTORIES)
-    if (NOT LIBXSTREAM_INCLUDE_DIRS
-        OR LIBXSTREAM_INCLUDE_DIRS MATCHES "-NOTFOUND")
+    if (NOT LIBXSTREAM_INCLUDE_DIRS OR LIBXSTREAM_INCLUDE_DIRS MATCHES
+                                       "-NOTFOUND")
       set(LIBXSTREAM_INCLUDE_DIRS "${libxstream_SOURCE_DIR}/include")
     endif ()
     set(LIBXSTREAM_OPENCL_SCRIPT

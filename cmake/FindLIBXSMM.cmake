@@ -1,7 +1,7 @@
 # Locate LIBXSMM for DBCSR.
 #
-# This module first searches a standard CMake package.  When it is used from
-# the DBCSR build tree and no local installation is found, it falls back to
+# This module first searches a standard CMake package.  When it is used from the
+# DBCSR build tree and no local installation is found, it falls back to
 # FetchContent.
 #
 # Result variables: LIBXSMM_FOUND LIBXSMM_INCLUDE_DIRS LIBXSMM_LINK_LIBRARIES
@@ -40,7 +40,7 @@ if (NOT LIBXSMM_LINK_LIBRARIES AND DBCSR_FETCH_MISSING_DEPS)
   message(STATUS "LIBXSMM not found locally -- downloading via FetchContent")
   FetchContent_Declare(
     libxsmm
-    GIT_REPOSITORY "https://github.com/libxsmm/libxsmm.git"
+    GIT_REPOSITORY ${LIBXSMM_GIT_REPOSITORY}
     GIT_TAG ${LIBXSMM_GIT_TAG})
   set(XSMM_STATIC
       ON

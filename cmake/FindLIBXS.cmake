@@ -1,7 +1,7 @@
 # Locate LIBXS for DBCSR.
 #
-# This module first searches a standard CMake package.  When it is used from
-# the DBCSR build tree and no local installation is found, it falls back to
+# This module first searches a standard CMake package.  When it is used from the
+# DBCSR build tree and no local installation is found, it falls back to
 # FetchContent.
 #
 # Result variables: LIBXS_FOUND LIBXS_INCLUDE_DIRS LIBXS_LINK_LIBRARIES
