@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 
 # include our cmake snippets
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 # DBCSR's source directory
 set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -61,16 +62,14 @@ else ()
   endforeach ()
 endif ()
 
-
 project(
   dbcsr
   DESCRIPTION
     "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)"
-    LANGUAGES Fortran C CXX
-)
-set(dbcsr_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
+  LANGUAGES Fortran C CXX)
+set(dbcsr_VERSION
+    ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
 set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
-
 
 # =================================================================================================
 # OPTIONS
@@ -104,7 +103,10 @@ set(TEST_OMP_THREADS
 
 set(USE_ACCEL
     "none"
-    CACHE STRING "BBuild with acceleration support (none (default value), opencl, cuda, hip)")
+    CACHE
+      STRING
+      "BBuild with acceleration support (none (default value), opencl, cuda, hip)"
+)
 set_property(CACHE USE_ACCEL PROPERTY STRINGS none opencl cuda hip)
 string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
 
@@ -118,16 +120,23 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300 Mi350)
 
-set(WITH_GPU "P100" CACHE STRING
-    "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS
-             ${SUPPORTED_CUDA_ARCHITECTURES} ${SUPPORTED_HIP_ARCHITECTURES})
+set(WITH_GPU
+    "P100"
+    CACHE
+      STRING
+      "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+)
+set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
+                                     ${SUPPORTED_HIP_ARCHITECTURES})
 
 # Override default for OpenCL: empty string means "all"
 if (NOT DEFINED WITH_GPU AND USE_ACCEL STREQUAL "opencl")
-set(WITH_GPU "" CACHE STRING
-    "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
-    FORCE)
+  set(WITH_GPU
+      ""
+      CACHE
+        STRING
+        "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+        FORCE)
 endif ()
 
 set(WITH_GPU_PARAMS "${WITH_GPU}")
@@ -166,12 +175,12 @@ if (USE_LIBXS)
   find_package(libxs REQUIRED)
   # not needed at all
   add_library(DBCSR::LIBXS ALIAS libxs::libxs)
-endif()
+endif ()
 
 # libxsmm can only be activated when libxs is on.
 if (USE_LIBXSMM)
   find_package(LIBXSMM REQUIRED)
-endif()
+endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
 find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
@@ -234,8 +243,6 @@ endif ()
 if (NOT USE_ACCEL MATCHES "none")
   set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
 endif ()
-
-
 
 if (USE_ACCEL MATCHES "opencl")
   if (DEFINED ENV{CMPLR_ROOT})
