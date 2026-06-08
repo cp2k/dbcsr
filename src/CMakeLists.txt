@@ -412,8 +412,4 @@ install(
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
-        ${PROJECT_SOURCE_DIR}/cmake/FindLIBXS.cmake
-        ${PROJECT_SOURCE_DIR}/cmake/FindLIBXSMM.cmake
-        ${PROJECT_SOURCE_DIR}/cmake/FindLIBXSTREAM.cmake
-        ${PROJECT_SOURCE_DIR}/cmake/dependencies.cmake
   DESTINATION ${config_install_dir})
