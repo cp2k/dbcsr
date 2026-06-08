@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 
 # include our cmake snippets
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 # DBCSR's source directory
 set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -20,6 +20,7 @@ endif ()
 # =================================================================================================
 # PROJECT AND VERSION
 include(GetGitRevisionDescription)
+include(FetchContent)
 
 git_describe(GIT_DESC)
 
@@ -60,14 +61,16 @@ else ()
   endforeach ()
 endif ()
 
+
 project(
   dbcsr
   DESCRIPTION
     "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)"
+    LANGUAGES Fortran C CXX
 )
-set(dbcsr_VERSION
-    ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
+set(dbcsr_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
 set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+
 
 # =================================================================================================
 # OPTIONS
@@ -78,7 +81,9 @@ option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
 option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication" OFF)
-option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF)
+
+cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels" OFF "USE_LIBXS" OFF)
+
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
@@ -98,9 +103,9 @@ set(TEST_OMP_THREADS
     CACHE STRING "Number of OpenMP threads for testing")
 
 set(USE_ACCEL
-    ""
-    CACHE STRING "Build with acceleration support (default: none)")
-set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
+    "none"
+    CACHE STRING "BBuild with acceleration support (none (default value), opencl, cuda, hip)")
+set_property(CACHE USE_ACCEL PROPERTY STRINGS none opencl cuda hip)
 string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
 
 set(SUPPORTED_CUDA_ARCHITECTURES
@@ -112,19 +117,25 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     A100
     H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300 Mi350)
-set(WITH_GPU
-    $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
-    CACHE
-      STRING
-      "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
-)
+
+set(WITH_GPU "P100" CACHE STRING
+    "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)")
+set_property(CACHE WITH_GPU PROPERTY STRINGS
+             ${SUPPORTED_CUDA_ARCHITECTURES} ${SUPPORTED_HIP_ARCHITECTURES})
+
+# Override default for OpenCL: empty string means "all"
+if (NOT DEFINED WITH_GPU AND USE_ACCEL STREQUAL "opencl")
+set(WITH_GPU "" CACHE STRING
+    "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+    FORCE)
+endif ()
+
 set(WITH_GPU_PARAMS "${WITH_GPU}")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
 # =================================================================================================
 # LANGUAGES AND TESTING
-enable_language(Fortran)
 
 if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
   enable_language(CXX)
@@ -139,7 +150,6 @@ if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
     set(CMAKE_C_STANDARD 11)
     set(CMAKE_C_STANDARD_REQUIRED ON)
   endif ()
-
 endif ()
 
 # =================================== OpenMP
@@ -153,59 +163,15 @@ endif ()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (USE_LIBXS)
-  find_package(libxs CONFIG QUIET)
-  if (NOT TARGET libxs::libxs)
-    set(LIBXSROOT
-        "${CMAKE_SOURCE_DIR}/../libxs"
-        CACHE PATH "Root of a Makefile-built LIBXS tree")
-    find_library(
-      LIBXS_LIBRARY
-      NAMES xs
-      HINTS "${LIBXSROOT}/lib")
-    if (LIBXS_LIBRARY AND EXISTS "${LIBXSROOT}/libxs/libxs.h")
-      add_library(libxs::libxs STATIC IMPORTED)
-      set_target_properties(
-        libxs::libxs PROPERTIES IMPORTED_LOCATION "${LIBXS_LIBRARY}"
-                                INTERFACE_INCLUDE_DIRECTORIES "${LIBXSROOT}")
-    else ()
-      message(
-        FATAL_ERROR "LIBXS not found. Set CMAKE_PREFIX_PATH or LIBXSROOT.")
-    endif ()
-  endif ()
-  get_target_property(_libxs_incdirs libxs::libxs INTERFACE_INCLUDE_DIRECTORIES)
-  list(GET _libxs_incdirs 0 _libxs_root)
-  find_file(
-    LIBXS_JIT_SOURCE
-    NAMES libxs/libxs_jit.F libxs_jit.F
-    HINTS "${_libxs_root}" "${_libxs_root}/libxs"
-          "${_libxs_root}/include/libxs")
-  if (NOT LIBXS_JIT_SOURCE)
-    message(FATAL_ERROR "libxs_jit.F not found in LIBXS include tree")
-  endif ()
-  if (USE_LIBXSMM)
-    find_package(LIBXSMM QUIET)
-    if (NOT LIBXSMM_FOUND)
-      set(LIBXSMMROOT
-          "${CMAKE_SOURCE_DIR}/../libxsmm"
-          CACHE PATH "Root of a Makefile-built LIBXSMM tree")
-      find_library(
-        LIBXSMM_LIBRARY
-        NAMES xsmm
-        HINTS "${LIBXSMMROOT}/lib")
-      if (LIBXSMM_LIBRARY AND EXISTS "${LIBXSMMROOT}/include/libxsmm.h")
-        set(LIBXSMM_FOUND TRUE)
-        set(LIBXSMM_LINK_LIBRARIES "${LIBXSMM_LIBRARY}")
-        set(LIBXSMM_INCLUDE_DIRS "${LIBXSMMROOT}/include")
-      else ()
-        message(WARNING "LIBXSMM not found; disabling USE_LIBXSMM.")
-        set(USE_LIBXSMM OFF)
-      endif ()
-    endif ()
-  endif ()
-elseif (USE_LIBXSMM)
-  message(WARNING "USE_LIBXSMM=ON requires USE_LIBXS=ON; ignoring.")
-  set(USE_LIBXSMM OFF)
-endif ()
+  find_package(libxs REQUIRED)
+  # not needed at all
+  add_library(DBCSR::LIBXS ALIAS libxs::libxs)
+endif()
+
+# libxsmm can only be activated when libxs is on.
+if (USE_LIBXSMM)
+  find_package(LIBXSMM REQUIRED)
+endif()
 
 # =================================== BLAS & LAPACK, PkgConfig
 find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
@@ -226,14 +192,15 @@ endif ()
 
 # =================================== MPI
 if (USE_MPI)
-  get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
+  get_property(DBCSR_REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   if (NOT CMAKE_CROSSCOMPILING) # when cross compiling, assume the users know
                                 # what they are doing
     set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
   endif ()
+
   find_package(
     MPI
-    COMPONENTS ${REQUIRED_MPI_COMPONENTS}
+    COMPONENTS ${DBCSR_REQUIRED_MPI_COMPONENTS}
     REQUIRED)
 
   if (NOT MPI_Fortran_HAVE_F90_MODULE)
@@ -268,6 +235,8 @@ if (NOT USE_ACCEL MATCHES "none")
   set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
 endif ()
 
+
+
 if (USE_ACCEL MATCHES "opencl")
   if (DEFINED ENV{CMPLR_ROOT})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CMPLR_ROOT}")
@@ -275,35 +244,22 @@ if (USE_ACCEL MATCHES "opencl")
   if (DEFINED ENV{CUDA_PATH})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CUDA_PATH}")
   endif ()
+
+  # libxs is a hard dependency when libxs is on amd opencl on as well.
+  if (NOT USE_LIBXS)
+    message(
+      FATAL_ERROR
+        "LIBXS not found. OpenCL backend requires LIBXS (USE_LIBXS=ON).")
+  endif ()
+
   find_package(OpenCL REQUIRED)
-  if (NOT USE_LIBXS OR NOT TARGET libxs::libxs)
-    message(FATAL_ERROR "OpenCL backend requires LIBXS (USE_LIBXS=ON).")
-  endif ()
-  find_package(libxstream CONFIG QUIET)
-  if (NOT TARGET libxstream::libxstream)
-    set(LIBXSTREAMROOT
-        "${CMAKE_SOURCE_DIR}/../libxstream"
-        CACHE PATH "Root of a Makefile-built LIBXSTREAM tree")
-    find_library(
-      LIBXSTREAM_LIBRARY
-      NAMES xstream
-      HINTS "${LIBXSTREAMROOT}/lib")
-    if (LIBXSTREAM_LIBRARY AND EXISTS
-                               "${LIBXSTREAMROOT}/libxstream/libxstream.h")
-      add_library(libxstream::libxstream STATIC IMPORTED)
-      set_target_properties(
-        libxstream::libxstream
-        PROPERTIES IMPORTED_LOCATION "${LIBXSTREAM_LIBRARY}"
-                   INTERFACE_INCLUDE_DIRECTORIES "${LIBXSTREAMROOT}")
-    else ()
-      message(
-        FATAL_ERROR
-          "LIBXSTREAM not found. Set CMAKE_PREFIX_PATH or LIBXSTREAMROOT.")
-    endif ()
-  endif ()
-  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAMROOT}/samples/smm")
-  set(DBCSR_LIBXSTREAM_INCLUDE_DIR "${LIBXSTREAMROOT}/libxstream")
-  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAMROOT}/scripts/tool_opencl.sh")
+  find_package(libxstream REQUIRED)
+  add_library(DBCSR::LIBXSTREAM ALIAS libxstream::libxstream)
+
+  message(STATUS "Using LIBXSTREAM")
+  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
+  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAM_SMM_DIR}")
+  list(GET LIBXSTREAM_INCLUDE_DIRS 0 DBCSR_LIBXSTREAM_INCLUDE_DIR)
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")

@@ -106,41 +106,41 @@ add_fypp_sources(
   work/dbcsr_work_operations.F)
 
 set(DBCSR_HIP_AND_CUDA_SRCS
-    acc/libsmm_acc/libsmm_acc_benchmark.cpp
-    acc/libsmm_acc/libsmm_acc_init.cpp
-    acc/libsmm_acc/libsmm_acc.cpp
-    acc/cuda_hip/calculate_norms.cpp
-    acc/cuda_hip/acc_blas.cpp
-    acc/cuda_hip/acc_dev.cpp
-    acc/cuda_hip/acc_error.cpp
-    acc/cuda_hip/acc_event.cpp
-    acc/cuda_hip/acc_utils.cpp
-    acc/cuda_hip/acc_init.cpp
-    acc/cuda_hip/acc_mem.cpp
-    acc/cuda_hip/acc_stream.cpp)
+  acc/libsmm_acc/libsmm_acc_benchmark.cpp
+  acc/libsmm_acc/libsmm_acc_init.cpp
+  acc/libsmm_acc/libsmm_acc.cpp
+  acc/cuda_hip/calculate_norms.cpp
+  acc/cuda_hip/acc_blas.cpp
+  acc/cuda_hip/acc_dev.cpp
+  acc/cuda_hip/acc_error.cpp
+  acc/cuda_hip/acc_event.cpp
+  acc/cuda_hip/acc_utils.cpp
+  acc/cuda_hip/acc_init.cpp
+  acc/cuda_hip/acc_mem.cpp
+  acc/cuda_hip/acc_stream.cpp)
 
 set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
-                    acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
+  acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
 
 set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
 
 if (USE_ACCEL MATCHES "hip")
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
-                              PROPERTIES LANGUAGE HIP)
+    PROPERTIES LANGUAGE HIP)
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
-                              PROPERTIES COMPILE_FLAGS "-fPIE")
+    PROPERTIES COMPILE_FLAGS "-fPIE")
 elseif (USE_ACCEL MATCHES "cuda")
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
-                              PROPERTIES LANGUAGE CUDA)
+    PROPERTIES LANGUAGE CUDA)
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
-                              PROPERTIES COMPILE_FLAGS "--x cu")
+    PROPERTIES COMPILE_FLAGS "--x cu")
 endif ()
 
 # OpenCL backend: SMM from LIBXSTREAM samples, ACC from LIBXSTREAM library
 set(DBCSR_SMM_DIR "${DBCSR_LIBXSTREAM_SMM_DIR}")
 set(DBCSR_OPENCL_SRCS
-    "${DBCSR_SMM_DIR}/smm_acc.c" "${DBCSR_SMM_DIR}/smm_trans.c"
-    "${DBCSR_SMM_DIR}/smm_params.c" "${DBCSR_SMM_DIR}/smm_kernel.c")
+  "${DBCSR_SMM_DIR}/smm_acc.c" "${DBCSR_SMM_DIR}/smm_trans.c"
+  "${DBCSR_SMM_DIR}/smm_params.c" "${DBCSR_SMM_DIR}/smm_kernel.c")
 
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_FORTRAN_SRCS})
@@ -154,7 +154,7 @@ endforeach ()
 if ((CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
     AND (CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10))
   set_source_files_properties(mpi/dbcsr_mpiwrap.F PROPERTIES COMPILE_FLAGS
-                                                             -Wno-error)
+    -Wno-error)
 endif ()
 
 set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
@@ -176,68 +176,92 @@ add_library(dbcsr ${DBCSR_SRCS})
 set_target_properties(
   dbcsr
   PROPERTIES VERSION ${dbcsr_VERSION}
-             SOVERSION ${dbcsr_APIVERSION}
-             POSITION_INDEPENDENT_CODE ON)
+  SOVERSION ${dbcsr_APIVERSION}
+  POSITION_INDEPENDENT_CODE ON)
 
 if (USE_ACCEL MATCHES "hip")
   set_target_properties(dbcsr PROPERTIES HIP_ARCHITECTURES "${ACC_ARCH_NUMBER}")
 elseif (USE_ACCEL MATCHES "cuda")
   set_target_properties(dbcsr PROPERTIES CUDA_ARCHITECTURES
-                                         "${ACC_ARCH_NUMBER}")
+    "${ACC_ARCH_NUMBER}")
 endif ()
 
-if (USE_LIBXS AND TARGET libxs::libxs)
-  target_compile_definitions(dbcsr PRIVATE __LIBXS)
-  target_sources(dbcsr PRIVATE "${LIBXS_JIT_SOURCE}")
-  target_link_libraries(dbcsr PRIVATE libxs::libxs ${BLAS_LIBRARIES})
-endif ()
+# What follows is an example of what should not be done. Compiling the libxs
+# Fortran module here is a workaround; this is the responsibility of the libxs
+# build system, not DBCSR.
+
+# As a workaround, we retrieve the include directory of libxs and scan for
+# libxs_jit.F. If found we had the file to the list of files to be compiled.
+#
+
+if (USE_LIBXS)
+message(WARNING
+    "Compiling libxs_jit.F here is a workaround: this should be handled "
+    "by the libxs build system, not by DBCSR. It may also produce linking "
+    "warnings (e.g. DT_TEXTREL) when DBCSR is built as a shared library."
+    )
+  get_target_property(DBCSR_LIBXS_INCLUDE_DIRS libxs::libxs INTERFACE_INCLUDE_DIRECTORIES)
+  find_path(DBCSR_LIBXS_FORTRAN_MODULE "libxs_jit.F"
+    HINTS ${DBCSR_LIBXS_INCLUDE_DIRS})
+  set_source_files_properties("${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F"
+    POSITION_INDEPENDENT_CODE ON)
+  if (DBCSR_LIBXS_FORTRAN_MODULE)
+    target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F")
+  endif ()
+endif()
+
+target_compile_definitions(dbcsr PRIVATE  __STATM_TOTAL
+  $<$<BOOL:${USE_LIBXS}>:__LIBXS>
+  $<$<BOOL:${USE_LIBXS}>:__BLAS>
+  $<$<BOOL:${USE_MPI}>:__parallel>
+  $<$<BOOL:${USE_MPI_F08}>:__USE_MPI_F08>
+  $<$<BOOL:${APPLE}>:__NO_STATM_ACCESS>
+  $<$<CONFIG:Release>:NDEBUG>
+  $<$<BOOL:${USE_LIBXSMM}>:__LIBXSMM>
+  $<$<BOOL:${USE_LIBXSMM}>:${LIBXSMM_COMPILE_DEFINITIONS}>
+)
+
+# Instead of resetting the compiler for MPI, we are adding the compiler flags
+# otherwise added by the mpifort-wrapper directly; based on hints from:
+# https://cmake.org/pipermail/cmake/2012-June/050991.html Here we assume that
+# the MPI implementation found uses the same compiler as the Fortran compiler
+# we found prior. Otherwise we might be adding incompatible compiler flags at
+# this point. when built against MPI, a dbcsr consumer has to specify the MPI
+# flags as well, therefore: PUBLIC
+target_link_libraries(dbcsr PUBLIC
+  $<$<BOOL:${USE_MPI}>:MPI::MPI_Fortran>
+  ${LAPACK_LIBRARIES}
+  $<$<BOOL:${USE_LIBXS}>:libxs::libxs>
+  # replace by libxsmm::libxsmm if libxsmm uses cmake
+  ${BLAS_LIBRARIES}
+  $<$<BOOL:${USE_LIBXSMM}>:dbcsr::libxsmm>
+  $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
+  $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
+  $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
 if (BLAS_LIBRARIES MATCHES "mkl_")
   target_compile_definitions(dbcsr PRIVATE __MKL)
 endif ()
 
-if (USE_LIBXSMM AND LIBXSMM_FOUND)
-  target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
-  target_include_directories(dbcsr PRIVATE "${LIBXSMM_INCLUDE_DIRS}")
-  target_link_libraries(dbcsr PRIVATE ${LIBXSMM_LINK_LIBRARIES})
-endif ()
-
 if (APPLE)
-  # fix /proc/self/statm can not be opened on macOS
-  target_compile_definitions(dbcsr PRIVATE __NO_STATM_ACCESS)
-
   if (BLAS_LIBRARIES MATCHES "Accelerate")
     target_compile_definitions(dbcsr PRIVATE __ACCELERATE)
   endif ()
 endif ()
 
-# set -DNDEBUG for Release builds
-target_compile_definitions(dbcsr PRIVATE $<$<CONFIG:Release>:NDEBUG>)
-
-target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(
-  dbcsr PRIVATE base) # do not export those includes, but some srcs do an
-                      # unprefixed include
-# make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files
-# they usually include:
-target_include_directories(
-  dbcsr
+  dbcsr PRIVATE base
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-target_compile_definitions(dbcsr PRIVATE __STATM_TOTAL)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+  # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some files
+  # they usually include:
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+# do not export those includes, but some srcs do an
+# unprefixed include
+
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
 
-if (MPI_FOUND)
-  # once built, a user of the dbcsr library can not influence anything anymore
-  # by setting those flags:
-  target_compile_definitions(dbcsr PRIVATE __parallel)
-
-  # If requested, use the MPI_F08 module
-  if (USE_MPI_F08)
-    target_compile_definitions(dbcsr PRIVATE __USE_MPI_F08)
-  endif ()
-
+if (USE_MPI)
   # Instead of resetting the compiler for MPI, we are adding the compiler flags
   # otherwise added by the mpifort-wrapper directly; based on hints from:
   # https://cmake.org/pipermail/cmake/2012-June/050991.html Here we assume that
@@ -245,22 +269,17 @@ if (MPI_FOUND)
   # we found prior. Otherwise we might be adding incompatible compiler flags at
   # this point. when built against MPI, a dbcsr consumer has to specify the MPI
   # flags as well, therefore: PUBLIC
-  target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
-
   # Workaround https://gitlab.kitware.com/cmake/cmake/-/issues/27231
-  get_target_property(opts MPI::MPI_Fortran INTERFACE_COMPILE_OPTIONS)
-  set_target_properties(
-    MPI::MPI_Fortran PROPERTIES INTERFACE_COMPILE_OPTIONS
-                                "$<$<COMPILE_LANGUAGE:Fortran>:${opts}>")
-  unset(opts)
+  get_target_property(dbcsr_mpi_fortran_opts MPI::MPI_Fortran INTERFACE_COMPILE_OPTIONS)
+  # very brittle
+  if (dbcsr_mpi_fortran_opts)
+    set_target_properties(
+      MPI::MPI_Fortran PROPERTIES INTERFACE_COMPILE_OPTIONS
+      "$<$<COMPILE_LANGUAGE:Fortran>:${dbcsr_mpi_fortran_opts}>")
+    unset(dbcsr_mpi_fortran_opts)
+  endif ()
+endif()
 
-endif ()
-
-target_link_libraries(
-  dbcsr
-  PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
-          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
-          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
 # todo, make this a bit better with opencl.
 if (USE_ACCEL MATCHES "cuda|hip")
@@ -269,29 +288,29 @@ endif ()
 
 # OpenCL SMM is provided by LIBXSTREAM (no local subdirectory)
 
-if (USE_ACCEL)
+if (USE_ACCEL MATCHES "opencl|cuda|hip")
   target_compile_definitions(
     dbcsr
     PRIVATE __DBCSR_ACC
-            $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-            $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
-            $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-            $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
+    $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
+    $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL>
+    $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+    $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+    $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+    $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
+    $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
 
   if (USE_ACCEL MATCHES "opencl")
     target_compile_definitions(dbcsr PRIVATE __LIBXSTREAM)
     target_include_directories(dbcsr PRIVATE "${DBCSR_SMM_DIR}")
     set(DBCSR_SMM_KERNELS "${DBCSR_SMM_DIR}/kernels/multiply.cl"
-                          "${DBCSR_SMM_DIR}/kernels/transpose.cl")
+      "${DBCSR_SMM_DIR}/kernels/transpose.cl")
     file(GLOB DBCSR_SMM_PARAMS "${DBCSR_SMM_DIR}/params/tune_multiply_*.csv")
     set(DBCSR_SMM_GENHDR "${DBCSR_SMM_DIR}/smm_kernels.h")
     add_custom_command(
       OUTPUT "${DBCSR_SMM_GENHDR}"
       COMMAND "${DBCSR_OPENCL_SCRIPT}" -I "${DBCSR_LIBXSTREAM_INCLUDE_DIR}"
-              ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS} "${DBCSR_SMM_GENHDR}"
+      ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS} "${DBCSR_SMM_GENHDR}"
       DEPENDS "${DBCSR_OPENCL_SCRIPT}" ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS}
       COMMENT "Generating OpenCL SMM kernel header")
     add_custom_target(dbcsr_smm_kernels DEPENDS "${DBCSR_SMM_GENHDR}")
@@ -301,17 +320,17 @@ if (USE_ACCEL)
   target_link_libraries(
     dbcsr
     PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
-            $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
-            $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
-            $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc::hiprtc>
-            $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:libxstream::libxstream>)
+    $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cuda_driver>
+    $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
+    $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
+    $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
+    $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
+    $<$<STREQUAL:${USE_ACCEL},hip>:hiprtc::hiprtc>
+    $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+    $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
+    $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
+    $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
+    $<$<STREQUAL:${USE_ACCEL},opencl>:libxstream::libxstream>)
 endif ()
 
 # =================================================================================================
@@ -319,7 +338,7 @@ endif ()
 if (WITH_C_API)
   # Build the C API as a separate library
   add_fypp_sources(DBCSR_C_SRCS dbcsr.h dbcsr_api_c.F
-                   tensors/dbcsr_tensor_api_c.F tensors/dbcsr_tensor.h)
+    tensors/dbcsr_tensor_api_c.F tensors/dbcsr_tensor.h)
 
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES LINKER_LANGUAGE Fortran)
@@ -327,19 +346,19 @@ if (WITH_C_API)
   set_target_properties(
     dbcsr_c
     PROPERTIES VERSION ${dbcsr_VERSION}
-               SOVERSION ${dbcsr_APIVERSION}
-               POSITION_INDEPENDENT_CODE ON)
+    SOVERSION ${dbcsr_APIVERSION}
+    POSITION_INDEPENDENT_CODE ON)
 
-  target_link_libraries(dbcsr_c PRIVATE dbcsr)
-  target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C) # the C API always needs MPI
+  target_link_libraries(dbcsr_c
+    PUBLIC dbcsr MPI::MPI_C) # the C API always needs MPI
   target_include_directories(
     dbcsr_c
     PUBLIC
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> # change order so compiler
-                                                     # first checks binary
-                                                     # directory
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> # change order so compiler
+    # first checks binary
+    # directory
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 endif ()
 
 # =================================================================================================
@@ -360,9 +379,9 @@ if (NOT CMAKE_INSTALL_Fortran_MODULES)
   set(CMAKE_INSTALL_Fortran_MODULES "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_api.mod"
-        DESTINATION "${CMAKE_INSTALL_Fortran_MODULES}")
+  DESTINATION "${CMAKE_INSTALL_Fortran_MODULES}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_tensor_api.mod"
-        DESTINATION "${CMAKE_INSTALL_Fortran_MODULES}")
+  DESTINATION "${CMAKE_INSTALL_Fortran_MODULES}")
 
 if (WITH_C_API)
   install(
@@ -373,7 +392,7 @@ if (WITH_C_API)
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
   install(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr.h"
-          "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
     COMPONENT C
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
@@ -385,27 +404,22 @@ if (USE_ACCEL MATCHES "opencl")
   endforeach ()
 endif ()
 
-# Point consumers at the installed prefix (not the build/source tree)
-if (LIBXS_FETCHED)
-  set(LIBXSROOT "${CMAKE_INSTALL_PREFIX}")
-endif ()
-if (LIBXSTREAM_FETCHED)
-  set(LIBXSTREAMROOT "${CMAKE_INSTALL_PREFIX}")
-endif ()
-if (LIBXSMM_FETCHED)
-  set(LIBXSMMROOT "${CMAKE_INSTALL_PREFIX}")
-endif ()
 configure_package_config_file(
   cmake/DBCSRConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake"
   INSTALL_DESTINATION "${config_install_dir}")
+
 write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
   VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion)
+
 install(
   EXPORT DBCSRTargets
   NAMESPACE "${config_namespace}"
   DESTINATION "${config_install_dir}")
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
-        DESTINATION ${config_install_dir})
+
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
+  ${PROJECT_SOURCE_DIR}/src/cmake/FindLIBXMM.cmake
+  DESTINATION ${config_install_dir})
