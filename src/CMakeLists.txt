@@ -409,7 +409,6 @@ install(
   EXPORT DBCSRTargets
   NAMESPACE "${config_namespace}"
   DESTINATION "${config_install_dir}")
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
-  DESTINATION ${config_install_dir})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
+        DESTINATION ${config_install_dir})
