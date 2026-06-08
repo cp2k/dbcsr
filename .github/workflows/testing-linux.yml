@@ -6,6 +6,14 @@ on:
     - 'develop'
   pull_request:
 
+env:
+  LIBXS_GIT_REPOSITORY: https://github.com/hfp/libxs.git
+  LIBXS_GIT_TAG: 11348a69c6b8622f9192ec725b291f42384a5ce7
+  LIBXSTREAM_GIT_REPOSITORY: https://github.com/hfp/libxstream.git
+  LIBXSTREAM_GIT_TAG: 8375c018d0619bfd9261f67b9ed8b609d8e4ff66
+  LIBXSMM_GIT_REPOSITORY: https://github.com/Growl1234/libxsmm.git
+  LIBXSMM_GIT_TAG: 47548ddea6e5b63c3602b51100660c14c8b2d54c
+
 jobs:
   ##################################################################################
   # Run pre-commit
@@ -44,6 +52,45 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
+
+    - name: Install libxs packages
+      if: matrix.smm_backend != 'BLAS'
+      run: |
+        set -eu
+        prefix="${GITHUB_WORKSPACE}/deps/install"
+        mkdir -p "${prefix}" deps
+
+        fetch_and_install() {
+          name="$1"
+          repo="$2"
+          tag="$3"
+          shift 3
+          git clone "${repo}" "deps/${name}-src"
+          git -C "deps/${name}-src" checkout "${tag}"
+          cmake -G Ninja \
+            -S "deps/${name}-src" \
+            -B "deps/${name}-build" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="${prefix}" \
+            -DCMAKE_PREFIX_PATH="${prefix}" \
+            "$@"
+          cmake --build "deps/${name}-build" --target install
+        }
+
+        fetch_and_install libxs \
+          "${LIBXS_GIT_REPOSITORY}" \
+          "${LIBXS_GIT_TAG}" \
+          -DLIBXS_FORTRAN=ON
+
+        if [ "${{ matrix.smm_backend }}" = "LIBXSMM" ]; then
+          fetch_and_install libxsmm \
+            "${LIBXSMM_GIT_REPOSITORY}" \
+            "${LIBXSMM_GIT_TAG}" \
+            -DXSMM_STATIC=ON
+        fi
+
+        echo "CMAKE_PREFIX_PATH=${prefix}${CMAKE_PREFIX_PATH:+:${CMAKE_PREFIX_PATH}}" >> "${GITHUB_ENV}"
+        echo "PKG_CONFIG_PATH=${prefix}/lib/pkgconfig${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}" >> "${GITHUB_ENV}"
 
     - name: Configure
       run: |
@@ -155,6 +202,45 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
+
+    - name: Install libxs packages
+      run: |
+        set -eu
+        prefix="${GITHUB_WORKSPACE}/deps/install"
+        mkdir -p "${prefix}" deps
+
+        fetch_and_install() {
+          name="$1"
+          repo="$2"
+          tag="$3"
+          shift 3
+          git clone "${repo}" "deps/${name}-src"
+          git -C "deps/${name}-src" checkout "${tag}"
+          cmake -G Ninja \
+            -S "deps/${name}-src" \
+            -B "deps/${name}-build" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="${prefix}" \
+            -DCMAKE_PREFIX_PATH="${prefix}" \
+            "$@"
+          cmake --build "deps/${name}-build" --target install
+        }
+
+        fetch_and_install libxs \
+          "${LIBXS_GIT_REPOSITORY}" \
+          "${LIBXS_GIT_TAG}" \
+          -DLIBXS_FORTRAN=ON
+        fetch_and_install libxsmm \
+          "${LIBXSMM_GIT_REPOSITORY}" \
+          "${LIBXSMM_GIT_TAG}" \
+          -DXSMM_STATIC=ON
+        fetch_and_install libxstream \
+          "${LIBXSTREAM_GIT_REPOSITORY}" \
+          "${LIBXSTREAM_GIT_TAG}" \
+          -DLIBXSTREAM_SHARED=OFF
+
+        echo "CMAKE_PREFIX_PATH=${prefix}${CMAKE_PREFIX_PATH:+:${CMAKE_PREFIX_PATH}}" >> "${GITHUB_ENV}"
+        echo "PKG_CONFIG_PATH=${prefix}/lib/pkgconfig${PKG_CONFIG_PATH:+:${PKG_CONFIG_PATH}}" >> "${GITHUB_ENV}"
 
     - name: Configure
       run: |
