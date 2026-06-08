@@ -152,21 +152,59 @@ endif ()
 # they can be linked into shared libraries.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(DBCSR_USE_LIBXSMM FALSE)
-set(LIBXSMM_COMPILE_DEFINITIONS "")
-set(LIBXSMM_FETCHED FALSE)
-
 if (USE_LIBXS)
-  find_package(libxs REQUIRED)
-  add_library(DBCSR::LIBXS INTERFACE IMPORTED)
-  target_link_libraries(DBCSR::LIBXS INTERFACE libxs::libxs)
+  find_package(libxs CONFIG QUIET)
+  if (NOT TARGET libxs::libxs)
+    set(LIBXSROOT
+        "${CMAKE_SOURCE_DIR}/../libxs"
+        CACHE PATH "Root of a Makefile-built LIBXS tree")
+    find_library(
+      LIBXS_LIBRARY
+      NAMES xs
+      HINTS "${LIBXSROOT}/lib")
+    if (LIBXS_LIBRARY AND EXISTS "${LIBXSROOT}/libxs/libxs.h")
+      add_library(libxs::libxs STATIC IMPORTED)
+      set_target_properties(
+        libxs::libxs PROPERTIES IMPORTED_LOCATION "${LIBXS_LIBRARY}"
+                                INTERFACE_INCLUDE_DIRECTORIES "${LIBXSROOT}")
+    else ()
+      message(
+        FATAL_ERROR "LIBXS not found. Set CMAKE_PREFIX_PATH or LIBXSROOT.")
+    endif ()
+  endif ()
+  get_target_property(_libxs_incdirs libxs::libxs INTERFACE_INCLUDE_DIRECTORIES)
+  list(GET _libxs_incdirs 0 _libxs_root)
+  find_file(
+    LIBXS_JIT_SOURCE
+    NAMES libxs/libxs_jit.F libxs_jit.F
+    HINTS "${_libxs_root}" "${_libxs_root}/libxs"
+          "${_libxs_root}/include/libxs")
+  if (NOT LIBXS_JIT_SOURCE)
+    message(FATAL_ERROR "libxs_jit.F not found in LIBXS include tree")
+  endif ()
   if (USE_LIBXSMM)
-    find_package(libxsmm REQUIRED)
-    add_library(DBCSR::LIBXSMM INTERFACE IMPORTED)
-    target_link_libraries(DBCSR::LIBXSMM INTERFACE libxsmm::libxsmm)
+    find_package(LIBXSMM QUIET)
+    if (NOT LIBXSMM_FOUND)
+      set(LIBXSMMROOT
+          "${CMAKE_SOURCE_DIR}/../libxsmm"
+          CACHE PATH "Root of a Makefile-built LIBXSMM tree")
+      find_library(
+        LIBXSMM_LIBRARY
+        NAMES xsmm
+        HINTS "${LIBXSMMROOT}/lib")
+      if (LIBXSMM_LIBRARY AND EXISTS "${LIBXSMMROOT}/include/libxsmm.h")
+        set(LIBXSMM_FOUND TRUE)
+        set(LIBXSMM_LINK_LIBRARIES "${LIBXSMM_LIBRARY}")
+        set(LIBXSMM_INCLUDE_DIRS "${LIBXSMMROOT}/include")
+      else ()
+        message(WARNING "LIBXSMM not found; disabling USE_LIBXSMM.")
+        set(USE_LIBXSMM OFF)
+      endif ()
+    endif ()
   endif ()
 elseif (USE_LIBXSMM)
-  message(WARNING "USE_LIBXSMM=ON requires USE_LIBXS=ON; ignoring USE_LIBXSMM.")
+  message(WARNING "USE_LIBXSMM=ON requires USE_LIBXS=ON; ignoring.")
+  set(USE_LIBXSMM OFF)
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
@@ -231,29 +269,41 @@ if (NOT USE_ACCEL MATCHES "none")
 endif ()
 
 if (USE_ACCEL MATCHES "opencl")
-  # Hint additional OpenCL locations (Intel oneAPI, CUDA toolkit)
   if (DEFINED ENV{CMPLR_ROOT})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CMPLR_ROOT}")
   endif ()
   if (DEFINED ENV{CUDA_PATH})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CUDA_PATH}")
   endif ()
-
-  if (NOT USE_LIBXS OR NOT TARGET DBCSR::LIBXS)
-    message(
-      FATAL_ERROR
-        "LIBXS not found. OpenCL backend requires LIBXS (USE_LIBXS=ON).")
-  endif ()
-
   find_package(OpenCL REQUIRED)
-  find_package(libxstream REQUIRED)
-  add_library(DBCSR::LIBXSTREAM INTERFACE IMPORTED)
-  target_link_libraries(DBCSR::LIBXSTREAM INTERFACE libxstream::libxstream)
-
-  message(STATUS "Using LIBXSTREAM")
-  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
-  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAM_SMM_DIR}")
-  list(GET LIBXSTREAM_INCLUDE_DIRS 0 DBCSR_LIBXSTREAM_INCLUDE_DIR)
+  if (NOT USE_LIBXS OR NOT TARGET libxs::libxs)
+    message(FATAL_ERROR "OpenCL backend requires LIBXS (USE_LIBXS=ON).")
+  endif ()
+  find_package(libxstream CONFIG QUIET)
+  if (NOT TARGET libxstream::libxstream)
+    set(LIBXSTREAMROOT
+        "${CMAKE_SOURCE_DIR}/../libxstream"
+        CACHE PATH "Root of a Makefile-built LIBXSTREAM tree")
+    find_library(
+      LIBXSTREAM_LIBRARY
+      NAMES xstream
+      HINTS "${LIBXSTREAMROOT}/lib")
+    if (LIBXSTREAM_LIBRARY AND EXISTS
+                               "${LIBXSTREAMROOT}/libxstream/libxstream.h")
+      add_library(libxstream::libxstream STATIC IMPORTED)
+      set_target_properties(
+        libxstream::libxstream
+        PROPERTIES IMPORTED_LOCATION "${LIBXSTREAM_LIBRARY}"
+                   INTERFACE_INCLUDE_DIRECTORIES "${LIBXSTREAMROOT}")
+    else ()
+      message(
+        FATAL_ERROR
+          "LIBXSTREAM not found. Set CMAKE_PREFIX_PATH or LIBXSTREAMROOT.")
+    endif ()
+  endif ()
+  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAMROOT}/samples/smm")
+  set(DBCSR_LIBXSTREAM_INCLUDE_DIR "${LIBXSTREAMROOT}/libxstream")
+  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAMROOT}/scripts/tool_opencl.sh")
 endif ()
 
 if (USE_ACCEL MATCHES "cuda|hip")

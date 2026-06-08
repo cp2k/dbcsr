@@ -10,12 +10,12 @@
 #include "acc_bench.h"
 
 #if defined(__LIBXS)
-#  include <libxs_malloc.h>
-#  include <libxs_timer.h>
-#  include <libxs_math.h>
-#  include <libxs_gemm.h>
+#  include <libxs/libxs_malloc.h>
+#  include <libxs/libxs_timer.h>
+#  include <libxs/libxs_math.h>
+#  include <libxs/libxs_gemm.h>
 #else /* code depends on LIBXS */
-#  include <libxs_source.h>
+#  include <libxs/libxs_source.h>
 #  define __LIBXS
 #endif
 

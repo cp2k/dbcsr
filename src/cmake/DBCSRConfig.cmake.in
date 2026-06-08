@@ -2,7 +2,10 @@
 
 include(CMakeFindDependencyMacro)
 
-list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+# Hints for locating DBCSR's dependencies (override with your own -D flags)
+set(DBCSR_LIBXSROOT "@LIBXSROOT@")
+set(DBCSR_LIBXSTREAMROOT "@LIBXSTREAMROOT@")
+set(DBCSR_LIBXSMMROOT "@LIBXSMMROOT@")
 
 # the following should only be needed when building statically
 
@@ -14,11 +17,6 @@ endif ()
 if (@USE_OPENMP@)
   set(DBCSR_USE_OPENMP @USE_OPENMP@)
   find_dependency(OpenMP)
-endif ()
-
-if (@USE_LIBXS@)
-  set(DBCSR_USE_LIBXS @USE_LIBXS@)
-  find_dependency(LIBXS)
 endif ()
 
 if ("@USE_ACCEL@" MATCHES "cuda")
@@ -36,14 +34,22 @@ if ("@USE_ACCEL@" MATCHES "hip")
 endif ()
 
 if ("@USE_ACCEL@" MATCHES "opencl")
-  set(DBCSR_USE_ACCEL @USE_ACCEL@)
   find_dependency(OpenCL)
-  find_dependency(LIBXSTREAM)
 endif ()
 
-if (@DBCSR_USE_LIBXSMM@)
-  set(DBCSR_USE_LIBXSMM @DBCSR_USE_LIBXSMM@)
-  find_dependency(LIBXSMM)
+if (@USE_LIBXSMM@)
+  set(DBCSR_USE_LIBXSMM @USE_LIBXSMM@)
+  if (NOT TARGET xsmm)
+    find_library(DBCSR_LIBXSMM_LIBRARY xsmm
+      PATHS "@LIBXSMMROOT@/lib" NO_DEFAULT_PATH)
+    if (NOT DBCSR_LIBXSMM_LIBRARY)
+      find_library(DBCSR_LIBXSMM_LIBRARY xsmm)
+    endif ()
+    if (DBCSR_LIBXSMM_LIBRARY)
+      add_library(xsmm UNKNOWN IMPORTED)
+      set_target_properties(xsmm PROPERTIES IMPORTED_LOCATION "${DBCSR_LIBXSMM_LIBRARY}")
+    endif ()
+  endif ()
 endif ()
 
 include("${CMAKE_CURRENT_LIST_DIR}/DBCSRTargets.cmake")
