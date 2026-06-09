@@ -8,11 +8,11 @@ on:
 
 env:
   LIBXS_GIT_REPOSITORY: https://github.com/hfp/libxs.git
-  LIBXS_GIT_TAG: 0a157189979edfd94057c59724ae6eb69862996b
+  LIBXS_GIT_TAG: 166f48e0172475f4db59950d1447525994bbf293
   LIBXSTREAM_GIT_REPOSITORY: https://github.com/hfp/libxstream.git
-  LIBXSTREAM_GIT_TAG: 16bb6799310d78da4b6698d2227b52270310ba56
-  LIBXSMM_GIT_REPOSITORY: https://github.com/Growl1234/libxsmm.git
-  LIBXSMM_GIT_TAG: b35d767abffc7bca845a81f7e408fec68300821c
+  LIBXSTREAM_GIT_TAG: f307d372dfe1eaba672dab5b0d9692d8a0f5c57f
+  LIBXSMM_GIT_REPOSITORY: https://github.com/libxsmm/libxsmm.git
+  LIBXSMM_GIT_TAG: cdeedf76ddd30e0dfb2527f6e1537d2c35a07596
 
 jobs:
   ##################################################################################
