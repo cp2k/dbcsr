@@ -193,6 +193,14 @@ endif ()
 # libxsmm can only be activated when libxs is on.
 if (USE_LIBXSMM)
   find_package(LIBXSMM REQUIRED)
+  if (TARGET libxsmm::libxsmm)
+    set(DBCSR_LIBXSMM_TARGET libxsmm::libxsmm)
+  elseif (TARGET dbcsr::libxsmm)
+    set(DBCSR_LIBXSMM_TARGET dbcsr::libxsmm)
+  else ()
+    message(FATAL_ERROR
+      "USE_LIBXSMM=ON, but neither libxsmm::libxsmm nor dbcsr::libxsmm exists")
+  endif ()
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig

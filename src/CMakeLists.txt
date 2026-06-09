@@ -237,7 +237,7 @@ target_link_libraries(
          $<$<BOOL:${USE_LIBXS}>:libxs::libxs>
          # replace by libxsmm::libxsmm if libxsmm uses cmake
          ${BLAS_LIBRARIES}
-         $<$<BOOL:${USE_LIBXSMM}>:dbcsr::libxsmm>
+         $<$<BOOL:${USE_LIBXSMM}>:${DBCSR_LIBXSMM_TARGET}>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
