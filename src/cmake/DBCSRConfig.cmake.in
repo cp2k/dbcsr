@@ -44,6 +44,11 @@ endif ()
 set(DBCSR_USE_LIBXSMM @USE_LIBXSMM@)
 if (@USE_LIBXSMM@)
   find_dependency(libxsmm)
+  if(NOT TARGET dbcsr::libxsmm)
+    add_library(dbcsr::libxsmm INTERFACE IMPORTED)
+    set_target_properties(dbcsr::libxsmm PROPERTIES
+      INTERFACE_LINK_LIBRARIES libxsmm::libxsmm)
+  endif()
 endif()
 
   set(@DBCSR_USE_LIBXSTREAM@ @@USE_LIBXSTREAM@)

@@ -198,8 +198,10 @@ if (USE_LIBXSMM)
   elseif (TARGET dbcsr::libxsmm)
     set(DBCSR_LIBXSMM_TARGET dbcsr::libxsmm)
   else ()
-    message(FATAL_ERROR
-      "USE_LIBXSMM=ON, but neither libxsmm::libxsmm nor dbcsr::libxsmm exists")
+    message(
+      FATAL_ERROR
+        "USE_LIBXSMM=ON, but neither libxsmm::libxsmm nor dbcsr::libxsmm exists"
+    )
   endif ()
 endif ()
 
