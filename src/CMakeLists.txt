@@ -220,8 +220,7 @@ target_compile_definitions(
           $<$<BOOL:${USE_MPI_F08}>:__USE_MPI_F08>
           $<$<BOOL:${APPLE}>:__NO_STATM_ACCESS>
           $<$<CONFIG:Release>:NDEBUG>
-          $<$<BOOL:${USE_LIBXSMM}>:__LIBXSMM>
-          $<$<BOOL:${USE_LIBXSMM}>:${DBCSR_LIBXSMM_TARGET}>)
+          $<$<BOOL:${USE_LIBXSMM}>:__LIBXSMM>)
 
 # Instead of resetting the compiler for MPI, we are adding the compiler flags
 # otherwise added by the mpifort-wrapper directly; based on hints from:
