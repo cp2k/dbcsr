@@ -204,10 +204,12 @@ if (USE_LIBXS)
                       INTERFACE_INCLUDE_DIRECTORIES)
   find_path(DBCSR_LIBXS_FORTRAN_MODULE "libxs_jit.F"
             HINTS ${DBCSR_LIBXS_INCLUDE_DIRS})
-  set_source_files_properties("${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F"
-                              POSITION_INDEPENDENT_CODE ON)
   if (DBCSR_LIBXS_FORTRAN_MODULE)
+    set_source_files_properties("${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F"
+                                POSITION_INDEPENDENT_CODE ON)
     target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F")
+  else ()
+    message(WARNING "Could not find libxs_jit.F in libxs include directories")
   endif ()
 endif ()
 
@@ -234,7 +236,6 @@ target_link_libraries(
   PUBLIC $<$<BOOL:${USE_MPI}>:MPI::MPI_Fortran>
          ${LAPACK_LIBRARIES}
          $<$<BOOL:${USE_LIBXS}>:libxs::libxs>
-         # replace by libxsmm::libxsmm if libxsmm uses cmake
          ${BLAS_LIBRARIES}
          $<$<BOOL:${USE_LIBXSMM}>:${DBCSR_LIBXSMM_TARGET}>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>

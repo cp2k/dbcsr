@@ -105,7 +105,7 @@ set(USE_ACCEL
     "none"
     CACHE
       STRING
-      "BBuild with acceleration support (none (default value), opencl, cuda, hip)"
+      "Build with acceleration support (none (default value), opencl, cuda, hip)"
 )
 set(_DBCSR_SUPPORTED_ACCEL_VALUES none opencl cuda hip)
 set_property(CACHE USE_ACCEL PROPERTY STRINGS ${_DBCSR_SUPPORTED_ACCEL_VALUES})
@@ -185,9 +185,7 @@ endif ()
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (USE_LIBXS)
-  find_package(libxs REQUIRED)
-  # not needed at all
-  add_library(DBCSR::LIBXS ALIAS libxs::libxs)
+  find_package(libxs CONFIG REQUIRED)
 endif ()
 
 # libxsmm can only be activated when libxs is on.
@@ -279,8 +277,8 @@ if (USE_ACCEL STREQUAL "opencl")
   endif ()
 
   find_package(OpenCL REQUIRED)
-  find_package(libxstream REQUIRED)
-  add_library(DBCSR::LIBXSTREAM ALIAS libxstream::libxstream)
+  find_package(libxs CONFIG REQUIRED)
+  find_package(libxstream CONFIG REQUIRED)
 
   message(STATUS "Using LIBXSTREAM")
   set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
