@@ -315,7 +315,15 @@ jobs:
         run: |
           mkdir -p build/src
           mv dbcsr.h tensors build/src/
-          echo *.info | xargs printf -- '-a %s\n' | xargs lcov -o merged.info
+          echo *.info | xargs printf -- '-a %s\n' | xargs lcov -o merged.raw.info
+
+          lcov --remove merged.raw.info \
+            '*/libxs_procs.fi' \
+            '*/libxs_jit.F' \
+            '*/deps/install/*' \
+            '*/_deps/*' \
+            -o merged.info
+
           genhtml merged.info -o htmlcov
           lcov --summary merged.info
 
