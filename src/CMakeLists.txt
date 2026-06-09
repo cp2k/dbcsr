@@ -124,12 +124,12 @@ set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
 
 set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
 
-if (USE_ACCEL MATCHES "hip")
+if (USE_ACCEL STREQUAL "hip")
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES LANGUAGE HIP)
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES COMPILE_FLAGS "-fPIE")
-elseif (USE_ACCEL MATCHES "cuda")
+elseif (USE_ACCEL STREQUAL "cuda")
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
                               PROPERTIES LANGUAGE CUDA)
   set_source_files_properties(acc/cuda_hip/calculate_norms.cpp
@@ -159,11 +159,11 @@ endif ()
 
 set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
 
-if (USE_ACCEL MATCHES "cuda")
+if (USE_ACCEL STREQUAL "cuda")
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
-elseif (USE_ACCEL MATCHES "hip")
+elseif (USE_ACCEL STREQUAL "hip")
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
-elseif (USE_ACCEL MATCHES "opencl")
+elseif (USE_ACCEL STREQUAL "opencl")
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
 endif ()
 
@@ -179,9 +179,9 @@ set_target_properties(
              SOVERSION ${dbcsr_APIVERSION}
              POSITION_INDEPENDENT_CODE ON)
 
-if (USE_ACCEL MATCHES "hip")
+if (USE_ACCEL STREQUAL "hip")
   set_target_properties(dbcsr PROPERTIES HIP_ARCHITECTURES "${ACC_ARCH_NUMBER}")
-elseif (USE_ACCEL MATCHES "cuda")
+elseif (USE_ACCEL STREQUAL "cuda")
   set_target_properties(dbcsr PROPERTIES CUDA_ARCHITECTURES
                                          "${ACC_ARCH_NUMBER}")
 endif ()
@@ -286,13 +286,13 @@ if (USE_MPI)
 endif ()
 
 # todo, make this a bit better with opencl.
-if (USE_ACCEL MATCHES "cuda|hip")
+if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
   add_subdirectory(acc/libsmm_acc)
 endif ()
 
 # OpenCL SMM is provided by LIBXSTREAM (no local subdirectory)
 
-if (USE_ACCEL MATCHES "opencl|cuda|hip")
+if (DBCSR_WITH_ACCEL)
   target_compile_definitions(
     dbcsr
     PRIVATE __DBCSR_ACC
@@ -304,7 +304,7 @@ if (USE_ACCEL MATCHES "opencl|cuda|hip")
             $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
             $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
 
-  if (USE_ACCEL MATCHES "opencl")
+  if (USE_ACCEL STREQUAL "opencl")
     target_compile_definitions(dbcsr PRIVATE __LIBXSTREAM)
     target_include_directories(dbcsr PRIVATE "${DBCSR_SMM_DIR}")
     set(DBCSR_SMM_KERNELS "${DBCSR_SMM_DIR}/kernels/multiply.cl"
@@ -400,7 +400,7 @@ if (WITH_C_API)
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 endif ()
 
-if (USE_ACCEL MATCHES "opencl")
+if (USE_ACCEL STREQUAL "opencl")
   foreach (FILE ${DBCSR_ACC_HEADER})
     cmake_path(GET FILE PARENT_PATH SUBDIR)
     install(FILES "${FILE}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${SUBDIR}")

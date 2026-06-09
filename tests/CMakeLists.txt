@@ -73,7 +73,7 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
-if (USE_ACCEL)
+if (DBCSR_WITH_ACCEL)
   set(DBCSR_TESTS_BACKEND dbcsr_acc_test)
   if (TARGET DBCSR::LIBXS)
     list(APPEND DBCSR_TESTS_BACKEND acc_bench)
@@ -242,7 +242,7 @@ add_custom_target(
   BYPRODUCTS libsmm_acc_timer_multiply.cpp
   COMMENT "Generate tests/generate_libsmm_acc_timer_multiply.cpp")
 
-if (USE_ACCEL MATCHES "cuda|hip")
+if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS

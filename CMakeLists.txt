@@ -81,12 +81,11 @@ option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
 option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication" OFF)
 
-cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels"
-                       OFF "USE_LIBXS" OFF)
-
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
+cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels"
+                       OFF "USE_LIBXS" OFF)
 cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF
                        "USE_MPI" OFF) # MPI_F08 is a module included in MPI
 cmake_dependent_option(
@@ -108,8 +107,20 @@ set(USE_ACCEL
       STRING
       "BBuild with acceleration support (none (default value), opencl, cuda, hip)"
 )
-set_property(CACHE USE_ACCEL PROPERTY STRINGS none opencl cuda hip)
+set(_DBCSR_SUPPORTED_ACCEL_VALUES none opencl cuda hip)
+set_property(CACHE USE_ACCEL PROPERTY STRINGS ${_DBCSR_SUPPORTED_ACCEL_VALUES})
 string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
+
+if (NOT USE_ACCEL IN_LIST _DBCSR_SUPPORTED_ACCEL_VALUES)
+  message(
+    FATAL_ERROR
+      "Unsupported USE_ACCEL='${USE_ACCEL}'. Supported values are: ${_DBCSR_SUPPORTED_ACCEL_VALUES}")
+endif ()
+
+set(DBCSR_WITH_ACCEL OFF)
+if (NOT USE_ACCEL STREQUAL "none")
+  set(DBCSR_WITH_ACCEL ON)
+endif ()
 
 set(SUPPORTED_CUDA_ARCHITECTURES
     K20X
@@ -147,7 +158,7 @@ set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
 # =================================================================================================
 # LANGUAGES AND TESTING
 
-if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
+if ((WITH_C_API AND WITH_EXAMPLES) OR DBCSR_WITH_ACCEL)
   enable_language(CXX)
   enable_language(C)
 
@@ -241,11 +252,11 @@ endif ()
 
 # =================================== GPU backends
 
-if (NOT USE_ACCEL MATCHES "none")
+if (DBCSR_WITH_ACCEL)
   set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
 endif ()
 
-if (USE_ACCEL MATCHES "opencl")
+if (USE_ACCEL STREQUAL "opencl")
   if (DEFINED ENV{CMPLR_ROOT})
     list(APPEND CMAKE_PREFIX_PATH "$ENV{CMPLR_ROOT}")
   endif ()
@@ -270,7 +281,7 @@ if (USE_ACCEL MATCHES "opencl")
   list(GET LIBXSTREAM_INCLUDE_DIRS 0 DBCSR_LIBXSTREAM_INCLUDE_DIR)
 endif ()
 
-if (USE_ACCEL MATCHES "cuda|hip")
+if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
   set(GPU_ARCH_NUMBER_K80 37)
@@ -285,7 +296,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
   set(GPU_ARCH_NUMBER_Mi350 gfx950)
 endif ()
 
-if (USE_ACCEL MATCHES "cuda")
+if (USE_ACCEL STREQUAL "cuda")
   enable_language(CUDA)
   find_package(CUDAToolkit REQUIRED)
 
@@ -315,7 +326,7 @@ if (USE_ACCEL MATCHES "cuda")
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
 endif ()
 
-if (USE_ACCEL MATCHES "hip")
+if (USE_ACCEL STREQUAL "hip")
   if (NOT CMAKE_HIP_ARCHITECTURES)
     set(CMAKE_HIP_ARCHITECTURES OFF)
   endif ()
