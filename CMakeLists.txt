@@ -114,7 +114,8 @@ string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
 if (NOT USE_ACCEL IN_LIST _DBCSR_SUPPORTED_ACCEL_VALUES)
   message(
     FATAL_ERROR
-      "Unsupported USE_ACCEL='${USE_ACCEL}'. Supported values are: ${_DBCSR_SUPPORTED_ACCEL_VALUES}")
+      "Unsupported USE_ACCEL='${USE_ACCEL}'. Supported values are: ${_DBCSR_SUPPORTED_ACCEL_VALUES}"
+  )
 endif ()
 
 set(DBCSR_WITH_ACCEL OFF)
