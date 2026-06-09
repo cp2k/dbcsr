@@ -193,6 +193,7 @@ if (NOT USE_MPI)
     endif ()
     if (TARGET DBCSR::LIBXS)
       target_link_libraries(${dbcsr_test_backend} PRIVATE DBCSR::LIBXS)
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXS)
     endif ()
     if (LIBXSMM_FOUND OR LIBXSMM_FETCHED)
       target_compile_definitions(
