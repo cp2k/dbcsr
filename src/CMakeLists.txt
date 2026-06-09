@@ -424,5 +424,5 @@ install(
 install(
   FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
-        ${PROJECT_SOURCE_DIR}/src/cmake/FindLIBXMM.cmake
+        ${PROJECT_SOURCE_DIR}/src/cmake/FindLIBXSMM.cmake
   DESTINATION ${config_install_dir})
