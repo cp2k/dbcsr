@@ -186,31 +186,18 @@ elseif (USE_ACCEL STREQUAL "cuda")
                                          "${ACC_ARCH_NUMBER}")
 endif ()
 
-# What follows is an example of what should not be done. Compiling the libxs
-# Fortran module here is a workaround; this is the responsibility of the libxs
-# build system, not DBCSR.
-
-# As a workaround, we retrieve the include directory of libxs and scan for
-# libxs_jit.F. If found we had the file to the list of files to be compiled.
-#
-
+# Compile libxs_jit.F: provides LIBXS_JIT module with backend-aware dispatch.
+# Must be compiled by the consumer so preprocessor defines (__MKL, __LIBXSMM)
+# match the consumer's configuration.
 if (USE_LIBXS)
-  message(
-    WARNING
-      "Compiling libxs_jit.F here is a workaround: this should be handled "
-      "by the libxs build system, not by DBCSR. It may also produce linking "
-      "warnings (e.g. DT_TEXTREL) when DBCSR is built as a shared library.")
-  get_target_property(DBCSR_LIBXS_INCLUDE_DIRS libxs::libxs
+  messane(STATUS "Adding libxs_jit.F from dependency libxs for compilation")
+  get_target_property(_libxs_incdirs libxs::libxs
                       INTERFACE_INCLUDE_DIRECTORIES)
-  find_path(DBCSR_LIBXS_FORTRAN_MODULE "libxs_jit.F"
-            HINTS ${DBCSR_LIBXS_INCLUDE_DIRS})
-  if (DBCSR_LIBXS_FORTRAN_MODULE)
-    set_source_files_properties("${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F"
-                                POSITION_INDEPENDENT_CODE ON)
-    target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_FORTRAN_MODULE}/libxs_jit.F")
-  else ()
-    message(WARNING "Could not find libxs_jit.F in libxs include directories")
+  find_path(DBCSR_LIBXS_JIT_DIR "libxs_jit.F" HINTS ${_libxs_incdirs})
+  if (DBCSR_LIBXS_JIT_DIR)
+    target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_JIT_DIR}/libxs_jit.F")
   endif ()
+  unset(_libxs_incdirs)
 endif ()
 
 target_compile_definitions(
