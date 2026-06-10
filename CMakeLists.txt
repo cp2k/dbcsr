@@ -188,15 +188,8 @@ if (USE_LIBXS)
   find_package(libxs CONFIG REQUIRED)
 endif ()
 
-# libxsmm can only be activated when libxs is on.
 if (USE_LIBXSMM)
-  find_package(libxsmm CONFIG QUIET)
-  if (TARGET libxsmm::libxsmm)
-    set(DBCSR_LIBXSMM_TARGET libxsmm::libxsmm)
-  else ()
-    find_package(LIBXSMM REQUIRED)
-    set(DBCSR_LIBXSMM_TARGET dbcsr::libxsmm)
-  endif ()
+  find_package(libxsmm CONFIG REQUIRED)
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig

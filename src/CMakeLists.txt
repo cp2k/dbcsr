@@ -237,7 +237,7 @@ target_link_libraries(
          ${LAPACK_LIBRARIES}
          $<$<BOOL:${USE_LIBXS}>:libxs::libxs>
          ${BLAS_LIBRARIES}
-         $<$<BOOL:${USE_LIBXSMM}>:${DBCSR_LIBXSMM_TARGET}>
+         $<$<BOOL:${USE_LIBXSMM}>:libxsmm::libxsmm>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
