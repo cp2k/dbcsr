@@ -190,9 +190,8 @@ endif ()
 # Must be compiled by the consumer so preprocessor defines (__MKL, __LIBXSMM)
 # match the consumer's configuration.
 if (USE_LIBXS)
-  messane(STATUS "Adding libxs_jit.F from dependency libxs for compilation")
-  get_target_property(_libxs_incdirs libxs::libxs
-                      INTERFACE_INCLUDE_DIRECTORIES)
+  message(STATUS "Adding libxs_jit.F from dependency libxs for compilation")
+  get_target_property(_libxs_incdirs libxs::libxs INTERFACE_INCLUDE_DIRECTORIES)
   find_path(DBCSR_LIBXS_JIT_DIR "libxs_jit.F" HINTS ${_libxs_incdirs})
   if (DBCSR_LIBXS_JIT_DIR)
     target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_JIT_DIR}/libxs_jit.F")
