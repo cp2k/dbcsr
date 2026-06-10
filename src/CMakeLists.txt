@@ -407,6 +407,25 @@ if (USE_ACCEL STREQUAL "opencl")
   endforeach ()
 endif ()
 
+# Record dependency prefixes for the installed config. Derive from <pkg>_DIR
+# (points to lib/cmake/<pkg>/) -> three levels up.
+if (libxs_DIR)
+  cmake_path(GET libxs_DIR PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH LIBXSROOT)
+endif ()
+if (libxstream_DIR)
+  cmake_path(GET libxstream_DIR PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH LIBXSTREAMROOT)
+endif ()
+if (libxsmm_DIR)
+  cmake_path(GET libxsmm_DIR PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH _tmp)
+  cmake_path(GET _tmp PARENT_PATH LIBXSMMROOT)
+endif ()
+unset(_tmp)
+
 configure_package_config_file(
   cmake/DBCSRConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake"
   INSTALL_DESTINATION "${config_install_dir}")
