@@ -79,7 +79,10 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
 option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
-option(USE_LIBXS "Use LIBXS for host-side Small Matrix Multiplication; required for OpenCL backend" OFF)
+option(
+  USE_LIBXS
+  "Use LIBXS for host-side Small Matrix Multiplication; required for OpenCL backend"
+  OFF)
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
 option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
@@ -278,9 +281,8 @@ if (USE_ACCEL STREQUAL "opencl")
   # libxs is a hard dependency when opencl is on.
   if (NOT USE_LIBXS)
     message(
-      WARNING
-        "USE_LIBXS is not set but LIBXS is required for OpenCL backend; "
-        "overriding USE_LIBXS=OFF and enabling LIBXS")
+      WARNING "USE_LIBXS is not set but LIBXS is required for OpenCL backend; "
+              "overriding USE_LIBXS=OFF and enabling LIBXS")
     find_package(libxs REQUIRED)
   endif ()
 
