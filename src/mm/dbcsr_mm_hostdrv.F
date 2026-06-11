@@ -373,57 +373,10 @@ CONTAINS
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
          #:if base1 == 'r'
-            USE LIBXS, ONLY: libxs_gemm_config_t, &
-                             libxs_gemm_dispatch, libxs_gemm_index, &
-                             C_LOC, C_SIZEOF, &
-                             LIBXS_DATATYPE_F${bits1[n]}$
-            USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNLOC
-            #:set ckind1 = 'C_DOUBLE' if nametype1 == 'd' else 'C_FLOAT'
-#if defined(__MKL)
-            INTERFACE
-               FUNCTION mkl_cblas_jit_create_${nametype1}$gemm(jitter, &
-                                                               layout, transa, transb, m, n, k, &
-                                                               alpha, lda, ldb, beta, ldc) &
-                  RESULT(status) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_PTR, C_INT, ${ckind1}$
-                  INTEGER(C_INT) :: status
-                  TYPE(C_PTR) :: jitter
-                  INTEGER(C_INT), VALUE :: layout, transa, transb
-                  INTEGER(C_INT), VALUE :: m, n, k, lda, ldb, ldc
-                  REAL(${ckind1}$), VALUE :: alpha, beta
-               END FUNCTION
-               FUNCTION mkl_jit_get_${nametype1}$gemm_ptr(jitter) &
-                  RESULT(ptr) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_PTR
-                  TYPE(C_FUNPTR) :: ptr
-                  TYPE(C_PTR), INTENT(IN), VALUE :: jitter
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__LIBXSMM)
-            INTERFACE
-               FUNCTION libxsmm_dispatch_gemm(shape, flags, prefetch) &
-                  RESULT(fn) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_INT
-                  INTEGER(C_INT), INTENT(IN) :: shape(10)
-                  INTEGER(C_INT), INTENT(IN), VALUE :: flags, prefetch
-                  TYPE(C_FUNPTR) :: fn
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__BLAS) || defined(__MKL)
-            INTERFACE
-               SUBROUTINE ${nametype1}$gemm_blas(transa, transb, &
-                                                 m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
-                  BIND(C, NAME="${nametype1}$gemm_")
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_INT, C_CHAR, ${ckind1}$
-                  CHARACTER(1, C_CHAR), INTENT(IN) :: transa, transb
-                  INTEGER(C_INT), INTENT(IN) :: m, n, k, lda, ldb, ldc
-                  REAL(${ckind1}$), INTENT(IN) :: alpha, beta, a(*), b(*)
-                  REAL(${ckind1}$), INTENT(INOUT) :: c(*)
-               END SUBROUTINE
-            END INTERFACE
-#endif
+            USE LIBXS_JIT, ONLY: libxs_gemm_config_t, &
+                                 libxs_gemm_dispatch, libxs_gemm_index, &
+                                 C_LOC, C_SIZEOF, &
+                                 LIBXS_DATATYPE_F${bits1[n]}$
          #:endif
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
@@ -450,22 +403,7 @@ CONTAINS
                                         datatype=LIBXS_DATATYPE_F${bits1[n]}$, &
                                         transa='N', transb='N', &
                                         m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
-                                        alpha=1D0, beta=1D0 &
-#if defined(__MKL)
-                                        , jit_create_${nametype1}$gemm= &
-                                        C_FUNLOC(mkl_cblas_jit_create_${nametype1}$gemm) &
-                                        , jit_get_${nametype1}$gemm= &
-                                        C_FUNLOC(mkl_jit_get_${nametype1}$gemm_ptr) &
-#endif
-#if defined(__LIBXSMM)
-                                        , xgemm_dispatch= &
-                                        C_FUNLOC(libxsmm_dispatch_gemm) &
-#endif
-#if defined(__BLAS) || defined(__MKL)
-                                        , ${nametype1}$gemm_blas= &
-                                        C_FUNLOC(${nametype1}$gemm_blas) &
-#endif
-                                        )
+                                        alpha=1D0, beta=1D0)
                IF (0 /= rc) THEN
                   CALL libxs_gemm_index( &
                      C_LOC(a_data), C_LOC(params(p_a_first, 1)), &
