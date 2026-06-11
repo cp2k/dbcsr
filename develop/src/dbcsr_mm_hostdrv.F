@@ -380,58 +380,11 @@ CONTAINS
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
 # 376 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-            USE LIBXS, ONLY: libxs_gemm_config_t, &
-                             libxs_gemm_dispatch, libxs_gemm_index, &
-                             C_LOC, C_SIZEOF, &
-                             LIBXS_DATATYPE_F64
-            USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNLOC
-# 382 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-#if defined(__MKL)
-            INTERFACE
-               FUNCTION mkl_cblas_jit_create_dgemm(jitter, &
-                                                               layout, transa, transb, m, n, k, &
-                                                               alpha, lda, ldb, beta, ldc) &
-                  RESULT(status) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_PTR, C_INT, C_DOUBLE
-                  INTEGER(C_INT) :: status
-                  TYPE(C_PTR) :: jitter
-                  INTEGER(C_INT), VALUE :: layout, transa, transb
-                  INTEGER(C_INT), VALUE :: m, n, k, lda, ldb, ldc
-                  REAL(C_DOUBLE), VALUE :: alpha, beta
-               END FUNCTION
-               FUNCTION mkl_jit_get_dgemm_ptr(jitter) &
-                  RESULT(ptr) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_PTR
-                  TYPE(C_FUNPTR) :: ptr
-                  TYPE(C_PTR), INTENT(IN), VALUE :: jitter
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__LIBXSMM)
-            INTERFACE
-               FUNCTION libxsmm_dispatch_gemm(shape, flags, prefetch) &
-                  RESULT(fn) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_INT
-                  INTEGER(C_INT), INTENT(IN) :: shape(10)
-                  INTEGER(C_INT), INTENT(IN), VALUE :: flags, prefetch
-                  TYPE(C_FUNPTR) :: fn
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__BLAS) || defined(__MKL)
-            INTERFACE
-               SUBROUTINE dgemm_blas(transa, transb, &
-                                                 m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
-                  BIND(C, NAME="dgemm_")
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_DOUBLE
-                  CHARACTER(1, C_CHAR), INTENT(IN) :: transa, transb
-                  INTEGER(C_INT), INTENT(IN) :: m, n, k, lda, ldb, ldc
-                  REAL(C_DOUBLE), INTENT(IN) :: alpha, beta, a(*), b(*)
-                  REAL(C_DOUBLE), INTENT(INOUT) :: c(*)
-               END SUBROUTINE
-            END INTERFACE
-#endif
-# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            USE LIBXS_JIT, ONLY: libxs_gemm_config_t, &
+                                 libxs_gemm_dispatch, libxs_gemm_index, &
+                                 C_LOC, C_SIZEOF, &
+                                 LIBXS_DATATYPE_F64
+# 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
@@ -441,36 +394,21 @@ CONTAINS
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
          LOGICAL, INTENT(OUT)                           :: used_smm
 
-# 438 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 391 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             TYPE(libxs_gemm_config_t) :: config
             INTEGER :: m, n, k, rc
-# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          used_smm = .FALSE.
-# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-# 447 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 399 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 400 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             IF (stack_descr%defined_mnk) THEN
                m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
                rc = libxs_gemm_dispatch(config, &
                                         datatype=LIBXS_DATATYPE_F64, &
                                         transa='N', transb='N', &
                                         m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
-                                        alpha=1D0, beta=1D0 &
-#if defined(__MKL)
-                                        , jit_create_dgemm= &
-                                        C_FUNLOC(mkl_cblas_jit_create_dgemm) &
-                                        , jit_get_dgemm= &
-                                        C_FUNLOC(mkl_jit_get_dgemm_ptr) &
-#endif
-#if defined(__LIBXSMM)
-                                        , xgemm_dispatch= &
-                                        C_FUNLOC(libxsmm_dispatch_gemm) &
-#endif
-#if defined(__BLAS) || defined(__MKL)
-                                        , dgemm_blas= &
-                                        C_FUNLOC(dgemm_blas) &
-#endif
-                                        )
+                                        alpha=1D0, beta=1D0)
                IF (0 /= rc) THEN
                   CALL libxs_gemm_index( &
                      C_LOC(a_data), C_LOC(params(p_a_first, 1)), &
@@ -481,7 +419,7 @@ CONTAINS
                   used_smm = .TRUE.
                END IF
             END IF
-# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_d (params, stack_size, &
                                                       a_data, b_data, c_data)
@@ -626,58 +564,11 @@ CONTAINS
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
 # 376 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-            USE LIBXS, ONLY: libxs_gemm_config_t, &
-                             libxs_gemm_dispatch, libxs_gemm_index, &
-                             C_LOC, C_SIZEOF, &
-                             LIBXS_DATATYPE_F32
-            USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNLOC
-# 382 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-#if defined(__MKL)
-            INTERFACE
-               FUNCTION mkl_cblas_jit_create_sgemm(jitter, &
-                                                               layout, transa, transb, m, n, k, &
-                                                               alpha, lda, ldb, beta, ldc) &
-                  RESULT(status) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_PTR, C_INT, C_FLOAT
-                  INTEGER(C_INT) :: status
-                  TYPE(C_PTR) :: jitter
-                  INTEGER(C_INT), VALUE :: layout, transa, transb
-                  INTEGER(C_INT), VALUE :: m, n, k, lda, ldb, ldc
-                  REAL(C_FLOAT), VALUE :: alpha, beta
-               END FUNCTION
-               FUNCTION mkl_jit_get_sgemm_ptr(jitter) &
-                  RESULT(ptr) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_PTR
-                  TYPE(C_FUNPTR) :: ptr
-                  TYPE(C_PTR), INTENT(IN), VALUE :: jitter
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__LIBXSMM)
-            INTERFACE
-               FUNCTION libxsmm_dispatch_gemm(shape, flags, prefetch) &
-                  RESULT(fn) BIND(C)
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_FUNPTR, C_INT
-                  INTEGER(C_INT), INTENT(IN) :: shape(10)
-                  INTEGER(C_INT), INTENT(IN), VALUE :: flags, prefetch
-                  TYPE(C_FUNPTR) :: fn
-               END FUNCTION
-            END INTERFACE
-#endif
-#if defined(__BLAS) || defined(__MKL)
-            INTERFACE
-               SUBROUTINE sgemm_blas(transa, transb, &
-                                                 m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
-                  BIND(C, NAME="sgemm_")
-                  USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_FLOAT
-                  CHARACTER(1, C_CHAR), INTENT(IN) :: transa, transb
-                  INTEGER(C_INT), INTENT(IN) :: m, n, k, lda, ldb, ldc
-                  REAL(C_FLOAT), INTENT(IN) :: alpha, beta, a(*), b(*)
-                  REAL(C_FLOAT), INTENT(INOUT) :: c(*)
-               END SUBROUTINE
-            END INTERFACE
-#endif
-# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+            USE LIBXS_JIT, ONLY: libxs_gemm_config_t, &
+                                 libxs_gemm_dispatch, libxs_gemm_index, &
+                                 C_LOC, C_SIZEOF, &
+                                 LIBXS_DATATYPE_F32
+# 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
@@ -687,36 +578,21 @@ CONTAINS
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
          LOGICAL, INTENT(OUT)                           :: used_smm
 
-# 438 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 391 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             TYPE(libxs_gemm_config_t) :: config
             INTEGER :: m, n, k, rc
-# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          used_smm = .FALSE.
-# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-# 447 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 399 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 400 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             IF (stack_descr%defined_mnk) THEN
                m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
                rc = libxs_gemm_dispatch(config, &
                                         datatype=LIBXS_DATATYPE_F32, &
                                         transa='N', transb='N', &
                                         m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
-                                        alpha=1D0, beta=1D0 &
-#if defined(__MKL)
-                                        , jit_create_sgemm= &
-                                        C_FUNLOC(mkl_cblas_jit_create_sgemm) &
-                                        , jit_get_sgemm= &
-                                        C_FUNLOC(mkl_jit_get_sgemm_ptr) &
-#endif
-#if defined(__LIBXSMM)
-                                        , xgemm_dispatch= &
-                                        C_FUNLOC(libxsmm_dispatch_gemm) &
-#endif
-#if defined(__BLAS) || defined(__MKL)
-                                        , sgemm_blas= &
-                                        C_FUNLOC(sgemm_blas) &
-#endif
-                                        )
+                                        alpha=1D0, beta=1D0)
                IF (0 /= rc) THEN
                   CALL libxs_gemm_index( &
                      C_LOC(a_data), C_LOC(params(p_a_first, 1)), &
@@ -727,7 +603,7 @@ CONTAINS
                   used_smm = .TRUE.
                END IF
             END IF
-# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_s (params, stack_size, &
                                                       a_data, b_data, c_data)
@@ -871,7 +747,7 @@ CONTAINS
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
-# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
@@ -881,13 +757,13 @@ CONTAINS
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
          LOGICAL, INTENT(OUT)                           :: used_smm
 
-# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          used_smm = .FALSE.
-# 444 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 397 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             MARK_USED(stack_descr)
-# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 399 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_z (params, stack_size, &
                                                       a_data, b_data, c_data)
@@ -1031,7 +907,7 @@ CONTAINS
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
-# 428 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
@@ -1041,13 +917,13 @@ CONTAINS
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
          LOGICAL, INTENT(OUT)                           :: used_smm
 
-# 441 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          used_smm = .FALSE.
-# 444 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 397 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             MARK_USED(stack_descr)
-# 446 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
-# 480 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 399 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_c (params, stack_size, &
                                                       a_data, b_data, c_data)
@@ -1063,6 +939,6 @@ CONTAINS
          COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_c_nn
-# 496 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 434 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv
