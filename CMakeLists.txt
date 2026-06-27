@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE FORCE)
 
 # include our cmake snippets
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+                      ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
 # DBCSR's source directory
 set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -20,6 +21,7 @@ endif ()
 # =================================================================================================
 # PROJECT AND VERSION
 include(GetGitRevisionDescription)
+include(FetchContent)
 
 git_describe(GIT_DESC)
 
@@ -64,7 +66,7 @@ project(
   dbcsr
   DESCRIPTION
     "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)"
-)
+  LANGUAGES Fortran C CXX)
 set(dbcsr_VERSION
     ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
 set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
@@ -75,9 +77,20 @@ include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(USE_OPENMP "Build with OpenMP support" ON)
-option(USE_MPI "Build with MPI support" ON)
-option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF)
+option(USE_MPI "Build with MPI support" OFF)
 option(BUILD_TESTING "Build dbcsr unit tests" OFF)
+option(
+  USE_LIBXS
+  "Use LIBXS for host-side Small Matrix Multiplication; required for OpenCL backend"
+  OFF)
+
+option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
+option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
+
+cmake_dependent_option(USE_LIBXSMM "Use LIBXSMM for JIT-compiled GEMM kernels"
+                       OFF "USE_LIBXS" OFF)
+cmake_dependent_option(USE_MPI_F08 "Build with the mpi_f08 module support" OFF
+                       "USE_MPI" OFF) # MPI_F08 is a module included in MPI
 cmake_dependent_option(
   WITH_C_API "Build the C API (ISO_C_BINDINGS)" ON "USE_MPI" OFF
 )# the ISO_C_BINDINGS require MPI unconditionally
@@ -91,16 +104,27 @@ set(TEST_OMP_THREADS
     2
     CACHE STRING "Number of OpenMP threads for testing")
 
-set(USE_SMM
-    "auto"
-    CACHE STRING
-          "Small Matrix Multiplication implementation to use (default: auto)")
-set_property(CACHE USE_SMM PROPERTY STRINGS auto blas libxsmm)
-
 set(USE_ACCEL
-    ""
-    CACHE STRING "Build with acceleration support (default: none)")
-set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
+    "none"
+    CACHE
+      STRING
+      "Build with acceleration support (none (default value), opencl, cuda, hip)"
+)
+set(_DBCSR_SUPPORTED_ACCEL_VALUES none opencl cuda hip)
+set_property(CACHE USE_ACCEL PROPERTY STRINGS ${_DBCSR_SUPPORTED_ACCEL_VALUES})
+string(TOLOWER "${USE_ACCEL}" USE_ACCEL)
+
+if (NOT USE_ACCEL IN_LIST _DBCSR_SUPPORTED_ACCEL_VALUES)
+  message(
+    FATAL_ERROR
+      "Unsupported USE_ACCEL='${USE_ACCEL}'. Supported values are: ${_DBCSR_SUPPORTED_ACCEL_VALUES}"
+  )
+endif ()
+
+set(DBCSR_WITH_ACCEL OFF)
+if (NOT USE_ACCEL STREQUAL "none")
+  set(DBCSR_WITH_ACCEL ON)
+endif ()
 
 set(SUPPORTED_CUDA_ARCHITECTURES
     K20X
@@ -111,24 +135,34 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     A100
     H100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300 Mi350)
+
 set(WITH_GPU
-    $<IF:$<STREQUAL:${USE_ACCEL},"opencl">,"","P100">
+    "P100"
     CACHE
       STRING
       "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
 )
+set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
+                                     ${SUPPORTED_HIP_ARCHITECTURES})
+
+# Override default for OpenCL: empty string means "all"
+if (NOT DEFINED WITH_GPU AND USE_ACCEL STREQUAL "opencl")
+  set(WITH_GPU
+      ""
+      CACHE
+        STRING
+        "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+        FORCE)
+endif ()
+
 set(WITH_GPU_PARAMS "${WITH_GPU}")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
-option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
-option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
-
 # =================================================================================================
 # LANGUAGES AND TESTING
-enable_language(Fortran)
 
-if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
+if ((WITH_C_API AND WITH_EXAMPLES) OR DBCSR_WITH_ACCEL)
   enable_language(CXX)
   enable_language(C)
 
@@ -141,7 +175,6 @@ if ((WITH_C_API AND WITH_EXAMPLES) OR (NOT USE_ACCEL MATCHES "none"))
     set(CMAKE_C_STANDARD 11)
     set(CMAKE_C_STANDARD_REQUIRED ON)
   endif ()
-
 endif ()
 
 # =================================== OpenMP
@@ -149,44 +182,30 @@ if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
-# =================================== LIBXSMM (rely on pkg-config)
-if (USE_SMM MATCHES "libxsmm|auto")
-  if (USE_SMM MATCHES "libxsmm")
-    set(LIBXSMM_REQUIRED "REQUIRED")
-  endif ()
-  find_package(PkgConfig ${LIBXSMM_REQUIRED})
-  if (USE_OPENMP)
-    if (BUILD_SHARED_LIBS OR USE_SMM MATCHES "libxsmm-shared")
-      pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext-shared)
-    else ()
-      pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext-static)
-    endif ()
-    if (NOT LIBXSMMEXT_FOUND)
-      pkg_check_modules(LIBXSMMEXT ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
-                        libxsmmext)
-    endif ()
-  endif ()
-  if (BUILD_SHARED_LIBS OR USE_SMM MATCHES "libxsmm-shared")
-    pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf-shared)
-  else ()
-    pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf-static)
-  endif ()
-  if (NOT LIBXSMM_FOUND)
-    pkg_check_modules(LIBXSMM ${LIBXSMM_REQUIRED} IMPORTED_TARGET GLOBAL
-                      libxsmmf)
-  endif ()
+# =================================== SMM (Small Matrix-Matrix multiplication)
+# Ensure all targets (including fetched dependencies) are built with -fPIC so
+# they can be linked into shared libraries.
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+if (USE_LIBXS)
+  find_package(libxs CONFIG REQUIRED)
 endif ()
 
-# =================================== SMM (Small Matrix-Matrix multiplication)
-if (USE_SMM MATCHES "blas" OR (USE_SMM MATCHES "auto" AND NOT LIBXSMM_FOUND))
-  if (USE_ACCEL MATCHES "opencl")
-    message(FATAL_ERROR "OpenCL requires USE_SMM=libxsmm")
+if (USE_LIBXSMM)
+  find_package(libxsmm CONFIG QUIET)
+  if (NOT libxsmm_FOUND)
+    find_package(PkgConfig QUIET)
+    if (PkgConfig_FOUND)
+      pkg_check_modules(DBCSR_LIBXSMM_PC QUIET IMPORTED_TARGET GLOBAL libxsmm)
+      if (DBCSR_LIBXSMM_PC_FOUND AND NOT TARGET libxsmm::libxsmm)
+        add_library(libxsmm::libxsmm ALIAS PkgConfig::DBCSR_LIBXSMM_PC)
+        set(libxsmm_FOUND TRUE)
+      endif ()
+    endif ()
   endif ()
-  message(STATUS "Using BLAS for Small Matrix Multiplication")
-elseif (USE_SMM MATCHES "libxsmm" OR USE_SMM MATCHES "auto")
-  message(STATUS "Using libxsmm for Small Matrix Multiplication")
-else ()
-  message(FATAL_ERROR "Unknown SMM library specified")
+  if (NOT libxsmm_FOUND)
+    message(FATAL_ERROR "LIBXSMM not found (tried CMake config and pkg-config)")
+  endif ()
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
@@ -208,14 +227,15 @@ endif ()
 
 # =================================== MPI
 if (USE_MPI)
-  get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
+  get_property(DBCSR_REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
   if (NOT CMAKE_CROSSCOMPILING) # when cross compiling, assume the users know
                                 # what they are doing
     set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
   endif ()
+
   find_package(
     MPI
-    COMPONENTS ${REQUIRED_MPI_COMPONENTS}
+    COMPONENTS ${DBCSR_REQUIRED_MPI_COMPONENTS}
     REQUIRED)
 
   if (NOT MPI_Fortran_HAVE_F90_MODULE)
@@ -246,21 +266,37 @@ endif ()
 
 # =================================== GPU backends
 
-if (NOT USE_ACCEL MATCHES "none")
+if (DBCSR_WITH_ACCEL)
   set(DBCSR_ACC_HEADER acc/acc.h acc/acc_bench.h acc/acc_libsmm.h)
 endif ()
 
-if (USE_ACCEL MATCHES "opencl")
-  find_package(OpenCL REQUIRED)
+if (USE_ACCEL STREQUAL "opencl")
+  if (DEFINED ENV{CMPLR_ROOT})
+    list(APPEND CMAKE_PREFIX_PATH "$ENV{CMPLR_ROOT}")
+  endif ()
+  if (DEFINED ENV{CUDA_PATH})
+    list(APPEND CMAKE_PREFIX_PATH "$ENV{CUDA_PATH}")
+  endif ()
 
-  set(DBCSR_OPENCL_SCRIPT ${DBCSR_SOURCE_DIR}/acc/opencl/acc_opencl.sh)
-  set(DBCSR_OPENCL_COMMON acc/opencl/common/opencl_atomics.h
-                          acc/opencl/common/opencl_common.h)
-  list(APPEND DBCSR_ACC_HEADER acc/opencl/smm/opencl_libsmm.h
-       acc/opencl/acc_opencl.h)
+  # libxs is a hard dependency when opencl is on.
+  if (NOT USE_LIBXS)
+    message(
+      WARNING "USE_LIBXS is not set but LIBXS is required for OpenCL backend; "
+              "overriding USE_LIBXS=OFF and enabling LIBXS")
+    find_package(libxs REQUIRED)
+  endif ()
+
+  find_package(OpenCL REQUIRED)
+  find_package(libxs CONFIG REQUIRED)
+  find_package(libxstream CONFIG REQUIRED)
+
+  message(STATUS "Using LIBXSTREAM")
+  set(DBCSR_OPENCL_SCRIPT "${LIBXSTREAM_OPENCL_SCRIPT}")
+  set(DBCSR_LIBXSTREAM_SMM_DIR "${LIBXSTREAM_SMM_DIR}")
+  list(GET LIBXSTREAM_INCLUDE_DIRS 0 DBCSR_LIBXSTREAM_INCLUDE_DIR)
 endif ()
 
-if (USE_ACCEL MATCHES "cuda|hip")
+if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
   set(GPU_ARCH_NUMBER_K80 37)
@@ -275,7 +311,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
   set(GPU_ARCH_NUMBER_Mi350 gfx950)
 endif ()
 
-if (USE_ACCEL MATCHES "cuda")
+if (USE_ACCEL STREQUAL "cuda")
   enable_language(CUDA)
   find_package(CUDAToolkit REQUIRED)
 
@@ -305,7 +341,7 @@ if (USE_ACCEL MATCHES "cuda")
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
 endif ()
 
-if (USE_ACCEL MATCHES "hip")
+if (USE_ACCEL STREQUAL "hip")
   if (NOT CMAKE_HIP_ARCHITECTURES)
     set(CMAKE_HIP_ARCHITECTURES OFF)
   endif ()

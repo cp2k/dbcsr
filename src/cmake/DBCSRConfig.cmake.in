@@ -2,16 +2,51 @@
 
 include(CMakeFindDependencyMacro)
 
-# the following should only be needed when building statically
+# Hints for locating DBCSR's dependencies (override with your own -D flags)
+set(DBCSR_LIBXSROOT "@LIBXSROOT@")
+set(DBCSR_LIBXSTREAMROOT "@LIBXSTREAMROOT@")
+set(DBCSR_LIBXSMMROOT "@LIBXSMMROOT@")
 
+# Make DBCSR's dependency locations discoverable
+set(_dbcsr_prefix_path_save "${CMAKE_PREFIX_PATH}")
+if (DBCSR_LIBXSROOT)
+  list(PREPEND CMAKE_PREFIX_PATH "${DBCSR_LIBXSROOT}")
+endif ()
+if (DBCSR_LIBXSTREAMROOT)
+  list(PREPEND CMAKE_PREFIX_PATH "${DBCSR_LIBXSTREAMROOT}")
+endif ()
+if (DBCSR_LIBXSMMROOT)
+  list(PREPEND CMAKE_PREFIX_PATH "${DBCSR_LIBXSMMROOT}")
+endif ()
+
+set(DBCSR_USE_MPI @USE_MPI@)
 if (@USE_MPI@)
   find_dependency(MPI)
 endif ()
 
+set(DBCSR_USE_OPENMP @USE_OPENMP@)
 if (@USE_OPENMP@)
   find_dependency(OpenMP)
 endif ()
 
+set(DBCSR_USE_LIBXS @USE_LIBXS@)
+if (@USE_LIBXS@)
+  find_dependency(libxs CONFIG REQUIRED)
+endif ()
+
+set(DBCSR_USE_LIBXSMM @USE_LIBXSMM@)
+if (@USE_LIBXSMM@)
+  find_dependency(libxsmm CONFIG QUIET)
+  if (NOT libxsmm_FOUND)
+    find_dependency(PkgConfig)
+    pkg_check_modules(DBCSR_LIBXSMM_PC QUIET IMPORTED_TARGET GLOBAL libxsmm)
+    if (DBCSR_LIBXSMM_PC_FOUND AND NOT TARGET libxsmm::libxsmm)
+      add_library(libxsmm::libxsmm ALIAS PkgConfig::DBCSR_LIBXSMM_PC)
+    endif ()
+  endif ()
+endif ()
+
+set(DBCSR_USE_ACCEL @USE_ACCEL@)
 if ("@USE_ACCEL@" MATCHES "cuda")
   enable_language(CUDA)
   find_dependency(CUDAToolkit)
@@ -24,13 +59,19 @@ if ("@USE_ACCEL@" MATCHES "hip")
   find_dependency(hiprtc)
 endif ()
 
-
-if (("@USE_SMM@" MATCHES "libxsmm") OR ("@USE_ACCEL@" MATCHES "opencl"))
-  find_package(PkgConfig)
-  pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf)
-  if (@USE_OPENMP@)
-    pkg_check_modules(LIBXSMMEXT IMPORTED_TARGET GLOBAL libxsmmext)
+if ("@USE_ACCEL@" MATCHES "opencl")
+  find_dependency(OpenCL)
+  find_dependency(libxstream CONFIG QUIET)
+  if (NOT libxstream_FOUND)
+    find_dependency(PkgConfig)
+    pkg_check_modules(DBCSR_LIBXSTREAM_PC QUIET IMPORTED_TARGET GLOBAL libxstream)
+    if (DBCSR_LIBXSTREAM_PC_FOUND AND NOT TARGET libxstream::libxstream)
+      add_library(libxstream::libxstream ALIAS PkgConfig::DBCSR_LIBXSTREAM_PC)
+    endif ()
   endif ()
 endif ()
+
+set(CMAKE_PREFIX_PATH "${_dbcsr_prefix_path_save}")
+unset(_dbcsr_prefix_path_save)
 
 include("${CMAKE_CURRENT_LIST_DIR}/DBCSRTargets.cmake")

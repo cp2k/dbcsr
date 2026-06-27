@@ -58,15 +58,6 @@
 #endif
 !&>
 
-! LIBXSMM has a FORTRAN-suitable header with macro/version definitions (since v1.8.2).
-! Allows macro-toggles (in addition to parameters).
-#if defined(__LIBXSMM)
-#include <libxsmm_config.h>
-#if !defined(LIBXSMM_CONFIG_VERSION)
-#error LIBXSMM v1.8.2 or later is required!
-#endif
-#endif
-
 ! Aliasing __MPI_F08 macro of CP2K to __USE_MPI_F08 macro in DBCSR
 #if defined(__parallel) && defined(__MPI_F08)
 #define __USE_MPI_F08 1

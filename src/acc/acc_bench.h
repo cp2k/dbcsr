@@ -19,16 +19,14 @@
 #  define MAX(A, B) ((B) < (A) ? (A) : (B))
 #endif
 
-#if !defined(INLINE) && (defined(__cplusplus) || (defined(__STDC_VERSION__) && (199901L <= __STDC_VERSION__) /*C99*/))
-#  define INLINE inline
-#else
-#  define INLINE
-#endif
-
 #if !defined(MAX_KERNEL_DIM)
 #  define MAX_KERNEL_DIM 80
 #endif
 
+/**
+ * Initialize a column-major M-by-N matrix with
+ * deterministic values derived from seed and scale.
+ */
 #define INIT_MAT(ELEM_TYPE, SEED, MAT, M, N, SCALE) \
   do { \
     const double init_mat_seed1_ = (SCALE) * (SEED) + (SCALE); \
@@ -47,33 +45,37 @@
  * The arguments rnd and rnd_size optionally allow
  * to supply an array of (pseudo-)random-numbers.
  */
-static INLINE void init_stack(
-  int* stack, int stack_size, int rnd_size, const int* rnd, int mn, int mk, int kn, int nc, int na, int nb) {
-  /* navg matrix products are accumulated into a C-matrix */
-  const int navg = stack_size / nc;
-  const int nimb = MAX(1, navg - 4); /* imbalance */
-  int i = 0, c = 0, ntop = 0;
-  assert(0 < nc && nc <= stack_size);
-  while (i < stack_size) {
-    const int r = ((NULL == rnd || 0 >= rnd_size) ? rand() : rnd[i % rnd_size]), next = c + 1;
-    ntop += navg + (r % (2 * nimb) - nimb);
-    if (stack_size < ntop) ntop = stack_size;
-    for (; i < ntop; ++i) { /* setup one-based indexes */
-      int a, b;
-      if (NULL != rnd && 0 < rnd_size) {
-        a = rnd[(2 * i + 0) % rnd_size] % na;
-        b = rnd[(2 * i + 1) % rnd_size] % nb;
-      }
-      else {
-        a = rand() % na;
-        b = rand() % nb;
-      }
-      *stack++ = a * mk + 1; /* A-index */
-      *stack++ = b * kn + 1; /* B-index */
-      *stack++ = c * mn + 1; /* C-index */
-    }
-    if (next < nc) c = next;
-  }
-}
+#define INIT_STACK(STACK, STACK_SIZE, RND_SIZE, RND, MN, MK, KN, NC, NA, NB) \
+  do { \
+    const int* init_stack_rnd_ = (const int*)(RND); \
+    const int init_stack_rnd_size_ = MAX(1, (RND_SIZE)); \
+    const int init_stack_navg_ = (STACK_SIZE) / (NC); \
+    const int init_stack_nimb_ = MAX(1, init_stack_navg_ - 4); \
+    int init_stack_i_ = 0, init_stack_c_ = 0, init_stack_ntop_ = 0; \
+    int* init_stack_p_ = (STACK); \
+    assert(0 < (NC) && (NC) <= (STACK_SIZE)); \
+    while (init_stack_i_ < (STACK_SIZE)) { \
+      const int init_stack_r_ = \
+        ((NULL == init_stack_rnd_ || 0 >= (RND_SIZE)) ? rand() : init_stack_rnd_[init_stack_i_ % init_stack_rnd_size_]); \
+      const int init_stack_next_ = init_stack_c_ + 1; \
+      init_stack_ntop_ += init_stack_navg_ + (init_stack_r_ % (2 * init_stack_nimb_) - init_stack_nimb_); \
+      if ((STACK_SIZE) < init_stack_ntop_) init_stack_ntop_ = (STACK_SIZE); \
+      for (; init_stack_i_ < init_stack_ntop_; ++init_stack_i_) { \
+        int init_stack_a_, init_stack_b_; \
+        if (NULL != init_stack_rnd_ && 0 < (RND_SIZE)) { \
+          init_stack_a_ = init_stack_rnd_[(2 * init_stack_i_ + 0) % init_stack_rnd_size_] % (NA); \
+          init_stack_b_ = init_stack_rnd_[(2 * init_stack_i_ + 1) % init_stack_rnd_size_] % (NB); \
+        } \
+        else { \
+          init_stack_a_ = rand() % (NA); \
+          init_stack_b_ = rand() % (NB); \
+        } \
+        *init_stack_p_++ = init_stack_a_ * (MK) + 1; \
+        *init_stack_p_++ = init_stack_b_ * (KN) + 1; \
+        *init_stack_p_++ = init_stack_c_ * (MN) + 1; \
+      } \
+      if (init_stack_next_ < (NC)) init_stack_c_ = init_stack_next_; \
+    } \
+  } while (0)
 
 #endif /*DBCSR_ACC_BENCH_H*/

@@ -14,7 +14,7 @@ You need:
 
 Optional:
 
-* [LIBXSMM](https://github.com/hfp/libxsmm) (1.10+, and `pkg-config`) for Small Matrix Multiplication acceleration
+* [LIBXS](https://libxs.readthedocs.io/) for host-side batched Small Matrix Multiplication acceleration. LIBXS can use [LIBXSMM](https://github.com/libxsmm/libxsmm) for JIT-compiled CPU kernels when LIBXSMM is available.
 * LAPACK implementation (reference, OpenBLAS-bundled and MKL have been tested), required when building the tests
 
 To build DBCSR's GPU backend:
@@ -27,6 +27,7 @@ To build DBCSR's GPU backend:
     * Vendor specific OpenCL package, e.g.,
       [Intel Compute Runtime](https://github.com/intel/compute-runtime/releases/latest),
       or CUDA Toolkit (includes OpenCL)
+    * [LIBXS](https://libxs.readthedocs.io/) and [LIBXSTREAM](https://libxstream.readthedocs.io/). CMake can use prebuilt installations, local sibling checkouts, or FetchContent.
     * Nvidia GPU mode shall be `DEFAULT` (`nvidia-smi -c DEFAULT`) if MPI puts multiple ranks onto a single GPU;
       MPS daemon with GPU mode `EXCLUSIVE_PROCESS` is not an option
     * For the OpenCL backend, a plain C compiler is sufficient (C90 standard)
@@ -66,8 +67,12 @@ make
 ```bash
 -DUSE_MPI=<ON|OFF>
 -DUSE_OPENMP=<ON|OFF>
--DUSE_SMM=<blas|libxsmm>
+-DUSE_LIBXS=<ON|OFF>
+-DLIBXSROOT=<path>
+-DUSE_LIBXSMM=<ON|OFF>
+-DLIBXSMMROOT=<path>
 -DUSE_ACCEL=<opencl|cuda|hip>
+-DLIBXSTREAMROOT=<path>
 -DWITH_CUDA_PROFILING=<OFF|ON>
 -DWITH_HIP_PROFILING=<OFF|ON>
 -DWITH_C_API=<ON|OFF>
@@ -79,12 +84,13 @@ make
 -DTEST_OMP_THREADS=<2|N>
 ```
 
-When providing a build of LIBXSMM, make sure the `lib` directory is added to the `PKG_CONFIG_PATH` variable prior
-to running `cmake`. For example, if LIBXSMM was checked out using Git to your home folder:
+When providing prebuilt LIBXS or LIBXSTREAM installations, either set `LIBXSROOT` and `LIBXSTREAMROOT` explicitly or make sure their `lib` directories are available to `pkg-config` before running `cmake`. For example, if LIBXS and LIBXSTREAM were checked out and built in your home folder:
 
 ```bash
-export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxsmm/lib"
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxs/lib:${HOME}/libxstream/lib"
 ```
+
+LIBXSMM is still useful as an optional CPU JIT kernel provider through LIBXS. If a prebuilt LIBXSMM should be used, set `LIBXSMMROOT` or make its `pkg-config` metadata visible in the same way.
 
 ### CMake Build Recipes
 

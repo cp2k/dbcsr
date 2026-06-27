@@ -14,43 +14,8 @@ Users interested to tune kernels for the CUDA/HIP backend and LIBSMM_ACC, can ta
 
 # OpenCL Backend
 
-This section shows how to auto-tune a kernel for the OpenCL based LIBSMM library. The process builds a stand-alone driver program which is then driven by an [OpenTuner](https://opentuner.org/) based script guiding the auto-tuning of the desired kernel. The [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/3-libsmm_ocl/1-autotune.html) provides more information, e.g., about constraining execution time or parallelizing the tuning-process as well as how to select and tune an entire set of kernels.
+DBCSR's OpenCL backend is built on [LIBXSTREAM](https://libxstream.readthedocs.io/), with [LIBXS](https://libxs.readthedocs.io/) providing host-side batched small matrix multiplication support. The OpenCL SMM kernel sample, benchmark driver, tuned-parameter files, and OpenTuner workflow that used to live in DBCSR are now maintained as the SMM sample in LIBXSTREAM.
 
-For simplicity, the GNU Compiler is used to build the afore mentioned driver program, both DBCSR and LIBXSMM are Git-cloned into the same common directory, e.g., the user's `HOME` directory, and the driver is built for tuning double-precision kernels (DP).
+For DBCSR users, the immediate build knob is `-DUSE_ACCEL=opencl`. CMake then requires OpenCL headers/runtime support, LIBXS, and LIBXSTREAM. It can discover prebuilt installations through `pkg-config`, `LIBXSROOT`, and `LIBXSTREAMROOT`, or build local/downloaded sources as described in the installation guide.
 
-```bash
-cd ${HOME}
-git clone https://github.com/hfp/libxsmm.git
-cd libxsmm
-make GNU=1 -j
-
-cd ${HOME}
-git clone https://github.com/cp2k/dbcsr.git
-cd dbcsr/src/acc/opencl
-make
-```
-
-Tuning the 23x23x23-kernel for example is the default case. However, to better illustrate the options, M, N, and K are given explicitly. The `tune_multiply.py` script can be used interactively for example, and terminated with CTRL-C which writes a JSON-file with tuned parameters (note a file `.tune_multiply-double-32x32x32.json` is quietly written every time a better set of parameters is found), and then aggregates all JSON-files in the directory into a CSV-file (`tune_multiply.csv`).
-
-```bash
-cd ${HOME}/dbcsr/src/acc/opencl/smm
-./tune_multiply.py 23x23x23
-```
-
-Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html).
-
-Suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), tuned parameters can be incorporated into the backend. The aggregated parameters (`tune_multiply.csv`) are automatically embedded when rebuilding the library and driver.
-
-```bash
-cd ${HOME}/dbcsr/src/acc/opencl
-make
-```
-
-Important kernels can be further tuned (in addition to spending more time for the process) by widening the set of tuned parameters (`--tuning-level` or `-a` with "0" denoting an unrestricted set of tunables).
-
-```bash
-cd ${HOME}/dbcsr/src/acc/opencl/smm
-./tune_multiply.py 23x23x23 -a 0
-```
-
-To "continue" tuning beyond the default level, the previously found parameters must be embedded (by rebuilding the library and driver program) or can be alternatively specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).
+Use [LIBXSTREAM's documentation](https://libxstream.readthedocs.io/) for OpenCL SMM benchmarking, tuning, and parameter management.

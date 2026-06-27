@@ -73,8 +73,11 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
-if (USE_ACCEL)
-  set(DBCSR_TESTS_BACKEND dbcsr_acc_test acc_bench)
+if (DBCSR_WITH_ACCEL)
+  set(DBCSR_TESTS_BACKEND dbcsr_acc_test)
+  if (USE_LIBXS)
+    list(APPEND DBCSR_TESTS_BACKEND acc_bench)
+  endif ()
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -184,7 +187,19 @@ if (NOT USE_MPI)
   foreach (dbcsr_test_backend ${DBCSR_TESTS_BACKEND})
     add_executable(${dbcsr_test_backend} ${${dbcsr_test_backend}_SRCS})
     # tests may not need to link dbcsr but there is no separate dbcsr_acc
-    target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr)
+    target_link_libraries(${dbcsr_test_backend} PRIVATE dbcsr m)
+    if (BLAS_LIBRARIES MATCHES "mkl_")
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __MKL)
+    endif ()
+    if (USE_LIBXS)
+      target_link_libraries(${dbcsr_test_backend} PRIVATE libxs::libxs)
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXS)
+    endif ()
+    if (USE_LIBXSMM)
+      target_compile_definitions(${dbcsr_test_backend} PRIVATE __LIBXSMM)
+      target_link_libraries(${dbcsr_test_backend}
+                            PRIVATE ${DBCSR_LIBXSMM_TARGET})
+    endif ()
     # register unittest executable with CMake
     add_test(NAME ${dbcsr_test_backend} COMMAND ./${dbcsr_test_backend})
     set_tests_properties(
@@ -227,7 +242,7 @@ add_custom_target(
   BYPRODUCTS libsmm_acc_timer_multiply.cpp
   COMMENT "Generate tests/generate_libsmm_acc_timer_multiply.cpp")
 
-if (USE_ACCEL MATCHES "cuda|hip")
+if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS
