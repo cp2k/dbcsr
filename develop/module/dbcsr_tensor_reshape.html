@@ -131,7 +131,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../module/dbcsr_tensor_reshape.html#variable-modulen~71">moduleN</a>
+            <a class="list-group-item" href="../module/dbcsr_tensor_reshape.html#variable-modulen~38">moduleN</a>
         </div>
       </div>
     </div>
@@ -227,14 +227,14 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
-                  <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
                   <li class="list-inline-item"><a href='dbcsr_tensor_block.html'>dbcsr_tensor_block</a></li>
                   <li class="list-inline-item"><a href='dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_tensor_types.html'>dbcsr_tensor_types</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_api.html'>dbcsr_api</a></li>
+                  <li class="list-inline-item"><a href='dbcsr_kinds.html'>dbcsr_kinds</a></li>
               </ul>
             </li>
         </ul>
@@ -259,7 +259,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-modulen~71"></span>
+              <span class="anchor" id="variable-modulen~38"></span>
               character(len=*),
             </td>
               <td>private,</td>
@@ -311,7 +311,259 @@ parameter
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-buffer~30"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~17"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~19"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~76"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
+
+    </h3>
+    
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
               <span class="anchor" id="variable-buffer~31"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~18"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~20"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~77"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
+
+    </h3>
+    
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~32"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~21"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~78"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
+
+    </h3>
+    
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~33"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -356,259 +608,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~212"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
-
-    </h3>
-    
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~32"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~21"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~23"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~213"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
-
-    </h3>
-    
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~33"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~22"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~24"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~214"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
-
-    </h3>
-    
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~34"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~23"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~25"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~215"></span>
+              <span class="anchor" id="variable-block~79"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -660,7 +660,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim~3"></span>
+              <span class="anchor" id="variable-ndim"></span>
               integer,
             </td>
               <td>public</td>
@@ -677,7 +677,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblock~8"></span>
+              <span class="anchor" id="variable-nblock~6"></span>
               integer,
             </td>
               <td>public</td>
@@ -779,7 +779,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~89"></span>
+              <span class="anchor" id="variable-data_type~49"></span>
               integer,
             </td>
               <td>public</td>
@@ -845,7 +845,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~26"></span>
+              <span class="anchor" id="variable-buffer~25"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(in)</td>
@@ -890,7 +890,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~30"></span>
+              <span class="anchor" id="variable-buffer~29"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(in)</td>
@@ -940,7 +940,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_in~22"></span>
+              <span class="anchor" id="variable-tensor_in~18"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -955,7 +955,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tensor_out~21"></span>
+              <span class="anchor" id="variable-tensor_out~18"></span>
               type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -970,7 +970,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~71"></span>
+              <span class="anchor" id="variable-summation~39"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -986,7 +986,7 @@ tensor_in is empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-move_data~17"></span>
+              <span class="anchor" id="variable-move_data~21"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -1026,7 +1026,7 @@ tensor_in is empty on return</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~24"></span>
+              <span class="anchor" id="variable-buffer~23"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(out)</td>
@@ -1041,7 +1041,7 @@ tensor_in is empty on return</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblock~9"></span>
+              <span class="anchor" id="variable-nblock~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1058,7 +1058,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~18"></span>
+              <span class="anchor" id="variable-ndata~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1075,7 +1075,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~90"></span>
+              <span class="anchor" id="variable-data_type~50"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1092,7 +1092,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndim~4"></span>
+              <span class="anchor" id="variable-ndim~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1134,7 +1134,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~25"></span>
+              <span class="anchor" id="variable-buffer~24"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1174,7 +1174,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~27"></span>
+              <span class="anchor" id="variable-buffer~26"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1189,7 +1189,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~19"></span>
+              <span class="anchor" id="variable-index~16"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1204,7 +1204,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~210"></span>
+              <span class="anchor" id="variable-block~74"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(in)</td>
@@ -1244,7 +1244,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~28"></span>
+              <span class="anchor" id="variable-buffer~27"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1259,7 +1259,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~19"></span>
+              <span class="anchor" id="variable-ndata~16"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1274,7 +1274,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~20"></span>
+              <span class="anchor" id="variable-index~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1289,7 +1289,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~211"></span>
+              <span class="anchor" id="variable-block~75"></span>
               type(<a href='../type/block_nd.html'>block_nd</a>),
             </td>
 <td>intent(inout),</td>
@@ -1344,7 +1344,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~29"></span>
+              <span class="anchor" id="variable-buffer~28"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1359,7 +1359,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~21"></span>
+              <span class="anchor" id="variable-index~18"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1399,7 +1399,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~39"></span>
+              <span class="anchor" id="variable-mp_comm~31"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -1484,7 +1484,262 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
+              <span class="anchor" id="variable-buffer~30"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~17"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~19"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~76"></span>
+              real(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
               <span class="anchor" id="variable-buffer~31"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~18"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~20"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~77"></span>
+              real(kind=real_4),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~32"></span>
+              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>buffer</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ndata~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ndata</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-index~21"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndims_buffer(buffer))
+            </td>
+            <td>::</td>
+            <td><strong>index</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-block~78"></span>
+              complex(kind=real_8),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              DIMENSION(ndata)
+            </td>
+            <td>::</td>
+            <td><strong>block</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>add block to buffer.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-buffer~33"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1529,262 +1784,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~212"></span>
-              real(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_r_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_r_sp~2.html'>block_buffer_add_block_r_sp</a>(buffer, ndata, index, block)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~32"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~21"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~23"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~213"></span>
-              real(kind=real_4),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_dp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_dp~2.html'>block_buffer_add_block_c_dp</a>(buffer, ndata, index, block)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~33"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~22"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~24"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~214"></span>
-              complex(kind=real_8),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndata)
-            </td>
-            <td>::</td>
-            <td><strong>block</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-block_buffer_add_block_c_sp~2"></span> <h3>private  subroutine <a href='../proc/block_buffer_add_block_c_sp~2.html'>block_buffer_add_block_c_sp</a>(buffer, ndata, index, block)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>add block to buffer.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-buffer~34"></span>
-              type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>buffer</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ndata~23"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ndata</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-index~25"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              DIMENSION(ndims_buffer(buffer))
-            </td>
-            <td>::</td>
-            <td><strong>index</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-block~215"></span>
+              <span class="anchor" id="variable-block~79"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -1824,7 +1824,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~35"></span>
+              <span class="anchor" id="variable-buffer~34"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1839,7 +1839,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~24"></span>
+              <span class="anchor" id="variable-ndata~21"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1854,7 +1854,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~26"></span>
+              <span class="anchor" id="variable-index~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1869,7 +1869,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~216"></span>
+              <span class="anchor" id="variable-block~80"></span>
               real(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -1924,7 +1924,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~36"></span>
+              <span class="anchor" id="variable-buffer~35"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -1939,7 +1939,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~25"></span>
+              <span class="anchor" id="variable-ndata~22"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1954,7 +1954,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~27"></span>
+              <span class="anchor" id="variable-index~24"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1969,7 +1969,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~217"></span>
+              <span class="anchor" id="variable-block~81"></span>
               real(kind=real_4),
             </td>
 <td>intent(out),</td>
@@ -2024,7 +2024,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~37"></span>
+              <span class="anchor" id="variable-buffer~36"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2039,7 +2039,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~26"></span>
+              <span class="anchor" id="variable-ndata~23"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2054,7 +2054,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~28"></span>
+              <span class="anchor" id="variable-index~25"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2069,7 +2069,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~218"></span>
+              <span class="anchor" id="variable-block~82"></span>
               complex(kind=real_8),
             </td>
 <td>intent(out),</td>
@@ -2124,7 +2124,7 @@ number of dimensions</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-buffer~38"></span>
+              <span class="anchor" id="variable-buffer~37"></span>
               type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -2139,7 +2139,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ndata~27"></span>
+              <span class="anchor" id="variable-ndata~24"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -2154,7 +2154,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-index~29"></span>
+              <span class="anchor" id="variable-index~26"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2169,7 +2169,7 @@ number of dimensions</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~219"></span>
+              <span class="anchor" id="variable-block~83"></span>
               complex(kind=real_4),
             </td>
 <td>intent(out),</td>
