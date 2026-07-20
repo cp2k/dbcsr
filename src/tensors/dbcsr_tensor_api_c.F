@@ -36,6 +36,60 @@ MODULE dbcsr_tensor_api_c
    IMPLICIT NONE
    PRIVATE
 
+   PUBLIC :: c_dbcsr_t_finalize, &
+             c_dbcsr_t_pgrid_create_expert, &
+             c_dbcsr_t_pgrid_create, &
+             c_dbcsr_t_pgrid_destroy, &
+             c_dbcsr_t_distribution_new, &
+             c_dbcsr_t_distribution_destroy, &
+             c_dbcsr_t_create_new, &
+             c_dbcsr_t_create_template, &
+             c_dbcsr_t_create_matrix, &
+             c_dbcsr_t_destroy, &
+             c_dbcsr_t_get_stored_coordinates, &
+             c_dbcsr_t_reserve_blocks_index, &
+             c_dbcsr_t_reserve_blocks_template, &
+             c_ndims_iterator, &
+             c_dbcsr_t_iterator_start, &
+             c_dbcsr_t_iterator_stop, &
+             c_dbcsr_t_iterator_next_block, &
+             c_dbcsr_t_iterator_blocks_left, &
+             c_dbcsr_t_split_blocks, &
+             c_dbcsr_t_copy_matrix_to_tensor, &
+             c_dbcsr_t_copy_tensor_to_matrix, &
+             c_dbcsr_t_blk_sizes, &
+             c_dbcsr_t_copy, &
+             c_dbcsr_t_clear, &
+             c_dbcsr_t_get_info, &
+             c_dbcsr_t_get_mapping_info, &
+             c_dbcsr_t_get_num_blocks, &
+             c_dbcsr_t_get_num_blocks_total, &
+             c_dbcsr_t_nblks_local, &
+             c_dbcsr_t_nblks_total, &
+             c_dbcsr_t_dims, &
+             c_dbcsr_t_ndims, &
+             c_dbcsr_t_ndims_matrix_row, &
+             c_dbcsr_t_ndims_matrix_column, &
+             c_dbcsr_t_get_nze, &
+             c_dbcsr_t_get_nze_total, &
+             c_dbcsr_t_max_nblks_local, &
+             c_dbcsr_t_batched_contract_init, &
+             c_dbcsr_t_batched_contract_finalize
+
+   #:for dparam, dtype, dsuffix, dbase, dctype in cf_dtype_float_list
+      PUBLIC :: c_dbcsr_t_contract_${dsuffix}$, &
+                c_dbcsr_t_contract_index_${dsuffix}$, &
+                c_dbcsr_t_filter_${dsuffix}$, &
+                c_dbcsr_t_set_${dsuffix}$, &
+                c_dbcsr_t_scale_${dsuffix}$, &
+                c_dbcsr_t_get_data_${dsuffix}$
+      #:for ndim in ndims
+         PUBLIC :: c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$, &
+                   c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$, &
+                   c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$
+      #:endfor
+   #:endfor
+
 CONTAINS
 
    SUBROUTINE c_f_string(c_str, str)

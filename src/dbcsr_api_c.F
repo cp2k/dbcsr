@@ -26,6 +26,96 @@ MODULE dbcsr_api_c
 
    #:include 'data/dbcsr.fypp'
 
+   PUBLIC :: c_dbcsr_clear_mempools, &
+             c_dbcsr_init_lib, &
+             c_dbcsr_finalise_lib, &
+             c_dbcsr_mp_grid_setup, &
+             c_dbcsr_print_statistics, &
+             c_dbcsr_distribution_hold, &
+             c_dbcsr_distribution_new, &
+             c_dbcsr_distribution_release, &
+             c_dbcsr_release, &
+             c_dbcsr_create_new, &
+             c_dbcsr_create_template, &
+             c_dbcsr_finalize, &
+             c_dbcsr_complete_redistribute, &
+             c_dbcsr_filter, &
+             c_dbcsr_get_block_diag, &
+             c_dbcsr_transposed, &
+             c_dbcsr_copy, &
+             c_dbcsr_copy_into_existing, &
+             c_dbcsr_desymmetrize, &
+             c_dbcsr_clear, &
+             c_dbcsr_reserve_diag_blocks, &
+             c_dbcsr_reserve_blocks, &
+             c_dbcsr_reserve_all_blocks, &
+             c_dbcsr_iterator_stop, &
+             c_dbcsr_iterator_start, &
+             c_dbcsr_iterator_blocks_left, &
+             c_dbcsr_iterator_next_block_index, &
+             c_dbcsr_replicate_all, &
+             c_dbcsr_distribute, &
+             c_dbcsr_sum_replicated, &
+             c_dbcsr_hadamard_product, &
+             c_dbcsr_print, &
+             c_dbcsr_print_block_sum, &
+             c_dbcsr_checksum, &
+             c_dbcsr_maxabs, &
+             c_dbcsr_gershgorin_norm, &
+             c_dbcsr_frobenius_norm, &
+             c_dbcsr_norm_scalar, &
+             c_dbcsr_triu, &
+             c_dbcsr_init_random, &
+             c_dbcsr_function_of_elements, &
+             c_dbcsr_nblkrows_total, &
+             c_dbcsr_nblkcols_total, &
+             c_dbcsr_nblkrows_local, &
+             c_dbcsr_nblkcols_local, &
+             c_dbcsr_get_info, &
+             c_dbcsr_get_name, &
+             c_dbcsr_get_group, &
+             c_dbcsr_get_distribution, &
+             c_dbcsr_distribution_get, &
+             c_dbcsr_get_stored_coordinates, &
+             c_dbcsr_setname, &
+             c_dbcsr_get_matrix_type, &
+             c_dbcsr_get_occupation, &
+             c_dbcsr_get_num_blocks, &
+             c_dbcsr_get_data_size, &
+             c_dbcsr_has_symmetry, &
+             c_dbcsr_nfullrows_total, &
+             c_dbcsr_nfullcols_total, &
+             c_dbcsr_valid_index, &
+             c_dbcsr_get_data_type, &
+             c_dbcsr_binary_write, &
+             c_dbcsr_binary_read, &
+             c_free_string
+
+   #:for n, nametype, base, prec, kind, type, dkind, normname, ctype in c_inst_params_float
+      PUBLIC :: c_dbcsr_set_${nametype}$, &
+                c_dbcsr_add_${nametype}$, &
+                c_dbcsr_scale_${nametype}$, &
+                c_dbcsr_scale_by_vector_${nametype}$, &
+                c_dbcsr_multiply_${nametype}$, &
+                c_dbcsr_add_on_diag_${nametype}$, &
+                c_dbcsr_set_diag_${nametype}$, &
+                c_dbcsr_get_diag_${nametype}$, &
+                c_dbcsr_trace_${nametype}$, &
+                c_dbcsr_dot_${nametype}$, &
+                c_dbcsr_get_block_p_${nametype}$, &
+                c_dbcsr_get_block_notrans_p_${nametype}$, &
+                c_dbcsr_reserve_block2d_${nametype}$, &
+                c_dbcsr_iterator_next_2d_block_${nametype}$, &
+                c_dbcsr_put_block2d_${nametype}$, &
+                c_dbcsr_get_data_${nametype}$
+   #:endfor
+
+   #:set c_api_infovars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
+      'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
+   #:for var in c_api_infovars
+      PUBLIC :: c_dbcsr_get_${var}$
+   #:endfor
+
 CONTAINS
 
    SUBROUTINE c_f_string(c_str, str)
