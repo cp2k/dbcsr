@@ -169,7 +169,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_multiply_api.F&quot; 1</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/mm/dbcsr_multiply_api.F" 1</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -190,12 +190,12 @@
 <a id="ln-19" name="ln-19" href="#ln-19"></a><span class="w">                          </span><span class="n">dbcsr_type_real_4</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-20" name="ln-20" href="#ln-20"></a><span class="w">                          </span><span class="n">dbcsr_type_real_8</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="cp">#include "base/dbcsr_base_uses.f90"</span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a>
 <a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a><span class="k">   PRIVATE</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a>
-<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">moduleN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_multiply_api&#39;</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">moduleN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_multiply_api'</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a>
 <a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">   </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_multiply</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a>
@@ -267,7 +267,7 @@
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">                                     </span><span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">                                     </span><span class="n">flop</span><span class="o">=</span><span class="n">flop</span><span class="p">)</span>
 <a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">      </span><span class="k">ELSE</span>
-<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;This combination of data types NYI&quot;</span><span class="p">)</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"This combination of data types NYI"</span><span class="p">)</span>
 <a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">      </span><span class="k">END IF</span>
 <a id="ln-101" name="ln-101" href="#ln-101"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_multiply_d</span>
 <a id="ln-102" name="ln-102" href="#ln-102"></a>

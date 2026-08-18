@@ -200,7 +200,7 @@ canonical ordering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_col_i~3"></span>
+              <span class="anchor" id="variable-new_col_i~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -215,7 +215,7 @@ canonical ordering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_blk_p~3"></span>
+              <span class="anchor" id="variable-new_blk_p~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -275,7 +275,7 @@ canonical ordering</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~222"></span>
+              <span class="anchor" id="variable-matrix~164"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -321,7 +321,7 @@ canonical ordering</p>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">old_row_p</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;make_index_canonical&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'make_index_canonical'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">stored_row</span>
@@ -333,9 +333,9 @@ canonical ordering</p>
 <span class="w">      </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">nblks</span><span class="p">))</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;old row_p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_row_p</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;old col_i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;old blk_p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"old row_p"</span><span class="p">,</span><span class="w"> </span><span class="n">old_row_p</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"old col_i"</span><span class="p">,</span><span class="w"> </span><span class="n">old_col_i</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"old blk_p"</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      DO </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">old_row_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="k">DO </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
@@ -345,8 +345,8 @@ canonical ordering</p>
 <span class="w">            </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">get_stored_canonical</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A,2(1X,I5),A,2(1X,I5),&quot;;&quot;,I7,1X,L1)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; X-&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(A,2(1X,I5),A,2(1X,I5),";",I7,1X,L1)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="n">routineN</span><span class="o">//</span><span class="s2">" X-&gt;"</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="s2">"-&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span>
 <span class="w">            </span><span class="n">row_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stored_row</span>
 <span class="w">            </span><span class="n">new_col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stored_col</span>
@@ -361,10 +361,10 @@ canonical ordering</p>
 <span class="w">      </span><span class="c">! Re-create the index</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_make_dbcsr_index</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">,</span><span class="w"> </span><span class="n">row_i</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">nblks</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;new row_p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">new_row_p</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;new row_i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">row_i</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;new col_i&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">new_col_i</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;new blk_p&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk_p</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"new row_p"</span><span class="p">,</span><span class="w"> </span><span class="n">new_row_p</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"new row_i"</span><span class="p">,</span><span class="w"> </span><span class="n">row_i</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"new col_i"</span><span class="p">,</span><span class="w"> </span><span class="n">new_col_i</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"new blk_p"</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk_p</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">   END SUBROUTINE </span><span class="n">make_index_canonical</span>
 </pre></div>

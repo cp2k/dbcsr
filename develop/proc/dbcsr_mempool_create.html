@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pool~2"></span>
+              <span class="anchor" id="variable-pool"></span>
               type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
             </td>
 <td></td>
@@ -211,7 +211,7 @@
 <span class="w">      </span><span class="c">!! Creates a memory pool.</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">pool</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;pool already allocated&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"pool already allocated"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">pool</span><span class="p">)</span>
 <span class="c">!$    CALL OMP_INIT_LOCK(pool%lock)</span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">pool</span><span class="p">%</span><span class="n">root</span><span class="p">)</span><span class="w"> </span><span class="c">!root always allocated, but unused. Simplifies looping.</span>

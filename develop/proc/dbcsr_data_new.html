@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~3"></span>
+              <span class="anchor" id="variable-area~7"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~7"></span>
+              <span class="anchor" id="variable-data_type~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~2"></span>
+              <span class="anchor" id="variable-data_size~11"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -223,7 +223,7 @@ second dimension data size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size2"></span>
+              <span class="anchor" id="variable-data_size2~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -239,7 +239,7 @@ second dimension data size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-memory_type"></span>
+              <span class="anchor" id="variable-memory_type~3"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -283,7 +283,7 @@ second dimension data size</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">memory_type</span>
 <span class="w">         </span><span class="c">!! type of memory to use</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_data_new&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_data_new'</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">total_size_oversized</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">total_size_requested</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">sizes_oversized</span><span class="p">,</span><span class="w"> </span><span class="n">sizes_requested</span>
@@ -294,7 +294,7 @@ second dimension data size</p>
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;area already associated&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"area already associated"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">my_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_memtype_default</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">memory_type</span><span class="p">))</span><span class="w"> </span><span class="n">my_memory_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">memory_type</span>
@@ -307,7 +307,7 @@ second dimension data size</p>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span><span class="w"> </span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_size2</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify 2 sizes for 2-D data&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Must specify 2 sizes for 2-D data"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      </span><span class="n">sizes_oversized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span>
@@ -315,7 +315,7 @@ second dimension data size</p>
 <span class="w">      </span><span class="n">total_size_oversized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">sizes_requested</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="nb">ANY</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Negative data size requested, integer overflow?&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Negative data size requested, integer overflow?"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">total_size_requested</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mempool_get</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">total_size_requested</span><span class="p">)</span>

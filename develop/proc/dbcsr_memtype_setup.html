@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_hostalloc~2"></span>
+              <span class="anchor" id="variable-acc_hostalloc"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_devalloc~2"></span>
+              <span class="anchor" id="variable-acc_devalloc"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mpi~2"></span>
+              <span class="anchor" id="variable-mpi"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-acc_stream~2"></span>
+              <span class="anchor" id="variable-acc_stream"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td></td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-oversize_factor~2"></span>
+              <span class="anchor" id="variable-oversize_factor"></span>
               real(kind=dp),
             </td>
 <td></td>
@@ -320,7 +320,7 @@
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">oversize_factor</span><span class="p">))</span><span class="w"> </span><span class="n">aim</span><span class="p">%</span><span class="n">oversize_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oversize_factor</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">aim</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">aim</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream missing&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_stream missing"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">is_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="w">      </span><span class="n">is_ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_ok</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">memtype</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="w"> </span><span class="p">.</span><span class="n">EQV</span><span class="p">.</span><span class="w"> </span><span class="n">aim</span><span class="p">%</span><span class="n">acc_hostalloc</span><span class="p">)</span>

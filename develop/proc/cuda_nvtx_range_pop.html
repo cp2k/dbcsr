@@ -185,7 +185,7 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">level</span>
 <span class="w">      </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuda_nvtx_range_pop_dc</span><span class="p">()</span>
 <span class="cp">#else</span>
-<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"cuda_nvtx_range_push: __CUDA_PROFILING not compiled in."</span><span class="p">)</span>
 <span class="cp">#endif</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_pop</span>
 </pre></div>

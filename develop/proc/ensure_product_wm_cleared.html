@@ -215,10 +215,10 @@
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm_cleared</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span>
 
-<span class="w">      </span><span class="c">! The product&#39;s data_area could already contain some data.</span>
+<span class="w">      </span><span class="c">! The product's data_area could already contain some data.</span>
 <span class="w">      </span><span class="c">! ( see: keep_product_data in dbcsr_operations.F )</span>
 <span class="w">      </span><span class="c">! But this data might not occupy all the allocated memory in the data_area.</span>
-<span class="w">      </span><span class="c">! Since, we don&#39;t want to keep track of uninitialized memory we just zero it now.</span>
+<span class="w">      </span><span class="c">! Since, we don't want to keep track of uninitialized memory we just zero it now.</span>
 
 <span class="w">      </span><span class="n">used_datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm_orig_datasize</span>
 <span class="w">      </span><span class="n">allocated_datasize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>

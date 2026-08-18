@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_comm~41"></span>
+              <span class="anchor" id="variable-mp_comm~44"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(out)</td>
@@ -242,18 +242,18 @@
 <span class="cp">#endif</span>
 <span class="c">!$    IF (no_threading_support) THEN</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">mpi_init</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_init @ mp_world_init&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">"mpi_init @ mp_world_init"</span><span class="p">)</span>
 <span class="c">!$    ELSE</span>
 <span class="c">!$OMP MASTER</span>
 <span class="c">!$       CALL mpi_init_thread(MPI_THREAD_FUNNELED, provided_tsl, ierr)</span>
-<span class="c">!$       IF (ierr /= 0) CALL mp_stop(ierr, &quot;mpi_init_thread @ mp_world_init&quot;)</span>
+<span class="c">!$       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_init_thread @ mp_world_init")</span>
 <span class="c">!$       IF (provided_tsl .LT. MPI_THREAD_FUNNELED) THEN</span>
-<span class="c">!$          CALL mp_stop(0, &quot;MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED).&quot;)</span>
+<span class="c">!$          CALL mp_stop(0, "MPI library does not support the requested level of threading (MPI_THREAD_FUNNELED).")</span>
 <span class="c">!$       END IF</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">!$    END IF</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mpi_comm_set_errhandler</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ERRORS_RETURN</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_comm_set_errhandler @ mp_world_init&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">"mpi_comm_set_errhandler @ mp_world_init"</span><span class="p">)</span>
 <span class="w">      </span><span class="n">debug_comm_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="cp">#endif</span>
 <span class="w">      </span><span class="n">mp_comm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_comm_world</span>

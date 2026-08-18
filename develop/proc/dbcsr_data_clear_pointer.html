@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~14"></span>
+              <span class="anchor" id="variable-area~17"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -218,7 +218,7 @@
 <span class="k">      END IF</span>
 
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data seems to be unreferenced.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Data seems to be unreferenced."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
 <span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">)</span>
@@ -241,7 +241,7 @@
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
 <span class="w">         </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_data_clear_pointer</span>
 </pre></div>

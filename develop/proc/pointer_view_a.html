@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~8"></span>
+              <span class="anchor" id="variable-area~11"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-offset~4"></span>
+              <span class="anchor" id="variable-offset~19"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-len"></span>
+              <span class="anchor" id="variable-len~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -274,7 +274,7 @@
 <span class="w">         </span><span class="c">!! copy of new_area</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible data types.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible data types."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">len</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
@@ -286,7 +286,7 @@
 <span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type."</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      ELSE</span>
 <span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
@@ -299,7 +299,7 @@
 <span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">            </span><span class="n">new_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">offset</span><span class="p">:)</span>
 <span class="w">         </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type."</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      END IF</span>
 <span class="k">      </span><span class="n">narea2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_area</span>

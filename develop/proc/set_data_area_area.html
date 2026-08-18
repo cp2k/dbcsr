@@ -179,7 +179,7 @@ area and that the area is initialized.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~18"></span>
+              <span class="anchor" id="variable-area~21"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -194,7 +194,7 @@ area and that the area is initialized.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rsize~10"></span>
+              <span class="anchor" id="variable-rsize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -210,7 +210,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csize~10"></span>
+              <span class="anchor" id="variable-csize~24"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pointee"></span>
+              <span class="anchor" id="variable-pointee~2"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -241,7 +241,7 @@ size of data area to point to</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source_lb"></span>
+              <span class="anchor" id="variable-source_lb~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -302,20 +302,20 @@ size of data area to point to</p>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dt1</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dt2</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">dt1</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_1d_to_2d</span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">compatible</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not point 1-d pointer to 2-d data&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Can not point 1-d pointer to 2-d data"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      </span><span class="n">pointee_is_2d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source_lb</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">pointee_is_2d</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Lower bound specification not possible with 2-d data&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Lower bound specification not possible with 2-d data"</span><span class="p">)</span>
 <span class="w">         </span><span class="c">! Check if size is OK.</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">bp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to point out of bounds&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Attempt to point out of bounds"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">pointee</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to point out of bounds&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Attempt to point out of bounds"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
-<span class="w">      </span><span class="c">! There&#39;s a remap if the ranks are compatible but not equal.</span>
+<span class="w">      </span><span class="c">! There's a remap if the ranks are compatible but not equal.</span>
 <span class="w">      </span><span class="n">rmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dt1</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dt2</span>
 <span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
@@ -361,17 +361,17 @@ size of data area to point to</p>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_get_data_p_z</span><span class="p">(</span><span class="n">pointee</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">      CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">      CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">rsize</span><span class="o">*</span><span class="n">csize</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">area</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">area</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size mismatch&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Size mismatch"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">pointee_is_2d</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Setting GPU pointers for 2D data is not available!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Setting GPU pointers for 2D data is not available!"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_set_cptr</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

@@ -189,8 +189,8 @@ been</p>
 <span class="w">      </span><span class="c">!! been</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s2">&quot;:dbcsr_rm_default_logger&quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s2">&quot;can not destroy default logger &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
+<span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s2">":dbcsr_rm_default_logger"</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="s2">"can not destroy default logger "</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>

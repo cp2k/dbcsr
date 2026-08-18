@@ -303,8 +303,8 @@ using CMake 3.18.4.</p>
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_cray_mpi_mp -lhugetlbfs"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_cray_mpi_mp"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>..
 </code></pre></div>
 
@@ -323,8 +323,8 @@ using CMake 3.18.4.</p>
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_intel_mpi_mp -lhugetlbfs"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_intel_mpi_mp"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>..
 </code></pre></div>
 
@@ -343,8 +343,8 @@ using CMake 3.18.4.</p>
 </ol>
 <div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>-DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment<span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp -lhugetlbfs&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DBLAS_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_gnu_mpi_mp -lhugetlbfs"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">"-lsci_gnu_mpi_mp"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>..
 </code></pre></div>
 
@@ -357,9 +357,9 @@ CMake build type.</p>
 for that build type as follows:</p>
 <div class="codehilite"><pre><span></span><code><span class="w">       </span>cmake<span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>custom<span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DCMAKE_C_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DCMAKE_CXX_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">         </span>-DCMAKE_Fortran_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_C_FLAGS_CUSTOM<span class="o">=</span><span class="s2">"-O3 -march=native"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_CXX_FLAGS_CUSTOM<span class="o">=</span><span class="s2">"-O3 -march=native"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>-DCMAKE_Fortran_FLAGS_CUSTOM<span class="o">=</span><span class="s2">"-O3 -march=native"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">         </span>..
 </code></pre></div>
     </div>

@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~16"></span>
+              <span class="anchor" id="variable-matrix~421"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-redist~3"></span>
+              <span class="anchor" id="variable-redist~5"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -233,7 +233,7 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                    </span><span class="kd">::</span><span class="w"> </span><span class="n">redist</span>
 <span class="w">         </span><span class="c">!! redistributed matrix, which should already be created</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_redistribute&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_redistribute'</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">metalen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">dbg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 
@@ -259,9 +259,9 @@
 <span class="w">      </span><span class="c">!call dbcsr_print_dist (matrix%dist)</span>
 <span class="w">      </span><span class="c">!call dbcsr_print_dist (redist%dist)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Input not valid.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Input not valid."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">replication_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_repl_none</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Can not redistribute replicated matrix.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Can not redistribute replicated matrix."</span><span class="p">)</span>
 <span class="w">      </span><span class="n">data_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span>
 <span class="w">      </span><span class="c">! Get row and column start and end positions</span>
 <span class="w">      </span><span class="c">! Old matrix</span>
@@ -278,16 +278,16 @@
 <span class="w">      </span><span class="n">mp_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj_new</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">row_dist_new</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Row distribution references unexistent processor rows&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'Row distribution references unexistent processor rows'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">row_dist_new</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of row distribution not equal to processor rows&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">'Range of row distribution not equal to processor rows'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_new</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Col distribution references unexistent processor cols&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'Col distribution references unexistent processor cols'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_new</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of col distribution not equal to processor cols&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">'Range of col distribution not equal to processor cols'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
@@ -346,7 +346,7 @@
 <span class="w">      </span><span class="k">END DO</span>
 <span class="k">      </span><span class="n">sdp</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sd_disp</span><span class="w">     </span><span class="c">! sdp points to the the next place to store</span>
 <span class="w">      </span><span class="c">! data. It is postincremented.</span>
-<span class="w">      </span><span class="n">smp</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sm_disp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">metalen</span><span class="w">  </span><span class="c">! But smp points to the &quot;working&quot; data, not</span>
+<span class="w">      </span><span class="n">smp</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sm_disp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">metalen</span><span class="w">  </span><span class="c">! But smp points to the "working" data, not</span>
 <span class="w">      </span><span class="c">! the next. It is pre-incremented, so we must</span>
 <span class="w">      </span><span class="c">! first rewind it.</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
@@ -355,7 +355,7 @@
 <span class="w">      </span><span class="n">dst_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span>
-<span class="w">         </span><span class="c">!IF (tr) WRITE(*,*)&quot;block at&quot;,row,col,&quot; is transposed&quot;</span>
+<span class="w">         </span><span class="c">!IF (tr) WRITE(*,*)"block at",row,col," is transposed"</span>
 <span class="w">         </span><span class="n">sym_tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_coordinates</span><span class="p">(</span><span class="n">redist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                           </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">dst_p</span><span class="p">)</span>
@@ -434,10 +434,10 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Declared blocks=&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">redist</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">lastblk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="s2">&quot;actual=&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">blks</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Declared data size=&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">redist</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="s2">&quot;actual=&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">blk_ps</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">" Declared blocks="</span><span class="p">,</span><span class="w"> </span><span class="n">redist</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">lastblk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="s2">"actual="</span><span class="p">,</span><span class="w"> </span><span class="n">blks</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineN</span><span class="o">//</span><span class="s2">" Declared data size="</span><span class="p">,</span><span class="w"> </span><span class="n">redist</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="s2">"actual="</span><span class="p">,</span><span class="w"> </span><span class="n">blk_ps</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">redist</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">recv_data</span><span class="p">)</span>

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-pool~8"></span>
+              <span class="anchor" id="variable-pool~7"></span>
               type(<a href='../type/dbcsr_mempool_type.html'>dbcsr_mempool_type</a>),
             </td>
 <td></td>
@@ -211,12 +211,12 @@
 <span class="w">      </span><span class="c">!! Deallocates all data_areas contained in given mempool.</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">pool</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mempool_clear&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_mempool_clear'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_entry_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">cur</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;pool not allocated&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">pool</span><span class="p">))</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"pool not allocated"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 

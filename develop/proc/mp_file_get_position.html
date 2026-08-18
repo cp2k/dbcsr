@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pos~31"></span>
+              <span class="anchor" id="variable-pos~37"></span>
               integer(kind=file_offset),
             </td>
 <td>intent(out)</td>
@@ -242,7 +242,7 @@
 <span class="cp">#if defined(__parallel)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mpi_file_set_errhandler</span><span class="p">(</span><span class="n">fh</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_ERRORS_RETURN</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mpi_file_get_position</span><span class="p">(</span><span class="n">fh</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_file_set_errhandler @ mp_file_get_position&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">"mpi_file_set_errhandler @ mp_file_get_position"</span><span class="p">)</span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="k">INQUIRE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fh</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">POS</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
 <span class="cp">#endif</span>

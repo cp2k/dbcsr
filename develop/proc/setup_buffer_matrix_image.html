@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~421"></span>
+              <span class="anchor" id="variable-matrix~179"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-imgdist~15"></span>
+              <span class="anchor" id="variable-imgdist~11"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~6"></span>
+              <span class="anchor" id="variable-data_buffer~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-meta_buffer~4"></span>
+              <span class="anchor" id="variable-meta_buffer~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -277,7 +277,7 @@
 
 <span class="w">      </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type</span><span class="p">()</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="s2">&quot;Buffer image of &quot;</span><span class="o">//</span><span class="n">template_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="s2">"Buffer image of "</span><span class="o">//</span><span class="n">template_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">row_blk_size_obj</span><span class="o">=</span><span class="n">template_matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

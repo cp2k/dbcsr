@@ -169,7 +169,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_min_heap.F&quot; 1</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/utils/dbcsr_min_heap.F" 1</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -181,7 +181,7 @@
 <a id="ln-10" name="ln-10" href="#ln-10"></a>
 <a id="ln-11" name="ln-11" href="#ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_min_heap</span>
 <a id="ln-12" name="ln-12" href="#ln-12"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">int_4</span>
-<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a id="ln-13" name="ln-13" href="#ln-13"></a><span class="cp">#include "base/dbcsr_base_uses.f90"</span>
 <a id="ln-14" name="ln-14" href="#ln-14"></a>
 <a id="ln-15" name="ln-15" href="#ln-15"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="k">   PRIVATE</span>
@@ -450,7 +450,7 @@
 <a id="ln-279" name="ln-279" href="#ln-279"></a><span class="w">      </span><span class="n">new_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span>
 <a id="ln-280" name="ln-280" href="#ln-280"></a><span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">all_done</span><span class="p">)</span>
 <a id="ln-281" name="ln-281" href="#ln-281"></a><span class="w">         </span><span class="c">! Switches the parent and the current element if the current</span>
-<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="w">         </span><span class="c">! element&#39;s value is greater than the parent&#39;s value.</span>
+<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="w">         </span><span class="c">! element's value is greater than the parent's value.</span>
 <a id="ln-283" name="ln-283" href="#ln-283"></a><span class="w">         </span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_parent</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <a id="ln-284" name="ln-284" href="#ln-284"></a><span class="w">         </span><span class="n">parent_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_value</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span><span class="w"> </span><span class="n">parent</span><span class="p">)</span>
 <a id="ln-285" name="ln-285" href="#ln-285"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">my_value</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">parent_value</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

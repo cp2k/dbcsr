@@ -179,7 +179,7 @@ mpi_send</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~123"></span>
+              <span class="anchor" id="variable-msg~127"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -194,7 +194,7 @@ mpi_send</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~89"></span>
+              <span class="anchor" id="variable-source~95"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -210,7 +210,7 @@ Transfer identifier</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tag~38"></span>
+              <span class="anchor" id="variable-tag~45"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -226,7 +226,7 @@ Transfer identifier</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~147"></span>
+              <span class="anchor" id="variable-gid~148"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -270,7 +270,7 @@ Transfer identifier</p>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">gid</span>
 <span class="w">         </span><span class="c">!! Message passing environment identifier</span>
 
-<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;mp_recv_r&#39;</span>
+<span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'mp_recv_r'</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span>
 <span class="cp">#if defined(__parallel)</span>
@@ -283,7 +283,7 @@ Transfer identifier</p>
 <span class="w">         </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="cp">#if defined(__parallel)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">mpi_recv</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_REAL</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">tag</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mpi_recv @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">"mpi_recv @ "</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
 <span class="w">         </span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">MPI_STATUS_EXTRACT</span><span class="p">(</span><span class="n">MPI_SOURCE</span><span class="p">)</span>
 <span class="w">         </span><span class="n">tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="n">MPI_STATUS_EXTRACT</span><span class="p">(</span><span class="n">MPI_TAG</span><span class="p">)</span>
@@ -293,7 +293,7 @@ Transfer identifier</p>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
 <span class="w">         </span><span class="c">! only defined in parallel</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;not in parallel mode&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"not in parallel mode"</span><span class="p">)</span>
 <span class="cp">#endif</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">mp_recv_r</span>

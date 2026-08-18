@@ -179,7 +179,7 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~34"></span>
+              <span class="anchor" id="variable-blk_p~9"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -194,7 +194,7 @@ As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-old_blk_p"></span>
+              <span class="anchor" id="variable-old_blk_p~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -213,7 +213,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~7"></span>
+              <span class="anchor" id="variable-row_p~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -232,7 +232,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~6"></span>
+              <span class="anchor" id="variable-col_i~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rbs~7"></span>
+              <span class="anchor" id="variable-rbs~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -270,7 +270,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-cbs~7"></span>
+              <span class="anchor" id="variable-cbs~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -289,7 +289,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~13"></span>
+              <span class="anchor" id="variable-dst~34"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -304,7 +304,7 @@ sizes of the blocked columns</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~7"></span>
+              <span class="anchor" id="variable-src~32"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -403,7 +403,7 @@ transpose data blocks</p>
 <span class="w">      </span><span class="n">nblks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">)</span>
 <span class="w">      </span><span class="n">nrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nblks</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Destination blk_p too small.&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'Destination blk_p too small.'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nblks</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SGN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">old_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">mark</span><span class="p">)</span>
 <span class="w">      </span><span class="n">nze_prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
@@ -418,7 +418,7 @@ transpose data blocks</p>
 <span class="w">                                   </span><span class="n">mark</span><span class="p">)</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Destination data space is too small.&#39;</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'Destination data space is too small.'</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">trb</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">dbcsr_data_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">dst_lb</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="o">/</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                       </span><span class="n">dst_sizes</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>

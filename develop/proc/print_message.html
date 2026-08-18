@@ -186,7 +186,7 @@ output_unit: Logical unit number of output unit.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-message"></span>
+              <span class="anchor" id="variable-message~7"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -201,7 +201,7 @@ output_unit: Logical unit number of output unit.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-output_unit~3"></span>
+              <span class="anchor" id="variable-output_unit~7"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -231,7 +231,7 @@ output_unit: Logical unit number of output unit.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-before"></span>
+              <span class="anchor" id="variable-before~17"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -332,7 +332,7 @@ output_unit: Logical unit number of output unit.</p>
 <span class="w">      </span><span class="c">! Generate the blank lines before the message</span>
 
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blank_lines_before</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(A)"</span><span class="p">)</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">      </span><span class="k">END DO</span>
 
 <span class="w">      </span><span class="c">! Scan for the longest row</span>
@@ -343,7 +343,7 @@ output_unit: Logical unit number of output unit.</p>
 
 <span class="w">      </span><span class="k">DO</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">ipos2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">msglen</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ipos2</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ipos2</span><span class="p">),</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">ibreak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ipos2</span>
 <span class="w">            </span><span class="k">ELSE</span>
@@ -368,7 +368,7 @@ output_unit: Logical unit number of output unit.</p>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">decoration_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">decoration_level</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(T2,A)"</span><span class="p">)</span><span class="w"> </span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END DO</span>
 <span class="k">      END IF</span>
 
@@ -379,7 +379,7 @@ output_unit: Logical unit number of output unit.</p>
 
 <span class="w">      </span><span class="k">DO</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">ipos2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">msglen</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ipos2</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<span class="k">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ipos2</span><span class="p">),</span><span class="w"> </span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">BACK</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">ibreak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ipos2</span>
 <span class="w">            </span><span class="k">ELSE</span>
@@ -390,10 +390,10 @@ output_unit: Logical unit number of output unit.</p>
 <span class="w">         </span><span class="k">END IF</span>
 
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">decoration_level</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ibreak</span><span class="p">)</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(T2,A)"</span><span class="p">)</span><span class="w"> </span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ibreak</span><span class="p">)</span>
 <span class="w">         </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(</span><span class="n">decoration_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="s2">&quot;*** &quot;</span><span class="o">//</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ibreak</span><span class="p">)</span><span class="o">//</span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ipos1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ibreak</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;***&quot;</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(T2,A)"</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">               </span><span class="s2">"*** "</span><span class="o">//</span><span class="n">message</span><span class="p">(</span><span class="n">ipos1</span><span class="p">:</span><span class="n">ibreak</span><span class="p">)</span><span class="o">//</span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span><span class="w"> </span><span class="n">ipos1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ibreak</span><span class="p">)</span><span class="o">//</span><span class="s2">"***"</span>
 <span class="w">         </span><span class="k">END IF</span>
 
 <span class="k">         </span><span class="n">ipos1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ibreak</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
@@ -408,14 +408,14 @@ output_unit: Logical unit number of output unit.</p>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">decoration_level</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">decoration_level</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(T2,A)"</span><span class="p">)</span><span class="w"> </span><span class="nb">REPEAT</span><span class="p">(</span><span class="s2">"*"</span><span class="p">,</span><span class="w"> </span><span class="n">maxrowlen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END DO</span>
 <span class="k">      END IF</span>
 
 <span class="w">      </span><span class="c">! Generate the blank lines after the message</span>
 
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">blank_lines_after</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s2">"(A)"</span><span class="p">)</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">      </span><span class="k">END DO</span>
 
 <span class="k">   END SUBROUTINE </span><span class="n">print_message</span>

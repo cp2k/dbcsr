@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~286"></span>
+              <span class="anchor" id="variable-matrix~32"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -195,7 +195,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-norm~6"></span>
+          <span class="anchor" id="variable-norm~3"></span>
           real(kind=real_8)
         </small>
       </h3>
@@ -248,7 +248,7 @@
 <span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_z</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span>
 <span class="w">            </span><span class="n">norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span><span class="w"> </span><span class="nb">MAXVAL</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">data_z</span><span class="p">)))</span>
 <span class="w">         </span><span class="k">CASE </span><span class="n">DEFAULT</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong data type&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Wrong data type"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      END DO</span>
 <span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>

@@ -183,7 +183,7 @@ they become invalid.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~59"></span>
+              <span class="anchor" id="variable-n~50"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -214,7 +214,7 @@ column indices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_i~9"></span>
+              <span class="anchor" id="variable-col_i~10"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -230,7 +230,7 @@ column indices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~45"></span>
+              <span class="anchor" id="variable-blk_p~36"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -296,8 +296,8 @@ data storage</p>
 <span class="w">         </span><span class="c">!! block pointers</span>
 <span class="w">         </span><span class="c">!! data storage</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_sort_indices&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_sort_indices'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">routineN</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">lmask8</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4294967295_int_8</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">i</span>
@@ -311,10 +311,10 @@ data storage</p>
 
 <span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;row_i too small&#39;</span><span class="p">)</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;col_i too small&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'row_i too small'</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">col_i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'col_i too small'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;blk_p too small&#39;</span><span class="p">)</span>
+<span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">'blk_p too small'</span><span class="p">)</span>
 <span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 <span class="w">         </span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
@@ -350,7 +350,7 @@ data storage</p>
 <span class="w">      </span><span class="k">END DO</span>
 <span class="k">      DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">sort_keys</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; sort, blk_p =&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="s1">' sort, blk_p ='</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_sort_indices</span>

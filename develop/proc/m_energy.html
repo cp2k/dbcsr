@@ -198,9 +198,9 @@ In the cray_pm_energy case, this is the energy used by the node in kJ.</p>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">wt</span>
 
 <span class="cp">#if defined(__CRAY_PM_ENERGY)</span>
-<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_energy</span><span class="p">(</span><span class="s2">&quot;/sys/cray/pm_counters/energy&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_energy</span><span class="p">(</span><span class="s2">"/sys/cray/pm_counters/energy"</span><span class="p">)</span>
 <span class="cp">#elif defined(__CRAY_PM_ACCEL_ENERGY)</span>
-<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_energy</span><span class="p">(</span><span class="s2">&quot;/sys/cray/pm_counters/accel_energy&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_energy</span><span class="p">(</span><span class="s2">"/sys/cray/pm_counters/accel_energy"</span><span class="p">)</span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="n">wt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="c">! fallback default</span>
 <span class="cp">#endif</span>

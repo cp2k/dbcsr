@@ -179,7 +179,7 @@ then a new entry is created.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~188"></span>
+              <span class="anchor" id="variable-routinen~7"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -197,7 +197,7 @@ then a new entry is created.</p>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-routine_id~6"></span>
+          <span class="anchor" id="variable-routine_id~4"></span>
           integer
         </small>
       </h3>
@@ -231,12 +231,12 @@ then a new entry is created.</p>
 <span class="w">      </span><span class="n">timer_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
 <span class="w">      </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span><span class="w"> </span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">default_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">routine_id</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="c">! found an id - let&#39;s return it</span>
-<span class="w">      </span><span class="c">! routine not found - let&#39;s create it</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">routine_id</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">RETURN</span><span class="w"> </span><span class="c">! found an id - let's return it</span>
+<span class="w">      </span><span class="c">! routine not found - let's create it</span>
 
 <span class="w">      </span><span class="c">! enforce space free timer names, to make the output of trace/timings of a fixed number fields</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">INDEX</span><span class="p">(</span><span class="n">routineN</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)),</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: routineN contains spaces: &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">INDEX</span><span class="p">(</span><span class="n">routineN</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)),</span><span class="w"> </span><span class="s1">' '</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"timings_name2id: routineN contains spaces: "</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="w">      </span><span class="c">! register routine_name_dsl with new routine_id</span>
@@ -245,7 +245,7 @@ then a new entry is created.</p>
 
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">r_stat</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: allocation failed&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"timings_name2id: allocation failed"</span><span class="p">)</span>
 <span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routine_id</span>
 <span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routineN</span>
 <span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
@@ -258,7 +258,7 @@ then a new entry is created.</p>
 <span class="w">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">list_push</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span><span class="w"> </span><span class="n">r_stat</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: assertion failed&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"timings_name2id: assertion failed"</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END FUNCTION </span><span class="n">routine_name2id</span>
 </pre></div>
 

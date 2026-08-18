@@ -199,7 +199,7 @@ could be better.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-new_bins~2"></span>
+              <span class="anchor" id="variable-new_bins"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -215,7 +215,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-images~5"></span>
+              <span class="anchor" id="variable-images~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -231,7 +231,7 @@ new image distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source_bins~2"></span>
+              <span class="anchor" id="variable-source_bins"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -263,7 +263,7 @@ Basis for the new distribution and images</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nbins~12"></span>
+              <span class="anchor" id="variable-nbins~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -280,7 +280,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-multiplicity~2"></span>
+              <span class="anchor" id="variable-multiplicity"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -297,7 +297,7 @@ number of images in the new distribution</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nimages~4"></span>
+              <span class="anchor" id="variable-nimages~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -382,9 +382,9 @@ number of images in the new distribution</p>
 <span class="k">         </span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
 <span class="w">         </span><span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span><span class="w"> </span><span class="n">nimages</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="n">nbins</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong bin calculation&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Wrong bin calculation"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nimages</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong image calculation&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Wrong image calculation"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END DO</span>
 <span class="k">   END SUBROUTINE </span><span class="n">rebin_imaged_distribution</span>
 </pre></div>

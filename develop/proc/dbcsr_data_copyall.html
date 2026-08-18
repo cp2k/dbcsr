@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-shallow~2"></span>
+              <span class="anchor" id="variable-shallow~4"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -253,9 +253,9 @@
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to copy unassigned data&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Attempt to copy unassigned data"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Attempt to copy unheld data&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Attempt to copy unheld data"</span><span class="p">)</span>
 <span class="w">      </span><span class="n">shallow_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow</span><span class="p">))</span><span class="w"> </span><span class="n">shallow_copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shallow</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">shallow_copy</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -263,7 +263,7 @@
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">target_area</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Target area does not exist.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Target area does not exist."</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                             </span><span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">source_area</span><span class="p">))</span>
 <span class="w">         </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">source_area</span><span class="p">)</span>
@@ -289,7 +289,7 @@
 <span class="w">               </span><span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END DO</span>
 <span class="k">         CASE </span><span class="n">default</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      END IF</span>
 <span class="c">!      CALL timestop(error_handle)</span>

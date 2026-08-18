@@ -180,7 +180,7 @@ that hint is in the range [0, nblocks].</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-full"></span>
+              <span class="anchor" id="variable-full~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -195,7 +195,7 @@ that hint is in the range [0, nblocks].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~6"></span>
+              <span class="anchor" id="variable-block~142"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -210,7 +210,7 @@ that hint is in the range [0, nblocks].</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nblocks"></span>
+              <span class="anchor" id="variable-nblocks~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -307,10 +307,10 @@ that hint is in the range [0, nblocks].</p>
 <span class="k">         </span><span class="nb">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="k">block</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">               WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A,I9,A,I9,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Want to find block&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                  </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; of&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; blocks&quot;</span>
+<span class="k">               WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(1X,A,I9,A,I9,A)'</span><span class="p">)</span><span class="w"> </span><span class="s2">"Want to find block"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                  </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="s2">" of"</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="s2">" blocks"</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">count</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">nblocks</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Too many searches&quot;</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Too many searches"</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">         END IF</span>
 <span class="k">      END DO</span>

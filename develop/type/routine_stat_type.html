@@ -132,8 +132,8 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/routine_stat_type.html#variable-routine_id">routine_id</a>
-            <a class="list-group-item" href="../type/routine_stat_type.html#variable-routinen~32">routineN</a>
+            <a class="list-group-item" href="../type/routine_stat_type.html#variable-routine_id~5">routine_id</a>
+            <a class="list-group-item" href="../type/routine_stat_type.html#variable-routinen~296">routineN</a>
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-excl_walltime_accu">excl_walltime_accu</a>
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-incl_walltime_accu">incl_walltime_accu</a>
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-excl_energy_accu">excl_energy_accu</a>
@@ -141,7 +141,7 @@
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-active_calls">active_calls</a>
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-total_calls">total_calls</a>
             <a class="list-group-item" href="../type/routine_stat_type.html#variable-stackdepth_accu">stackdepth_accu</a>
-            <a class="list-group-item" href="../type/routine_stat_type.html#variable-trace">trace</a>
+            <a class="list-group-item" href="../type/routine_stat_type.html#variable-trace~15">trace</a>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routine_id"></span>
+              <span class="anchor" id="variable-routine_id~5"></span>
               integer,
             </td>
               <td>public</td>
@@ -213,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~32"></span>
+              <span class="anchor" id="variable-routinen~296"></span>
               character(len=default_string_length),
             </td>
               <td>public</td>
@@ -349,7 +349,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace"></span>
+              <span class="anchor" id="variable-trace~15"></span>
               logical,
             </td>
               <td>public</td>
@@ -377,7 +377,7 @@
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">TYPE </span><span class="n">routine_stat_type</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">routine_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">excl_walltime_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">incl_walltime_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">excl_energy_accu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0_dp</span>

@@ -193,7 +193,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_sparsity~2"></span>
+              <span class="anchor" id="variable-csr_sparsity~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -208,7 +208,7 @@ CSR sparsity (currently only used for testing purposes)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~13"></span>
+              <span class="anchor" id="variable-eps~12"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -257,7 +257,7 @@ CSR sparsity (currently only used for testing purposes)</p>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">template</span><span class="o">=</span><span class="n">dbcsr_mat</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;CSR sparsity&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="s2">"CSR sparsity"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_set</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)</span>

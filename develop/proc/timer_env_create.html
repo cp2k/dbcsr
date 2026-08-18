@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-timer_env~4"></span>
+              <span class="anchor" id="variable-timer_env~2"></span>
               type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
             </td>
 <td></td>
@@ -215,7 +215,7 @@
 
 <span class="nb">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">timer_env</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timer_env_create: allocation failed&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"timer_env_create: allocation failed"</span><span class="p">)</span>
 <span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="c">! tracing disabled by default</span>
 <span class="w">      </span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>

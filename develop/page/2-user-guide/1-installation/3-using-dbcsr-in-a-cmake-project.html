@@ -192,7 +192,7 @@ an alternative base installation path for DBCSR instead:</p>
 <span class="nb">find_package</span><span class="p">(</span><span class="s">MPI</span><span class="p">)</span>
 
 <span class="c"># for Fortran:</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span><span class="w"> </span><span class="s2">&quot;-std=f2018&quot;</span><span class="p">)</span><span class="w">  </span><span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span><span class="w"> </span><span class="s2">"-std=f2018"</span><span class="p">)</span><span class="w">  </span><span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
 <span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span><span class="w"> </span><span class="s">dbcsr_example.f90</span><span class="p">)</span>
 <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span><span class="w"> </span><span class="s">DBCSR::dbcsr</span><span class="p">)</span>
 

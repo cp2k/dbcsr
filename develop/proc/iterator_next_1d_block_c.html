@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~26"></span>
+              <span class="anchor" id="variable-iterator~43"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~49"></span>
+              <span class="anchor" id="variable-row~163"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -208,7 +208,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~19"></span>
+              <span class="anchor" id="variable-column~29"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -224,7 +224,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~35"></span>
+              <span class="anchor" id="variable-block~170"></span>
               complex(kind=real_4),
             </td>
 <td></td>
@@ -239,7 +239,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~28"></span>
+              <span class="anchor" id="variable-transposed~57"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -254,7 +254,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~15"></span>
+              <span class="anchor" id="variable-block_number~18"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -269,7 +269,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~30"></span>
+              <span class="anchor" id="variable-row_size~70"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -285,7 +285,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~29"></span>
+              <span class="anchor" id="variable-col_size~64"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -301,7 +301,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~11"></span>
+              <span class="anchor" id="variable-row_offset~23"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -317,7 +317,7 @@ logical column size of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~11"></span>
+              <span class="anchor" id="variable-col_offset~14"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -371,7 +371,7 @@ logical column size of block</p>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="n">csize</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">rsize</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
-<span class="c">! If we&#39;re pointing to a valid block, return that block.</span>
+<span class="c">! If we're pointing to a valid block, return that block.</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">             </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>

@@ -169,7 +169,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot; 1</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 1</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -187,109 +187,109 @@
 <a id="ln-16" name="ln-16" href="#ln-16"></a><span class="w">   </span><span class="c">!! https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672</span>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="w">   </span><span class="c">!! @endnote</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a>
-<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp&quot; 1</span>
-<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="cp"># 9 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp&quot;</span>
+<a id="ln-19" name="ln-19" href="#ln-19"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1</span>
+<a id="ln-20" name="ln-20" href="#ln-20"></a><span class="cp"># 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"</span>
 <a id="ln-21" name="ln-21" href="#ln-21"></a>
-<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="cp"># 241 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp&quot;</span>
-<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="cp"># 19 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot; 2</span>
-<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="cp"># 20 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-22" name="ln-22" href="#ln-22"></a><span class="cp"># 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"</span>
+<a id="ln-23" name="ln-23" href="#ln-23"></a><span class="cp"># 19 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 2</span>
+<a id="ln-24" name="ln-24" href="#ln-24"></a><span class="cp"># 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-25" name="ln-25" href="#ln-25"></a>
-<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">real_4</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span>
+<a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">real_8</span><span class="p">,</span><span class="w"> </span><span class="n">real_4</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a>
-<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a id="ln-28" name="ln-28" href="#ln-28"></a><span class="cp">#include "base/dbcsr_base_uses.f90"</span>
 <a id="ln-29" name="ln-29" href="#ln-29"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a><span class="k">   PRIVATE</span>
 <a id="ln-31" name="ln-31" href="#ln-31"></a>
 <a id="ln-32" name="ln-32" href="#ln-32"></a><span class="k">   PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">allocate_any</span>
 <a id="ln-33" name="ln-33" href="#ln-33"></a>
 <a id="ln-34" name="ln-34" href="#ln-34"></a><span class="w">   </span><span class="k">INTERFACE </span><span class="n">allocate_any</span>
-<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="cp"># 31 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="cp"># 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-36" name="ln-36" href="#ln-36"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_1d_r_dp</span>
-<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-38" name="ln-38" href="#ln-38"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-39" name="ln-39" href="#ln-39"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_2d_r_dp</span>
-<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_3d_r_dp</span>
-<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-43" name="ln-43" href="#ln-43"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_4d_r_dp</span>
-<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-45" name="ln-45" href="#ln-45"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_5d_r_dp</span>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_6d_r_dp</span>
-<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-49" name="ln-49" href="#ln-49"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_7d_r_dp</span>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="cp"># 34 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="cp"># 31 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="cp"># 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-51" name="ln-51" href="#ln-51"></a><span class="cp"># 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-53" name="ln-53" href="#ln-53"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_1d_r_sp</span>
-<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-55" name="ln-55" href="#ln-55"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_2d_r_sp</span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-57" name="ln-57" href="#ln-57"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_3d_r_sp</span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_4d_r_sp</span>
-<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_5d_r_sp</span>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_6d_r_sp</span>
-<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_7d_r_sp</span>
-<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="cp"># 34 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="cp"># 31 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="cp"># 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-67" name="ln-67" href="#ln-67"></a><span class="cp"># 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_1d_c_dp</span>
-<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_2d_c_dp</span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_3d_c_dp</span>
-<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_4d_c_dp</span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_5d_c_dp</span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-79" name="ln-79" href="#ln-79"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_6d_c_dp</span>
-<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-81" name="ln-81" href="#ln-81"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_7d_c_dp</span>
-<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="cp"># 34 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="cp"># 31 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-82" name="ln-82" href="#ln-82"></a><span class="cp"># 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="cp"># 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-84" name="ln-84" href="#ln-84"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-85" name="ln-85" href="#ln-85"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_1d_c_sp</span>
-<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-86" name="ln-86" href="#ln-86"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-87" name="ln-87" href="#ln-87"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_2d_c_sp</span>
-<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-88" name="ln-88" href="#ln-88"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-89" name="ln-89" href="#ln-89"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_3d_c_sp</span>
-<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-90" name="ln-90" href="#ln-90"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-91" name="ln-91" href="#ln-91"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_4d_c_sp</span>
-<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-92" name="ln-92" href="#ln-92"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-93" name="ln-93" href="#ln-93"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_5d_c_sp</span>
-<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-94" name="ln-94" href="#ln-94"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-95" name="ln-95" href="#ln-95"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_6d_c_sp</span>
-<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-96" name="ln-96" href="#ln-96"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_7d_c_sp</span>
-<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="cp"># 34 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="cp"># 31 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-98" name="ln-98" href="#ln-98"></a><span class="cp"># 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="cp"># 31 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-101" name="ln-101" href="#ln-101"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_1d_i</span>
-<a id="ln-102" name="ln-102" href="#ln-102"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-102" name="ln-102" href="#ln-102"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-103" name="ln-103" href="#ln-103"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_2d_i</span>
-<a id="ln-104" name="ln-104" href="#ln-104"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-104" name="ln-104" href="#ln-104"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-105" name="ln-105" href="#ln-105"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_3d_i</span>
-<a id="ln-106" name="ln-106" href="#ln-106"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-106" name="ln-106" href="#ln-106"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_4d_i</span>
-<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-108" name="ln-108" href="#ln-108"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_5d_i</span>
-<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-110" name="ln-110" href="#ln-110"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-111" name="ln-111" href="#ln-111"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_6d_i</span>
-<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-112" name="ln-112" href="#ln-112"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-113" name="ln-113" href="#ln-113"></a><span class="w">            </span><span class="k">MODULE PROCEDURE </span><span class="n">allocate_7d_i</span>
-<a id="ln-114" name="ln-114" href="#ln-114"></a><span class="cp"># 34 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-115" name="ln-115" href="#ln-115"></a><span class="cp"># 35 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-114" name="ln-114" href="#ln-114"></a><span class="cp"># 34 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-115" name="ln-115" href="#ln-115"></a><span class="cp"># 35 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-117" name="ln-117" href="#ln-117"></a>
 <a id="ln-118" name="ln-118" href="#ln-118"></a><span class="k">CONTAINS</span>
 <a id="ln-119" name="ln-119" href="#ln-119"></a>
-<a id="ln-120" name="ln-120" href="#ln-120"></a><span class="cp"># 40 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-120" name="ln-120" href="#ln-120"></a><span class="cp"># 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-122" name="ln-122" href="#ln-122"></a>
 <a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_1d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-124" name="ln-124" href="#ln-124"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -321,7 +321,7 @@
 <a id="ln-150" name="ln-150" href="#ln-150"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-151" name="ln-151" href="#ln-151"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-152" name="ln-152" href="#ln-152"></a><span class="k">            ELSE</span>
-<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-153" name="ln-153" href="#ln-153"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-154" name="ln-154" href="#ln-154"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-155" name="ln-155" href="#ln-155"></a>
 <a id="ln-156" name="ln-156" href="#ln-156"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -336,7 +336,7 @@
 <a id="ln-165" name="ln-165" href="#ln-165"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-166" name="ln-166" href="#ln-166"></a>
 <a id="ln-167" name="ln-167" href="#ln-167"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-168" name="ln-168" href="#ln-168"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-169" name="ln-169" href="#ln-169"></a>
 <a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_2d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-171" name="ln-171" href="#ln-171"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -368,7 +368,7 @@
 <a id="ln-197" name="ln-197" href="#ln-197"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-198" name="ln-198" href="#ln-198"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-199" name="ln-199" href="#ln-199"></a><span class="k">            ELSE</span>
-<a id="ln-200" name="ln-200" href="#ln-200"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-200" name="ln-200" href="#ln-200"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-202" name="ln-202" href="#ln-202"></a>
 <a id="ln-203" name="ln-203" href="#ln-203"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -383,7 +383,7 @@
 <a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-213" name="ln-213" href="#ln-213"></a>
 <a id="ln-214" name="ln-214" href="#ln-214"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_3d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -415,7 +415,7 @@
 <a id="ln-244" name="ln-244" href="#ln-244"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-245" name="ln-245" href="#ln-245"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-246" name="ln-246" href="#ln-246"></a><span class="k">            ELSE</span>
-<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-249" name="ln-249" href="#ln-249"></a>
 <a id="ln-250" name="ln-250" href="#ln-250"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -430,7 +430,7 @@
 <a id="ln-259" name="ln-259" href="#ln-259"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-260" name="ln-260" href="#ln-260"></a>
 <a id="ln-261" name="ln-261" href="#ln-261"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-263" name="ln-263" href="#ln-263"></a>
 <a id="ln-264" name="ln-264" href="#ln-264"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_4d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-265" name="ln-265" href="#ln-265"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -462,7 +462,7 @@
 <a id="ln-291" name="ln-291" href="#ln-291"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-292" name="ln-292" href="#ln-292"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-293" name="ln-293" href="#ln-293"></a><span class="k">            ELSE</span>
-<a id="ln-294" name="ln-294" href="#ln-294"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-294" name="ln-294" href="#ln-294"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-295" name="ln-295" href="#ln-295"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-296" name="ln-296" href="#ln-296"></a>
 <a id="ln-297" name="ln-297" href="#ln-297"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -477,7 +477,7 @@
 <a id="ln-306" name="ln-306" href="#ln-306"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-307" name="ln-307" href="#ln-307"></a>
 <a id="ln-308" name="ln-308" href="#ln-308"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-310" name="ln-310" href="#ln-310"></a>
 <a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_5d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -509,7 +509,7 @@
 <a id="ln-338" name="ln-338" href="#ln-338"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-339" name="ln-339" href="#ln-339"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-340" name="ln-340" href="#ln-340"></a><span class="k">            ELSE</span>
-<a id="ln-341" name="ln-341" href="#ln-341"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-341" name="ln-341" href="#ln-341"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-342" name="ln-342" href="#ln-342"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-343" name="ln-343" href="#ln-343"></a>
 <a id="ln-344" name="ln-344" href="#ln-344"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -524,7 +524,7 @@
 <a id="ln-353" name="ln-353" href="#ln-353"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-354" name="ln-354" href="#ln-354"></a>
 <a id="ln-355" name="ln-355" href="#ln-355"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-356" name="ln-356" href="#ln-356"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-356" name="ln-356" href="#ln-356"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-357" name="ln-357" href="#ln-357"></a>
 <a id="ln-358" name="ln-358" href="#ln-358"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_6d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-359" name="ln-359" href="#ln-359"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -556,7 +556,7 @@
 <a id="ln-385" name="ln-385" href="#ln-385"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-386" name="ln-386" href="#ln-386"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-387" name="ln-387" href="#ln-387"></a><span class="k">            ELSE</span>
-<a id="ln-388" name="ln-388" href="#ln-388"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-388" name="ln-388" href="#ln-388"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-389" name="ln-389" href="#ln-389"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-390" name="ln-390" href="#ln-390"></a>
 <a id="ln-391" name="ln-391" href="#ln-391"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -565,7 +565,7 @@
 <a id="ln-394" name="ln-394" href="#ln-394"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-395" name="ln-395" href="#ln-395"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-396" name="ln-396" href="#ln-396"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">)),&amp;</span>
-<a id="ln-397" name="ln-397" href="#ln-397"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-397" name="ln-397" href="#ln-397"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-398" name="ln-398" href="#ln-398"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-399" name="ln-399" href="#ln-399"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-400" name="ln-400" href="#ln-400"></a><span class="k">            ELSE</span>
@@ -573,7 +573,7 @@
 <a id="ln-402" name="ln-402" href="#ln-402"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-403" name="ln-403" href="#ln-403"></a>
 <a id="ln-404" name="ln-404" href="#ln-404"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-405" name="ln-405" href="#ln-405"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-405" name="ln-405" href="#ln-405"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-406" name="ln-406" href="#ln-406"></a>
 <a id="ln-407" name="ln-407" href="#ln-407"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_7d_r_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-408" name="ln-408" href="#ln-408"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -605,7 +605,7 @@
 <a id="ln-434" name="ln-434" href="#ln-434"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-435" name="ln-435" href="#ln-435"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-436" name="ln-436" href="#ln-436"></a><span class="k">            ELSE</span>
-<a id="ln-437" name="ln-437" href="#ln-437"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-437" name="ln-437" href="#ln-437"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-438" name="ln-438" href="#ln-438"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-439" name="ln-439" href="#ln-439"></a>
 <a id="ln-440" name="ln-440" href="#ln-440"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -614,7 +614,7 @@
 <a id="ln-443" name="ln-443" href="#ln-443"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-444" name="ln-444" href="#ln-444"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-445" name="ln-445" href="#ln-445"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">),&amp;</span>
-<a id="ln-446" name="ln-446" href="#ln-446"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-446" name="ln-446" href="#ln-446"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-447" name="ln-447" href="#ln-447"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">7</span><span class="p">)),</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-448" name="ln-448" href="#ln-448"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-449" name="ln-449" href="#ln-449"></a><span class="k">            ELSE</span>
@@ -622,9 +622,9 @@
 <a id="ln-451" name="ln-451" href="#ln-451"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-452" name="ln-452" href="#ln-452"></a>
 <a id="ln-453" name="ln-453" href="#ln-453"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-454" name="ln-454" href="#ln-454"></a><span class="cp"># 88 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-455" name="ln-455" href="#ln-455"></a><span class="cp"># 40 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-456" name="ln-456" href="#ln-456"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-454" name="ln-454" href="#ln-454"></a><span class="cp"># 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-455" name="ln-455" href="#ln-455"></a><span class="cp"># 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-456" name="ln-456" href="#ln-456"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-457" name="ln-457" href="#ln-457"></a>
 <a id="ln-458" name="ln-458" href="#ln-458"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_1d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-459" name="ln-459" href="#ln-459"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -656,7 +656,7 @@
 <a id="ln-485" name="ln-485" href="#ln-485"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-486" name="ln-486" href="#ln-486"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-487" name="ln-487" href="#ln-487"></a><span class="k">            ELSE</span>
-<a id="ln-488" name="ln-488" href="#ln-488"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-488" name="ln-488" href="#ln-488"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-489" name="ln-489" href="#ln-489"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-490" name="ln-490" href="#ln-490"></a>
 <a id="ln-491" name="ln-491" href="#ln-491"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -671,7 +671,7 @@
 <a id="ln-500" name="ln-500" href="#ln-500"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-501" name="ln-501" href="#ln-501"></a>
 <a id="ln-502" name="ln-502" href="#ln-502"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-503" name="ln-503" href="#ln-503"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-503" name="ln-503" href="#ln-503"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-504" name="ln-504" href="#ln-504"></a>
 <a id="ln-505" name="ln-505" href="#ln-505"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_2d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-506" name="ln-506" href="#ln-506"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -703,7 +703,7 @@
 <a id="ln-532" name="ln-532" href="#ln-532"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-533" name="ln-533" href="#ln-533"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-534" name="ln-534" href="#ln-534"></a><span class="k">            ELSE</span>
-<a id="ln-535" name="ln-535" href="#ln-535"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-535" name="ln-535" href="#ln-535"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-536" name="ln-536" href="#ln-536"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-537" name="ln-537" href="#ln-537"></a>
 <a id="ln-538" name="ln-538" href="#ln-538"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -718,7 +718,7 @@
 <a id="ln-547" name="ln-547" href="#ln-547"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-548" name="ln-548" href="#ln-548"></a>
 <a id="ln-549" name="ln-549" href="#ln-549"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-550" name="ln-550" href="#ln-550"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-550" name="ln-550" href="#ln-550"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-551" name="ln-551" href="#ln-551"></a>
 <a id="ln-552" name="ln-552" href="#ln-552"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_3d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-553" name="ln-553" href="#ln-553"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -750,7 +750,7 @@
 <a id="ln-579" name="ln-579" href="#ln-579"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-580" name="ln-580" href="#ln-580"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-581" name="ln-581" href="#ln-581"></a><span class="k">            ELSE</span>
-<a id="ln-582" name="ln-582" href="#ln-582"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-582" name="ln-582" href="#ln-582"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-583" name="ln-583" href="#ln-583"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-584" name="ln-584" href="#ln-584"></a>
 <a id="ln-585" name="ln-585" href="#ln-585"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -765,7 +765,7 @@
 <a id="ln-594" name="ln-594" href="#ln-594"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-595" name="ln-595" href="#ln-595"></a>
 <a id="ln-596" name="ln-596" href="#ln-596"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-597" name="ln-597" href="#ln-597"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-597" name="ln-597" href="#ln-597"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-598" name="ln-598" href="#ln-598"></a>
 <a id="ln-599" name="ln-599" href="#ln-599"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_4d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-600" name="ln-600" href="#ln-600"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -797,7 +797,7 @@
 <a id="ln-626" name="ln-626" href="#ln-626"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-627" name="ln-627" href="#ln-627"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-628" name="ln-628" href="#ln-628"></a><span class="k">            ELSE</span>
-<a id="ln-629" name="ln-629" href="#ln-629"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-629" name="ln-629" href="#ln-629"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-630" name="ln-630" href="#ln-630"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-631" name="ln-631" href="#ln-631"></a>
 <a id="ln-632" name="ln-632" href="#ln-632"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -812,7 +812,7 @@
 <a id="ln-641" name="ln-641" href="#ln-641"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-642" name="ln-642" href="#ln-642"></a>
 <a id="ln-643" name="ln-643" href="#ln-643"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-644" name="ln-644" href="#ln-644"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-644" name="ln-644" href="#ln-644"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-645" name="ln-645" href="#ln-645"></a>
 <a id="ln-646" name="ln-646" href="#ln-646"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_5d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-647" name="ln-647" href="#ln-647"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -844,7 +844,7 @@
 <a id="ln-673" name="ln-673" href="#ln-673"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-674" name="ln-674" href="#ln-674"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-675" name="ln-675" href="#ln-675"></a><span class="k">            ELSE</span>
-<a id="ln-676" name="ln-676" href="#ln-676"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-676" name="ln-676" href="#ln-676"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-677" name="ln-677" href="#ln-677"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-678" name="ln-678" href="#ln-678"></a>
 <a id="ln-679" name="ln-679" href="#ln-679"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -859,7 +859,7 @@
 <a id="ln-688" name="ln-688" href="#ln-688"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-689" name="ln-689" href="#ln-689"></a>
 <a id="ln-690" name="ln-690" href="#ln-690"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-691" name="ln-691" href="#ln-691"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-691" name="ln-691" href="#ln-691"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-692" name="ln-692" href="#ln-692"></a>
 <a id="ln-693" name="ln-693" href="#ln-693"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_6d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-694" name="ln-694" href="#ln-694"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -891,7 +891,7 @@
 <a id="ln-720" name="ln-720" href="#ln-720"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-721" name="ln-721" href="#ln-721"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-722" name="ln-722" href="#ln-722"></a><span class="k">            ELSE</span>
-<a id="ln-723" name="ln-723" href="#ln-723"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-723" name="ln-723" href="#ln-723"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-724" name="ln-724" href="#ln-724"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-725" name="ln-725" href="#ln-725"></a>
 <a id="ln-726" name="ln-726" href="#ln-726"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -900,7 +900,7 @@
 <a id="ln-729" name="ln-729" href="#ln-729"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-730" name="ln-730" href="#ln-730"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-731" name="ln-731" href="#ln-731"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">)),&amp;</span>
-<a id="ln-732" name="ln-732" href="#ln-732"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-732" name="ln-732" href="#ln-732"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-733" name="ln-733" href="#ln-733"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-734" name="ln-734" href="#ln-734"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-735" name="ln-735" href="#ln-735"></a><span class="k">            ELSE</span>
@@ -908,7 +908,7 @@
 <a id="ln-737" name="ln-737" href="#ln-737"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-738" name="ln-738" href="#ln-738"></a>
 <a id="ln-739" name="ln-739" href="#ln-739"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-740" name="ln-740" href="#ln-740"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-740" name="ln-740" href="#ln-740"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-741" name="ln-741" href="#ln-741"></a>
 <a id="ln-742" name="ln-742" href="#ln-742"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_7d_r_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-743" name="ln-743" href="#ln-743"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -940,7 +940,7 @@
 <a id="ln-769" name="ln-769" href="#ln-769"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-770" name="ln-770" href="#ln-770"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-771" name="ln-771" href="#ln-771"></a><span class="k">            ELSE</span>
-<a id="ln-772" name="ln-772" href="#ln-772"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-772" name="ln-772" href="#ln-772"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-773" name="ln-773" href="#ln-773"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-774" name="ln-774" href="#ln-774"></a>
 <a id="ln-775" name="ln-775" href="#ln-775"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -949,7 +949,7 @@
 <a id="ln-778" name="ln-778" href="#ln-778"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-779" name="ln-779" href="#ln-779"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-780" name="ln-780" href="#ln-780"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">),&amp;</span>
-<a id="ln-781" name="ln-781" href="#ln-781"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-781" name="ln-781" href="#ln-781"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-782" name="ln-782" href="#ln-782"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">7</span><span class="p">)),</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-783" name="ln-783" href="#ln-783"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-784" name="ln-784" href="#ln-784"></a><span class="k">            ELSE</span>
@@ -957,9 +957,9 @@
 <a id="ln-786" name="ln-786" href="#ln-786"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-787" name="ln-787" href="#ln-787"></a>
 <a id="ln-788" name="ln-788" href="#ln-788"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-789" name="ln-789" href="#ln-789"></a><span class="cp"># 88 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-790" name="ln-790" href="#ln-790"></a><span class="cp"># 40 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-791" name="ln-791" href="#ln-791"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-789" name="ln-789" href="#ln-789"></a><span class="cp"># 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-790" name="ln-790" href="#ln-790"></a><span class="cp"># 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-791" name="ln-791" href="#ln-791"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-792" name="ln-792" href="#ln-792"></a>
 <a id="ln-793" name="ln-793" href="#ln-793"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_1d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-794" name="ln-794" href="#ln-794"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -991,7 +991,7 @@
 <a id="ln-820" name="ln-820" href="#ln-820"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-821" name="ln-821" href="#ln-821"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-822" name="ln-822" href="#ln-822"></a><span class="k">            ELSE</span>
-<a id="ln-823" name="ln-823" href="#ln-823"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-823" name="ln-823" href="#ln-823"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-824" name="ln-824" href="#ln-824"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-825" name="ln-825" href="#ln-825"></a>
 <a id="ln-826" name="ln-826" href="#ln-826"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1006,7 +1006,7 @@
 <a id="ln-835" name="ln-835" href="#ln-835"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-836" name="ln-836" href="#ln-836"></a>
 <a id="ln-837" name="ln-837" href="#ln-837"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-838" name="ln-838" href="#ln-838"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-838" name="ln-838" href="#ln-838"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-839" name="ln-839" href="#ln-839"></a>
 <a id="ln-840" name="ln-840" href="#ln-840"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_2d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-841" name="ln-841" href="#ln-841"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1038,7 +1038,7 @@
 <a id="ln-867" name="ln-867" href="#ln-867"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-868" name="ln-868" href="#ln-868"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-869" name="ln-869" href="#ln-869"></a><span class="k">            ELSE</span>
-<a id="ln-870" name="ln-870" href="#ln-870"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-870" name="ln-870" href="#ln-870"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-871" name="ln-871" href="#ln-871"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-872" name="ln-872" href="#ln-872"></a>
 <a id="ln-873" name="ln-873" href="#ln-873"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1053,7 +1053,7 @@
 <a id="ln-882" name="ln-882" href="#ln-882"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-883" name="ln-883" href="#ln-883"></a>
 <a id="ln-884" name="ln-884" href="#ln-884"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-885" name="ln-885" href="#ln-885"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-885" name="ln-885" href="#ln-885"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-886" name="ln-886" href="#ln-886"></a>
 <a id="ln-887" name="ln-887" href="#ln-887"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_3d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-888" name="ln-888" href="#ln-888"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1085,7 +1085,7 @@
 <a id="ln-914" name="ln-914" href="#ln-914"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-915" name="ln-915" href="#ln-915"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-916" name="ln-916" href="#ln-916"></a><span class="k">            ELSE</span>
-<a id="ln-917" name="ln-917" href="#ln-917"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-917" name="ln-917" href="#ln-917"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-918" name="ln-918" href="#ln-918"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-919" name="ln-919" href="#ln-919"></a>
 <a id="ln-920" name="ln-920" href="#ln-920"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1100,7 +1100,7 @@
 <a id="ln-929" name="ln-929" href="#ln-929"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-930" name="ln-930" href="#ln-930"></a>
 <a id="ln-931" name="ln-931" href="#ln-931"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-932" name="ln-932" href="#ln-932"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-932" name="ln-932" href="#ln-932"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-933" name="ln-933" href="#ln-933"></a>
 <a id="ln-934" name="ln-934" href="#ln-934"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_4d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-935" name="ln-935" href="#ln-935"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1132,7 +1132,7 @@
 <a id="ln-961" name="ln-961" href="#ln-961"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-962" name="ln-962" href="#ln-962"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-963" name="ln-963" href="#ln-963"></a><span class="k">            ELSE</span>
-<a id="ln-964" name="ln-964" href="#ln-964"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-964" name="ln-964" href="#ln-964"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-965" name="ln-965" href="#ln-965"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-966" name="ln-966" href="#ln-966"></a>
 <a id="ln-967" name="ln-967" href="#ln-967"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1147,7 +1147,7 @@
 <a id="ln-976" name="ln-976" href="#ln-976"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-977" name="ln-977" href="#ln-977"></a>
 <a id="ln-978" name="ln-978" href="#ln-978"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-979" name="ln-979" href="#ln-979"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-979" name="ln-979" href="#ln-979"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-980" name="ln-980" href="#ln-980"></a>
 <a id="ln-981" name="ln-981" href="#ln-981"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_5d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-982" name="ln-982" href="#ln-982"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1179,7 +1179,7 @@
 <a id="ln-1008" name="ln-1008" href="#ln-1008"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1009" name="ln-1009" href="#ln-1009"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1010" name="ln-1010" href="#ln-1010"></a><span class="k">            ELSE</span>
-<a id="ln-1011" name="ln-1011" href="#ln-1011"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1011" name="ln-1011" href="#ln-1011"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1012" name="ln-1012" href="#ln-1012"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1013" name="ln-1013" href="#ln-1013"></a>
 <a id="ln-1014" name="ln-1014" href="#ln-1014"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1194,7 +1194,7 @@
 <a id="ln-1023" name="ln-1023" href="#ln-1023"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1024" name="ln-1024" href="#ln-1024"></a>
 <a id="ln-1025" name="ln-1025" href="#ln-1025"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1026" name="ln-1026" href="#ln-1026"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1026" name="ln-1026" href="#ln-1026"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1027" name="ln-1027" href="#ln-1027"></a>
 <a id="ln-1028" name="ln-1028" href="#ln-1028"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_6d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1029" name="ln-1029" href="#ln-1029"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1226,7 +1226,7 @@
 <a id="ln-1055" name="ln-1055" href="#ln-1055"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1056" name="ln-1056" href="#ln-1056"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1057" name="ln-1057" href="#ln-1057"></a><span class="k">            ELSE</span>
-<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1058" name="ln-1058" href="#ln-1058"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1059" name="ln-1059" href="#ln-1059"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1060" name="ln-1060" href="#ln-1060"></a>
 <a id="ln-1061" name="ln-1061" href="#ln-1061"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1235,7 +1235,7 @@
 <a id="ln-1064" name="ln-1064" href="#ln-1064"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1065" name="ln-1065" href="#ln-1065"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1066" name="ln-1066" href="#ln-1066"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">)),&amp;</span>
-<a id="ln-1067" name="ln-1067" href="#ln-1067"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1067" name="ln-1067" href="#ln-1067"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1068" name="ln-1068" href="#ln-1068"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1069" name="ln-1069" href="#ln-1069"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1070" name="ln-1070" href="#ln-1070"></a><span class="k">            ELSE</span>
@@ -1243,7 +1243,7 @@
 <a id="ln-1072" name="ln-1072" href="#ln-1072"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1073" name="ln-1073" href="#ln-1073"></a>
 <a id="ln-1074" name="ln-1074" href="#ln-1074"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1075" name="ln-1075" href="#ln-1075"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1075" name="ln-1075" href="#ln-1075"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1076" name="ln-1076" href="#ln-1076"></a>
 <a id="ln-1077" name="ln-1077" href="#ln-1077"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_7d_c_dp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1078" name="ln-1078" href="#ln-1078"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1275,7 +1275,7 @@
 <a id="ln-1104" name="ln-1104" href="#ln-1104"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1105" name="ln-1105" href="#ln-1105"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1106" name="ln-1106" href="#ln-1106"></a><span class="k">            ELSE</span>
-<a id="ln-1107" name="ln-1107" href="#ln-1107"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1107" name="ln-1107" href="#ln-1107"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1108" name="ln-1108" href="#ln-1108"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1109" name="ln-1109" href="#ln-1109"></a>
 <a id="ln-1110" name="ln-1110" href="#ln-1110"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1284,7 +1284,7 @@
 <a id="ln-1113" name="ln-1113" href="#ln-1113"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1114" name="ln-1114" href="#ln-1114"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1115" name="ln-1115" href="#ln-1115"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">),&amp;</span>
-<a id="ln-1116" name="ln-1116" href="#ln-1116"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1116" name="ln-1116" href="#ln-1116"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1117" name="ln-1117" href="#ln-1117"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">7</span><span class="p">)),</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1118" name="ln-1118" href="#ln-1118"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1119" name="ln-1119" href="#ln-1119"></a><span class="k">            ELSE</span>
@@ -1292,9 +1292,9 @@
 <a id="ln-1121" name="ln-1121" href="#ln-1121"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1122" name="ln-1122" href="#ln-1122"></a>
 <a id="ln-1123" name="ln-1123" href="#ln-1123"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1124" name="ln-1124" href="#ln-1124"></a><span class="cp"># 88 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-1125" name="ln-1125" href="#ln-1125"></a><span class="cp"># 40 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-1126" name="ln-1126" href="#ln-1126"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1124" name="ln-1124" href="#ln-1124"></a><span class="cp"># 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-1125" name="ln-1125" href="#ln-1125"></a><span class="cp"># 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-1126" name="ln-1126" href="#ln-1126"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1127" name="ln-1127" href="#ln-1127"></a>
 <a id="ln-1128" name="ln-1128" href="#ln-1128"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_1d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1129" name="ln-1129" href="#ln-1129"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1326,7 +1326,7 @@
 <a id="ln-1155" name="ln-1155" href="#ln-1155"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1156" name="ln-1156" href="#ln-1156"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1157" name="ln-1157" href="#ln-1157"></a><span class="k">            ELSE</span>
-<a id="ln-1158" name="ln-1158" href="#ln-1158"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1158" name="ln-1158" href="#ln-1158"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1159" name="ln-1159" href="#ln-1159"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1160" name="ln-1160" href="#ln-1160"></a>
 <a id="ln-1161" name="ln-1161" href="#ln-1161"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1341,7 +1341,7 @@
 <a id="ln-1170" name="ln-1170" href="#ln-1170"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1171" name="ln-1171" href="#ln-1171"></a>
 <a id="ln-1172" name="ln-1172" href="#ln-1172"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1173" name="ln-1173" href="#ln-1173"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1173" name="ln-1173" href="#ln-1173"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1174" name="ln-1174" href="#ln-1174"></a>
 <a id="ln-1175" name="ln-1175" href="#ln-1175"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_2d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1176" name="ln-1176" href="#ln-1176"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1373,7 +1373,7 @@
 <a id="ln-1202" name="ln-1202" href="#ln-1202"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1203" name="ln-1203" href="#ln-1203"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1204" name="ln-1204" href="#ln-1204"></a><span class="k">            ELSE</span>
-<a id="ln-1205" name="ln-1205" href="#ln-1205"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1205" name="ln-1205" href="#ln-1205"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1206" name="ln-1206" href="#ln-1206"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1207" name="ln-1207" href="#ln-1207"></a>
 <a id="ln-1208" name="ln-1208" href="#ln-1208"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1388,7 +1388,7 @@
 <a id="ln-1217" name="ln-1217" href="#ln-1217"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1218" name="ln-1218" href="#ln-1218"></a>
 <a id="ln-1219" name="ln-1219" href="#ln-1219"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1220" name="ln-1220" href="#ln-1220"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1220" name="ln-1220" href="#ln-1220"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1221" name="ln-1221" href="#ln-1221"></a>
 <a id="ln-1222" name="ln-1222" href="#ln-1222"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_3d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1223" name="ln-1223" href="#ln-1223"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1420,7 +1420,7 @@
 <a id="ln-1249" name="ln-1249" href="#ln-1249"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1250" name="ln-1250" href="#ln-1250"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1251" name="ln-1251" href="#ln-1251"></a><span class="k">            ELSE</span>
-<a id="ln-1252" name="ln-1252" href="#ln-1252"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1252" name="ln-1252" href="#ln-1252"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1253" name="ln-1253" href="#ln-1253"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1254" name="ln-1254" href="#ln-1254"></a>
 <a id="ln-1255" name="ln-1255" href="#ln-1255"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1435,7 +1435,7 @@
 <a id="ln-1264" name="ln-1264" href="#ln-1264"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1265" name="ln-1265" href="#ln-1265"></a>
 <a id="ln-1266" name="ln-1266" href="#ln-1266"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1267" name="ln-1267" href="#ln-1267"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1267" name="ln-1267" href="#ln-1267"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1268" name="ln-1268" href="#ln-1268"></a>
 <a id="ln-1269" name="ln-1269" href="#ln-1269"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_4d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1270" name="ln-1270" href="#ln-1270"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1467,7 +1467,7 @@
 <a id="ln-1296" name="ln-1296" href="#ln-1296"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1297" name="ln-1297" href="#ln-1297"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1298" name="ln-1298" href="#ln-1298"></a><span class="k">            ELSE</span>
-<a id="ln-1299" name="ln-1299" href="#ln-1299"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1299" name="ln-1299" href="#ln-1299"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1300" name="ln-1300" href="#ln-1300"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1301" name="ln-1301" href="#ln-1301"></a>
 <a id="ln-1302" name="ln-1302" href="#ln-1302"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1482,7 +1482,7 @@
 <a id="ln-1311" name="ln-1311" href="#ln-1311"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1312" name="ln-1312" href="#ln-1312"></a>
 <a id="ln-1313" name="ln-1313" href="#ln-1313"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1314" name="ln-1314" href="#ln-1314"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1314" name="ln-1314" href="#ln-1314"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1315" name="ln-1315" href="#ln-1315"></a>
 <a id="ln-1316" name="ln-1316" href="#ln-1316"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_5d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1317" name="ln-1317" href="#ln-1317"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1514,7 +1514,7 @@
 <a id="ln-1343" name="ln-1343" href="#ln-1343"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1344" name="ln-1344" href="#ln-1344"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1345" name="ln-1345" href="#ln-1345"></a><span class="k">            ELSE</span>
-<a id="ln-1346" name="ln-1346" href="#ln-1346"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1346" name="ln-1346" href="#ln-1346"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1347" name="ln-1347" href="#ln-1347"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1348" name="ln-1348" href="#ln-1348"></a>
 <a id="ln-1349" name="ln-1349" href="#ln-1349"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1529,7 +1529,7 @@
 <a id="ln-1358" name="ln-1358" href="#ln-1358"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1359" name="ln-1359" href="#ln-1359"></a>
 <a id="ln-1360" name="ln-1360" href="#ln-1360"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1361" name="ln-1361" href="#ln-1361"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1361" name="ln-1361" href="#ln-1361"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1362" name="ln-1362" href="#ln-1362"></a>
 <a id="ln-1363" name="ln-1363" href="#ln-1363"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_6d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1364" name="ln-1364" href="#ln-1364"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1561,7 +1561,7 @@
 <a id="ln-1390" name="ln-1390" href="#ln-1390"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1391" name="ln-1391" href="#ln-1391"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1392" name="ln-1392" href="#ln-1392"></a><span class="k">            ELSE</span>
-<a id="ln-1393" name="ln-1393" href="#ln-1393"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1393" name="ln-1393" href="#ln-1393"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1394" name="ln-1394" href="#ln-1394"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1395" name="ln-1395" href="#ln-1395"></a>
 <a id="ln-1396" name="ln-1396" href="#ln-1396"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1570,7 +1570,7 @@
 <a id="ln-1399" name="ln-1399" href="#ln-1399"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1400" name="ln-1400" href="#ln-1400"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1401" name="ln-1401" href="#ln-1401"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">)),&amp;</span>
-<a id="ln-1402" name="ln-1402" href="#ln-1402"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1402" name="ln-1402" href="#ln-1402"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1403" name="ln-1403" href="#ln-1403"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1404" name="ln-1404" href="#ln-1404"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1405" name="ln-1405" href="#ln-1405"></a><span class="k">            ELSE</span>
@@ -1578,7 +1578,7 @@
 <a id="ln-1407" name="ln-1407" href="#ln-1407"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1408" name="ln-1408" href="#ln-1408"></a>
 <a id="ln-1409" name="ln-1409" href="#ln-1409"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1410" name="ln-1410" href="#ln-1410"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1410" name="ln-1410" href="#ln-1410"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1411" name="ln-1411" href="#ln-1411"></a>
 <a id="ln-1412" name="ln-1412" href="#ln-1412"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_7d_c_sp</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1413" name="ln-1413" href="#ln-1413"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1610,7 +1610,7 @@
 <a id="ln-1439" name="ln-1439" href="#ln-1439"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1440" name="ln-1440" href="#ln-1440"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1441" name="ln-1441" href="#ln-1441"></a><span class="k">            ELSE</span>
-<a id="ln-1442" name="ln-1442" href="#ln-1442"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1442" name="ln-1442" href="#ln-1442"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1443" name="ln-1443" href="#ln-1443"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1444" name="ln-1444" href="#ln-1444"></a>
 <a id="ln-1445" name="ln-1445" href="#ln-1445"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1619,7 +1619,7 @@
 <a id="ln-1448" name="ln-1448" href="#ln-1448"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1449" name="ln-1449" href="#ln-1449"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1450" name="ln-1450" href="#ln-1450"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">),&amp;</span>
-<a id="ln-1451" name="ln-1451" href="#ln-1451"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1451" name="ln-1451" href="#ln-1451"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1452" name="ln-1452" href="#ln-1452"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">7</span><span class="p">)),</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1453" name="ln-1453" href="#ln-1453"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1454" name="ln-1454" href="#ln-1454"></a><span class="k">            ELSE</span>
@@ -1627,9 +1627,9 @@
 <a id="ln-1456" name="ln-1456" href="#ln-1456"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1457" name="ln-1457" href="#ln-1457"></a>
 <a id="ln-1458" name="ln-1458" href="#ln-1458"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1459" name="ln-1459" href="#ln-1459"></a><span class="cp"># 88 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-1460" name="ln-1460" href="#ln-1460"></a><span class="cp"># 40 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-1461" name="ln-1461" href="#ln-1461"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1459" name="ln-1459" href="#ln-1459"></a><span class="cp"># 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-1460" name="ln-1460" href="#ln-1460"></a><span class="cp"># 40 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-1461" name="ln-1461" href="#ln-1461"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1462" name="ln-1462" href="#ln-1462"></a>
 <a id="ln-1463" name="ln-1463" href="#ln-1463"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_1d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1464" name="ln-1464" href="#ln-1464"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1661,7 +1661,7 @@
 <a id="ln-1490" name="ln-1490" href="#ln-1490"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1491" name="ln-1491" href="#ln-1491"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1492" name="ln-1492" href="#ln-1492"></a><span class="k">            ELSE</span>
-<a id="ln-1493" name="ln-1493" href="#ln-1493"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1493" name="ln-1493" href="#ln-1493"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1494" name="ln-1494" href="#ln-1494"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1495" name="ln-1495" href="#ln-1495"></a>
 <a id="ln-1496" name="ln-1496" href="#ln-1496"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1676,7 +1676,7 @@
 <a id="ln-1505" name="ln-1505" href="#ln-1505"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1506" name="ln-1506" href="#ln-1506"></a>
 <a id="ln-1507" name="ln-1507" href="#ln-1507"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1508" name="ln-1508" href="#ln-1508"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1508" name="ln-1508" href="#ln-1508"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1509" name="ln-1509" href="#ln-1509"></a>
 <a id="ln-1510" name="ln-1510" href="#ln-1510"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_2d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1511" name="ln-1511" href="#ln-1511"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1708,7 +1708,7 @@
 <a id="ln-1537" name="ln-1537" href="#ln-1537"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1538" name="ln-1538" href="#ln-1538"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1539" name="ln-1539" href="#ln-1539"></a><span class="k">            ELSE</span>
-<a id="ln-1540" name="ln-1540" href="#ln-1540"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1540" name="ln-1540" href="#ln-1540"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1541" name="ln-1541" href="#ln-1541"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1542" name="ln-1542" href="#ln-1542"></a>
 <a id="ln-1543" name="ln-1543" href="#ln-1543"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1723,7 +1723,7 @@
 <a id="ln-1552" name="ln-1552" href="#ln-1552"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1553" name="ln-1553" href="#ln-1553"></a>
 <a id="ln-1554" name="ln-1554" href="#ln-1554"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1555" name="ln-1555" href="#ln-1555"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1555" name="ln-1555" href="#ln-1555"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1556" name="ln-1556" href="#ln-1556"></a>
 <a id="ln-1557" name="ln-1557" href="#ln-1557"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_3d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1558" name="ln-1558" href="#ln-1558"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1755,7 +1755,7 @@
 <a id="ln-1584" name="ln-1584" href="#ln-1584"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1585" name="ln-1585" href="#ln-1585"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1586" name="ln-1586" href="#ln-1586"></a><span class="k">            ELSE</span>
-<a id="ln-1587" name="ln-1587" href="#ln-1587"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1587" name="ln-1587" href="#ln-1587"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1588" name="ln-1588" href="#ln-1588"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1589" name="ln-1589" href="#ln-1589"></a>
 <a id="ln-1590" name="ln-1590" href="#ln-1590"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1770,7 +1770,7 @@
 <a id="ln-1599" name="ln-1599" href="#ln-1599"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1600" name="ln-1600" href="#ln-1600"></a>
 <a id="ln-1601" name="ln-1601" href="#ln-1601"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1602" name="ln-1602" href="#ln-1602"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1602" name="ln-1602" href="#ln-1602"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1603" name="ln-1603" href="#ln-1603"></a>
 <a id="ln-1604" name="ln-1604" href="#ln-1604"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_4d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1605" name="ln-1605" href="#ln-1605"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1802,7 +1802,7 @@
 <a id="ln-1631" name="ln-1631" href="#ln-1631"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1632" name="ln-1632" href="#ln-1632"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1633" name="ln-1633" href="#ln-1633"></a><span class="k">            ELSE</span>
-<a id="ln-1634" name="ln-1634" href="#ln-1634"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1634" name="ln-1634" href="#ln-1634"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1635" name="ln-1635" href="#ln-1635"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1636" name="ln-1636" href="#ln-1636"></a>
 <a id="ln-1637" name="ln-1637" href="#ln-1637"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1817,7 +1817,7 @@
 <a id="ln-1646" name="ln-1646" href="#ln-1646"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1647" name="ln-1647" href="#ln-1647"></a>
 <a id="ln-1648" name="ln-1648" href="#ln-1648"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1649" name="ln-1649" href="#ln-1649"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1649" name="ln-1649" href="#ln-1649"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1650" name="ln-1650" href="#ln-1650"></a>
 <a id="ln-1651" name="ln-1651" href="#ln-1651"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_5d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1652" name="ln-1652" href="#ln-1652"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1849,7 +1849,7 @@
 <a id="ln-1678" name="ln-1678" href="#ln-1678"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1679" name="ln-1679" href="#ln-1679"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1680" name="ln-1680" href="#ln-1680"></a><span class="k">            ELSE</span>
-<a id="ln-1681" name="ln-1681" href="#ln-1681"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1681" name="ln-1681" href="#ln-1681"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1682" name="ln-1682" href="#ln-1682"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1683" name="ln-1683" href="#ln-1683"></a>
 <a id="ln-1684" name="ln-1684" href="#ln-1684"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1864,7 +1864,7 @@
 <a id="ln-1693" name="ln-1693" href="#ln-1693"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1694" name="ln-1694" href="#ln-1694"></a>
 <a id="ln-1695" name="ln-1695" href="#ln-1695"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1696" name="ln-1696" href="#ln-1696"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1696" name="ln-1696" href="#ln-1696"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1697" name="ln-1697" href="#ln-1697"></a>
 <a id="ln-1698" name="ln-1698" href="#ln-1698"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_6d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1699" name="ln-1699" href="#ln-1699"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1896,7 +1896,7 @@
 <a id="ln-1725" name="ln-1725" href="#ln-1725"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1726" name="ln-1726" href="#ln-1726"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1727" name="ln-1727" href="#ln-1727"></a><span class="k">            ELSE</span>
-<a id="ln-1728" name="ln-1728" href="#ln-1728"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1728" name="ln-1728" href="#ln-1728"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1729" name="ln-1729" href="#ln-1729"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1730" name="ln-1730" href="#ln-1730"></a>
 <a id="ln-1731" name="ln-1731" href="#ln-1731"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1905,7 +1905,7 @@
 <a id="ln-1734" name="ln-1734" href="#ln-1734"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1735" name="ln-1735" href="#ln-1735"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1736" name="ln-1736" href="#ln-1736"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">)),&amp;</span>
-<a id="ln-1737" name="ln-1737" href="#ln-1737"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1737" name="ln-1737" href="#ln-1737"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1738" name="ln-1738" href="#ln-1738"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1739" name="ln-1739" href="#ln-1739"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1740" name="ln-1740" href="#ln-1740"></a><span class="k">            ELSE</span>
@@ -1913,7 +1913,7 @@
 <a id="ln-1742" name="ln-1742" href="#ln-1742"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1743" name="ln-1743" href="#ln-1743"></a>
 <a id="ln-1744" name="ln-1744" href="#ln-1744"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1745" name="ln-1745" href="#ln-1745"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1745" name="ln-1745" href="#ln-1745"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1746" name="ln-1746" href="#ln-1746"></a>
 <a id="ln-1747" name="ln-1747" href="#ln-1747"></a><span class="w">         </span><span class="k">SUBROUTINE </span><span class="n">allocate_7d_i</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">,</span><span class="w"> </span><span class="n">shape_spec</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1748" name="ln-1748" href="#ln-1748"></a><span class="w">      </span><span class="c">!! Allocate array according to shape_spec. Possibly assign array from source.</span>
@@ -1945,7 +1945,7 @@
 <a id="ln-1774" name="ln-1774" href="#ln-1774"></a><span class="k">                  </span><span class="n">shape_prv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1775" name="ln-1775" href="#ln-1775"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1776" name="ln-1776" href="#ln-1776"></a><span class="k">            ELSE</span>
-<a id="ln-1777" name="ln-1777" href="#ln-1777"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;either source or shape_spec must be present&quot;</span><span class="p">)</span>
+<a id="ln-1777" name="ln-1777" href="#ln-1777"></a><span class="k">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"either source or shape_spec must be present"</span><span class="p">)</span>
 <a id="ln-1778" name="ln-1778" href="#ln-1778"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1779" name="ln-1779" href="#ln-1779"></a>
 <a id="ln-1780" name="ln-1780" href="#ln-1780"></a><span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
@@ -1954,7 +1954,7 @@
 <a id="ln-1783" name="ln-1783" href="#ln-1783"></a><span class="w">                  </span><span class="k">array</span><span class="p">(:,:,:,:,:,:,:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1784" name="ln-1784" href="#ln-1784"></a><span class="w">               </span><span class="k">ELSE</span>
 <a id="ln-1785" name="ln-1785" href="#ln-1785"></a><span class="k">                  ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">6</span><span class="p">),&amp;</span>
-<a id="ln-1786" name="ln-1786" href="#ln-1786"></a><span class="cp"># 80 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1786" name="ln-1786" href="#ln-1786"></a><span class="cp"># 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1787" name="ln-1787" href="#ln-1787"></a><span class="w">                      </span><span class="p">&amp;</span><span class="w"> </span><span class="n">shape_prv</span><span class="p">(</span><span class="mi">7</span><span class="p">)),</span><span class="w"> </span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
 <a id="ln-1788" name="ln-1788" href="#ln-1788"></a><span class="w">               </span><span class="k">END IF</span>
 <a id="ln-1789" name="ln-1789" href="#ln-1789"></a><span class="k">            ELSE</span>
@@ -1962,8 +1962,8 @@
 <a id="ln-1791" name="ln-1791" href="#ln-1791"></a><span class="w">            </span><span class="k">END IF</span>
 <a id="ln-1792" name="ln-1792" href="#ln-1792"></a>
 <a id="ln-1793" name="ln-1793" href="#ln-1793"></a><span class="k">         END SUBROUTINE</span>
-<a id="ln-1794" name="ln-1794" href="#ln-1794"></a><span class="cp"># 88 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
-<a id="ln-1795" name="ln-1795" href="#ln-1795"></a><span class="cp"># 89 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F&quot;</span>
+<a id="ln-1794" name="ln-1794" href="#ln-1794"></a><span class="cp"># 88 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
+<a id="ln-1795" name="ln-1795" href="#ln-1795"></a><span class="cp"># 89 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"</span>
 <a id="ln-1796" name="ln-1796" href="#ln-1796"></a><span class="k">END MODULE</span>
 </pre></div>
 

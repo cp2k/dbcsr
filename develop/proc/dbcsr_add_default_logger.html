@@ -183,7 +183,7 @@ available within the program</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-logger~2"></span>
+              <span class="anchor" id="variable-logger"></span>
               type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
             </td>
 <td></td>
@@ -222,12 +222,12 @@ available within the program</p>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                   </span><span class="kd">::</span><span class="w"> </span><span class="n">logger</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_add_default_logger&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_add_default_logger'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">routineN</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">max_stack_pointer</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="n">routineP</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s2">&quot;too many default loggers, increase max_stack_pointer in &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
+<span class="w">                          </span><span class="s2">"too many default loggers, increase max_stack_pointer in "</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      </span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>

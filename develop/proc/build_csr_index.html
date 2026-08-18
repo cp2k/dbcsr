@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-mi~4"></span>
+              <span class="anchor" id="variable-mi~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mf~4"></span>
+              <span class="anchor" id="variable-mf~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ai~6"></span>
+              <span class="anchor" id="variable-ai~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-af~6"></span>
+              <span class="anchor" id="variable-af~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_p~8"></span>
+              <span class="anchor" id="variable-row_p"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -362,15 +362,15 @@
 <span class="c">! Counts blocks per row and calculates the offsets.</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(I7,1X,5(A,2(1X,I7)))&#39;</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bci&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span>
-<span class="w">         </span><span class="c">!write(*,&#39;(3(I7))&#39;)list_index(:,ai:af)</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I7,1X,5(A,2(1X,I7)))'</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"bci"</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="s2">";"</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span>
+<span class="w">         </span><span class="c">!write(*,'(3(I7))')list_index(:,ai:af)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      </span><span class="n">counts</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">mi</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">mf</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">mi</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of range"</span><span class="p">)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">mf</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of range"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         </span><span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">END DO</span>
@@ -384,8 +384,8 @@
 <span class="w">         </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
 <span class="w">         </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">af</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of range"</span><span class="p">)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of range"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         </span><span class="n">blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
 <span class="w">         </span><span class="n">blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_index</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~41"></span>
+              <span class="anchor" id="variable-matrix_a~56"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~12"></span>
+              <span class="anchor" id="variable-group~11"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~21"></span>
+              <span class="anchor" id="variable-col_dist~25"></span>
               integer,
             </td>
 <td></td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~21"></span>
+              <span class="anchor" id="variable-row_dist~25"></span>
               integer,
             </td>
 <td></td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sparsity~4"></span>
+              <span class="anchor" id="variable-sparsity~5"></span>
               real(kind=real_8),
             </td>
 <td>intent(in)</td>
@@ -317,7 +317,7 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">%</span><span class="n">get_handle</span><span class="p">(),</span><span class="w"> </span><span class="n">row_dist</span><span class="o">=</span><span class="n">row_dist</span><span class="p">,</span><span class="w"> </span><span class="n">col_dist</span><span class="o">=</span><span class="n">col_dist</span><span class="p">,</span><span class="w"> </span><span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;this is my matrix a&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="s2">"this is my matrix a"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">dist</span><span class="o">=</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">matrix_type</span><span class="o">=</span><span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">row_blk_size</span><span class="o">=</span><span class="n">row_blk_sizes</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~33"></span>
+              <span class="anchor" id="variable-this~21"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~29"></span>
+              <span class="anchor" id="variable-stream~26"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nocopy~9"></span>
+              <span class="anchor" id="variable-nocopy~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -238,7 +238,7 @@ if after growing the new memory should be zeroed. Default: false.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-zero_pad~8"></span>
+              <span class="anchor" id="variable-zero_pad~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -289,7 +289,7 @@ if after growing the new memory should be zeroed. Default: false.</p>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">requested_size_in_bytes</span><span class="p">)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">nocopy</span><span class="p">)</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">zero_pad</span><span class="p">)</span>
-<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"__DBCSR_ACC not compiled in."</span><span class="p">)</span>
 <span class="cp">#else</span>
 
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">my_nocopy</span><span class="p">,</span><span class="w"> </span><span class="n">my_zero_pad</span>
@@ -297,12 +297,12 @@ if after growing the new memory should be zeroed. Default: false.</p>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">new_size</span><span class="p">,</span><span class="w"> </span><span class="n">old_size</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_ensure_size_bytes: not allocated&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_devmem_ensure_size_bytes: not allocated"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_ensure_size_bytes: stream not associated&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_devmem_ensure_size_bytes: stream not associated"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">requested_size_in_bytes</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">         </span><span class="c">!WRITE (*,*) &quot;acc_devmem_ensure_size_bytes: growing dev_mem to: &quot;, data_size</span>
+<span class="w">         </span><span class="c">!WRITE (*,*) "acc_devmem_ensure_size_bytes: growing dev_mem to: ", data_size</span>
 
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 
@@ -313,7 +313,7 @@ if after growing the new memory should be zeroed. Default: false.</p>
 <span class="w">         </span><span class="n">new_cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">C_NULL_PTR</span>
 <span class="nb">         </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_dev_mem_alloc</span><span class="p">(</span><span class="n">new_cptr</span><span class="p">,</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">new_size</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">))</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_ensure_size_bytes: alloc failed&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_devmem_ensure_size_bytes: alloc failed"</span><span class="p">)</span>
 
 <span class="w">         </span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_cptr</span>
 <span class="w">         </span><span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">requested_size_in_bytes</span>
@@ -329,13 +329,13 @@ if after growing the new memory should be zeroed. Default: false.</p>
 <span class="k">            </span><span class="n">stream_cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 <span class="w">            </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_memcpy_d2d</span><span class="p">(</span><span class="n">old_cptr</span><span class="p">,</span><span class="w"> </span><span class="n">new_cptr</span><span class="p">,</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="n">old_size</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">),</span><span class="w"> </span><span class="n">stream_cptr</span><span class="p">)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_ensure_size_bytes: memcpy failed&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_devmem_ensure_size_bytes: memcpy failed"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 
 <span class="k">         CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 <span class="w">         </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_dev_mem_dealloc</span><span class="p">(</span><span class="n">old_cptr</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_ensure_size_bytes: dealloc failed&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_devmem_ensure_size_bytes: dealloc failed"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">END IF</span>
 <span class="cp">#endif</span>

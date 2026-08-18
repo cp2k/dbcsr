@@ -183,7 +183,7 @@ see mp_alltoall</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~30"></span>
+              <span class="anchor" id="variable-sb~6"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -198,7 +198,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~13"></span>
+              <span class="anchor" id="variable-scount~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -213,7 +213,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~12"></span>
+              <span class="anchor" id="variable-sdispl~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -228,7 +228,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~30"></span>
+              <span class="anchor" id="variable-rb~6"></span>
               complex(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -243,7 +243,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~30"></span>
+              <span class="anchor" id="variable-rcount~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -258,7 +258,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~30"></span>
+              <span class="anchor" id="variable-rdispl~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -273,7 +273,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~47"></span>
+              <span class="anchor" id="variable-mp_env~10"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -402,7 +402,7 @@ Use regular global collective; default is no</p>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">remainder_ptp</span><span class="p">))</span><span class="w"> </span><span class="n">remainder_collective</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">remainder_ptp</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">no_hybrid</span><span class="p">))</span><span class="w"> </span><span class="n">no_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">no_hybrid</span>
 <span class="w">         </span><span class="n">all_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
-<span class="w">         </span><span class="c">! Don&#39;t use subcommunicators if they&#39;re not defined.</span>
+<span class="w">         </span><span class="c">! Don't use subcommunicators if they're not defined.</span>
 <span class="w">         </span><span class="n">no_h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">no_h</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">has_MPI</span>
 <span class="w">         </span><span class="n">subgrouped</span><span class="p">:</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">subgroups_defined</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">no_h</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            </span><span class="n">mynode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>

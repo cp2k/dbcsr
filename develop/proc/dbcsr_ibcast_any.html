@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~19"></span>
+              <span class="anchor" id="variable-base~6"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~134"></span>
+              <span class="anchor" id="variable-source~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-grp~4"></span>
+              <span class="anchor" id="variable-grp~2"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~128"></span>
+              <span class="anchor" id="variable-request~4"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -269,7 +269,7 @@
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">mp_ibcast</span><span class="p">(</span><span class="n">base</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">grp</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incorrect data type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_ibcast_any</span>
 </pre></div>

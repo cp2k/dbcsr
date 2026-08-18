@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~60"></span>
+              <span class="anchor" id="variable-iterator~56"></span>
               type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~194"></span>
+              <span class="anchor" id="variable-row~186"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -206,7 +206,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~41"></span>
+              <span class="anchor" id="variable-column~40"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~194"></span>
+              <span class="anchor" id="variable-block~189"></span>
               real(kind=real_4),
             </td>
 <td></td>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~92"></span>
+              <span class="anchor" id="variable-row_size~86"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -266,7 +266,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~85"></span>
+              <span class="anchor" id="variable-col_size~80"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -340,7 +340,7 @@
 
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block_prv</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">column</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                            </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">block_number</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_offset</span><span class="p">)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Block is transposed!&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Block is transposed!"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_iterator_next_1d_block_notrans_s</span>
 </pre></div>
 

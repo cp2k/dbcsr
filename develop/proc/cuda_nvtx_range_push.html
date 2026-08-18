@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-routinen~143"></span>
+              <span class="anchor" id="variable-routinen~118"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
@@ -212,8 +212,8 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">level</span>
 <span class="w">      </span><span class="n">level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuda_nvtx_range_push_dc</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 <span class="cp">#else</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;cuda_nvtx_range_push: &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                       </span><span class="s2">&quot;__CUDA_PROFILING not compiled in, but called with:&quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">))</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">"cuda_nvtx_range_push: "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                       </span><span class="s2">"__CUDA_PROFILING not compiled in, but called with:"</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">))</span>
 <span class="cp">#endif</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_push</span>
 </pre></div>

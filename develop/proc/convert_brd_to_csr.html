@@ -193,7 +193,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~7"></span>
+              <span class="anchor" id="variable-csr_mat~8"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -232,7 +232,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">csr_mat</span>
 <span class="w">         </span><span class="c">!! CSR matrix</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;convert_brd_to_csr&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'convert_brd_to_csr'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blkcol</span><span class="p">,</span><span class="w"> </span><span class="n">blkrow</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_offset</span><span class="p">,</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">csr_ind</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_ind</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                 </span><span class="n">el_sum</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ind_blk_data</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">local_row_ind</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">node_row_offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -257,7 +257,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
 <span class="w">      </span><span class="n">new_ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">has_indices</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">has_mapping</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;DBCSR mapping of CSR matrix must be defined&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"DBCSR mapping of CSR matrix must be defined"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="c">! Calculate mapping between CSR matrix and DBCSR matrix if not yet defined</span>
 <span class="w">      </span><span class="c">!IF (.NOT. csr_mat%has_mapping ) THEN</span>
@@ -304,7 +304,7 @@ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
 <span class="w">                                        </span><span class="n">col_offset</span><span class="o">=</span><span class="n">col_blk_offset</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;DBCSR block data must not be transposed&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"DBCSR block data must not be transposed"</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">blkrow</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">prev_blkrow</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="c">! new block row</span>
 <span class="w">            </span><span class="n">local_row_ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_blk_offset</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">node_row_offset</span><span class="w"> </span><span class="c">! actually: local row index - 1</span>

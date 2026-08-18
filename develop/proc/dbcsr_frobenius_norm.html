@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~287"></span>
+              <span class="anchor" id="variable-matrix~33"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local~12"></span>
+              <span class="anchor" id="variable-local~5"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -210,7 +210,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-norm~7"></span>
+          <span class="anchor" id="variable-norm~4"></span>
           real(kind=real_8)
         </small>
       </h3>
@@ -237,7 +237,7 @@
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">local</span>
 <span class="w">      </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">norm</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_frobenius_norm&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_frobenius_norm'</span>
 
 <span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_c</span>
 <span class="w">      </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">data_z</span>
@@ -276,16 +276,16 @@
 <span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_c</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span>
 <span class="w">            </span><span class="n">fac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">any_sym</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">col</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only nonsymmetric matrix so far&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Only nonsymmetric matrix so far"</span><span class="p">)</span>
 <span class="w">            </span><span class="n">norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">norm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fac</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">CONJG</span><span class="p">(</span><span class="n">data_c</span><span class="p">)</span><span class="o">*</span><span class="n">data_c</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">data_z</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">)</span>
 <span class="w">            </span><span class="n">fac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0_dp</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">any_sym</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">col</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only nonsymmetric matrix so far&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Only nonsymmetric matrix so far"</span><span class="p">)</span>
 <span class="w">            </span><span class="n">norm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">norm</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fac</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">CONJG</span><span class="p">(</span><span class="n">data_z</span><span class="p">)</span><span class="o">*</span><span class="n">data_z</span><span class="p">),</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CASE </span><span class="n">DEFAULT</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong data type&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Wrong data type"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      END DO</span>
 <span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-iterator~18"></span>
+              <span class="anchor" id="variable-iterator~35"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~42"></span>
+              <span class="anchor" id="variable-row~156"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -208,7 +208,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-column~12"></span>
+              <span class="anchor" id="variable-column~22"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -224,7 +224,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~28"></span>
+              <span class="anchor" id="variable-block~163"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -239,7 +239,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~21"></span>
+              <span class="anchor" id="variable-transposed~50"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -254,7 +254,7 @@ column of the data block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_number~8"></span>
+              <span class="anchor" id="variable-block_number~11"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -273,7 +273,7 @@ logical column offset of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~23"></span>
+              <span class="anchor" id="variable-row_size~63"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -292,7 +292,7 @@ logical column offset of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~22"></span>
+              <span class="anchor" id="variable-col_size~57"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -311,7 +311,7 @@ logical column offset of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_offset~4"></span>
+              <span class="anchor" id="variable-row_offset~16"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -330,7 +330,7 @@ logical column offset of block</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_offset~4"></span>
+              <span class="anchor" id="variable-col_offset~7"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -385,7 +385,7 @@ logical column offset of block</p>
 <span class="w">         </span><span class="c">!! logical row offset of block</span>
 <span class="w">         </span><span class="c">!! logical column offset of block</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;iterator_next_area_block&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'iterator_next_area_block'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">block_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">block_row_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="n">csize</span><span class="p">,</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">rsize</span>

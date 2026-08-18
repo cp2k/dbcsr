@@ -246,7 +246,7 @@ dbcsr_complete_redistribute</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src_sizes"></span>
+              <span class="anchor" id="variable-src_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -262,7 +262,7 @@ sizes of target blocks</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst_sizes"></span>
+              <span class="anchor" id="variable-dst_sizes~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -362,7 +362,7 @@ sizes of target blocks</p>
 <span class="k">      </span><span class="n">current_int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_int</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">current_src</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">n_src</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">current_dst</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">n_dst</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">current_int</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">numints</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Ran out of space.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Ran out of space."</span><span class="p">)</span>
 <span class="w">         </span><span class="c">! Calculate how many elements do the current blocks have in</span>
 <span class="w">         </span><span class="c">! common and record these as going to the current target block.</span>
 <span class="w">         </span><span class="n">common_extent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MIN</span><span class="p">(</span><span class="n">s_src</span><span class="p">,</span><span class="w"> </span><span class="n">s_dst</span><span class="p">)</span>
@@ -370,14 +370,14 @@ sizes of target blocks</p>
 <span class="w">         </span><span class="n">ints</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">current_int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">common_extent</span>
 <span class="w">         </span><span class="n">ints</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">current_int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src_off</span>
 <span class="w">         </span><span class="n">ints</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">current_int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dst_off</span>
-<span class="w">         </span><span class="c">! We&#39;ve used up the common extents.</span>
+<span class="w">         </span><span class="c">! We've used up the common extents.</span>
 <span class="w">         </span><span class="n">s_src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s_src</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">common_extent</span>
 <span class="w">         </span><span class="n">s_dst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s_dst</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">common_extent</span>
 <span class="w">         </span><span class="n">src_off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src_off</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">common_extent</span>
 <span class="w">         </span><span class="n">dst_off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dst_off</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">common_extent</span>
-<span class="w">         </span><span class="c">! We&#39;ve used up another block.</span>
+<span class="w">         </span><span class="c">! We've used up another block.</span>
 <span class="w">         </span><span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">current_src</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">current_src</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">         </span><span class="c">! Check if we&#39;ve used up the whole source block.</span>
+<span class="w">         </span><span class="c">! Check if we've used up the whole source block.</span>
 <span class="w">         </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(</span><span class="n">s_src</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">current_src</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">n_src</span><span class="p">)</span>
 <span class="w">            </span><span class="n">current_src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_src</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">src_off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>

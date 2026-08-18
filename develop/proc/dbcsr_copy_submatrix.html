@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~42"></span>
+              <span class="anchor" id="variable-matrix_b~12"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~62"></span>
+              <span class="anchor" id="variable-matrix_a~16"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~37"></span>
+              <span class="anchor" id="variable-name~5"></span>
               character(len=*),
             </td>
 <td>intent(in),</td>
@@ -254,7 +254,7 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-shallow_data~3"></span>
+              <span class="anchor" id="variable-shallow_data~2"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -301,7 +301,7 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">shallow_data</span>
 <span class="w">         </span><span class="c">!! shallow data copy</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_copy_submatrix&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_copy_submatrix'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">nblocks</span><span class="p">,</span><span class="w"> </span><span class="n">new_blk</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">old_blk</span><span class="p">,</span><span class="w"> </span><span class="n">row</span>
@@ -321,11 +321,11 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
 <span class="w">      </span><span class="c">! Verify assumptions.</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Size of bounds specifier must be 2"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Size of bounds specifier must be 2"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">! Setup target matrix</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">)</span>
@@ -365,7 +365,7 @@ columns to extract (array of size 2 holding the lower and upper inclusive bounds
 <span class="w">         </span><span class="c">! For the shallow copy the source matrix data is referenced.</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
 <span class="w">         </span><span class="n">nblocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_num_blocks</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="c">! High estimate.</span>
-<span class="w">         </span><span class="c">! Shallow copy goes through source&#39;s data blocks and inserts</span>
+<span class="w">         </span><span class="c">! Shallow copy goes through source's data blocks and inserts</span>
 <span class="w">         </span><span class="c">! the only the ones corresponding to the submatrix specifier</span>
 <span class="w">         </span><span class="c">! into the target. Block pointers must remain the same as in</span>
 <span class="w">         </span><span class="c">! the source.</span>

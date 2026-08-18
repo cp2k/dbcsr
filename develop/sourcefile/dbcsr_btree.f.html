@@ -169,7 +169,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot; 1</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F" 1</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -179,11 +179,11 @@
 <a id="ln-8" name="ln-8" href="#ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
 <a id="ln-9" name="ln-9" href="#ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-10" name="ln-10" href="#ln-10"></a>
-<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp&quot; 1</span>
-<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="cp"># 9 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp&quot;</span>
+<a id="ln-11" name="ln-11" href="#ln-11"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp" 1</span>
+<a id="ln-12" name="ln-12" href="#ln-12"></a><span class="cp"># 9 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp"</span>
 <a id="ln-13" name="ln-13" href="#ln-13"></a>
-<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="cp"># 56 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp&quot;</span>
-<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="cp"># 11 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot; 2</span>
+<a id="ln-14" name="ln-14" href="#ln-14"></a><span class="cp"># 56 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.fypp"</span>
+<a id="ln-15" name="ln-15" href="#ln-15"></a><span class="cp"># 11 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F" 2</span>
 <a id="ln-16" name="ln-16" href="#ln-16"></a>
 <a id="ln-17" name="ln-17" href="#ln-17"></a><span class="k">MODULE </span><span class="n">dbcsr_btree</span>
 <a id="ln-18" name="ln-18" href="#ln-18"></a><span class="w">   </span><span class="c">!! B-tree</span>
@@ -193,124 +193,124 @@
 <a id="ln-22" name="ln-22" href="#ln-22"></a><span class="w">   </span><span class="c">!API</span>
 <a id="ln-23" name="ln-23" href="#ln-23"></a><span class="w">   </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_new</span><span class="p">,</span><span class="w"> </span><span class="n">btree_add</span><span class="p">,</span><span class="w"> </span><span class="n">btree_find</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <a id="ln-24" name="ln-24" href="#ln-24"></a><span class="w">             </span><span class="n">btree_delete</span><span class="p">,</span><span class="w"> </span><span class="n">btree_get_entries</span>
-<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-25" name="ln-25" href="#ln-25"></a><span class="cp"># 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">      </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_i8_sp2d</span>
-<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-27" name="ln-27" href="#ln-27"></a><span class="cp"># 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">      </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_i8_dp2d</span>
-<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="cp"># 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a><span class="w">      </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_i8_cp2d</span>
-<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="cp"># 21 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-31" name="ln-31" href="#ln-31"></a><span class="cp"># 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-32" name="ln-32" href="#ln-32"></a><span class="w">      </span><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_i8_zp2d</span>
-<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="cp"># 23 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-33" name="ln-33" href="#ln-33"></a><span class="cp"># 23 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-34" name="ln-34" href="#ln-34"></a>
 <a id="ln-35" name="ln-35" href="#ln-35"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">keyt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <a id="ln-36" name="ln-36" href="#ln-36"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">valt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SELECTED_INT_KIND</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 <a id="ln-38" name="ln-38" href="#ln-38"></a><span class="w">   </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">KIND</span><span class="p">(</span><span class="mf">0.0d0</span><span class="p">)</span>
 <a id="ln-39" name="ln-39" href="#ln-39"></a>
-<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-40" name="ln-40" href="#ln-40"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-41" name="ln-41" href="#ln-41"></a><span class="k">TYPE </span><span class="n">btree_data_sp2d</span>
-<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-42" name="ln-42" href="#ln-42"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-43" name="ln-43" href="#ln-43"></a><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-44" name="ln-44" href="#ln-44"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-45" name="ln-45" href="#ln-45"></a><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-46" name="ln-46" href="#ln-46"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-47" name="ln-47" href="#ln-47"></a><span class="k">END TYPE </span><span class="n">btree_data_sp2d</span>
-<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-48" name="ln-48" href="#ln-48"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-49" name="ln-49" href="#ln-49"></a><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_data_sp2d</span>
-<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-50" name="ln-50" href="#ln-50"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-51" name="ln-51" href="#ln-51"></a><span class="k">TYPE </span><span class="n">btree_data_dp2d</span>
-<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-52" name="ln-52" href="#ln-52"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-53" name="ln-53" href="#ln-53"></a><span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-54" name="ln-54" href="#ln-54"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-55" name="ln-55" href="#ln-55"></a><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-56" name="ln-56" href="#ln-56"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-57" name="ln-57" href="#ln-57"></a><span class="k">END TYPE </span><span class="n">btree_data_dp2d</span>
-<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-58" name="ln-58" href="#ln-58"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_data_dp2d</span>
-<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-60" name="ln-60" href="#ln-60"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-61" name="ln-61" href="#ln-61"></a><span class="k">TYPE </span><span class="n">btree_data_cp2d</span>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-63" name="ln-63" href="#ln-63"></a><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-64" name="ln-64" href="#ln-64"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-66" name="ln-66" href="#ln-66"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-67" name="ln-67" href="#ln-67"></a><span class="k">END TYPE </span><span class="n">btree_data_cp2d</span>
-<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-68" name="ln-68" href="#ln-68"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-69" name="ln-69" href="#ln-69"></a><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_data_cp2d</span>
-<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-70" name="ln-70" href="#ln-70"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="k">TYPE </span><span class="n">btree_data_zp2d</span>
-<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-72" name="ln-72" href="#ln-72"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-76" name="ln-76" href="#ln-76"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-77" name="ln-77" href="#ln-77"></a><span class="k">END TYPE </span><span class="n">btree_data_zp2d</span>
-<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="cp"># 30 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-78" name="ln-78" href="#ln-78"></a><span class="cp"># 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-79" name="ln-79" href="#ln-79"></a><span class="k">PUBLIC</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">btree_data_zp2d</span>
-<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="cp"># 32 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-80" name="ln-80" href="#ln-80"></a><span class="cp"># 32 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-81" name="ln-81" href="#ln-81"></a>
 <a id="ln-82" name="ln-82" href="#ln-82"></a><span class="w">   </span><span class="k">INTERFACE </span><span class="n">btree_new</span>
-<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="cp"># 35 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-83" name="ln-83" href="#ln-83"></a><span class="cp"># 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-84" name="ln-84" href="#ln-84"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_new_i8_sp2d</span>
-<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="cp"># 35 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-85" name="ln-85" href="#ln-85"></a><span class="cp"># 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-86" name="ln-86" href="#ln-86"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_new_i8_dp2d</span>
-<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="cp"># 35 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-87" name="ln-87" href="#ln-87"></a><span class="cp"># 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-88" name="ln-88" href="#ln-88"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_new_i8_cp2d</span>
-<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="cp"># 35 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-89" name="ln-89" href="#ln-89"></a><span class="cp"># 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-90" name="ln-90" href="#ln-90"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_new_i8_zp2d</span>
-<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="cp"># 37 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-91" name="ln-91" href="#ln-91"></a><span class="cp"># 37 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-92" name="ln-92" href="#ln-92"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-93" name="ln-93" href="#ln-93"></a>
 <a id="ln-94" name="ln-94" href="#ln-94"></a><span class="k">   INTERFACE </span><span class="n">btree_add</span>
-<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-95" name="ln-95" href="#ln-95"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-96" name="ln-96" href="#ln-96"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_add_i8_sp2d</span>
-<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-97" name="ln-97" href="#ln-97"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-98" name="ln-98" href="#ln-98"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_add_i8_dp2d</span>
-<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-99" name="ln-99" href="#ln-99"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_add_i8_cp2d</span>
-<a id="ln-101" name="ln-101" href="#ln-101"></a><span class="cp"># 41 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-101" name="ln-101" href="#ln-101"></a><span class="cp"># 41 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-102" name="ln-102" href="#ln-102"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_add_i8_zp2d</span>
-<a id="ln-103" name="ln-103" href="#ln-103"></a><span class="cp"># 43 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-103" name="ln-103" href="#ln-103"></a><span class="cp"># 43 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-104" name="ln-104" href="#ln-104"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-105" name="ln-105" href="#ln-105"></a>
 <a id="ln-106" name="ln-106" href="#ln-106"></a><span class="k">   INTERFACE </span><span class="n">btree_find</span>
-<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="cp"># 47 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="cp"># 47 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_find_i8_sp2d</span>
-<a id="ln-109" name="ln-109" href="#ln-109"></a><span class="cp"># 47 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-109" name="ln-109" href="#ln-109"></a><span class="cp"># 47 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_find_i8_dp2d</span>
-<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="cp"># 47 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-111" name="ln-111" href="#ln-111"></a><span class="cp"># 47 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-112" name="ln-112" href="#ln-112"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_find_i8_cp2d</span>
-<a id="ln-113" name="ln-113" href="#ln-113"></a><span class="cp"># 47 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-113" name="ln-113" href="#ln-113"></a><span class="cp"># 47 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-114" name="ln-114" href="#ln-114"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_find_i8_zp2d</span>
-<a id="ln-115" name="ln-115" href="#ln-115"></a><span class="cp"># 49 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-115" name="ln-115" href="#ln-115"></a><span class="cp"># 49 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-117" name="ln-117" href="#ln-117"></a>
 <a id="ln-118" name="ln-118" href="#ln-118"></a><span class="k">   INTERFACE </span><span class="n">btree_delete</span>
-<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="cp"># 53 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="cp"># 53 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-120" name="ln-120" href="#ln-120"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_delete_i8_sp2d</span>
-<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="cp"># 53 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-121" name="ln-121" href="#ln-121"></a><span class="cp"># 53 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_delete_i8_dp2d</span>
-<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="cp"># 53 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="cp"># 53 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-124" name="ln-124" href="#ln-124"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_delete_i8_cp2d</span>
-<a id="ln-125" name="ln-125" href="#ln-125"></a><span class="cp"># 53 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-125" name="ln-125" href="#ln-125"></a><span class="cp"># 53 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-126" name="ln-126" href="#ln-126"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_delete_i8_zp2d</span>
-<a id="ln-127" name="ln-127" href="#ln-127"></a><span class="cp"># 55 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-127" name="ln-127" href="#ln-127"></a><span class="cp"># 55 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-129" name="ln-129" href="#ln-129"></a>
 <a id="ln-130" name="ln-130" href="#ln-130"></a><span class="k">   INTERFACE </span><span class="n">btree_get_entries</span>
-<a id="ln-131" name="ln-131" href="#ln-131"></a><span class="cp"># 59 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-131" name="ln-131" href="#ln-131"></a><span class="cp"># 59 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_get_entries_i8_sp2d</span>
-<a id="ln-133" name="ln-133" href="#ln-133"></a><span class="cp"># 59 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-133" name="ln-133" href="#ln-133"></a><span class="cp"># 59 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-134" name="ln-134" href="#ln-134"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_get_entries_i8_dp2d</span>
-<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="cp"># 59 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="cp"># 59 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-136" name="ln-136" href="#ln-136"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_get_entries_i8_cp2d</span>
-<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="cp"># 59 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="cp"># 59 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-138" name="ln-138" href="#ln-138"></a><span class="w">         </span><span class="k">MODULE PROCEDURE </span><span class="n">btree_get_entries_i8_zp2d</span>
-<a id="ln-139" name="ln-139" href="#ln-139"></a><span class="cp"># 61 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-139" name="ln-139" href="#ln-139"></a><span class="cp"># 61 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-140" name="ln-140" href="#ln-140"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-141" name="ln-141" href="#ln-141"></a>
-<a id="ln-142" name="ln-142" href="#ln-142"></a><span class="cp"># 64 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-142" name="ln-142" href="#ln-142"></a><span class="cp"># 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-143" name="ln-143" href="#ln-143"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_node_i8_sp2d</span>
 <a id="ln-144" name="ln-144" href="#ln-144"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <a id="ln-145" name="ln-145" href="#ln-145"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
@@ -335,7 +335,7 @@
 <a id="ln-164" name="ln-164" href="#ln-164"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_i8_sp2d</span>
 <a id="ln-165" name="ln-165" href="#ln-165"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_structure_i8_sp2d</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btree_node_structure_i8_sp2d</span><span class="w"> </span><span class="p">()</span>
 <a id="ln-166" name="ln-166" href="#ln-166"></a><span class="w">      </span><span class="k">END TYPE </span><span class="n">btree_i8_sp2d</span>
-<a id="ln-167" name="ln-167" href="#ln-167"></a><span class="cp"># 64 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-167" name="ln-167" href="#ln-167"></a><span class="cp"># 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-168" name="ln-168" href="#ln-168"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_node_i8_dp2d</span>
 <a id="ln-169" name="ln-169" href="#ln-169"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <a id="ln-170" name="ln-170" href="#ln-170"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
@@ -360,7 +360,7 @@
 <a id="ln-189" name="ln-189" href="#ln-189"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_i8_dp2d</span>
 <a id="ln-190" name="ln-190" href="#ln-190"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_structure_i8_dp2d</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btree_node_structure_i8_dp2d</span><span class="w"> </span><span class="p">()</span>
 <a id="ln-191" name="ln-191" href="#ln-191"></a><span class="w">      </span><span class="k">END TYPE </span><span class="n">btree_i8_dp2d</span>
-<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="cp"># 64 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="cp"># 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-193" name="ln-193" href="#ln-193"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_node_i8_cp2d</span>
 <a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
@@ -385,7 +385,7 @@
 <a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_i8_cp2d</span>
 <a id="ln-215" name="ln-215" href="#ln-215"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_structure_i8_cp2d</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btree_node_structure_i8_cp2d</span><span class="w"> </span><span class="p">()</span>
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">      </span><span class="k">END TYPE </span><span class="n">btree_i8_cp2d</span>
-<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="cp"># 64 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="cp"># 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_node_i8_zp2d</span>
 <a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <a id="ln-220" name="ln-220" href="#ln-220"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
@@ -410,11 +410,11 @@
 <a id="ln-239" name="ln-239" href="#ln-239"></a><span class="w">      </span><span class="k">TYPE </span><span class="n">btree_i8_zp2d</span>
 <a id="ln-240" name="ln-240" href="#ln-240"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_structure_i8_zp2d</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">btree_node_structure_i8_zp2d</span><span class="w"> </span><span class="p">()</span>
 <a id="ln-241" name="ln-241" href="#ln-241"></a><span class="w">      </span><span class="k">END TYPE </span><span class="n">btree_i8_zp2d</span>
-<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="cp"># 89 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="cp"># 89 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-243" name="ln-243" href="#ln-243"></a>
 <a id="ln-244" name="ln-244" href="#ln-244"></a><span class="k">CONTAINS</span>
 <a id="ln-245" name="ln-245" href="#ln-245"></a>
-<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="cp"># 93 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="cp"># 93 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">btree_new_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span>
 <a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">order</span>
@@ -900,14 +900,14 @@
 <a id="ln-729" name="ln-729" href="#ln-729"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-730" name="ln-730" href="#ln-730"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-731" name="ln-731" href="#ln-731"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-732" name="ln-732" href="#ln-732"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-732" name="ln-732" href="#ln-732"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-733" name="ln-733" href="#ln-733"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-734" name="ln-734" href="#ln-734"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-735" name="ln-735" href="#ln-735"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-736" name="ln-736" href="#ln-736"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-737" name="ln-737" href="#ln-737"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-737" name="ln-737" href="#ln-737"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-738" name="ln-738" href="#ln-738"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_ge_pos_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-<a id="ln-739" name="ln-739" href="#ln-739"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-739" name="ln-739" href="#ln-739"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-740" name="ln-740" href="#ln-740"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-741" name="ln-741" href="#ln-741"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-742" name="ln-742" href="#ln-742"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -920,7 +920,7 @@
 <a id="ln-749" name="ln-749" href="#ln-749"></a><span class="k">               END IF</span>
 <a id="ln-750" name="ln-750" href="#ln-750"></a><span class="k">            END IF</span>
 <a id="ln-751" name="ln-751" href="#ln-751"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-752" name="ln-752" href="#ln-752"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-752" name="ln-752" href="#ln-752"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-753" name="ln-753" href="#ln-753"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-754" name="ln-754" href="#ln-754"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt_pos_i8_sp2d (node%keys, key, gti, node%filled, position)</span>
 <a id="ln-755" name="ln-755" href="#ln-755"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gte_pos_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">)</span>
@@ -947,14 +947,14 @@
 <a id="ln-776" name="ln-776" href="#ln-776"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-777" name="ln-777" href="#ln-777"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-778" name="ln-778" href="#ln-778"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-779" name="ln-779" href="#ln-779"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-779" name="ln-779" href="#ln-779"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-780" name="ln-780" href="#ln-780"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-781" name="ln-781" href="#ln-781"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-782" name="ln-782" href="#ln-782"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-783" name="ln-783" href="#ln-783"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-784" name="ln-784" href="#ln-784"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-784" name="ln-784" href="#ln-784"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-785" name="ln-785" href="#ln-785"></a><span class="w">            </span><span class="c">!CALL btree_node_find_ge_pos_i8_sp2d (node%keys, key, position, node%filled)</span>
-<a id="ln-786" name="ln-786" href="#ln-786"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-786" name="ln-786" href="#ln-786"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-787" name="ln-787" href="#ln-787"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-788" name="ln-788" href="#ln-788"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-789" name="ln-789" href="#ln-789"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -962,11 +962,11 @@
 <a id="ln-791" name="ln-791" href="#ln-791"></a><span class="w">            </span><span class="c">! return.</span>
 <a id="ln-792" name="ln-792" href="#ln-792"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-793" name="ln-793" href="#ln-793"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-794" name="ln-794" href="#ln-794"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-794" name="ln-794" href="#ln-794"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-795" name="ln-795" href="#ln-795"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-796" name="ln-796" href="#ln-796"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <a id="ln-797" name="ln-797" href="#ln-797"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt2_pos_i8_sp2d (node%keys, key, i, node%filled)</span>
-<a id="ln-798" name="ln-798" href="#ln-798"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
+<a id="ln-798" name="ln-798" href="#ln-798"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)'XXXX difference',i,gti</span>
 <a id="ln-799" name="ln-799" href="#ln-799"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-800" name="ln-800" href="#ln-800"></a><span class="k">               </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span>
 <a id="ln-801" name="ln-801" href="#ln-801"></a><span class="w">            </span><span class="k">ELSE</span>
@@ -974,7 +974,7 @@
 <a id="ln-803" name="ln-803" href="#ln-803"></a><span class="k">            END IF</span>
 <a id="ln-804" name="ln-804" href="#ln-804"></a><span class="k">         END DO </span><span class="n">descent</span>
 <a id="ln-805" name="ln-805" href="#ln-805"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_sp2d</span>
-<a id="ln-806" name="ln-806" href="#ln-806"></a><span class="cp"># 93 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-806" name="ln-806" href="#ln-806"></a><span class="cp"># 93 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-807" name="ln-807" href="#ln-807"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">btree_new_i8_dp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-808" name="ln-808" href="#ln-808"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_dp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span>
 <a id="ln-809" name="ln-809" href="#ln-809"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">order</span>
@@ -1460,14 +1460,14 @@
 <a id="ln-1289" name="ln-1289" href="#ln-1289"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-1290" name="ln-1290" href="#ln-1290"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-1291" name="ln-1291" href="#ln-1291"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-1292" name="ln-1292" href="#ln-1292"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-1292" name="ln-1292" href="#ln-1292"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-1293" name="ln-1293" href="#ln-1293"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-1294" name="ln-1294" href="#ln-1294"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-1295" name="ln-1295" href="#ln-1295"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-1296" name="ln-1296" href="#ln-1296"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-1297" name="ln-1297" href="#ln-1297"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-1297" name="ln-1297" href="#ln-1297"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-1298" name="ln-1298" href="#ln-1298"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_ge_pos_i8_dp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-<a id="ln-1299" name="ln-1299" href="#ln-1299"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-1299" name="ln-1299" href="#ln-1299"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-1300" name="ln-1300" href="#ln-1300"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-1301" name="ln-1301" href="#ln-1301"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-1302" name="ln-1302" href="#ln-1302"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -1480,7 +1480,7 @@
 <a id="ln-1309" name="ln-1309" href="#ln-1309"></a><span class="k">               END IF</span>
 <a id="ln-1310" name="ln-1310" href="#ln-1310"></a><span class="k">            END IF</span>
 <a id="ln-1311" name="ln-1311" href="#ln-1311"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-1312" name="ln-1312" href="#ln-1312"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-1312" name="ln-1312" href="#ln-1312"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-1313" name="ln-1313" href="#ln-1313"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-1314" name="ln-1314" href="#ln-1314"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt_pos_i8_dp2d (node%keys, key, gti, node%filled, position)</span>
 <a id="ln-1315" name="ln-1315" href="#ln-1315"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gte_pos_i8_dp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">)</span>
@@ -1507,14 +1507,14 @@
 <a id="ln-1336" name="ln-1336" href="#ln-1336"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-1337" name="ln-1337" href="#ln-1337"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-1338" name="ln-1338" href="#ln-1338"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-1339" name="ln-1339" href="#ln-1339"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-1339" name="ln-1339" href="#ln-1339"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-1340" name="ln-1340" href="#ln-1340"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-1341" name="ln-1341" href="#ln-1341"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-1342" name="ln-1342" href="#ln-1342"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-1343" name="ln-1343" href="#ln-1343"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-1344" name="ln-1344" href="#ln-1344"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-1344" name="ln-1344" href="#ln-1344"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-1345" name="ln-1345" href="#ln-1345"></a><span class="w">            </span><span class="c">!CALL btree_node_find_ge_pos_i8_dp2d (node%keys, key, position, node%filled)</span>
-<a id="ln-1346" name="ln-1346" href="#ln-1346"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-1346" name="ln-1346" href="#ln-1346"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-1347" name="ln-1347" href="#ln-1347"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-1348" name="ln-1348" href="#ln-1348"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-1349" name="ln-1349" href="#ln-1349"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -1522,11 +1522,11 @@
 <a id="ln-1351" name="ln-1351" href="#ln-1351"></a><span class="w">            </span><span class="c">! return.</span>
 <a id="ln-1352" name="ln-1352" href="#ln-1352"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-1353" name="ln-1353" href="#ln-1353"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-1354" name="ln-1354" href="#ln-1354"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-1354" name="ln-1354" href="#ln-1354"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-1355" name="ln-1355" href="#ln-1355"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-1356" name="ln-1356" href="#ln-1356"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_dp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <a id="ln-1357" name="ln-1357" href="#ln-1357"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt2_pos_i8_dp2d (node%keys, key, i, node%filled)</span>
-<a id="ln-1358" name="ln-1358" href="#ln-1358"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
+<a id="ln-1358" name="ln-1358" href="#ln-1358"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)'XXXX difference',i,gti</span>
 <a id="ln-1359" name="ln-1359" href="#ln-1359"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-1360" name="ln-1360" href="#ln-1360"></a><span class="k">               </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span>
 <a id="ln-1361" name="ln-1361" href="#ln-1361"></a><span class="w">            </span><span class="k">ELSE</span>
@@ -1534,7 +1534,7 @@
 <a id="ln-1363" name="ln-1363" href="#ln-1363"></a><span class="k">            END IF</span>
 <a id="ln-1364" name="ln-1364" href="#ln-1364"></a><span class="k">         END DO </span><span class="n">descent</span>
 <a id="ln-1365" name="ln-1365" href="#ln-1365"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_dp2d</span>
-<a id="ln-1366" name="ln-1366" href="#ln-1366"></a><span class="cp"># 93 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-1366" name="ln-1366" href="#ln-1366"></a><span class="cp"># 93 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-1367" name="ln-1367" href="#ln-1367"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">btree_new_i8_cp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1368" name="ln-1368" href="#ln-1368"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_cp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span>
 <a id="ln-1369" name="ln-1369" href="#ln-1369"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">order</span>
@@ -2020,14 +2020,14 @@
 <a id="ln-1849" name="ln-1849" href="#ln-1849"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-1850" name="ln-1850" href="#ln-1850"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-1851" name="ln-1851" href="#ln-1851"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-1852" name="ln-1852" href="#ln-1852"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-1852" name="ln-1852" href="#ln-1852"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-1853" name="ln-1853" href="#ln-1853"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-1854" name="ln-1854" href="#ln-1854"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-1855" name="ln-1855" href="#ln-1855"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-1856" name="ln-1856" href="#ln-1856"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-1857" name="ln-1857" href="#ln-1857"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-1857" name="ln-1857" href="#ln-1857"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-1858" name="ln-1858" href="#ln-1858"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_ge_pos_i8_cp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-<a id="ln-1859" name="ln-1859" href="#ln-1859"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-1859" name="ln-1859" href="#ln-1859"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-1860" name="ln-1860" href="#ln-1860"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-1861" name="ln-1861" href="#ln-1861"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-1862" name="ln-1862" href="#ln-1862"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -2040,7 +2040,7 @@
 <a id="ln-1869" name="ln-1869" href="#ln-1869"></a><span class="k">               END IF</span>
 <a id="ln-1870" name="ln-1870" href="#ln-1870"></a><span class="k">            END IF</span>
 <a id="ln-1871" name="ln-1871" href="#ln-1871"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-1872" name="ln-1872" href="#ln-1872"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-1872" name="ln-1872" href="#ln-1872"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-1873" name="ln-1873" href="#ln-1873"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-1874" name="ln-1874" href="#ln-1874"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt_pos_i8_cp2d (node%keys, key, gti, node%filled, position)</span>
 <a id="ln-1875" name="ln-1875" href="#ln-1875"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gte_pos_i8_cp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">)</span>
@@ -2067,14 +2067,14 @@
 <a id="ln-1896" name="ln-1896" href="#ln-1896"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-1897" name="ln-1897" href="#ln-1897"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-1898" name="ln-1898" href="#ln-1898"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-1899" name="ln-1899" href="#ln-1899"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-1899" name="ln-1899" href="#ln-1899"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-1900" name="ln-1900" href="#ln-1900"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-1901" name="ln-1901" href="#ln-1901"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-1902" name="ln-1902" href="#ln-1902"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-1903" name="ln-1903" href="#ln-1903"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-1904" name="ln-1904" href="#ln-1904"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-1904" name="ln-1904" href="#ln-1904"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-1905" name="ln-1905" href="#ln-1905"></a><span class="w">            </span><span class="c">!CALL btree_node_find_ge_pos_i8_cp2d (node%keys, key, position, node%filled)</span>
-<a id="ln-1906" name="ln-1906" href="#ln-1906"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-1906" name="ln-1906" href="#ln-1906"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-1907" name="ln-1907" href="#ln-1907"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-1908" name="ln-1908" href="#ln-1908"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-1909" name="ln-1909" href="#ln-1909"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -2082,11 +2082,11 @@
 <a id="ln-1911" name="ln-1911" href="#ln-1911"></a><span class="w">            </span><span class="c">! return.</span>
 <a id="ln-1912" name="ln-1912" href="#ln-1912"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-1913" name="ln-1913" href="#ln-1913"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-1914" name="ln-1914" href="#ln-1914"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-1914" name="ln-1914" href="#ln-1914"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-1915" name="ln-1915" href="#ln-1915"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-1916" name="ln-1916" href="#ln-1916"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_cp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <a id="ln-1917" name="ln-1917" href="#ln-1917"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt2_pos_i8_cp2d (node%keys, key, i, node%filled)</span>
-<a id="ln-1918" name="ln-1918" href="#ln-1918"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
+<a id="ln-1918" name="ln-1918" href="#ln-1918"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)'XXXX difference',i,gti</span>
 <a id="ln-1919" name="ln-1919" href="#ln-1919"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-1920" name="ln-1920" href="#ln-1920"></a><span class="k">               </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span>
 <a id="ln-1921" name="ln-1921" href="#ln-1921"></a><span class="w">            </span><span class="k">ELSE</span>
@@ -2094,7 +2094,7 @@
 <a id="ln-1923" name="ln-1923" href="#ln-1923"></a><span class="k">            END IF</span>
 <a id="ln-1924" name="ln-1924" href="#ln-1924"></a><span class="k">         END DO </span><span class="n">descent</span>
 <a id="ln-1925" name="ln-1925" href="#ln-1925"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_cp2d</span>
-<a id="ln-1926" name="ln-1926" href="#ln-1926"></a><span class="cp"># 93 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-1926" name="ln-1926" href="#ln-1926"></a><span class="cp"># 93 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-1927" name="ln-1927" href="#ln-1927"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">btree_new_i8_zp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">)</span>
 <a id="ln-1928" name="ln-1928" href="#ln-1928"></a><span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_zp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span>
 <a id="ln-1929" name="ln-1929" href="#ln-1929"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">order</span>
@@ -2580,14 +2580,14 @@
 <a id="ln-2409" name="ln-2409" href="#ln-2409"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-2410" name="ln-2410" href="#ln-2410"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-2411" name="ln-2411" href="#ln-2411"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-2412" name="ln-2412" href="#ln-2412"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-2412" name="ln-2412" href="#ln-2412"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-2413" name="ln-2413" href="#ln-2413"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-2414" name="ln-2414" href="#ln-2414"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-2415" name="ln-2415" href="#ln-2415"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-2416" name="ln-2416" href="#ln-2416"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-2417" name="ln-2417" href="#ln-2417"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-2417" name="ln-2417" href="#ln-2417"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-2418" name="ln-2418" href="#ln-2418"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_ge_pos_i8_zp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-<a id="ln-2419" name="ln-2419" href="#ln-2419"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-2419" name="ln-2419" href="#ln-2419"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-2420" name="ln-2420" href="#ln-2420"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-2421" name="ln-2421" href="#ln-2421"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-2422" name="ln-2422" href="#ln-2422"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -2600,7 +2600,7 @@
 <a id="ln-2429" name="ln-2429" href="#ln-2429"></a><span class="k">               END IF</span>
 <a id="ln-2430" name="ln-2430" href="#ln-2430"></a><span class="k">            END IF</span>
 <a id="ln-2431" name="ln-2431" href="#ln-2431"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-2432" name="ln-2432" href="#ln-2432"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-2432" name="ln-2432" href="#ln-2432"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-2433" name="ln-2433" href="#ln-2433"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-2434" name="ln-2434" href="#ln-2434"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt_pos_i8_zp2d (node%keys, key, gti, node%filled, position)</span>
 <a id="ln-2435" name="ln-2435" href="#ln-2435"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gte_pos_i8_zp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">)</span>
@@ -2627,14 +2627,14 @@
 <a id="ln-2456" name="ln-2456" href="#ln-2456"></a><span class="w">         </span><span class="c">!IF (tree%b%n .EQ. 0) RETURN</span>
 <a id="ln-2457" name="ln-2457" href="#ln-2457"></a><span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">))</span><span class="w"> </span><span class="k">RETURN</span>
 <a id="ln-2458" name="ln-2458" href="#ln-2458"></a><span class="k">         </span><span class="n">gti</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-2459" name="ln-2459" href="#ln-2459"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it&#39;s found, then</span>
+<a id="ln-2459" name="ln-2459" href="#ln-2459"></a><span class="w">         </span><span class="c">! Try to find the key in the given node. If it's found, then</span>
 <a id="ln-2460" name="ln-2460" href="#ln-2460"></a><span class="w">         </span><span class="c">! return the node.</span>
 <a id="ln-2461" name="ln-2461" href="#ln-2461"></a><span class="w">         </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
 <a id="ln-2462" name="ln-2462" href="#ln-2462"></a><span class="w">         </span><span class="n">descent</span><span class="p">:</span><span class="w"> </span><span class="k">DO WHILE</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a id="ln-2463" name="ln-2463" href="#ln-2463"></a><span class="w">            </span><span class="c">! Try to find the first element equal to or greater than the</span>
-<a id="ln-2464" name="ln-2464" href="#ln-2464"></a><span class="w">            </span><span class="c">! one we&#39;re searching for.</span>
+<a id="ln-2464" name="ln-2464" href="#ln-2464"></a><span class="w">            </span><span class="c">! one we're searching for.</span>
 <a id="ln-2465" name="ln-2465" href="#ln-2465"></a><span class="w">            </span><span class="c">!CALL btree_node_find_ge_pos_i8_zp2d (node%keys, key, position, node%filled)</span>
-<a id="ln-2466" name="ln-2466" href="#ln-2466"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it&#39;s now</span>
+<a id="ln-2466" name="ln-2466" href="#ln-2466"></a><span class="w">            </span><span class="c">! One of three things is now true about position: it's now</span>
 <a id="ln-2467" name="ln-2467" href="#ln-2467"></a><span class="w">            </span><span class="c">! greater than the number of keys (if all keys are smaller), or</span>
 <a id="ln-2468" name="ln-2468" href="#ln-2468"></a><span class="w">            </span><span class="c">! it points to the key that is equal to or greater than the one</span>
 <a id="ln-2469" name="ln-2469" href="#ln-2469"></a><span class="w">            </span><span class="c">! we are searching for. If it is found and we are just</span>
@@ -2642,11 +2642,11 @@
 <a id="ln-2471" name="ln-2471" href="#ln-2471"></a><span class="w">            </span><span class="c">! return.</span>
 <a id="ln-2472" name="ln-2472" href="#ln-2472"></a><span class="w">            </span><span class="c">!</span>
 <a id="ln-2473" name="ln-2473" href="#ln-2473"></a><span class="w">            </span><span class="c">! If the key is not found, then either return the GE position</span>
-<a id="ln-2474" name="ln-2474" href="#ln-2474"></a><span class="w">            </span><span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
+<a id="ln-2474" name="ln-2474" href="#ln-2474"></a><span class="w">            </span><span class="c">! if we're in a leaf (case 2 here), otherwise descend into the</span>
 <a id="ln-2475" name="ln-2475" href="#ln-2475"></a><span class="w">            </span><span class="c">! subtrees.</span>
 <a id="ln-2476" name="ln-2476" href="#ln-2476"></a><span class="w">            </span><span class="k">CALL </span><span class="n">btree_node_find_gt_pos_i8_zp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">gti</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
 <a id="ln-2477" name="ln-2477" href="#ln-2477"></a><span class="w">            </span><span class="c">!CALL btree_node_find_gt2_pos_i8_zp2d (node%keys, key, i, node%filled)</span>
-<a id="ln-2478" name="ln-2478" href="#ln-2478"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)&#39;XXXX difference&#39;,i,gti</span>
+<a id="ln-2478" name="ln-2478" href="#ln-2478"></a><span class="w">            </span><span class="c">!IF (i .NE. gti) WRITE(*,*)'XXXX difference',i,gti</span>
 <a id="ln-2479" name="ln-2479" href="#ln-2479"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <a id="ln-2480" name="ln-2480" href="#ln-2480"></a><span class="k">               </span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="n">gti</span><span class="p">)%</span><span class="n">node</span>
 <a id="ln-2481" name="ln-2481" href="#ln-2481"></a><span class="w">            </span><span class="k">ELSE</span>
@@ -2654,7 +2654,7 @@
 <a id="ln-2483" name="ln-2483" href="#ln-2483"></a><span class="k">            END IF</span>
 <a id="ln-2484" name="ln-2484" href="#ln-2484"></a><span class="k">         END DO </span><span class="n">descent</span>
 <a id="ln-2485" name="ln-2485" href="#ln-2485"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">btree_find_leaf_i8_zp2d</span>
-<a id="ln-2486" name="ln-2486" href="#ln-2486"></a><span class="cp"># 653 &quot;/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F&quot;</span>
+<a id="ln-2486" name="ln-2486" href="#ln-2486"></a><span class="cp"># 653 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <a id="ln-2487" name="ln-2487" href="#ln-2487"></a>
 <a id="ln-2488" name="ln-2488" href="#ln-2488"></a><span class="k">END MODULE </span><span class="n">dbcsr_btree</span>
 </pre></div>

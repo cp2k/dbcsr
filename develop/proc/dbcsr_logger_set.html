@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-logger~12"></span>
+              <span class="anchor" id="variable-logger~11"></span>
               type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
             </td>
 <td></td>
@@ -248,11 +248,11 @@ the root of the name of the file used for global logging</p>
 <span class="w">         </span><span class="c">!! the root of the name of the file used for local logging</span>
 <span class="w">         </span><span class="c">!! the root of the name of the file used for global logging</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_logger_set&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_logger_set'</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                     </span><span class="n">routineP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">moduleN</span><span class="o">//</span><span class="s1">':'</span><span class="o">//</span><span class="n">routineN</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; unassociated logger&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">" unassociated logger"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">))</span><span class="w"> </span><span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_filename</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">))</span><span class="w"> </span><span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">global_filename</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set</span>

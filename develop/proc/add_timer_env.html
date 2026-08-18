@@ -182,7 +182,7 @@ rm_timer_env</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-timer_env~3"></span>
+              <span class="anchor" id="variable-timer_env"></span>
               type(<a href='../type/timer_env_type.html'>timer_env_type</a>),
             </td>
 <td></td>
@@ -225,7 +225,7 @@ rm_timer_env</p>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">timer_env</span><span class="p">))</span><span class="w"> </span><span class="n">timer_env_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">timer_env</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">timer_env</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">timer_env_create</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;add_timer_env: not associated&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"add_timer_env: not associated"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timer_env_retain</span><span class="p">(</span><span class="n">timer_env_</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">list_isready</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">list_init</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>

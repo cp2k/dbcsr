@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~15"></span>
+              <span class="anchor" id="variable-this~55"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -214,7 +214,7 @@
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">initialized</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;multrec not initialized.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"multrec not initialized."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_mm_csr_dev2host_init</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">csr</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_multrec_dev2host_init</span>
 </pre></div>

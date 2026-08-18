@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~17"></span>
+              <span class="anchor" id="variable-base~4"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-comm~71"></span>
+              <span class="anchor" id="variable-comm~4"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win~19"></span>
+              <span class="anchor" id="variable-win"></span>
               type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
             </td>
 <td>intent(out)</td>
@@ -253,7 +253,7 @@
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">mp_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incorrect data type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_win_create_any</span>
 </pre></div>

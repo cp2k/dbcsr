@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~74"></span>
+              <span class="anchor" id="variable-matrix_a~28"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@ DBCSR matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~48"></span>
+              <span class="anchor" id="variable-matrix_b~18"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -209,7 +209,7 @@ DBCSR matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trace~7"></span>
+              <span class="anchor" id="variable-trace~6"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout)</td>
@@ -262,7 +262,7 @@ DBCSR matrices</p>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">replication_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_repl_none</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">             </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">replication_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_repl_none</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Trace of product of replicated matrices not yet possible.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Trace of product of replicated matrices not yet possible."</span><span class="p">)</span>
 
 <span class="w">         </span><span class="n">sym_fac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_4</span><span class="p">)</span>
 <span class="w">         </span><span class="n">matrix_a_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
@@ -274,7 +274,7 @@ DBCSR matrices</p>
 
 <span class="w">         </span><span class="c">! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a_symm</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="n">matrix_b_symm</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Tracing general with symmetric matrix NYI&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Tracing general with symmetric matrix NYI"</span><span class="p">)</span>
 
 <span class="w">         </span><span class="n">a_row_blk_size</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
 <span class="w">         </span><span class="n">a_col_blk_size</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">array_data</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
@@ -284,14 +284,14 @@ DBCSR matrices</p>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="n">a_data</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">)</span>
 
-<span class="w">         </span><span class="c">! let&#39;s go</span>
+<span class="w">         </span><span class="c">! let's go</span>
 <span class="w">         </span><span class="n">trace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">REAL</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_4</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;this combination of transpose is NYI&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"this combination of transpose is NYI"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">DO </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nblkrows_total</span>
 <span class="w">            </span><span class="n">a_row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_row_blk_size</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 <span class="w">            </span><span class="n">b_row_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_row_blk_size</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a_row_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">b_row_size</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;matrices not consistent&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a_row_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">b_row_size</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"matrices not consistent"</span><span class="p">)</span>
 <span class="w">            </span><span class="n">b_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">b_frst_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="n">b_last_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
@@ -305,13 +305,13 @@ DBCSR matrices</p>
 <span class="w">                                      </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">b_blk</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  </span><span class="n">b_col_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b_col_blk_size</span><span class="p">(</span><span class="n">a_col</span><span class="p">)</span>
-<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a_col_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">b_col_size</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;matrices not consistent&quot;</span><span class="p">)</span>
+<span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">a_col_size</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">b_col_size</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"matrices not consistent"</span><span class="p">)</span>
 <span class="w">                  </span><span class="c">!</span>
 <span class="w">                  </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_row_size</span><span class="o">*</span><span class="n">a_col_size</span>
 <span class="w">                  </span><span class="c">!</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="w">                     </span><span class="c">!</span>
-<span class="w">                     </span><span class="c">! let&#39;s trace the blocks</span>
+<span class="w">                     </span><span class="c">! let's trace the blocks</span>
 <span class="w">                     </span><span class="n">a_beg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">a_blk</span><span class="p">))</span>
 <span class="w">                     </span><span class="n">a_end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a_beg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">                     </span><span class="n">b_beg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b_blk</span><span class="p">))</span>

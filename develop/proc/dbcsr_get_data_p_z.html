@@ -180,7 +180,7 @@ This routine can be called explicitly.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area~43"></span>
+              <span class="anchor" id="variable-area~46"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -195,7 +195,7 @@ This routine can be called explicitly.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb~32"></span>
+              <span class="anchor" id="variable-lb~52"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -211,7 +211,7 @@ upper bound for pointer</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ub~32"></span>
+              <span class="anchor" id="variable-ub~47"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -230,7 +230,7 @@ upper bound for pointer</p>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-data~22"></span>
+          <span class="anchor" id="variable-data~33"></span>
           complex(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS
         </small>
       </h3>
@@ -269,7 +269,7 @@ upper bound for pointer</p>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_get_data_p_z: data-area has wrong type&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dbcsr_get_data_p_z: data-area has wrong type"</span><span class="p">)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lb</span>
@@ -277,9 +277,9 @@ upper bound for pointer</p>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ub</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of bounds"</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">u</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
+<span class="w">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Out of bounds"</span><span class="p">)</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="k">               DATA</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <span class="w">            </span><span class="k">ELSE</span>

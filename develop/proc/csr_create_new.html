@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~2"></span>
+              <span class="anchor" id="variable-csr_mat~3"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -271,7 +271,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_group~18"></span>
+              <span class="anchor" id="variable-mp_group~12"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -286,7 +286,7 @@ local number of rows</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_type~35"></span>
+              <span class="anchor" id="variable-data_type~56"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -334,22 +334,22 @@ local number of rows</p>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type</span>
 <span class="w">         </span><span class="c">!! data type of the CSR matrix (default real double prec.)</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;csr_create_new&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'csr_create_new'</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nrows_total</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">nrows_local</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;local number of rows must not exceed total number of rows&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"local number of rows must not exceed total number of rows"</span><span class="p">)</span>
 
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze_total</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">nze_local</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;local number of non-zero &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                                                     </span><span class="s2">&quot;elements must not exceed total number of non-zero elements&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze_total</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">nze_local</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">"local number of non-zero "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                                                     </span><span class="s2">"elements must not exceed total number of non-zero elements"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">nrows_total</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">ncols_total</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">nze_total</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Total number of non-zero elements must not exceed total matrix size&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Total number of non-zero elements must not exceed total matrix size"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">nrows_local</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">ncols_total</span><span class="p">,</span><span class="w"> </span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">nze_local</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local number of non-zero elements must not exceed local matrix size&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Local number of non-zero elements must not exceed local matrix size"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">ncols_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ncols_total</span>
 <span class="w">      </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nrows_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nrows_total</span>
@@ -376,7 +376,7 @@ local number of rows</p>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">nze_local</span><span class="p">))</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">DEFAULT</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid matrix type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid matrix type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 
 <span class="k">      </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">mp_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mp_group</span>

@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-block_sizes~2"></span>
+              <span class="anchor" id="variable-block_sizes~4"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -280,7 +280,7 @@
 <span class="w">      </span><span class="n">block_sizes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblocks</span><span class="p">)</span>
 <span class="w">      </span><span class="n">current_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">SUM</span><span class="p">(</span><span class="n">block_sizes</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">current_sum</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">size_sum</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect block sizes&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incorrect block sizes"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">mixer</span><span class="p">,</span><span class="w"> </span><span class="n">sizes</span><span class="p">)</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_random_block_sizes</span>

@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~62"></span>
+              <span class="anchor" id="variable-key~61"></span>
               character(len=default_string_length),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~75"></span>
+              <span class="anchor" id="variable-value~65"></span>
               integer(kind=int_4),
             </td>
 <td>intent(in)</td>
@@ -244,7 +244,7 @@
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                          </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
 <span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">hash</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dict</span><span class="p">%</span><span class="n">buckets</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dict_str_i4_set: dictionary is not initialized.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dict_str_i4_set: dictionary is not initialized."</span><span class="p">)</span>
 
 <span class="w">         </span><span class="n">hash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hash_str</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 <span class="w">         </span><span class="k">call </span><span class="n">set_hashed_str_i4</span><span class="w"> </span><span class="p">(</span><span class="n">dict</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">hash</span><span class="p">)</span>

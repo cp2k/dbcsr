@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~67"></span>
+              <span class="anchor" id="variable-dist~21"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~51"></span>
+              <span class="anchor" id="variable-mp_env~13"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_rows~12"></span>
+              <span class="anchor" id="variable-local_rows~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-local_cols~10"></span>
+              <span class="anchor" id="variable-local_cols~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~6"></span>
+              <span class="anchor" id="variable-reuse_arrays~4"></span>
               logical,
             </td>
 <td></td>
@@ -311,7 +311,7 @@
 <span class="w">         </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_cols</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">reuse_arrays</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_distribution_new&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_distribution_new'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">lcmv</span><span class="p">,</span><span class="w"> </span><span class="n">mypcoor</span><span class="p">,</span><span class="w"> </span><span class="n">npcols</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">nprows</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span>
@@ -337,11 +337,11 @@
 <span class="w">      </span><span class="c">! Verify given process row distribution.</span>
 <span class="w">      </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">max_row_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">row_dist_block</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">max_row_dist</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="n">nprows</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;A process row is too big for process grid&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"A process row is too big for process grid"</span><span class="p">)</span>
 <span class="w">      </span><span class="c">! Verify given process column distribution.</span>
 <span class="w">      </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">max_col_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_block</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">max_col_dist</span><span class="w"> </span><span class="p">.</span><span class="n">GE</span><span class="p">.</span><span class="w"> </span><span class="n">npcols</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;A process column is too big for process grid&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"A process column is too big for process grid"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_rows</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">local_rows</span><span class="p">,</span><span class="w"> </span><span class="n">gift</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>

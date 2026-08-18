@@ -132,7 +132,7 @@
       </a>
       <div id="vars-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-ref_count~2">ref_count</a>
+            <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-ref_count">ref_count</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-id_nr">id_nr</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-print_level">print_level</a>
             <a class="list-group-item" href="../type/dbcsr_iteration_info_type.html#variable-n_rlevel">n_rlevel</a>
@@ -195,7 +195,7 @@ to be able to decide if output is necessary</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ref_count~2"></span>
+              <span class="anchor" id="variable-ref_count"></span>
               integer,
             </td>
               <td>public</td>
@@ -348,7 +348,7 @@ to be able to decide if output is necessary</p>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">print_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n_rlevel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">iteration</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">last_iter</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">project_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">level_name</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">NULL</span><span class="p">()</span>
 <span class="w">   </span><span class="k">END TYPE </span><span class="n">dbcsr_iteration_info_type</span>

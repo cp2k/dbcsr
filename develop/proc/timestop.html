@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~612"></span>
+              <span class="anchor" id="variable-handle~603"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -215,7 +215,7 @@
 <span class="k">         CALL </span><span class="n">timestop_hook</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="n">dbcsr__l</span><span class="p">(</span><span class="s2">&quot;base_hooks.F&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">__</span><span class="n">LINE__</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Got wrong handle&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="n">dbcsr__l</span><span class="p">(</span><span class="s2">"base_hooks.F"</span><span class="p">,</span><span class="w"> </span><span class="err">__</span><span class="n">LINE__</span><span class="p">),</span><span class="w"> </span><span class="s2">"Got wrong handle"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">   END SUBROUTINE </span><span class="n">timestop</span>
 </pre></div>

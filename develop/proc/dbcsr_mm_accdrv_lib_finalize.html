@@ -184,7 +184,7 @@
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_lib_finalize</span><span class="p">()</span>
 <span class="w">      </span><span class="c">!! Finalize the library</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_mm_accdrv_lib_finalize&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_mm_accdrv_lib_finalize'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">error_handle</span><span class="p">,</span><span class="w"> </span><span class="n">ithread</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">thread_private_type</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">                 </span><span class="kd">::</span><span class="w"> </span><span class="n">thread_privates</span>
@@ -208,7 +208,7 @@
 
 <span class="w">      </span><span class="c">!How much memory is still allocated on the card?</span>
 <span class="w">      </span><span class="c">!istat = dbcsr_acc_dev_mem_info(mem_free, mem_avail)</span>
-<span class="w">      </span><span class="c">!WRITE (*,*) &quot;after finalize acc mem: &quot;,mem_free, mem_avail, istat</span>
+<span class="w">      </span><span class="c">!WRITE (*,*) "after finalize acc mem: ",mem_free, mem_avail, istat</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">deallocate_streams</span><span class="p">()</span>
 

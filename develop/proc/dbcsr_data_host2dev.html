@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-area"></span>
+              <span class="anchor" id="variable-area~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -241,7 +241,7 @@
 <span class="w">         </span><span class="n">c_dp</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(:</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="o">=</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 
 <span class="k">      CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>

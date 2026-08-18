@@ -178,7 +178,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~23"></span>
+              <span class="anchor" id="variable-matrix_b~37"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -193,7 +193,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~38"></span>
+              <span class="anchor" id="variable-matrix_a~57"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -232,7 +232,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix_a</span>
 <span class="w">         </span><span class="c">!! Source CSR matrix</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;csr_create_template&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'csr_create_template'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">csr_mapping_data</span><span class="p">)</span><span class="w">                             </span><span class="kd">::</span><span class="w"> </span><span class="n">map</span>
@@ -240,7 +240,7 @@ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Source CSR matrix must be created.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Source CSR matrix must be created."</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">csr_create_new</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">ncols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                          </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nze_total</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nze_local</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nrows_local</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

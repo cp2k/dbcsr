@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rows~35"></span>
+              <span class="anchor" id="variable-rows~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -223,7 +223,7 @@ input matrix size</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-columns~22"></span>
+              <span class="anchor" id="variable-columns~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -274,7 +274,7 @@ input matrix size</p>
 <span class="w">         </span><span class="k">CALL </span><span class="n">libxs_otrans</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">extent_out</span><span class="p">),</span><span class="w"> </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">extent_in</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
 <span class="cp">#elif defined(__MKL)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="n">mkl_zomatcopy</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;T&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">,</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="n">extent_in</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">extent_out</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="n">mkl_zomatcopy</span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'T'</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">,</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="n">extent_in</span><span class="p">,</span><span class="w"> </span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">extent_out</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="p">)</span>
 <span class="cp">#else</span>
 <span class="w">         </span><span class="n">extent_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRANSPOSE</span><span class="p">(</span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">extent_in</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">rows</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">/</span><span class="p">)))</span>
 <span class="cp">#endif</span>

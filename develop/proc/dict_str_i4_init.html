@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-initial_capacity~5"></span>
+              <span class="anchor" id="variable-initial_capacity~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -234,10 +234,10 @@
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">initial_capacity</span><span class="p">))</span><span class="w"> </span><span class="n">initial_capacity_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">initial_capacity</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">initial_capacity_</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dict_str_i4_init: initial_capacity &lt; 1&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dict_str_i4_init: initial_capacity &lt; 1"</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dict</span><span class="p">%</span><span class="n">buckets</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dict_str_i4_init: dictionary is already initialized.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dict_str_i4_init: dictionary is already initialized."</span><span class="p">)</span>
 
 <span class="w">         </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">dict</span><span class="p">%</span><span class="n">buckets</span><span class="p">(</span><span class="n">initial_capacity_</span><span class="p">))</span>
 <span class="w">         </span><span class="n">dict</span><span class="p">%</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>

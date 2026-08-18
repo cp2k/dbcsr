@@ -182,7 +182,7 @@
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">SUBROUTINE </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;no perf_env in the stack : mpiwrap @ rm_mp_perf_env&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"no perf_env in the stack : mpiwrap @ rm_mp_perf_env"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      CALL </span><span class="n">mp_perf_env_release</span><span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">)</span>
 <span class="w">      </span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stack_pointer</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>

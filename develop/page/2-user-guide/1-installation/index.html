@@ -248,7 +248,7 @@ make
 </code></pre></div>
 
 <p>When providing prebuilt LIBXS or LIBXSTREAM installations, either set <code>LIBXSROOT</code> and <code>LIBXSTREAMROOT</code> explicitly or make sure their <code>lib</code> directories are available to <code>pkg-config</code> before running <code>cmake</code>. For example, if LIBXS and LIBXSTREAM were checked out and built in your home folder:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PKG_CONFIG_PATH</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxs/lib:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxstream/lib&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">PKG_CONFIG_PATH</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxs/lib:</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/libxstream/lib"</span>
 </code></pre></div>
 
 <p>LIBXSMM is still useful as an optional CPU JIT kernel provider through LIBXS. If a prebuilt LIBXSMM should be used, set <code>LIBXSMMROOT</code> or make its <code>pkg-config</code> metadata visible in the same way.</p>

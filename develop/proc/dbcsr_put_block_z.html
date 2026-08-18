@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~262"></span>
+              <span class="anchor" id="variable-matrix~89"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~143"></span>
+              <span class="anchor" id="variable-row~83"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -210,7 +210,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~92"></span>
+              <span class="anchor" id="variable-col~70"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~155"></span>
+              <span class="anchor" id="variable-block~118"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -241,7 +241,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb_row_col~8"></span>
+              <span class="anchor" id="variable-lb_row_col~7"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -256,7 +256,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~57"></span>
+              <span class="anchor" id="variable-transposed~18"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -272,7 +272,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~60"></span>
+              <span class="anchor" id="variable-summation~43"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -288,7 +288,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~23"></span>
+              <span class="anchor" id="variable-flop~12"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -303,7 +303,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~33"></span>
+              <span class="anchor" id="variable-scale~28"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -383,13 +383,13 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">         </span><span class="n">nze</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
 <span class="w">         </span><span class="c">!</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">debug_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="k">block</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">nze</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid block dimensions&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid block dimensions"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_get_stored_block_info</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                          </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">            </span><span class="c">! let&#39;s copy the block</span>
+<span class="w">            </span><span class="c">! let's copy the block</span>
 <span class="w">            </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ABS</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
-<span class="w">            </span><span class="c">! Fix the index if the new block&#39;s transpose flag is different</span>
+<span class="w">            </span><span class="c">! Fix the index if the new block's transpose flag is different</span>
 <span class="w">            </span><span class="c">! from the old one.</span>
 <span class="w">            </span><span class="n">tr_diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -423,7 +423,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="k">         ELSE</span>
 <span class="w">        </span><span class="c">!!@@@</span>
 <span class="w">            </span><span class="c">!call dbcsr_assert (associated (matrix%wms), dbcsr_fatal_level,&amp;</span>
-<span class="w">            </span><span class="c">!     dbcsr_caller_error, routineN, &quot;Work matrices not prepared&quot;)</span>
+<span class="w">            </span><span class="c">!     dbcsr_caller_error, routineN, "Work matrices not prepared")</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">nblks_guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                      </span><span class="n">sizedata_guess</span><span class="o">=</span><span class="n">nze</span><span class="p">)</span>
@@ -431,7 +431,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="k">            </span><span class="n">nwms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
 <span class="w">            </span><span class="n">iw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="c">!$          IF (debug_mod .AND. nwms &lt; omp_get_num_threads()) &amp;</span>
-<span class="c">!$             DBCSR_ABORT(&quot;Number of work matrices not equal to number of threads&quot;)</span>
+<span class="c">!$             DBCSR_ABORT("Number of work matrices not equal to number of threads")</span>
 <span class="c">!$          iw = omp_get_thread_num() + 1</span>
 <span class="w">            </span><span class="n">blk_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)))</span><span class="w"> </span><span class="k">THEN</span>
@@ -466,7 +466,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">                     </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data was not present in block&quot;</span><span class="p">)</span>
+<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Data was not present in block"</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               ELSE</span>
@@ -479,7 +479,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">                        </span><span class="k">CALL </span><span class="n">zaxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="nb">CMPLX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                               </span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data was not present in block&quot;</span><span class="p">)</span>
+<span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Data was not present in block"</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               END IF</span>

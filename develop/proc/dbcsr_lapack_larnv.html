@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-idist~2"></span>
+              <span class="anchor" id="variable-idist~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iseed~5"></span>
+              <span class="anchor" id="variable-iseed~4"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~55"></span>
+              <span class="anchor" id="variable-n~22"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~2"></span>
+              <span class="anchor" id="variable-x"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -272,7 +272,7 @@
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">zlarnv</span><span class="p">(</span><span class="n">idist</span><span class="p">,</span><span class="w"> </span><span class="n">iseed</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_lapack_larnv</span>
 </pre></div>

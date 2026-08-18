@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~233"></span>
+              <span class="anchor" id="variable-matrix~160"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_size~11"></span>
+              <span class="anchor" id="variable-data_size~18"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_buffer~5"></span>
+              <span class="anchor" id="variable-data_buffer~4"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_memory_type~4"></span>
+              <span class="anchor" id="variable-data_memory_type~5"></span>
               type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),
             </td>
 <td>intent(in),</td>
@@ -292,7 +292,7 @@
 <span class="w">      </span><span class="n">matrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type</span><span class="p">()</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">template</span><span class="o">=</span><span class="n">source_matrix</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="s2">&quot;Buffer of &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                        </span><span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="s2">"Buffer of "</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">name</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">nze</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">data_buffer</span><span class="o">=</span><span class="n">data_buffer</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">data_memory_type</span><span class="o">=</span><span class="n">data_memory_type</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~3"></span>
+              <span class="anchor" id="variable-source~45"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -302,9 +302,9 @@
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">%</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;RMA algo not supported here!&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"RMA algo not supported here!"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">source</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrix not initialized.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Matrix not initialized."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">make_images</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">normalized</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                       </span><span class="n">target_image_dist</span><span class="p">,</span><span class="w"> </span><span class="n">desymmetrize</span><span class="o">=</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">source</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                       </span><span class="n">predistribute</span><span class="o">=</span><span class="n">predistribute</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

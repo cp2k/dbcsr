@@ -182,7 +182,7 @@ When row_sizes is not present then a random distribution is chosen.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~88"></span>
+              <span class="anchor" id="variable-dist~42"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td></td>
@@ -255,7 +255,7 @@ When row_sizes is not present then a random distribution is chosen.</p>
 <span class="w">      </span><span class="n">nthreads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
 <span class="c">!$    IF (dist%d%num_threads /= nthreads) &amp;</span>
-<span class="c">!$       DBCSR_ABORT(&quot;Thread number has changed&quot;)</span>
+<span class="c">!$       DBCSR_ABORT("Thread number has changed")</span>
 <span class="w">      </span><span class="n">nrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
 <span class="w">      </span><span class="n">nlrows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
 <span class="w">      </span><span class="n">lrows</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
@@ -283,10 +283,10 @@ When row_sizes is not present then a random distribution is chosen.</p>
 <span class="w">            </span><span class="c">! together). The group is divided into equally-sized blocks</span>
 <span class="w">            </span><span class="c">! (block_size0, block_size).  Leftover rows (those that can</span>
 <span class="w">            </span><span class="c">! not be equally distributed to threads) are then assigned</span>
-<span class="w">            </span><span class="c">! to threads so that each thread&#39;s cumulative load attempts</span>
+<span class="w">            </span><span class="c">! to threads so that each thread's cumulative load attempts</span>
 <span class="w">            </span><span class="c">! to be equal. This distribution is achieved using a heap.</span>
 <span class="w">            </span><span class="c">!</span>
-<span class="w">            </span><span class="c">! The heap is used to distribute &quot;leftover&quot;rows to threads.</span>
+<span class="w">            </span><span class="c">! The heap is used to distribute "leftover"rows to threads.</span>
 <span class="w">            </span><span class="c">! Leftover rows are those of the same size that can not be</span>
 <span class="w">            </span><span class="c">! evenly distributed among all threads.</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_heap_new</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span><span class="w"> </span><span class="n">nthreads</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>

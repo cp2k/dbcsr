@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~360"></span>
+              <span class="anchor" id="variable-matrix~317"></span>
               type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),
             </td>
 <td></td>
@@ -216,8 +216,8 @@
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s1">&#39;You should not &quot;deallocate&quot; a referenced matrix. &#39;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s1">&#39;Avoid pointers to DBCSR matrices.&#39;</span><span class="p">)</span>
+<span class="w">                          </span><span class="s1">'You should not "deallocate" a referenced matrix. '</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                          </span><span class="s1">'Avoid pointers to DBCSR matrices.'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">DEALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_deallocate_matrix</span>
 </pre></div>

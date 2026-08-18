@@ -188,7 +188,7 @@
 <span class="c">!$OMP     PARALLEL DEFAULT (NONE), PRIVATE (ithread,threadname)</span>
 <span class="w">      </span><span class="n">ithread</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
-<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">threadname</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(I3,A,I2,A)&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">ithread</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">threadname</span><span class="p">,</span><span class="w"> </span><span class="s2">"(I3,A,I2,A)"</span><span class="p">)</span><span class="w"> </span><span class="n">ithread</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">cuda_nvtx_name_osthread_cu</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">threadname</span><span class="p">)</span><span class="o">//</span><span class="nb">c_null_char</span><span class="p">)</span>
 <span class="c">!$OMP     END PARALLEL</span>
 <span class="cp">#endif</span>

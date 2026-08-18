@@ -200,15 +200,15 @@
 <span class="w">         </span><span class="k">RETURN</span>
 
 <span class="w">      </span><span class="c">! check if Open MPI</span>
-<span class="w">      </span><span class="n">ipos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">mpi_library_version</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">resultlen</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;Open MPI v&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">ipos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">INDEX</span><span class="p">(</span><span class="n">mpi_library_version</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">resultlen</span><span class="p">),</span><span class="w"> </span><span class="s2">"Open MPI v"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ipos</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">         </span><span class="k">RETURN</span>
 
-<span class="k">      CALL </span><span class="n">dbcsr_warn</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;You are using OpenMPI: --- &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">      CALL </span><span class="n">dbcsr_warn</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">"You are using OpenMPI: --- "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                      </span><span class="n">mpi_library_version</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">resultlen</span><span class="p">)</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                      </span><span class="s2">&quot; --- We disable RMA to prevent errors. &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                      </span><span class="s2">&quot;Please install MPICH version or use __DBCSR_OPENMPI_RMA to force the &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                      </span><span class="s2">&quot;execution. &quot;</span><span class="p">)</span>
+<span class="w">                      </span><span class="s2">" --- We disable RMA to prevent errors. "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="s2">"Please install MPICH version or use __DBCSR_OPENMPI_RMA to force the "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                      </span><span class="s2">"execution. "</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_set_config</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">check_openmpi_rma</span>

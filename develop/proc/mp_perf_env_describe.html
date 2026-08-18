@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iw~5"></span>
+              <span class="anchor" id="variable-iw~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -231,35 +231,35 @@
 <span class="cp">#endif</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">perf_env</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;unassociated perf_env : mpiwrap @ mp_perf_env_describe&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"unassociated perf_env : mpiwrap @ mp_perf_env_describe"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">ref_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;invalid perf_env%ref_count : mpiwrap @ mp_perf_env_describe&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"invalid perf_env%ref_count : mpiwrap @ mp_perf_env_describe"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="cp">#if defined(__parallel)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( &quot; -&quot;, 77X, &quot;-&quot; )&#39;</span><span class="p">)</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( &quot; -&quot;, 21X, A, 21X, &quot;-&quot; )&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; DBCSR MESSAGE PASSING PERFORMANCE &#39;</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( &quot; -&quot;, 77X, &quot;-&quot; )&#39;</span><span class="p">)</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( 1X, 79(&quot;-&quot;))&#39;</span><span class="p">)</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( A, A, A )&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; ROUTINE&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;             CALLS &#39;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="s1">&#39;     AVE VOLUME [Bytes]&#39;</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( " -", 77X, "-" )'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( " -", 21X, A, 21X, "-" )'</span><span class="p">)</span><span class="w"> </span><span class="s1">' DBCSR MESSAGE PASSING PERFORMANCE '</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( " -", 77X, "-" )'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( 1X, 79("-"))'</span><span class="p">)</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( A, A, A )'</span><span class="p">)</span><span class="w"> </span><span class="s1">' ROUTINE'</span><span class="p">,</span><span class="w"> </span><span class="s1">'             CALLS '</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">            </span><span class="s1">'     AVE VOLUME [Bytes]'</span>
 <span class="w">         </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">MAX_PERF</span>
 
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="nb">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">vol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">msg_size</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">vol</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A15,T17,I10)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'(1X,A15,T17,I10)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="nb">count</span>
 <span class="nb">               </span><span class="k">ELSE</span>
-<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(1X,A15,T17,I10,T40,F11.0)&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="k">                  WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'(1X,A15,T17,I10,T40,F11.0)'</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="nb">count</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">vol</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="k">            END IF</span>
 
 <span class="k">         END DO</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;( 1X, 79(&quot;-&quot;))&#39;</span><span class="p">)</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="s1">'( 1X, 79("-"))'</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="cp">#else</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">iw</span><span class="p">)</span>

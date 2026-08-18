@@ -189,7 +189,7 @@
 <span class="c">!$    nthreads = OMP_GET_MAX_THREADS()</span>
 
 <span class="c">!$OMP MASTER</span>
-<span class="w">      </span><span class="k">CALL </span><span class="n">stream_array_force_size</span><span class="p">(</span><span class="n">thread_streams</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Calc stream&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">nthreads</span><span class="p">)</span>
+<span class="w">      </span><span class="k">CALL </span><span class="n">stream_array_force_size</span><span class="p">(</span><span class="n">thread_streams</span><span class="p">,</span><span class="w"> </span><span class="s2">"Calc stream"</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="n">nthreads</span><span class="p">)</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">! Other threads have to wait until streams are created</span>
 <span class="c">!$OMP BARRIER</span>

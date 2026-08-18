@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~42"></span>
+              <span class="anchor" id="variable-n~34"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-priority~2"></span>
+              <span class="anchor" id="variable-priority"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -294,7 +294,7 @@
 <span class="k">         ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">streams</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">events</span><span class="p">))</span><span class="w"> </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">events</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
 <span class="w">         </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">streams</span><span class="p">)</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;(A,I3)&quot;</span><span class="p">)</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">basename</span><span class="p">),</span><span class="w"> </span><span class="n">i</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s2">"(A,I3)"</span><span class="p">)</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">basename</span><span class="p">),</span><span class="w"> </span><span class="n">i</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">streams</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> </span><span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">)</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">events</span><span class="p">))</span><span class="w"> </span><span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">events</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <span class="w">         </span><span class="k">END DO</span>

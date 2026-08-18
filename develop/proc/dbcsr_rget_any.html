@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-base~18"></span>
+              <span class="anchor" id="variable-base~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-source~133"></span>
+              <span class="anchor" id="variable-source~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win~20"></span>
+              <span class="anchor" id="variable-win~2"></span>
               type(<a href='../type/mp_win_type.html'>mp_win_type</a>),
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-win_data~7"></span>
+              <span class="anchor" id="variable-win_data"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myproc~8"></span>
+              <span class="anchor" id="variable-myproc"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-disp~7"></span>
+              <span class="anchor" id="variable-disp"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-request~127"></span>
+              <span class="anchor" id="variable-request~3"></span>
               type(<a href='../type/mp_request_type.html'>mp_request_type</a>),
             </td>
 <td>intent(out)</td>
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-origin_datatype~7"></span>
+              <span class="anchor" id="variable-origin_datatype"></span>
               type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),
             </td>
 <td>intent(in),</td>
@@ -297,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-target_datatype~7"></span>
+              <span class="anchor" id="variable-target_datatype"></span>
               type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),
             </td>
 <td>intent(in),</td>
@@ -340,7 +340,7 @@
 <span class="w">         </span><span class="k">OPTIONAL</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">origin_datatype</span><span class="p">,</span><span class="w"> </span><span class="n">target_datatype</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">win_data</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Mismatch data type between buffer and window&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Mismatch data type between buffer and window"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
@@ -356,7 +356,7 @@
 <span class="w">         </span><span class="k">CALL </span><span class="n">mp_rget</span><span class="p">(</span><span class="n">base</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">source</span><span class="p">,</span><span class="w"> </span><span class="n">win</span><span class="p">,</span><span class="w"> </span><span class="n">win_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span><span class="w"> </span><span class="n">myproc</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                      </span><span class="n">disp</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">origin_datatype</span><span class="p">,</span><span class="w"> </span><span class="n">target_datatype</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incorrect data type"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_rget_any</span>
 </pre></div>

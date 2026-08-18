@@ -193,7 +193,7 @@ in order to prepare conversion.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_mat~8"></span>
+              <span class="anchor" id="variable-csr_mat~9"></span>
               type(<a href='../type/csr_type.html'>csr_type</a>),
             </td>
 <td>intent(out)</td>
@@ -225,7 +225,7 @@ process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds fl
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-csr_sparsity"></span>
+              <span class="anchor" id="variable-csr_sparsity~2"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in),</td>
@@ -241,7 +241,7 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-numnodes~31"></span>
+              <span class="anchor" id="variable-numnodes~43"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -287,7 +287,7 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">numnodes</span>
 <span class="w">         </span><span class="c">!! number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;csr_create_from_dbcsr&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'csr_create_from_dbcsr'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">dbcsr_numnodes</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">nblkcols_total</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">nblkrows_total</span><span class="p">,</span><span class="w"> </span><span class="n">nblks_local</span><span class="p">,</span><span class="w"> </span><span class="n">num_p</span>
@@ -298,7 +298,7 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid DBCSR matrix&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid DBCSR matrix"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dist_format</span><span class="p">)</span>
 <span class="w">      </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">csr_dbcsr_blkrow_dist</span><span class="p">)</span>
@@ -329,20 +329,20 @@ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_re
 <span class="k">      ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="n">template</span><span class="o">=</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                           </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;CSR sparsity matrix&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                           </span><span class="n">name</span><span class="o">=</span><span class="s2">"CSR sparsity matrix"</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                           </span><span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_mat_nosym</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_set</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_dp</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_has_same_block_structure</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span><span class="w"> </span><span class="n">csr_sparsity_nosym</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;csr_sparsity and dbcsr_mat have different sparsity pattern&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"csr_sparsity and dbcsr_mat have different sparsity pattern"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">dbcsr_numnodes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)))</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">numnodes</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_numnodes</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Number of nodes used for CSR matrix &quot;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                             </span><span class="s2">&quot;must not exceed total number of nodes&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="s2">"Number of nodes used for CSR matrix "</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">                             </span><span class="s2">"must not exceed total number of nodes"</span><span class="p">)</span>
 
 <span class="w">         </span><span class="n">num_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numnodes</span>
 <span class="w">      </span><span class="k">ELSE</span>

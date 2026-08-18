@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-val~11"></span>
+              <span class="anchor" id="variable-val~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -195,7 +195,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-res~24"></span>
+          <span class="anchor" id="variable-res~12"></span>
           character(len=1)
         </small>
       </h3>
@@ -215,16 +215,16 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">   </span><span class="k">FUNCTION </span><span class="n">dbcsr_logical_to_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="w">      </span><span class="c">!! convert a logical in a string (&#39;T&#39; or &#39;F&#39;)</span>
+<span class="w">      </span><span class="c">!! convert a logical in a string ('T' or 'F')</span>
 
 <span class="w">      </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w">                                </span><span class="kd">::</span><span class="w"> </span><span class="n">val</span>
 <span class="w">         </span><span class="c">!! the number to convert</span>
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">res</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;T&#39;</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'T'</span>
 <span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;F&#39;</span>
+<span class="k">         </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'F'</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">   END FUNCTION </span><span class="n">dbcsr_logical_to_string</span>
 </pre></div>

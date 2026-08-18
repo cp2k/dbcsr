@@ -178,7 +178,7 @@ type of the matrix.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-scalar~11"></span>
+              <span class="anchor" id="variable-scalar~4"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -193,7 +193,7 @@ type of the matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~275"></span>
+              <span class="anchor" id="variable-matrix~21"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -247,7 +247,7 @@ type of the matrix.</p>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">scalar_data_type</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_4</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">             </span><span class="n">scalar_data_type</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_4</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">data_type</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not conform a complex to a real number&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Can not conform a complex to a real number"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">dbcsr_scalar_set_type</span><span class="p">(</span><span class="n">encapsulated</span><span class="p">,</span><span class="w"> </span><span class="n">data_type</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END FUNCTION </span><span class="n">make_conformant_scalar_c</span>

@@ -237,8 +237,8 @@
 
 <span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">lineNr_str</span>
 
-<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">lineNr_str</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(I10)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">lineNr</span>
-<span class="w">      </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;:&quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">lineNr_str</span><span class="p">))</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">lineNr_str</span><span class="p">,</span><span class="w"> </span><span class="n">FMT</span><span class="o">=</span><span class="s1">'(I10)'</span><span class="p">)</span><span class="w"> </span><span class="n">lineNr</span>
+<span class="w">      </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">//</span><span class="s2">":"</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">lineNr_str</span><span class="p">))</span>
 
 <span class="w">   </span><span class="k">END FUNCTION </span><span class="n">dbcsr__l</span>
 </pre></div>

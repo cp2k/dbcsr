@@ -178,7 +178,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-string~2"></span>
+              <span class="anchor" id="variable-string"></span>
               character(len=*),
             </td>
 <td>intent(inout)</td>
@@ -193,7 +193,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-full~2"></span>
+              <span class="anchor" id="variable-full"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -244,13 +244,13 @@ If full is .TRUE., then all spaces are eliminated.</p>
 
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">((</span><span class="n">z</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">remove_all</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
 <span class="w">               </span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="p">:</span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span>
 <span class="w">               </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">         ELSE</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">((</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">&quot; &quot;</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">((</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">" "</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="s2">" "</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span>
 <span class="w">               </span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="p">:</span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span>
 <span class="w">               </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">z</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
@@ -258,7 +258,7 @@ If full is .TRUE., then all spaces are eliminated.</p>
 <span class="k">         END IF</span>
 <span class="k">      END DO</span>
 
-<span class="k">      </span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="k">      </span><span class="n">string</span><span class="p">(</span><span class="n">z</span><span class="p">:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">compress</span>
 </pre></div>

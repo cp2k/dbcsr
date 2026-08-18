@@ -178,7 +178,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~2"></span>
+              <span class="anchor" id="variable-this~12"></span>
               class(<a href='../type/conf_par.html'>CONF_PAR</a>),
             </td>
 <td>intent(inout)</td>
@@ -211,7 +211,7 @@
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-status"></span>
+          <span class="anchor" id="variable-status~2"></span>
           logical
         </small>
       </h3>
@@ -239,18 +239,18 @@
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
 
 <span class="w">      </span><span class="c">! Do nothing is already set via environment variable</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;E&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'E'</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="w">         </span><span class="k">RETURN</span>
 <span class="k">      END IF</span>
 
 <span class="w">      </span><span class="c">! Check environment variable, only if default is set</span>
-<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'D'</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">uppercase</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">name</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CALL </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="s2">&quot;DBCSR_&quot;</span><span class="o">//</span><span class="n">this</span><span class="p">%</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">string_val</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">stat</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid environment value&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CALL </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="s2">"DBCSR_"</span><span class="o">//</span><span class="n">this</span><span class="p">%</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">string_val</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="nb">stat</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid environment value"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;E&#39;</span>
+<span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'E'</span>
 
 <span class="w">            </span><span class="k">SELECT TYPE</span><span class="w"> </span><span class="p">(</span><span class="n">env_val</span><span class="p">)</span>
 <span class="w">            </span><span class="k">TYPE IS</span><span class="w"> </span><span class="p">(</span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">))</span>
@@ -258,9 +258,9 @@
 <span class="w">            </span><span class="k">TYPE IS</span><span class="w"> </span><span class="p">(</span><span class="kt">INTEGER</span><span class="p">)</span>
 <span class="w">               </span><span class="k">call </span><span class="n">str2int</span><span class="p">(</span><span class="n">string_val</span><span class="p">,</span><span class="w"> </span><span class="n">env_val</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong environment variable reading. Expecting an integer value.&quot;</span><span class="p">)</span>
+<span class="w">                  </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Wrong environment variable reading. Expecting an integer value."</span><span class="p">)</span>
 <span class="w">            </span><span class="k">CLASS </span><span class="n">DEFAULT</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unrecognized type&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Unrecognized type"</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END SELECT</span>
 <span class="k">         END IF</span>
 <span class="k">      END IF</span>

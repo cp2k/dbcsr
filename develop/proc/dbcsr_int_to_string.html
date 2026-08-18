@@ -179,7 +179,7 @@ all the compilers)</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-i~110"></span>
+              <span class="anchor" id="variable-i~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -197,7 +197,7 @@ all the compilers)</p>
 
       <h3>Return Value
         <small>
-          <span class="anchor" id="variable-res~22"></span>
+          <span class="anchor" id="variable-res~10"></span>
           character(len=6)
         </small>
       </h3>
@@ -232,13 +232,13 @@ all the compilers)</p>
 <span class="w">      </span><span class="n">iostat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">999999</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="o">-</span><span class="mi">99999</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">tmp_r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">t_res</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(es6.1)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="n">tmp_r</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">t_res</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">'(es6.1)'</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="n">tmp_r</span>
 <span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">t_res</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(i6)&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="n">i</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">t_res</span><span class="p">,</span><span class="w"> </span><span class="n">fmt</span><span class="o">=</span><span class="s1">'(i6)'</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span><span class="w"> </span><span class="n">i</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t_res</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">iostat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;dbcsr_int_to_string ioerror&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span>
+<span class="k">         PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s2">"dbcsr_int_to_string ioerror"</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">())</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">   END FUNCTION </span><span class="n">dbcsr_int_to_string</span>

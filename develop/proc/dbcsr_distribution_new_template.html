@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dist~65"></span>
+              <span class="anchor" id="variable-dist~19"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(out)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-template~4"></span>
+              <span class="anchor" id="variable-template~3"></span>
               type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),
             </td>
 <td>intent(in),</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-group~43"></span>
+              <span class="anchor" id="variable-group~2"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in),</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pgrid~41"></span>
+              <span class="anchor" id="variable-pgrid~8"></span>
               integer,
             </td>
 <td></td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~25"></span>
+              <span class="anchor" id="variable-row_dist~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~25"></span>
+              <span class="anchor" id="variable-col_dist~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-reuse_arrays~5"></span>
+              <span class="anchor" id="variable-reuse_arrays~3"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -313,18 +313,18 @@
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                                 </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;pgrid can only be supplied together with group&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"pgrid can only be supplied together with group"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         </span><span class="n">mp_env</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">template</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_distribution_new called with template and group&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dbcsr_distribution_new called with template and group"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_distribution_new called with template and pgrid&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dbcsr_distribution_new called with template and pgrid"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">pgrid</span><span class="p">)</span>
 <span class="w">      </span><span class="k">ELSE</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_distribution_new: neither template nor group supplied&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dbcsr_distribution_new: neither template nor group supplied"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      CALL </span><span class="n">dbcsr_distribution_new_low</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

@@ -169,7 +169,7 @@
 
       <section>
         <h2><span class="anchor" id="src"></span>Source Code</h2>
-        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot; 1</span>
+        <div class="hl codehilite"><pre><span></span><a id="ln-1" name="ln-1" href="#ln-1"></a><span class="cp"># 1 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F" 1</span>
 <a id="ln-2" name="ln-2" href="#ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a id="ln-3" name="ln-3" href="#ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a id="ln-4" name="ln-4" href="#ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -197,13 +197,13 @@
 <a id="ln-26" name="ln-26" href="#ln-26"></a><span class="w">                               </span><span class="n">acc_stream_type</span>
 <a id="ln-27" name="ln-27" href="#ln-27"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_acc_device</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">dbcsr_acc_set_active_device</span>
 <a id="ln-28" name="ln-28" href="#ln-28"></a><span class="w">   </span><span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span><span class="w"> </span><span class="k">ONLY</span><span class="p">:</span><span class="w"> </span><span class="n">get_accdrv_active_device_id</span>
-<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a id="ln-29" name="ln-29" href="#ln-29"></a><span class="cp">#include "base/dbcsr_base_uses.f90"</span>
 <a id="ln-30" name="ln-30" href="#ln-30"></a>
 <a id="ln-31" name="ln-31" href="#ln-31"></a><span class="w">   </span><span class="k">IMPLICIT NONE</span>
 <a id="ln-32" name="ln-32" href="#ln-32"></a>
 <a id="ln-33" name="ln-33" href="#ln-33"></a><span class="k">   PRIVATE</span>
 <a id="ln-34" name="ln-34" href="#ln-34"></a>
-<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">moduleN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_acc_hostmem&#39;</span>
+<a id="ln-35" name="ln-35" href="#ln-35"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="p">,</span><span class="w"> </span><span class="k">PRIVATE</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">moduleN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_acc_hostmem'</span>
 <a id="ln-36" name="ln-36" href="#ln-36"></a>
 <a id="ln-37" name="ln-37" href="#ln-37"></a><span class="w">   </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">careful_mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a id="ln-38" name="ln-38" href="#ln-38"></a>
@@ -230,7 +230,7 @@
 <a id="ln-59" name="ln-59" href="#ln-59"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a id="ln-60" name="ln-60" href="#ln-60"></a>
 <a id="ln-61" name="ln-61" href="#ln-61"></a><span class="w">   </span><span class="k">INTERFACE</span>
-<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_host_mem_alloc</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream_ptr</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_host_mem_allocate&quot;</span><span class="p">)</span>
+<a id="ln-62" name="ln-62" href="#ln-62"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_host_mem_alloc</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream_ptr</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">"c_dbcsr_acc_host_mem_allocate"</span><span class="p">)</span>
 <a id="ln-63" name="ln-63" href="#ln-63"></a><span class="w">         </span><span class="k">IMPORT</span>
 <a id="ln-64" name="ln-64" href="#ln-64"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">mem</span>
 <a id="ln-65" name="ln-65" href="#ln-65"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
@@ -242,7 +242,7 @@
 <a id="ln-71" name="ln-71" href="#ln-71"></a><span class="w">   </span><span class="k">END INTERFACE</span>
 <a id="ln-72" name="ln-72" href="#ln-72"></a>
 <a id="ln-73" name="ln-73" href="#ln-73"></a><span class="k">   INTERFACE</span>
-<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_host_mem_dealloc</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">stream_ptr</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_host_mem_deallocate&quot;</span><span class="p">)</span>
+<a id="ln-74" name="ln-74" href="#ln-74"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_host_mem_dealloc</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">stream_ptr</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span><span class="w"> </span><span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s2">"c_dbcsr_acc_host_mem_deallocate"</span><span class="p">)</span>
 <a id="ln-75" name="ln-75" href="#ln-75"></a><span class="w">         </span><span class="k">IMPORT</span>
 <a id="ln-76" name="ln-76" href="#ln-76"></a><span class="k">         TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span><span class="w"> </span><span class="k">VALUE</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">mem</span><span class="p">,</span><span class="w"> </span><span class="n">stream_ptr</span>
 <a id="ln-77" name="ln-77" href="#ln-77"></a><span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">istat</span>
@@ -268,14 +268,14 @@
 <a id="ln-97" name="ln-97" href="#ln-97"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream_cptr</span>
 <a id="ln-98" name="ln-98" href="#ln-98"></a>
 <a id="ln-99" name="ln-99" href="#ln-99"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_raw: stream not associated&quot;</span><span class="p">)</span>
+<a id="ln-100" name="ln-100" href="#ln-100"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_raw: stream not associated"</span><span class="p">)</span>
 <a id="ln-101" name="ln-101" href="#ln-101"></a>
 <a id="ln-102" name="ln-102" href="#ln-102"></a><span class="w">      </span><span class="n">stream_cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-103" name="ln-103" href="#ln-103"></a>
 <a id="ln-104" name="ln-104" href="#ln-104"></a><span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 <a id="ln-105" name="ln-105" href="#ln-105"></a><span class="w">      </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_host_mem_alloc</span><span class="p">(</span><span class="n">host_mem_c_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">n_bytes</span><span class="p">,</span><span class="w"> </span><span class="n">stream_cptr</span><span class="p">)</span>
 <a id="ln-106" name="ln-106" href="#ln-106"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_raw: Could not allocate host pinned memory&quot;</span><span class="p">)</span>
+<a id="ln-107" name="ln-107" href="#ln-107"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_raw: Could not allocate host pinned memory"</span><span class="p">)</span>
 <a id="ln-108" name="ln-108" href="#ln-108"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_raw</span>
 <a id="ln-109" name="ln-109" href="#ln-109"></a><span class="cp">#endif</span>
 <a id="ln-110" name="ln-110" href="#ln-110"></a>
@@ -287,25 +287,25 @@
 <a id="ln-116" name="ln-116" href="#ln-116"></a><span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">istat</span>
 <a id="ln-117" name="ln-117" href="#ln-117"></a><span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span><span class="w">                                        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream_cptr</span>
 <a id="ln-118" name="ln-118" href="#ln-118"></a>
-<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="c">! Workaround for a segmentation fault on ORNL&#39;s Summit</span>
+<a id="ln-119" name="ln-119" href="#ln-119"></a><span class="c">! Workaround for a segmentation fault on ORNL's Summit</span>
 <a id="ln-120" name="ln-120" href="#ln-120"></a><span class="c">!$OMP CRITICAL</span>
 <a id="ln-121" name="ln-121" href="#ln-121"></a>
 <a id="ln-122" name="ln-122" href="#ln-122"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_raw: stream not associated&quot;</span><span class="p">)</span>
+<a id="ln-123" name="ln-123" href="#ln-123"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_raw: stream not associated"</span><span class="p">)</span>
 <a id="ln-124" name="ln-124" href="#ln-124"></a>
 <a id="ln-125" name="ln-125" href="#ln-125"></a><span class="w">      </span><span class="n">stream_cptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-126" name="ln-126" href="#ln-126"></a>
 <a id="ln-127" name="ln-127" href="#ln-127"></a><span class="w">      </span><span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 <a id="ln-128" name="ln-128" href="#ln-128"></a><span class="w">      </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_interface_host_mem_dealloc</span><span class="p">(</span><span class="n">host_mem_c_ptr</span><span class="p">,</span><span class="w"> </span><span class="n">stream_cptr</span><span class="p">)</span>
 <a id="ln-129" name="ln-129" href="#ln-129"></a><span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_raw: Could not deallocate host pinned memory&quot;</span><span class="p">)</span>
+<a id="ln-130" name="ln-130" href="#ln-130"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_raw: Could not deallocate host pinned memory"</span><span class="p">)</span>
 <a id="ln-131" name="ln-131" href="#ln-131"></a><span class="c">!$OMP END CRITICAL</span>
 <a id="ln-132" name="ln-132" href="#ln-132"></a><span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_raw</span>
 <a id="ln-133" name="ln-133" href="#ln-133"></a><span class="cp">#endif</span>
 <a id="ln-134" name="ln-134" href="#ln-134"></a>
-<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="cp"># 141 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-135" name="ln-135" href="#ln-135"></a><span class="cp"># 141 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-136" name="ln-136" href="#ln-136"></a>
-<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-137" name="ln-137" href="#ln-137"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-138" name="ln-138" href="#ln-138"></a>
 <a id="ln-139" name="ln-139" href="#ln-139"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_i4</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-140" name="ln-140" href="#ln-140"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -327,7 +327,7 @@
 <a id="ln-156" name="ln-156" href="#ln-156"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-157" name="ln-157" href="#ln-157"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-158" name="ln-158" href="#ln-158"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_i4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-159" name="ln-159" href="#ln-159"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_i4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-160" name="ln-160" href="#ln-160"></a><span class="cp">#endif</span>
 <a id="ln-161" name="ln-161" href="#ln-161"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_i4</span>
 <a id="ln-162" name="ln-162" href="#ln-162"></a>
@@ -353,7 +353,7 @@
 <a id="ln-182" name="ln-182" href="#ln-182"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-183" name="ln-183" href="#ln-183"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-184" name="ln-184" href="#ln-184"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_i4_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-185" name="ln-185" href="#ln-185"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_i4_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-186" name="ln-186" href="#ln-186"></a><span class="cp">#endif</span>
 <a id="ln-187" name="ln-187" href="#ln-187"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_i4_2D</span>
 <a id="ln-188" name="ln-188" href="#ln-188"></a>
@@ -370,7 +370,7 @@
 <a id="ln-199" name="ln-199" href="#ln-199"></a><span class="cp">#else</span>
 <a id="ln-200" name="ln-200" href="#ln-200"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_i4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_i4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-203" name="ln-203" href="#ln-203"></a><span class="cp">#endif</span>
 <a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_i4</span>
 <a id="ln-205" name="ln-205" href="#ln-205"></a>
@@ -387,11 +387,11 @@
 <a id="ln-216" name="ln-216" href="#ln-216"></a><span class="cp">#else</span>
 <a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_i4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_i4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-220" name="ln-220" href="#ln-220"></a><span class="cp">#endif</span>
 <a id="ln-221" name="ln-221" href="#ln-221"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_i4_2D</span>
 <a id="ln-222" name="ln-222" href="#ln-222"></a>
-<a id="ln-223" name="ln-223" href="#ln-223"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-223" name="ln-223" href="#ln-223"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-224" name="ln-224" href="#ln-224"></a>
 <a id="ln-225" name="ln-225" href="#ln-225"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_i8</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -413,7 +413,7 @@
 <a id="ln-242" name="ln-242" href="#ln-242"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-243" name="ln-243" href="#ln-243"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-244" name="ln-244" href="#ln-244"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_i8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_i8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-246" name="ln-246" href="#ln-246"></a><span class="cp">#endif</span>
 <a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_i8</span>
 <a id="ln-248" name="ln-248" href="#ln-248"></a>
@@ -439,7 +439,7 @@
 <a id="ln-268" name="ln-268" href="#ln-268"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-269" name="ln-269" href="#ln-269"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-270" name="ln-270" href="#ln-270"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_i8_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_i8_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-272" name="ln-272" href="#ln-272"></a><span class="cp">#endif</span>
 <a id="ln-273" name="ln-273" href="#ln-273"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_i8_2D</span>
 <a id="ln-274" name="ln-274" href="#ln-274"></a>
@@ -456,7 +456,7 @@
 <a id="ln-285" name="ln-285" href="#ln-285"></a><span class="cp">#else</span>
 <a id="ln-286" name="ln-286" href="#ln-286"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-287" name="ln-287" href="#ln-287"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-288" name="ln-288" href="#ln-288"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_i8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-288" name="ln-288" href="#ln-288"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_i8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-289" name="ln-289" href="#ln-289"></a><span class="cp">#endif</span>
 <a id="ln-290" name="ln-290" href="#ln-290"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_i8</span>
 <a id="ln-291" name="ln-291" href="#ln-291"></a>
@@ -473,11 +473,11 @@
 <a id="ln-302" name="ln-302" href="#ln-302"></a><span class="cp">#else</span>
 <a id="ln-303" name="ln-303" href="#ln-303"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-304" name="ln-304" href="#ln-304"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-305" name="ln-305" href="#ln-305"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_i8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-305" name="ln-305" href="#ln-305"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_i8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-306" name="ln-306" href="#ln-306"></a><span class="cp">#endif</span>
 <a id="ln-307" name="ln-307" href="#ln-307"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_i8_2D</span>
 <a id="ln-308" name="ln-308" href="#ln-308"></a>
-<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-310" name="ln-310" href="#ln-310"></a>
 <a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_r4</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -499,7 +499,7 @@
 <a id="ln-328" name="ln-328" href="#ln-328"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-329" name="ln-329" href="#ln-329"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-330" name="ln-330" href="#ln-330"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-331" name="ln-331" href="#ln-331"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_r4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-331" name="ln-331" href="#ln-331"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_r4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-332" name="ln-332" href="#ln-332"></a><span class="cp">#endif</span>
 <a id="ln-333" name="ln-333" href="#ln-333"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_r4</span>
 <a id="ln-334" name="ln-334" href="#ln-334"></a>
@@ -525,7 +525,7 @@
 <a id="ln-354" name="ln-354" href="#ln-354"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-355" name="ln-355" href="#ln-355"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-356" name="ln-356" href="#ln-356"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-357" name="ln-357" href="#ln-357"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_r4_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-357" name="ln-357" href="#ln-357"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_r4_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-358" name="ln-358" href="#ln-358"></a><span class="cp">#endif</span>
 <a id="ln-359" name="ln-359" href="#ln-359"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_r4_2D</span>
 <a id="ln-360" name="ln-360" href="#ln-360"></a>
@@ -542,7 +542,7 @@
 <a id="ln-371" name="ln-371" href="#ln-371"></a><span class="cp">#else</span>
 <a id="ln-372" name="ln-372" href="#ln-372"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-373" name="ln-373" href="#ln-373"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-374" name="ln-374" href="#ln-374"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_r4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-374" name="ln-374" href="#ln-374"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_r4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-375" name="ln-375" href="#ln-375"></a><span class="cp">#endif</span>
 <a id="ln-376" name="ln-376" href="#ln-376"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_r4</span>
 <a id="ln-377" name="ln-377" href="#ln-377"></a>
@@ -559,11 +559,11 @@
 <a id="ln-388" name="ln-388" href="#ln-388"></a><span class="cp">#else</span>
 <a id="ln-389" name="ln-389" href="#ln-389"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-390" name="ln-390" href="#ln-390"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-391" name="ln-391" href="#ln-391"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_r4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-391" name="ln-391" href="#ln-391"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_r4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-392" name="ln-392" href="#ln-392"></a><span class="cp">#endif</span>
 <a id="ln-393" name="ln-393" href="#ln-393"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_r4_2D</span>
 <a id="ln-394" name="ln-394" href="#ln-394"></a>
-<a id="ln-395" name="ln-395" href="#ln-395"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-395" name="ln-395" href="#ln-395"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-396" name="ln-396" href="#ln-396"></a>
 <a id="ln-397" name="ln-397" href="#ln-397"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_r8</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-398" name="ln-398" href="#ln-398"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -585,7 +585,7 @@
 <a id="ln-414" name="ln-414" href="#ln-414"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-415" name="ln-415" href="#ln-415"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-416" name="ln-416" href="#ln-416"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-417" name="ln-417" href="#ln-417"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_r8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-417" name="ln-417" href="#ln-417"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_r8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-418" name="ln-418" href="#ln-418"></a><span class="cp">#endif</span>
 <a id="ln-419" name="ln-419" href="#ln-419"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_r8</span>
 <a id="ln-420" name="ln-420" href="#ln-420"></a>
@@ -611,7 +611,7 @@
 <a id="ln-440" name="ln-440" href="#ln-440"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-441" name="ln-441" href="#ln-441"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-442" name="ln-442" href="#ln-442"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-443" name="ln-443" href="#ln-443"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_r8_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-443" name="ln-443" href="#ln-443"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_r8_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-444" name="ln-444" href="#ln-444"></a><span class="cp">#endif</span>
 <a id="ln-445" name="ln-445" href="#ln-445"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_r8_2D</span>
 <a id="ln-446" name="ln-446" href="#ln-446"></a>
@@ -628,7 +628,7 @@
 <a id="ln-457" name="ln-457" href="#ln-457"></a><span class="cp">#else</span>
 <a id="ln-458" name="ln-458" href="#ln-458"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-459" name="ln-459" href="#ln-459"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-460" name="ln-460" href="#ln-460"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_r8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-460" name="ln-460" href="#ln-460"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_r8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-461" name="ln-461" href="#ln-461"></a><span class="cp">#endif</span>
 <a id="ln-462" name="ln-462" href="#ln-462"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_r8</span>
 <a id="ln-463" name="ln-463" href="#ln-463"></a>
@@ -645,11 +645,11 @@
 <a id="ln-474" name="ln-474" href="#ln-474"></a><span class="cp">#else</span>
 <a id="ln-475" name="ln-475" href="#ln-475"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-476" name="ln-476" href="#ln-476"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-477" name="ln-477" href="#ln-477"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_r8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-477" name="ln-477" href="#ln-477"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_r8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-478" name="ln-478" href="#ln-478"></a><span class="cp">#endif</span>
 <a id="ln-479" name="ln-479" href="#ln-479"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_r8_2D</span>
 <a id="ln-480" name="ln-480" href="#ln-480"></a>
-<a id="ln-481" name="ln-481" href="#ln-481"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-481" name="ln-481" href="#ln-481"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-482" name="ln-482" href="#ln-482"></a>
 <a id="ln-483" name="ln-483" href="#ln-483"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_c4</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-484" name="ln-484" href="#ln-484"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -671,7 +671,7 @@
 <a id="ln-500" name="ln-500" href="#ln-500"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-501" name="ln-501" href="#ln-501"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-502" name="ln-502" href="#ln-502"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-503" name="ln-503" href="#ln-503"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_c4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-503" name="ln-503" href="#ln-503"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_c4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-504" name="ln-504" href="#ln-504"></a><span class="cp">#endif</span>
 <a id="ln-505" name="ln-505" href="#ln-505"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_c4</span>
 <a id="ln-506" name="ln-506" href="#ln-506"></a>
@@ -697,7 +697,7 @@
 <a id="ln-526" name="ln-526" href="#ln-526"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-527" name="ln-527" href="#ln-527"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-528" name="ln-528" href="#ln-528"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-529" name="ln-529" href="#ln-529"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_c4_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-529" name="ln-529" href="#ln-529"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_c4_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-530" name="ln-530" href="#ln-530"></a><span class="cp">#endif</span>
 <a id="ln-531" name="ln-531" href="#ln-531"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_c4_2D</span>
 <a id="ln-532" name="ln-532" href="#ln-532"></a>
@@ -714,7 +714,7 @@
 <a id="ln-543" name="ln-543" href="#ln-543"></a><span class="cp">#else</span>
 <a id="ln-544" name="ln-544" href="#ln-544"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-545" name="ln-545" href="#ln-545"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-546" name="ln-546" href="#ln-546"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_c4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-546" name="ln-546" href="#ln-546"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_c4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-547" name="ln-547" href="#ln-547"></a><span class="cp">#endif</span>
 <a id="ln-548" name="ln-548" href="#ln-548"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_c4</span>
 <a id="ln-549" name="ln-549" href="#ln-549"></a>
@@ -731,11 +731,11 @@
 <a id="ln-560" name="ln-560" href="#ln-560"></a><span class="cp">#else</span>
 <a id="ln-561" name="ln-561" href="#ln-561"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-562" name="ln-562" href="#ln-562"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-563" name="ln-563" href="#ln-563"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_c4: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-563" name="ln-563" href="#ln-563"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_c4: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-564" name="ln-564" href="#ln-564"></a><span class="cp">#endif</span>
 <a id="ln-565" name="ln-565" href="#ln-565"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_c4_2D</span>
 <a id="ln-566" name="ln-566" href="#ln-566"></a>
-<a id="ln-567" name="ln-567" href="#ln-567"></a><span class="cp"># 143 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-567" name="ln-567" href="#ln-567"></a><span class="cp"># 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-568" name="ln-568" href="#ln-568"></a>
 <a id="ln-569" name="ln-569" href="#ln-569"></a><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">acc_hostmem_alloc_c8</span><span class="w"> </span><span class="p">(</span><span class="n">host_mem</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
 <a id="ln-570" name="ln-570" href="#ln-570"></a><span class="w">      </span><span class="c">!! Allocates 1D fortan-array as GPU host-pinned memory.</span>
@@ -757,7 +757,7 @@
 <a id="ln-586" name="ln-586" href="#ln-586"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-587" name="ln-587" href="#ln-587"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
 <a id="ln-588" name="ln-588" href="#ln-588"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-589" name="ln-589" href="#ln-589"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_c8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-589" name="ln-589" href="#ln-589"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_c8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-590" name="ln-590" href="#ln-590"></a><span class="cp">#endif</span>
 <a id="ln-591" name="ln-591" href="#ln-591"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_c8</span>
 <a id="ln-592" name="ln-592" href="#ln-592"></a>
@@ -783,7 +783,7 @@
 <a id="ln-612" name="ln-612" href="#ln-612"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
 <a id="ln-613" name="ln-613" href="#ln-613"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
 <a id="ln-614" name="ln-614" href="#ln-614"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-615" name="ln-615" href="#ln-615"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_alloc_c8_2D: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-615" name="ln-615" href="#ln-615"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_alloc_c8_2D: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-616" name="ln-616" href="#ln-616"></a><span class="cp">#endif</span>
 <a id="ln-617" name="ln-617" href="#ln-617"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_alloc_c8_2D</span>
 <a id="ln-618" name="ln-618" href="#ln-618"></a>
@@ -800,7 +800,7 @@
 <a id="ln-629" name="ln-629" href="#ln-629"></a><span class="cp">#else</span>
 <a id="ln-630" name="ln-630" href="#ln-630"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-631" name="ln-631" href="#ln-631"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-632" name="ln-632" href="#ln-632"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_c8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-632" name="ln-632" href="#ln-632"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_c8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-633" name="ln-633" href="#ln-633"></a><span class="cp">#endif</span>
 <a id="ln-634" name="ln-634" href="#ln-634"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_c8</span>
 <a id="ln-635" name="ln-635" href="#ln-635"></a>
@@ -817,11 +817,11 @@
 <a id="ln-646" name="ln-646" href="#ln-646"></a><span class="cp">#else</span>
 <a id="ln-647" name="ln-647" href="#ln-647"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">host_mem</span><span class="p">)</span>
 <a id="ln-648" name="ln-648" href="#ln-648"></a><span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-<a id="ln-649" name="ln-649" href="#ln-649"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_hostmem_dealloc_c8: ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-649" name="ln-649" href="#ln-649"></a><span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"acc_hostmem_dealloc_c8: ACC not compiled in."</span><span class="p">)</span>
 <a id="ln-650" name="ln-650" href="#ln-650"></a><span class="cp">#endif</span>
 <a id="ln-651" name="ln-651" href="#ln-651"></a><span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">acc_hostmem_dealloc_c8_2D</span>
 <a id="ln-652" name="ln-652" href="#ln-652"></a>
-<a id="ln-653" name="ln-653" href="#ln-653"></a><span class="cp"># 229 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F&quot;</span>
+<a id="ln-653" name="ln-653" href="#ln-653"></a><span class="cp"># 229 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"</span>
 <a id="ln-654" name="ln-654" href="#ln-654"></a>
 <a id="ln-655" name="ln-655" href="#ln-655"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_hostmem</span>
 </pre></div>

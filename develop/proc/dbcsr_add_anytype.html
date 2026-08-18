@@ -178,7 +178,7 @@ A = alpha<em>A + beta</em>B or</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~52"></span>
+              <span class="anchor" id="variable-matrix_a~6"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -193,7 +193,7 @@ A = alpha<em>A + beta</em>B or</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~33"></span>
+              <span class="anchor" id="variable-matrix_b~3"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -238,7 +238,7 @@ A = alpha<em>A + beta</em>B or</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~27"></span>
+              <span class="anchor" id="variable-flop~4"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -279,7 +279,7 @@ A = alpha<em>A + beta</em>B or</p>
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">alpha_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">beta_scalar</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span>
 
-<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;dbcsr_add_anytype&#39;</span>
+<span class="w">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'dbcsr_add_anytype'</span>
 
 <span class="w">      </span><span class="kt">INTEGER</span><span class="w">                                            </span><span class="kd">::</span><span class="w"> </span><span class="n">data_type_a</span><span class="p">,</span><span class="w"> </span><span class="n">data_type_b</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                            </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">size_work</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span>
@@ -292,13 +292,13 @@ A = alpha<em>A + beta</em>B or</p>
 
 <span class="w">      </span><span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid matrix&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid matrix"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">((</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_symmetric</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">           </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_antisymmetric</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NEQV</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_symmetric</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">           </span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">EQ</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_type_antisymmetric</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Summing general with symmetric matrix NYI&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Summing general with symmetric matrix NYI"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 
 <span class="k">      </span><span class="n">data_type_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
@@ -307,14 +307,14 @@ A = alpha<em>A + beta</em>B or</p>
 <span class="w">      </span><span class="n">my_beta_scalar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">data_type_b</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">beta_scalar</span><span class="p">))</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta_scalar</span>
 <span class="w">      </span><span class="c">!</span>
-<span class="w">      </span><span class="c">! let&#39;s go</span>
+<span class="w">      </span><span class="c">! let's go</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">((</span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="p">(</span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">          </span><span class="p">(</span><span class="n">data_type_a</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">data_type_b</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;matrices not consistent&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"matrices not consistent"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">data_type_a</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;beta type parameter not consistent with matrices type&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"beta type parameter not consistent with matrices type"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">do_scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">data_type_b</span><span class="p">))</span>
 
@@ -358,7 +358,7 @@ A = alpha<em>A + beta</em>B or</p>
 <span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">dbcsr_add_anytype_z</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">my_flop</span><span class="p">)</span>
 <span class="w">         </span><span class="k">CASE </span><span class="n">default</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
 

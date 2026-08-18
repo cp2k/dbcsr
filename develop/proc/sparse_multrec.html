@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~21"></span>
+              <span class="anchor" id="variable-this~61"></span>
               type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-left~3"></span>
+              <span class="anchor" id="variable-left~23"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-right~3"></span>
+              <span class="anchor" id="variable-right~24"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mi"></span>
+              <span class="anchor" id="variable-mi~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mf"></span>
+              <span class="anchor" id="variable-mf~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ni"></span>
+              <span class="anchor" id="variable-ni~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nf"></span>
+              <span class="anchor" id="variable-nf~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ki"></span>
+              <span class="anchor" id="variable-ki~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -297,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kf"></span>
+              <span class="anchor" id="variable-kf~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -312,7 +312,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ai"></span>
+              <span class="anchor" id="variable-ai~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -327,7 +327,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-af"></span>
+              <span class="anchor" id="variable-af~4"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -342,7 +342,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a_index"></span>
+              <span class="anchor" id="variable-a_index~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -357,7 +357,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bi"></span>
+              <span class="anchor" id="variable-bi~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -372,7 +372,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-bf"></span>
+              <span class="anchor" id="variable-bf~3"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -387,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b_index"></span>
+              <span class="anchor" id="variable-b_index~3"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -402,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-d~3"></span>
+              <span class="anchor" id="variable-d~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -451,11 +451,11 @@
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(I7,1X,5(A,2(1X,I7)))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot; rm&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">nf</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(I7,1X,5(A,2(1X,I7)))'</span><span class="p">)</span><span class="w"> </span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="s2">" rm"</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">nf</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="s2">","</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">af</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">ai</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">bf</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">bi</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">mf</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">mi</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">nf</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="p">.</span><span class="nb">OR</span><span class="p">.</span><span class="w"> </span><span class="n">kf</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">ki</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;Empty&quot;</span>
+<span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s2">"Empty"</span>
 <span class="w">            </span><span class="k">RETURN</span>
 <span class="k">         END IF</span>
 <span class="k">      END IF</span>
@@ -480,7 +480,7 @@
 <span class="w">      </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="n">K</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kf</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ki</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;m,k,n&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">N</span>
+<span class="k">         WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="s1">'m,k,n'</span><span class="p">,</span><span class="w"> </span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">N</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">M</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">K</span><span class="p">))</span><span class="w"> </span><span class="n">cut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nb">MAX</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">M</span><span class="p">))</span><span class="w"> </span><span class="n">cut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
@@ -497,13 +497,13 @@
 <span class="w">         </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">K</span><span class="o">/</span><span class="mi">2</span>
 <span class="w">         </span><span class="n">acut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_cut_col</span><span class="p">(</span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">acut</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">a_index</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">acut</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(3(I7))'</span><span class="p">)</span><span class="w"> </span><span class="n">a_index</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         </span><span class="n">bcut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_cut_row</span><span class="p">(</span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">b_index</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(3(I7))'</span><span class="p">)</span><span class="w"> </span><span class="n">b_index</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">nf</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                             </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">acut</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
@@ -513,8 +513,8 @@
 <span class="w">         </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">N</span><span class="o">/</span><span class="mi">2</span>
 <span class="w">         </span><span class="n">bcut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">find_cut_col</span><span class="p">(</span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbg</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
-<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span>
-<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">b_index</span>
+<span class="k">            WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bf</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span>
+<span class="w">            </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="s1">'(3(I7))'</span><span class="p">)</span><span class="w"> </span><span class="n">b_index</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">mi</span><span class="p">,</span><span class="w"> </span><span class="n">mf</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="p">,</span><span class="w"> </span><span class="n">ni</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">ki</span><span class="p">,</span><span class="w"> </span><span class="n">kf</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                             </span><span class="n">ai</span><span class="p">,</span><span class="w"> </span><span class="n">af</span><span class="p">,</span><span class="w"> </span><span class="n">a_index</span><span class="p">,</span><span class="w"> </span><span class="n">bi</span><span class="p">,</span><span class="w"> </span><span class="n">bcut</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">b_index</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>

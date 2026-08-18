@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ierr~6"></span>
+              <span class="anchor" id="variable-ierr~8"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -246,9 +246,9 @@
 
 <span class="cp">#if defined(__parallel)</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mpi_error_string</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="n">error_string</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">,</span><span class="w"> </span><span class="n">istat</span><span class="p">)</span>
-<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">full_error</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A,I0,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; MPI error &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; in &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">prg_code</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; : &#39;</span><span class="o">//</span><span class="n">error_string</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">)</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">full_error</span><span class="p">,</span><span class="w"> </span><span class="s1">'(A,I0,A)'</span><span class="p">)</span><span class="w"> </span><span class="s1">' MPI error '</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s1">' in '</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">prg_code</span><span class="p">)</span><span class="o">//</span><span class="s1">' : '</span><span class="o">//</span><span class="n">error_string</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">)</span>
 <span class="cp">#else</span>
-<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">full_error</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A,I0,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39; MPI error (!?) &#39;</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; in &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">prg_code</span><span class="p">)</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">full_error</span><span class="p">,</span><span class="w"> </span><span class="s1">'(A,I0,A)'</span><span class="p">)</span><span class="w"> </span><span class="s1">' MPI error (!?) '</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s1">' in '</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">prg_code</span><span class="p">)</span>
 <span class="cp">#endif</span>
 
 <span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">full_error</span><span class="p">)</span>

@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~24"></span>
+              <span class="anchor" id="variable-mp_env~18"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -254,14 +254,14 @@
 
 <span class="w">      </span><span class="k">NULLIFY</span><span class="w"> </span><span class="p">(</span><span class="n">r_stat</span><span class="p">,</span><span class="w"> </span><span class="n">r_report</span><span class="p">,</span><span class="w"> </span><span class="n">timer_env</span><span class="p">)</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">list_isready</span><span class="p">(</span><span class="n">reports</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;BUG&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"BUG"</span><span class="p">)</span>
 
 <span class="w">      </span><span class="n">timer_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">get_timer_env</span><span class="p">()</span>
 
 <span class="w">      </span><span class="c">! make sure all functions have been called so that list_size(timer_env%routine_stats)</span>
 <span class="w">      </span><span class="c">! and the actual dictionary are consistent in the loop below, preventing out of bounds.</span>
 <span class="w">      </span><span class="c">! this hack makes sure they are called before</span>
-<span class="w">      </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">      </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
 <span class="w">      </span><span class="n">sending_rank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="k">CALL </span><span class="n">mp_max</span><span class="p">(</span><span class="n">sending_rank</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
@@ -274,7 +274,7 @@
 <span class="w">      </span><span class="c">! end hack</span>
 
 <span class="w">      </span><span class="c">! Array collected is used as a bit field.</span>
-<span class="w">      </span><span class="c">! It&#39;s of type integer in order to use the convenient MINLOC routine.</span>
+<span class="w">      </span><span class="c">! It's of type integer in order to use the convenient MINLOC routine.</span>
 <span class="w">      </span><span class="k">ALLOCATE</span><span class="w"> </span><span class="p">(</span><span class="n">collected</span><span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)))</span>
 <span class="w">      </span><span class="n">collected</span><span class="p">(:)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 
@@ -316,7 +316,7 @@
 <span class="w">               </span><span class="n">r_report</span><span class="p">%</span><span class="n">max_ecost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span>
 <span class="w">               </span><span class="n">r_report</span><span class="p">%</span><span class="n">sum_ecost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span>
 <span class="w">            </span><span class="k">CASE </span><span class="n">DEFAULT</span>
-<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;BUG&quot;</span><span class="p">)</span>
+<span class="w">               </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"BUG"</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END SELECT</span>
 <span class="k">         END IF</span>
 

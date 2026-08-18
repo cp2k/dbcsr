@@ -178,7 +178,7 @@ Only dbcsr_1d_i4_sort and itself should call this.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-arr~17"></span>
+              <span class="anchor" id="variable-arr~16"></span>
               integer(kind=int_4),
             </td>
 <td>intent(inout),</td>
@@ -302,7 +302,7 @@ Only dbcsr_1d_i4_sort and itself should call this.</p>
 <span class="w">         </span><span class="c">! Check for a special case: Can we just concatenate the two sorted sublists?</span>
 <span class="w">         </span><span class="c">! This leads to O(n) scaling if the input is already sorted.</span>
 <span class="w">         </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="k">then</span>
-<span class="w">            </span><span class="c">! ...no - let&#39;s merge the two sorted sublists arr(:m) and arr(m+1:)</span>
+<span class="w">            </span><span class="c">! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)</span>
 <span class="w">            </span><span class="c">! Merge will be performed directly in arr. Need backup of first sublist.</span>
 <span class="w">            </span><span class="n">tmp_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span>
 <span class="w">            </span><span class="n">tmp_idx</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">indices</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">m</span><span class="p">)</span>

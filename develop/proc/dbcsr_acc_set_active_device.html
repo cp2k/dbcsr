@@ -224,11 +224,11 @@
 <span class="w">         </span><span class="n">istat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
 <span class="c">!$    END IF</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">istat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_acc_set_active_device: failed&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"dbcsr_acc_set_active_device: failed"</span><span class="p">)</span>
 
 <span class="cp">#else</span>
 <span class="w">      </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
-<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
+<span class="w">      </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"__DBCSR_ACC not compiled in"</span><span class="p">)</span>
 <span class="cp">#endif</span>
 <span class="w">   </span><span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>
 </pre></div>

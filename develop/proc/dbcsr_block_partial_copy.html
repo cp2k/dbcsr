@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~26"></span>
+              <span class="anchor" id="variable-dst~8"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(inout)</td>
@@ -239,7 +239,7 @@ target block column size (logical)</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~19"></span>
+              <span class="anchor" id="variable-src~5"></span>
               type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -381,7 +381,7 @@ number of columns to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrow~4"></span>
+              <span class="anchor" id="variable-nrow"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -401,7 +401,7 @@ number of columns to copy</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncol~3"></span>
+              <span class="anchor" id="variable-ncol"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -507,20 +507,20 @@ offset in source</p>
 <span class="c">!     ---------------------------------------------------------------------------</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dbcsr_type_2d_to_1d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">dbcsr_type_2d_to_1d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">src</span><span class="p">)))</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible data types.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible data types."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      </span><span class="n">dst_o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">src_o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dst_offset</span><span class="p">))</span><span class="w"> </span><span class="n">dst_o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dst_offset</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">src_offset</span><span class="p">))</span><span class="w"> </span><span class="n">src_o</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">src_offset</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">verification</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         IF</span><span class="w"> </span><span class="p">(</span><span class="n">dst_r_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dst_rs</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible dst row sizes&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible dst row sizes"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">dst_c_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">dst_cs</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible dst col sizes&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible dst col sizes"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">src_r_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nrow</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">src_rs</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible src row sizes&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible src row sizes"</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">src_c_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">src_cs</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible src col sizes&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Incompatible src col sizes"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="n">src_is_2d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">src</span><span class="p">))</span>
@@ -618,7 +618,7 @@ offset in source</p>
 <span class="w">                                           </span><span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">      CASE </span><span class="n">default</span>
-<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
+<span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"Invalid data type."</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_block_partial_copy</span>
 </pre></div>

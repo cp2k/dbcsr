@@ -182,7 +182,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-image_dist~3"></span>
+              <span class="anchor" id="variable-image_dist"></span>
               type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -197,7 +197,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-prow~24"></span>
+              <span class="anchor" id="variable-prow~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -212,7 +212,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rowi~10"></span>
+              <span class="anchor" id="variable-rowi"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -227,7 +227,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-pcol~23"></span>
+              <span class="anchor" id="variable-pcol~3"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -242,7 +242,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-coli~11"></span>
+              <span class="anchor" id="variable-coli"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -287,7 +287,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-myprow~13"></span>
+              <span class="anchor" id="variable-myprow"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -302,7 +302,7 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mypcol~13"></span>
+              <span class="anchor" id="variable-mypcol"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -445,10 +445,10 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
 <span class="w">      </span><span class="c">!! Transform between virtual process rows/columns and actual process rows/columns and images therein.</span>
 <span class="w">      </span><span class="c">!!</span>
 <span class="w">      </span><span class="c">!! Shifting</span>
-<span class="w">      </span><span class="c">!! (L)eft and (R)ight shifting are &quot;shifts from&quot;, (l)eft and (r)ight</span>
-<span class="w">      </span><span class="c">!! are &quot;shifts to&quot;.  A caller (or the my* specifications) would use</span>
+<span class="w">      </span><span class="c">!! (L)eft and (R)ight shifting are "shifts from", (l)eft and (r)ight</span>
+<span class="w">      </span><span class="c">!! are "shifts to".  A caller (or the my* specifications) would use</span>
 <span class="w">      </span><span class="c">!! L/R to see which data he has (i.e., from where his data was</span>
-<span class="w">      </span><span class="c">!! shifted).  To see where the caller&#39;s data goes to, use l/r.</span>
+<span class="w">      </span><span class="c">!! shifted).  To see where the caller's data goes to, use l/r.</span>
 
 <span class="w">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">image_dist</span>
 <span class="w">      </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">prow</span><span class="p">,</span><span class="w"> </span><span class="n">rowi</span><span class="p">,</span><span class="w"> </span><span class="n">pcol</span><span class="p">,</span><span class="w"> </span><span class="n">coli</span><span class="p">,</span><span class="w"> </span><span class="n">vprow</span><span class="p">,</span><span class="w"> </span><span class="n">vpcol</span>
@@ -465,11 +465,11 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
 
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myvprow</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mycoli</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s2">&quot;Must specify either (process row and row image) or (virtual process row)&quot;</span><span class="p">)</span>
+<span class="w">                          </span><span class="s2">"Must specify either (process row and row image) or (virtual process row)"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="k">      IF</span><span class="w"> </span><span class="p">(</span><span class="n">careful_mod</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myvpcol</span><span class="p">)</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mycoli</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
-<span class="w">                          </span><span class="s2">&quot;Must specify either (process col and col image) or (virtual process col)&quot;</span><span class="p">)</span>
+<span class="w">                          </span><span class="s2">"Must specify either (process col and col image) or (virtual process col)"</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END IF</span>
 <span class="w">      </span><span class="c">!</span>
 <span class="w">      </span><span class="n">mp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span>
@@ -508,13 +508,13 @@ shifted).  To see where the caller's data goes to, use l/r.</p>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vpcol_shift</span><span class="p">))</span><span class="w"> </span><span class="n">vcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vcol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">vpcol_shift</span>
 <span class="w">      </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shifting</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">         SELECT CASE</span><span class="w"> </span><span class="p">(</span><span class="n">shifting</span><span class="p">)</span>
-<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">'R'</span><span class="p">)</span>
 <span class="w">            </span><span class="n">vrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrow</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">my_pcol</span><span class="o">*</span><span class="n">row_mult</span>
-<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">'L'</span><span class="p">)</span>
 <span class="w">            </span><span class="n">vcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vcol</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">my_prow</span><span class="o">*</span><span class="n">col_mult</span>
-<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">'r'</span><span class="p">)</span>
 <span class="w">            </span><span class="n">vrow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vrow</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">my_pcol</span><span class="o">*</span><span class="n">row_mult</span>
-<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<span class="w">         </span><span class="k">CASE</span><span class="w"> </span><span class="p">(</span><span class="s1">'l'</span><span class="p">)</span>
 <span class="w">            </span><span class="n">vcol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vcol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">my_prow</span><span class="o">*</span><span class="n">col_mult</span>
 <span class="w">         </span><span class="k">END SELECT</span>
 <span class="k">      END IF</span>

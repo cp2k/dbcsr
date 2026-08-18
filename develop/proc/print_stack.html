@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-unit_nr~31"></span>
+              <span class="anchor" id="variable-unit_nr~2"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -223,11 +223,11 @@
 <span class="w">         </span><span class="k">RETURN</span>
 
 <span class="k">      </span><span class="n">timer_env</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(/,A,/)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot; ===== Routine Calling Stack ===== &quot;</span>
+<span class="w">      </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="s1">'(/,A,/)'</span><span class="p">)</span><span class="w"> </span><span class="s2">" ===== Routine Calling Stack ===== "</span>
 <span class="w">      </span><span class="k">DO </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
 <span class="w">         </span><span class="n">cs_entry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
 <span class="w">         </span><span class="n">r_stat</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span><span class="w"> </span><span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
-<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(T10,I4,1X,A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span>
+<span class="w">         </span><span class="k">WRITE</span><span class="w"> </span><span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span><span class="w"> </span><span class="s1">'(T10,I4,1X,A)'</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span>
 <span class="w">      </span><span class="k">END DO</span>
 <span class="k">      CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
 
