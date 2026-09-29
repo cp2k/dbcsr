@@ -41,7 +41,8 @@ MODULE dbcsr_test_add
       dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
       dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, &
       dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_4_2d, &
-      dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric
+      dbcsr_type_real_8, dbcsr_type_real_8_2d, dbcsr_type_symmetric, &
+      dbcsr_symmetry_data_type_compatible
    USE dbcsr_work_operations, ONLY: dbcsr_create
 #include "base/dbcsr_base_uses.f90"
 
@@ -142,6 +143,8 @@ CONTAINS
             TYPE = types(itype)
 
             do_complex = TYPE .EQ. dbcsr_type_complex_4 .OR. TYPE .EQ. dbcsr_type_complex_8
+            IF (.NOT. dbcsr_symmetry_data_type_compatible(a_symm, TYPE) .OR. &
+                .NOT. dbcsr_symmetry_data_type_compatible(b_symm, TYPE)) CYCLE
 
             alpha_obj = compx_to_dbcsr_scalar(alpha, TYPE)
             beta_obj = compx_to_dbcsr_scalar(beta, TYPE)

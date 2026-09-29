@@ -84,6 +84,7 @@ MODULE dbcsr_types
 
    PUBLIC :: dbcsr_type_invalid, dbcsr_type_no_symmetry, dbcsr_type_symmetric, &
              dbcsr_type_antisymmetric, dbcsr_type_hermitian, dbcsr_type_antihermitian
+   PUBLIC :: dbcsr_symmetry_data_type_compatible
    PUBLIC :: dbcsr_no_transpose, dbcsr_transpose, dbcsr_conjugate_transpose
    PUBLIC :: dbcsr_repl_none, dbcsr_repl_row, dbcsr_repl_col, dbcsr_repl_full
 
@@ -587,5 +588,29 @@ MODULE dbcsr_types
       ! message size breakdown
       INTEGER(KIND=int_8), DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2) :: data_size_breakdown = -1
    END TYPE dbcsr_mpi_statistics_type
+
+CONTAINS
+
+   PURE FUNCTION dbcsr_symmetry_data_type_compatible(matrix_type, data_type) RESULT(compatible)
+      !! Whether a matrix symmetry is supported for the given scalar type.
+
+      CHARACTER, INTENT(IN) :: matrix_type
+      INTEGER, INTENT(IN)   :: data_type
+      LOGICAL               :: compatible
+
+      compatible = .FALSE.
+      SELECT CASE (data_type)
+      CASE (dbcsr_type_real_4, dbcsr_type_real_8)
+         SELECT CASE (matrix_type)
+         CASE (dbcsr_type_no_symmetry, dbcsr_type_symmetric, dbcsr_type_antisymmetric)
+            compatible = .TRUE.
+         END SELECT
+      CASE (dbcsr_type_complex_4, dbcsr_type_complex_8)
+         SELECT CASE (matrix_type)
+         CASE (dbcsr_type_no_symmetry, dbcsr_type_hermitian, dbcsr_type_antihermitian)
+            compatible = .TRUE.
+         END SELECT
+      END SELECT
+   END FUNCTION dbcsr_symmetry_data_type_compatible
 
 END MODULE dbcsr_types

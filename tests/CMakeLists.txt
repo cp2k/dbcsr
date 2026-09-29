@@ -85,7 +85,7 @@ if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
 endif ()
 
 # For each test, set a variable testname_SRCS defining the sources of that test
-set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
+set(dbcsr_unittest1_SRCS dbcsr_unittest1.F dbcsr_test_symmetry.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
 set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
 set(dbcsr_unittest4_SRCS dbcsr_unittest4.F dbcsr_test_scale_by_vector.F)

@@ -78,7 +78,8 @@ MODULE dbcsr_work_operations
       dbcsr_slot_nfullrows_total, dbcsr_slot_nze, dbcsr_slot_row_p, dbcsr_slot_size, dbcsr_type, &
       dbcsr_type_antihermitian, dbcsr_type_antisymmetric, dbcsr_type_complex_4, &
       dbcsr_type_complex_8, dbcsr_type_hermitian, dbcsr_type_no_symmetry, dbcsr_type_real_4, &
-      dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric, dbcsr_work_type
+      dbcsr_type_real_8, dbcsr_type_real_default, dbcsr_type_symmetric, &
+      dbcsr_symmetry_data_type_compatible, dbcsr_work_type
    USE dbcsr_dist_util, ONLY: convert_sizes_to_offsets, &
                               dbcsr_calc_block_sizes, &
                               dbcsr_verify_matrix, &
@@ -134,7 +135,8 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
          !! distribution_2d distribution
       CHARACTER, INTENT(IN)                              :: matrix_type
-         !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
+         !! Matrix storage symmetry: 'N' is uncompressed. Real data supports 'S' and 'A';
+         !! complex data supports 'H' and 'K'. Other scalar/symmetry combinations are rejected.
       INTEGER, DIMENSION(:), INTENT(INOUT), POINTER, &
          CONTIGUOUS, OPTIONAL                            :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
@@ -158,7 +160,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_new'
 
       CHARACTER                                          :: matrix_type_l
-      INTEGER                                            :: handle, my_nze
+      INTEGER                                            :: handle, matrix_data_type, my_nze
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: vec_col_blk_offset, vec_row_blk_offset
       INTEGER, DIMENSION(dbcsr_meta_size)                :: new_meta
       LOGICAL                                            :: hijack, my_make_index
@@ -168,6 +170,14 @@ CONTAINS
       MARK_USED(thread_dist) ! only used with OMP
 
       CALL timeset(routineN, handle)
+
+      matrix_type_l = matrix_type
+      CALL uppercase(matrix_type_l)
+      matrix_data_type = dbcsr_type_real_default
+      IF (PRESENT(data_type)) matrix_data_type = data_type
+      IF (.NOT. dbcsr_symmetry_data_type_compatible(matrix_type_l, matrix_data_type)) &
+         DBCSR_ABORT("Matrix symmetry '"//matrix_type_l// &
+                     "' is incompatible with its scalar data type.")
 
       ! Reuse matrix only if has actually been allocated.
       hijack = ASSOCIATED(matrix%index)
@@ -397,8 +407,6 @@ CONTAINS
       matrix%negate_real = .FALSE.
       matrix%negate_imaginary = .FALSE.
       !matrix%transpose = .FALSE.
-      matrix_type_l = matrix_type
-      CALL uppercase(matrix_type_l)
       SELECT CASE (matrix_type_l)
       CASE (dbcsr_type_no_symmetry)
       CASE (dbcsr_type_symmetric)

@@ -123,9 +123,10 @@ MODULE dbcsr_api
       dbcsr_func_inverse, dbcsr_func_tanh, dbcsr_iterator_prv => dbcsr_iterator, dbcsr_mp_obj, &
       dbcsr_no_transpose, dbcsr_norm_column, dbcsr_norm_frobenius, dbcsr_norm_maxabsnorm, &
       dbcsr_prv_type => dbcsr_type, dbcsr_scalar_type, dbcsr_transpose, &
-      dbcsr_type_antisymmetric, dbcsr_type_complex_4, dbcsr_type_complex_8, &
+      dbcsr_conjugate_transpose, dbcsr_type_antihermitian, dbcsr_type_antisymmetric, &
+      dbcsr_type_complex_4, dbcsr_type_complex_8, &
       dbcsr_type_complex_default, dbcsr_type_no_symmetry, dbcsr_type_real_4, dbcsr_type_real_8, &
-      dbcsr_type_real_default, dbcsr_type_symmetric
+      dbcsr_type_real_default, dbcsr_type_symmetric, dbcsr_type_hermitian
    USE dbcsr_dist_util, ONLY: dbcsr_convert_offsets_to_sizes => convert_offsets_to_sizes, &
                               dbcsr_convert_sizes_to_offsets => convert_sizes_to_offsets, &
                               dbcsr_checksum_prv => dbcsr_checksum, &
@@ -150,7 +151,10 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_type_no_symmetry
    PUBLIC :: dbcsr_type_symmetric
    PUBLIC :: dbcsr_type_antisymmetric
+   PUBLIC :: dbcsr_type_hermitian
+   PUBLIC :: dbcsr_type_antihermitian
    PUBLIC :: dbcsr_transpose
+   PUBLIC :: dbcsr_conjugate_transpose
    PUBLIC :: dbcsr_no_transpose
    PUBLIC :: dbcsr_type_complex_8
    PUBLIC :: dbcsr_type_real_4
@@ -1401,11 +1405,14 @@ CONTAINS
          CALL dbcsr_trace_prv(matrix_a%prv, trace)
       END SUBROUTINE dbcsr_trace_${nametype1}$
 
-      SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result)
+      SUBROUTINE dbcsr_dot_${nametype1}$ (matrix_a, matrix_b, result, conjugate_a)
+         !! Computes sum(A(i,j)*B(i,j)) by default.  If conjugate_a is true,
+         !! computes the Frobenius inner product sum(conjg(A(i,j))*B(i,j)).
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
          ${type1}$, INTENT(INOUT)                  :: result
+         LOGICAL, INTENT(IN), OPTIONAL             :: conjugate_a
 
-         CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
+         CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result, conjugate_a)
       END SUBROUTINE dbcsr_dot_${nametype1}$
 
       SUBROUTINE dbcsr_multiply_${nametype1}$ (transa, transb, &
