@@ -122,8 +122,14 @@ jobs:
     - name: Build
       run: cmake --build build -- --verbose
 
+    # Runners differ in their CPU, and OpenBLAS selects its kernels accordingly:
+    # double-precision tests failed on Xeon 6 runners, where Ubuntu 22.04's
+    # OpenBLAS uses Cooperlake kernels. AVX2 kernels run on any runner.
     - name: Test
+      env:
+        OPENBLAS_CORETYPE: Haswell
       run: |
+        grep -m1 "model name" /proc/cpuinfo
         cd build
         ctest --output-on-failure
 
