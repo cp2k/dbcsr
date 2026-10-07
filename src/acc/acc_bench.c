@@ -22,6 +22,9 @@
 #if defined(_OPENMP)
 #  include <omp.h>
 #endif
+#if defined(__OPENCL)
+#  include <libxstream/libxstream.h>
+#endif
 
 #define PRINTF(...) \
   do { \
@@ -59,11 +62,7 @@
 #  define WARMUP 2
 #endif
 #if !defined(DELIMS)
-#  if defined(LIBXS_DELIMS)
-#    define DELIMS LIBXS_DELIMS "|/\n\t "
-#  else
-#    define DELIMS ",;:|/\n\t "
-#  endif
+#  define DELIMS LIBXS_DELIMS "|/\n\t "
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
@@ -120,6 +119,9 @@ int main(int argc, char* argv[]) {
 #if defined(__OPENCL)
   const char* const env_nrepeat_smm = getenv("NREPEAT_SMM");
   const int nrepeat_smm = (NULL == env_nrepeat_smm ? 1 : MAX(atoi(env_nrepeat_smm), 1));
+  /* kernels read the stack from host memory if the device can (zero-copy) */
+  const char* const env_unified = getenv("UNIFIED");
+  const int unified = (NULL != env_unified && 0 != atoi(env_unified));
 #else
   const int nrepeat_smm = 1;
 #endif
@@ -171,7 +173,10 @@ int main(int argc, char* argv[]) {
     m = (0 < ism ? ism : 23);
     n = (0 < isn ? isn : m);
     k = (0 < isk ? isk : m);
-    {
+    if (INT_MAX / m < LIBXS_MAX(k, n) || INT_MAX / k < n) {
+      result = EXIT_FAILURE;
+    }
+    if (EXIT_SUCCESS == result) {
 #if defined(ALIGNMENT) && (0 < ALIGNMENT)
       const int ma = (int)LIBXS_UP2(sizeof(ELEM_TYPE) * m, ALIGNMENT);
       const int ka = (int)LIBXS_UP2(sizeof(ELEM_TYPE) * k, ALIGNMENT);
@@ -183,6 +188,7 @@ int main(int argc, char* argv[]) {
 #endif
       const int max_kernel_dim = ceil(sqrt(m * n));
       int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
+      const int* stack_kernel = NULL; /* stack given to the kernel */
       ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
       ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
       void* stream = NULL;
@@ -314,6 +320,16 @@ int main(int argc, char* argv[]) {
       trans_dev = trans_hst;
       CHECK(c_dbcsr_acc_memset_zero(cmat_dev, 0 /*offset*/, sizeof(ELEM_TYPE) * mn * nc, stream), &result, check);
 #endif
+      stack_kernel = stack_dev;
+#if defined(__OPENCL)
+      if (0 != unified) {
+        if (0 != libxstream_mem_host_device_accessible()) {
+          stack_kernel = stack_hst;
+          PRINTF("stack: read by the kernel from host memory\n");
+        }
+        else PRINTF("stack: host memory is not device-accessible, hence uploaded\n");
+      }
+#endif
       /* warmup execution and prebuild transpose-kernel */
       for (r = 0; r < warmup / 2; ++r) {
         CHECK(libsmm_acc_transpose(trans_dev, 0 /*offset*/, nb, bmat_dev, DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream),
@@ -329,7 +345,7 @@ int main(int argc, char* argv[]) {
       transpose = libxs_timer_duration(start, libxs_timer_tick());
       /* warmup execution and prebuild SMM-kernel */
       for (r = 0; r < warmup; ++r) {
-        CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
+        CHECK(libsmm_acc_process(stack_hst, stack_kernel, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
                 MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
@@ -337,7 +353,7 @@ int main(int argc, char* argv[]) {
       CHECK(c_dbcsr_acc_stream_sync(stream), &result, check);
       start = libxs_timer_tick();
       for (r = 0; r < nrepeat; ++r) {
-        CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
+        CHECK(libsmm_acc_process(stack_hst, stack_kernel, stack_size, DBCSR_TYPE(ELEM_TYPE), amat_dev, bmat_dev, cmat_dev, m, n, k,
                 MAX_KERNEL_DIM, 1 /*homogeneous*/, stream, stream),
           &result, check);
       }
@@ -361,7 +377,7 @@ int main(int argc, char* argv[]) {
           const ELEM_TYPE alpha = 1, beta = 1;
           const char transa = 'N', transb = 'N';
           libxs_registry_t* const host_registry = libxs_registry_create();
-          const libxs_gemm_config_t* const host_config = libxs_gemm_dispatch(
+          libxs_gemm_config_t* const host_config = libxs_gemm_dispatch(
             LIBXS_DATATYPE(ELEM_TYPE), transa, transb, m, n, k, m, k, m, &alpha, &beta, host_registry);
           memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
           for (r = 0; r < warmup; ++r) {
@@ -389,6 +405,7 @@ int main(int argc, char* argv[]) {
 #endif
           }
           duration = libxs_timer_duration(start, libxs_timer_tick());
+          libxs_gemm_release(host_config); /* release JIT kernel (this TU) */
           libxs_gemm_release_registry(host_registry);
           perf_hst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * nrepeat_smm) / duration;
           PRINTF("host: %.2g ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * nrepeat_smm), perf_hst);
@@ -415,7 +432,7 @@ int main(int argc, char* argv[]) {
                 else {
                   PRINTF("\n");
                 }
-                if (0 < check && check < epsilon) result = EXIT_FAILURE;
+                if (0 != check && (0 < check ? check : ACC_BENCH_SMM_EPSILON(ELEM_TYPE)) < epsilon) result = EXIT_FAILURE;
               }
               else {
                 fprintf(stderr, "ERROR: failed to validate!\n");
@@ -443,7 +460,7 @@ int main(int argc, char* argv[]) {
         if (NULL != file) PRINTF("\n");
         ++nok;
       }
-      if (0 == result) {
+      if (0 <= result) { /* a wrong result is reported as well */
         LIBXS_STDIO_ACQUIRE();
         fputs(print_buffer, stdout);
         LIBXS_STDIO_RELEASE();

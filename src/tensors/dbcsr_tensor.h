@@ -150,15 +150,9 @@ int c_dbcsr_t_nblks_local(const dbcsr_t_tensor c_tensor, const int idim);
 
 int c_dbcsr_t_nblks_total(const dbcsr_t_tensor c_tensor, const int idim);
 
-int c_dbcsr_t_ndims_matrix_row(const dbcsr_t_tensor c_tensor);
+long long int c_dbcsr_t_ndims_matrix_row(const dbcsr_t_tensor c_tensor);
 
-int c_dbcsr_t_ndims_matrix_column(const dbcsr_t_tensor c_tensor);
-
-int c_dbcsr_t_get_nze(const dbcsr_t_tensor c_tensor);
-
-long long int c_dbcsr_t_get_nze_total(const dbcsr_t_tensor c_tensor);
-
-int c_dbcsr_t_ndims_matrix_column(const dbcsr_t_tensor c_tensor);
+long long int c_dbcsr_t_ndims_matrix_column(const dbcsr_t_tensor c_tensor);
 
 int c_dbcsr_t_get_nze(const dbcsr_t_tensor c_tensor);
 

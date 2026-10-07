@@ -136,12 +136,6 @@ elseif (USE_ACCEL STREQUAL "cuda")
                               PROPERTIES COMPILE_FLAGS "--x cu")
 endif ()
 
-# OpenCL backend: SMM from LIBXSTREAM samples, ACC from LIBXSTREAM library
-set(DBCSR_SMM_DIR "${DBCSR_LIBXSTREAM_SMM_DIR}")
-set(DBCSR_OPENCL_SRCS
-    "${DBCSR_SMM_DIR}/smm_acc.c" "${DBCSR_SMM_DIR}/smm_trans.c"
-    "${DBCSR_SMM_DIR}/smm_params.c" "${DBCSR_SMM_DIR}/smm_kernel.c")
-
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_FORTRAN_SRCS})
   # add_fypp_sources returns a path in the current binary dir
@@ -163,8 +157,6 @@ if (USE_ACCEL STREQUAL "cuda")
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
 elseif (USE_ACCEL STREQUAL "hip")
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
-elseif (USE_ACCEL STREQUAL "opencl")
-  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
 endif ()
 
 # =================================================================================================
@@ -190,12 +182,19 @@ endif ()
 # Must be compiled by the consumer so preprocessor defines (__MKL, __LIBXSMM)
 # match the consumer's configuration.
 if (USE_LIBXS)
-  message(STATUS "Adding libxs_jit.F from dependency libxs for compilation")
   get_target_property(_libxs_incdirs libxs::libxs INTERFACE_INCLUDE_DIRECTORIES)
-  find_path(DBCSR_LIBXS_JIT_DIR "libxs_jit.F" HINTS ${_libxs_incdirs})
-  if (DBCSR_LIBXS_JIT_DIR)
-    target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_JIT_DIR}/libxs_jit.F")
+  # only the package found, as another LIBXS may be installed as well
+  find_path(
+    DBCSR_LIBXS_JIT_DIR "libxs_jit.F"
+    PATHS ${_libxs_incdirs}
+    PATH_SUFFIXES libxs
+    NO_DEFAULT_PATH)
+  if (NOT DBCSR_LIBXS_JIT_DIR)
+    message(FATAL_ERROR "libxs_jit.F not found (libxs: ${libxs_DIR})")
   endif ()
+  message(STATUS "Using libxs: ${libxs_DIR}")
+  message(STATUS "Compiling ${DBCSR_LIBXS_JIT_DIR}/libxs_jit.F")
+  target_sources(dbcsr PRIVATE "${DBCSR_LIBXS_JIT_DIR}/libxs_jit.F")
   unset(_libxs_incdirs)
 endif ()
 
@@ -292,19 +291,9 @@ if (DBCSR_WITH_ACCEL)
 
   if (USE_ACCEL STREQUAL "opencl")
     target_compile_definitions(dbcsr PRIVATE __LIBXSTREAM)
-    target_include_directories(dbcsr PRIVATE "${DBCSR_SMM_DIR}")
-    set(DBCSR_SMM_KERNELS "${DBCSR_SMM_DIR}/kernels/multiply.cl"
-                          "${DBCSR_SMM_DIR}/kernels/transpose.cl")
-    file(GLOB DBCSR_SMM_PARAMS "${DBCSR_SMM_DIR}/params/tune_multiply_*.csv")
-    set(DBCSR_SMM_GENHDR "${DBCSR_SMM_DIR}/smm_kernels.h")
-    add_custom_command(
-      OUTPUT "${DBCSR_SMM_GENHDR}"
-      COMMAND "${DBCSR_OPENCL_SCRIPT}" -I "${DBCSR_LIBXSTREAM_INCLUDE_DIR}"
-              ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS} "${DBCSR_SMM_GENHDR}"
-      DEPENDS "${DBCSR_OPENCL_SCRIPT}" ${DBCSR_SMM_KERNELS} ${DBCSR_SMM_PARAMS}
-      COMMENT "Generating OpenCL SMM kernel header")
-    add_custom_target(dbcsr_smm_kernels DEPENDS "${DBCSR_SMM_GENHDR}")
-    add_dependencies(dbcsr dbcsr_smm_kernels)
+    # OpenCL backend: LIBSMM from LIBXSTREAM, which enumerates its sources and
+    # kernels and generates the kernel header; ACC from the LIBXSTREAM library
+    libxstream_add_smm(dbcsr)
   endif ()
 
   target_link_libraries(

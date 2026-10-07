@@ -112,7 +112,7 @@ if [ "${XARGS}" ] && [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT}
         fi
       fi
       if [ "${CUTSEL}" ]; then
-        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3 | \
+        MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx "${CUTSEL}" | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3 | \
           if [ "${MAXNUM}" ] && [ "0" != "$((0<MAXNUM))" ]; then ${HEAD} -n"${MAXNUM}"; else cat; fi)
       else
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1,1 -k2,2 -k3,3 | \
