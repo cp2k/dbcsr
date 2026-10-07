@@ -17,9 +17,9 @@
 /** used to mark variables used */
 #define DBCSR_MARK_USED(x) (void)(x)
 
-#if defined(__OPENCL)
+#if defined(__OPENCL) || defined(__OFFLOAD_OPENCL)
 /* ACC interface provided by LIBXSTREAM */
-#  include <libxstream_dbcsr.h>
+#  include <libxstream/libxstream_dbcsr.h>
 #else
 #  include <stddef.h>
 

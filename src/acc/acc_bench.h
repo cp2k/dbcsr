@@ -58,7 +58,8 @@
       const int init_stack_r_ = \
         ((NULL == init_stack_rnd_ || 0 >= (RND_SIZE)) ? rand() : init_stack_rnd_[init_stack_i_ % init_stack_rnd_size_]); \
       const int init_stack_next_ = init_stack_c_ + 1; \
-      init_stack_ntop_ += init_stack_navg_ + (init_stack_r_ % (2 * init_stack_nimb_) - init_stack_nimb_); \
+      /* a step of zero (NC == STACK_SIZE) would draw the same RND entry forever */ \
+      init_stack_ntop_ += MAX(1, init_stack_navg_ + (init_stack_r_ % (2 * init_stack_nimb_) - init_stack_nimb_)); \
       if ((STACK_SIZE) < init_stack_ntop_) init_stack_ntop_ = (STACK_SIZE); \
       for (; init_stack_i_ < init_stack_ntop_; ++init_stack_i_) { \
         int init_stack_a_, init_stack_b_; \

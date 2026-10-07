@@ -730,7 +730,11 @@ CONTAINS
             IF (blk_p .EQ. 0) CYCLE
             blk_nze = rbs(rowi(blk))*cbs(coli(blk))
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-            nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+            #:if nametype1 in ['d', 's']
+               nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+            #:else
+               nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1)), KIND = real_8)
+            #:endif
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
                lastblk = lastblk + 1
