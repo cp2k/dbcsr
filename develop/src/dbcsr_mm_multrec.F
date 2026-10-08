@@ -735,7 +735,9 @@ CONTAINS
             IF (blk_p .EQ. 0) CYCLE
             blk_nze = rbs(rowi(blk))*cbs(coli(blk))
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-            nrm = REAL((DDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+               nrm = REAL((DDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
                lastblk = lastblk + 1
@@ -790,7 +792,9 @@ CONTAINS
             IF (blk_p .EQ. 0) CYCLE
             blk_nze = rbs(rowi(blk))*cbs(coli(blk))
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-            nrm = REAL((SDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+               nrm = REAL((SDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
                lastblk = lastblk + 1
@@ -844,7 +848,9 @@ CONTAINS
             IF (blk_p .EQ. 0) CYCLE
             blk_nze = rbs(rowi(blk))*cbs(coli(blk))
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-            nrm = REAL((DZNRM2 (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+               nrm = REAL((DZNRM2 (blk_nze, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
                lastblk = lastblk + 1
@@ -898,7 +904,9 @@ CONTAINS
             IF (blk_p .EQ. 0) CYCLE
             blk_nze = rbs(rowi(blk))*cbs(coli(blk))
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-            nrm = REAL((SCNRM2 (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+               nrm = REAL((SCNRM2 (blk_nze, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
                lastblk = lastblk + 1
@@ -914,6 +922,6 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_c
-# 750 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 754 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec
