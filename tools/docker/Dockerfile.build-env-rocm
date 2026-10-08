@@ -1,4 +1,4 @@
-FROM rocm/dev-ubuntu-22.04:latest
+FROM rocm/dev-ubuntu-22.04:7.2.4
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -43,11 +43,11 @@ RUN set -ex ; \
     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 # Make sure we have a proper unicode locale and language
-ENV LANG en_US.utf8
+ENV LANG=en_US.utf8
 
 # Leak suppression
 COPY lsan.supp /opt
 ENV LSAN_OPTIONS=suppressions=/opt/lsan.supp
 
 # Make sure CMake finds the HIP/ROCm CMake configuration files
-ENV CMAKE_PREFIX_PATH /opt/rocm
+ENV CMAKE_PREFIX_PATH=/opt/rocm
