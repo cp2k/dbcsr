@@ -133,14 +133,15 @@ set(SUPPORTED_CUDA_ARCHITECTURES
     P100
     V100
     A100
-    H100)
+    H100
+    B200)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100 Mi250 Mi300 Mi350)
 
 set(WITH_GPU
-    "P100"
+    "B200"
     CACHE
       STRING
-      "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+      "Select GPU arch. and embed parameters (default: CUDA/HIP=B200, OPENCL=all)"
 )
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
@@ -151,7 +152,7 @@ if (NOT DEFINED WITH_GPU AND USE_ACCEL STREQUAL "opencl")
       ""
       CACHE
         STRING
-        "Select GPU arch. and embed parameters (default: CUDA/HIP=P100, OPENCL=all)"
+        "Select GPU arch. and embed parameters (default: CUDA/HIP=B200, OPENCL=all)"
         FORCE)
 endif ()
 
