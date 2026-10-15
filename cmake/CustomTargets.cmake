@@ -1,17 +1,4 @@
 # =================================================================================================
-# BUILD DISTRIBUTION
-set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${dbcsr_VERSION}")
-add_custom_target(
-  dist
-  COMMENT "Building distribution: ${ARCHIVE_NAME}"
-  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/dist"
-  COMMAND git archive-all "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
-  COMMAND ${CMAKE_COMMAND} -E echo "SHA512 Digests:"
-  COMMAND ${CMAKE_COMMAND} -E sha512sum
-          "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-
-# =================================================================================================
 # LCOV - COVERAGE REPORTS GENERATION
 find_program(
   LCOV_EXE lcov

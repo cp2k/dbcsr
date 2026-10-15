@@ -16,28 +16,16 @@ jobs:
       with:
         submodules: true
 
-    - name: Configure
-      run: |
-        mkdir -p build
-        cd build
-        cmake -G Ninja \
-          -DUSE_MPI=ON \
-          -DBUILD_TESTING=ON \
-          -DUSE_OPENMP=ON \
-          -DMPI_EXECUTABLE_SUFFIX=.mpich \
-          ..
-
     - name: Configure git to trust the workspace despite the different owner
-      run:
-        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-    - name: Build Release Asset
-      run: cmake --build build -- dist
-
-    - name: Get the release version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+    - name: Create Source Archive
+      id: source_archive
       shell: bash
+      run: |
+        version="${GITHUB_REF_NAME#v}"
+        git-archive-all "./dbcsr-${version}.tar.gz"
+        echo "version=${version}" >> "$GITHUB_OUTPUT"
 
     - name: Create Release
       id: create_release
@@ -56,8 +44,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/dist/dbcsr-${{ steps.get_version.outputs.VERSION }}.tar.gz
-        asset_name: dbcsr-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        asset_path: ./dbcsr-${{ steps.source_archive.outputs.version }}.tar.gz
+        asset_name: dbcsr-${{ steps.source_archive.outputs.version }}.tar.gz
         asset_content_type: application/gzip
 
 #  vim: set ts=2 sw=2 tw=0 :

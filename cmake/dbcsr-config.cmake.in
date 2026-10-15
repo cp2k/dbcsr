@@ -118,4 +118,4 @@ endif ()
 set(CMAKE_PREFIX_PATH "${_dbcsr_prefix_path_save}")
 unset(_dbcsr_prefix_path_save)
 
-include("${CMAKE_CURRENT_LIST_DIR}/DBCSRTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dbcsr-targets.cmake")

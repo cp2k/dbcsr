@@ -1,7 +1,6 @@
 # =================================================================================================
 # INCLUDE
 include(fypp-sources)
-include(GNUInstallDirs) # required to get a proper LIBDIR variable
 include(CMakePackageConfigHelpers)
 
 # =================================================================================================
@@ -244,7 +243,8 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
          # make sure dependencies of dbcsr find the dbcsr_api.mod file plus some
          # files they usually include:
-         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+         $<INSTALL_INTERFACE:${CMAKE_INSTALL_Fortran_MODULES}>)
 # do not export those includes, but some srcs do an unprefixed include
 
 set_target_properties(dbcsr PROPERTIES LINKER_LANGUAGE Fortran)
@@ -342,20 +342,8 @@ endif ()
 # =================================================================================================
 # INSTALL
 
-set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
-set(config_namespace "DBCSR::")
-
 # Install targets
-install(
-  TARGETS dbcsr
-  EXPORT DBCSRTargets
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-# See https://gitlab.kitware.com/cmake/cmake/-/issues/19608
-# CMAKE_INSTALL_Fortran_MODULES may not be an "official" variable
-if (NOT CMAKE_INSTALL_Fortran_MODULES)
-  set(CMAKE_INSTALL_Fortran_MODULES "${CMAKE_INSTALL_INCLUDEDIR}")
-endif ()
+install(TARGETS dbcsr EXPORT dbcsr-targets)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_api.mod"
         DESTINATION "${CMAKE_INSTALL_Fortran_MODULES}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_tensor_api.mod"
@@ -364,10 +352,8 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr_tensor_api.mod"
 if (WITH_C_API)
   install(
     TARGETS dbcsr_c
-    EXPORT DBCSRTargets
-    COMPONENT C
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    EXPORT dbcsr-targets
+    COMPONENT C)
   install(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr.h"
           "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
@@ -416,19 +402,20 @@ endif ()
 unset(_tmp)
 
 configure_package_config_file(
-  cmake/DBCSRConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake"
-  INSTALL_DESTINATION "${config_install_dir}")
+  "${PROJECT_SOURCE_DIR}/cmake/dbcsr-config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/dbcsr-config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
-  VERSION "${dbcsr_VERSION}"
+  "${CMAKE_CURRENT_BINARY_DIR}/dbcsr-config-version.cmake"
+  VERSION "${PROJECT_VERSION}"
   COMPATIBILITY SameMajorVersion)
 
 install(
-  EXPORT DBCSRTargets
-  NAMESPACE "${config_namespace}"
-  DESTINATION "${config_install_dir}")
+  EXPORT dbcsr-targets
+  NAMESPACE "DBCSR::"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfig.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake
-        DESTINATION ${config_install_dir})
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbcsr-config.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/dbcsr-config-version.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
