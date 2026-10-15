@@ -9,7 +9,8 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_Fortran_FLAGS
       "${CMAKE_Fortran_FLAGS} -ffree-form -std=f2008ts -fimplicit-none")
   set(CMAKE_Fortran_FLAGS
-      "${CMAKE_Fortran_FLAGS} -Wno-maybe-uninitialized -Wno-function-elimination")
+      "${CMAKE_Fortran_FLAGS} -Wno-maybe-uninitialized -Wno-function-elimination"
+  )
   set(CMAKE_Fortran_FLAGS
       "${CMAKE_Fortran_FLAGS} -Werror=aliasing -Werror=ampersand")
   set(CMAKE_Fortran_FLAGS
@@ -19,9 +20,11 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_Fortran_FLAGS
       "${CMAKE_Fortran_FLAGS} -Werror=tabs -Werror=target-lifetime")
   set(CMAKE_Fortran_FLAGS
-      "${CMAKE_Fortran_FLAGS} -Werror=underflow -Werror=unused-but-set-parameter")
+      "${CMAKE_Fortran_FLAGS} -Werror=underflow -Werror=unused-but-set-parameter"
+  )
   set(CMAKE_Fortran_FLAGS
-      "${CMAKE_Fortran_FLAGS} -Werror=unused-but-set-variable -Werror=unused-variable")
+      "${CMAKE_Fortran_FLAGS} -Werror=unused-but-set-variable -Werror=unused-variable"
+  )
   set(CMAKE_Fortran_FLAGS
       "${CMAKE_Fortran_FLAGS} -Werror=unused-dummy-argument -Werror=conversion")
   set(CMAKE_Fortran_FLAGS
@@ -37,43 +40,51 @@ if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
   endif ()
 
   include(CheckFortranCompilerFlag)
-  check_fortran_compiler_flag("-Wdeprecated-openmp" _fc_has_deprecated_openmp)
+  CHECK_Fortran_COMPILER_FLAG("-Wdeprecated-openmp" _fc_has_deprecated_openmp)
   if (_fc_has_deprecated_openmp)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Wno-deprecated-openmp")
   endif ()
 
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -g -funroll-loops")
   set(CMAKE_Fortran_FLAGS_COVERAGE
-      "-O0 -g --coverage -fno-omit-frame-pointer -fcheck=all,no-array-temps -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0 -Werror")
+      "-O0 -g --coverage -fno-omit-frame-pointer -fcheck=all,no-array-temps -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0 -Werror"
+  )
   if (USE_ASAN)
     set(CMAKE_Fortran_FLAGS_DEBUG
-        "-O2 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -finline-matmul-limit=0 -Wall -Wextra -Werror -Werror=realloc-lhs -Wno-error=array-temporaries -Wno-error=compare-reals -Wno-error=surprising -fsanitize=undefined -fsanitize=address -fsanitize-recover=all")
-    if ((NOT USE_MPI) OR (NOT "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI"))
+        "-O2 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -finline-matmul-limit=0 -Wall -Wextra -Werror -Werror=realloc-lhs -Wno-error=array-temporaries -Wno-error=compare-reals -Wno-error=surprising -fsanitize=undefined -fsanitize=address -fsanitize-recover=all"
+    )
+    if ((NOT USE_MPI) OR (NOT "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES
+                          "Open MPI"))
       set(CMAKE_Fortran_FLAGS_DEBUG
           "${CMAKE_Fortran_FLAGS_DEBUG} -fsanitize=leak")
     endif ()
   else ()
     set(CMAKE_Fortran_FLAGS_DEBUG
-        "-O0 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -finline-matmul-limit=0 -Wall -Wextra -Werror -Werror=realloc-lhs -Wno-error=array-temporaries -Wno-error=compare-reals -Wno-error=surprising")
+        "-O0 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -finline-matmul-limit=0 -Wall -Wextra -Werror -Werror=realloc-lhs -Wno-error=array-temporaries -Wno-error=compare-reals -Wno-error=surprising"
+    )
   endif ()
 
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -free -stand=f18 -fpp -heap-arrays")
+  set(CMAKE_Fortran_FLAGS
+      "${CMAKE_Fortran_FLAGS} -free -stand=f18 -fpp -heap-arrays")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -g")
   set(CMAKE_Fortran_FLAGS_DEBUG "-O2 -debug")
 
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "IntelLLVM")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -free -stand f18 -fpp -heap-arrays")
+  set(CMAKE_Fortran_FLAGS
+      "${CMAKE_Fortran_FLAGS} -free -stand f18 -fpp -heap-arrays")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -g")
   set(CMAKE_Fortran_FLAGS_DEBUG "-O2 -debug")
 
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "PGI")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Mfreeform -Mextend -Mallocatable=03")
+  set(CMAKE_Fortran_FLAGS
+      "${CMAKE_Fortran_FLAGS} -Mfreeform -Mextend -Mallocatable=03")
   set(CMAKE_Fortran_FLAGS_RELEASE "-fast")
   set(CMAKE_Fortran_FLAGS_DEBUG "-g")
 
 elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "NAG")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -f2008 -free -Warn=reallocation -Warn=subnormal")
+  set(CMAKE_Fortran_FLAGS
+      "${CMAKE_Fortran_FLAGS} -f2008 -free -Warn=reallocation -Warn=subnormal")
   set(CMAKE_Fortran_FLAGS_RELEASE "-O2")
   set(CMAKE_Fortran_FLAGS_DEBUG "-g -C")
   if (NOT OpenMP_FOUND)
@@ -98,10 +109,10 @@ elseif (CMAKE_Fortran_COMPILER_ID STREQUAL "Flang")
   set(CMAKE_Fortran_FLAGS_DEBUG "-O0 -g")
 
 else ()
-  message(WARNING
-    "Unknown Fortran compiler, trying without any additional flags.\n"
-    "-- CMAKE_Fortran_COMPILER_ID: ${CMAKE_Fortran_COMPILER_ID}\n"
-    "-- CMAKE_Fortran_COMPILER: ${CMAKE_Fortran_COMPILER}")
+  message(
+    WARNING "Unknown Fortran compiler, trying without any additional flags.\n"
+            "-- CMAKE_Fortran_COMPILER_ID: ${CMAKE_Fortran_COMPILER_ID}\n"
+            "-- CMAKE_Fortran_COMPILER: ${CMAKE_Fortran_COMPILER}")
 endif ()
 
 # ==============================================================================
@@ -110,13 +121,16 @@ endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS_RELEASE
-      "-O3 -g -funroll-loops -Wall -Wextra -Werror -Wno-missing-field-initializers")
+      "-O3 -g -funroll-loops -Wall -Wextra -Werror -Wno-missing-field-initializers"
+  )
   set(CMAKE_CXX_FLAGS_COVERAGE
       "-O0 -g --coverage -Wall -Wextra -Werror -Wno-missing-field-initializers")
   if (USE_ASAN)
     set(CMAKE_CXX_FLAGS_DEBUG
-        "-O2 -ggdb -Wall -Wextra -Werror -Wno-missing-field-initializers -fsanitize=undefined -fsanitize=address -fsanitize-recover=all")
-    if ((NOT USE_MPI) OR (NOT "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI"))
+        "-O2 -ggdb -Wall -Wextra -Werror -Wno-missing-field-initializers -fsanitize=undefined -fsanitize=address -fsanitize-recover=all"
+    )
+    if ((NOT USE_MPI) OR (NOT "${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES
+                          "Open MPI"))
       set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=leak")
     endif ()
   else ()
@@ -155,10 +169,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -hnoacc -M1234")
 
 else ()
-  message(WARNING
-    "Unknown C++ compiler, trying without any additional flags.\n"
-    "-- CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}\n"
-    "-- CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
+  message(WARNING "Unknown C++ compiler, trying without any additional flags.\n"
+                  "-- CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}\n"
+                  "-- CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
 endif ()
 
 # C inherits from CXX
@@ -168,6 +181,8 @@ set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 
 # Suppress GFortran runtime warnings when LIBXS provides the wrapper
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU"
-    AND NOT USE_ASAN AND USE_LIBXS AND TARGET libxs::libxs)
+    AND NOT USE_ASAN
+    AND USE_LIBXS
+    AND TARGET libxs::libxs)
   add_link_options("-Wl,--wrap=_gfortran_runtime_warning_at")
 endif ()
