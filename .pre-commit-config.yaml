@@ -35,10 +35,6 @@ repos:
   rev: v0.6.13
   hooks:
   - id: cmake-format
-    exclude: >-
-      (?x)^(
-        cmake/(CheckFortranSourceRuns|CompilerConfiguration|Find(BLAS|LAPACK)|GetGitRevisionDescription).cmake|
-      )$
 - repo: local
   hooks:
   - id: check-header
