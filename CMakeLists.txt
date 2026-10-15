@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
 
 # include our cmake snippets
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake
-                      ${CMAKE_CURRENT_SOURCE_DIR}/src/cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # DBCSR's source directory
 set(DBCSR_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -20,56 +19,20 @@ endif ()
 
 # =================================================================================================
 # PROJECT AND VERSION
-include(GetGitRevisionDescription)
 include(FetchContent)
-
-git_describe(GIT_DESC)
-
-if (GIT_DESC)
-  string(REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GIT_DESC}")
-  string(REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR
-                       "${GIT_DESC}")
-  string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" VERSION_PATCH
-                       "${GIT_DESC}")
-  string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.[0-9]+(.*)" "\\1" VERSION_GIT
-                       "${GIT_DESC}")
-
-  git_local_changes(GIT_STATE)
-  if ("${GIT_STATE}" STREQUAL "DIRTY")
-    set(VERSION_GIT "${VERSION_GIT}-dirty")
-  endif ()
-
-  execute_process(
-    COMMAND git log -1 --format=%ai
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_COMMIT_DATE
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-  # take only the date from the git timestamp:
-  string(REGEX REPLACE "^([0-9\\-]+) .*" "\\1" VERSION_DATE
-                       "${GIT_COMMIT_DATE}")
-else ()
-  file(STRINGS VERSION VERSION_INFO)
-  foreach (line ${VERSION_INFO})
-    if (${line} MATCHES "^([^#].*)=[ \t]*(.*)$")
-      set(key ${CMAKE_MATCH_1})
-      set(value ${CMAKE_MATCH_2})
-      string(REGEX REPLACE "[ \t\n]+$" "" key "${key}")
-      string(REGEX REPLACE "[ \t\n]+$" "" value "${value}")
-      set(VERSION_${key} "${value}")
-      continue()
-    endif ()
-  endforeach ()
-endif ()
 
 project(
   dbcsr
-  DESCRIPTION
-    "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)"
+  VERSION 2.10.0
+  DESCRIPTION "Distributed Block Compressed Sparse Row matrix library"
+  HOMEPAGE_URL "https://dbcsr.cp2k.org"
   LANGUAGES Fortran C CXX)
-set(dbcsr_VERSION
-    ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
-set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
+
+include(GNUInstallDirs)
+set(dbcsr_APIVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+set(CMAKE_INSTALL_Fortran_MODULES
+    "${CMAKE_INSTALL_INCLUDEDIR}"
+    CACHE STRING "Installation directory for Fortran module files")
 
 # =================================================================================================
 # OPTIONS
