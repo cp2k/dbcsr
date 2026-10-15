@@ -211,6 +211,42 @@ endif ()
 
 # =================================== GPU BACKEND TESTS (CUDA/HIP)
 
+set(DBCSR_LIBSMM_ACC_TEST_SAMPLES
+    64
+    CACHE STRING "Number of predicted libsmm_acc kernels in GPU smoke tests")
+set(DBCSR_LIBSMM_ACC_TEST_MAX_AUTOTUNED
+    64
+    CACHE
+      STRING
+      "Maximum number of autotuned libsmm_acc kernels in GPU smoke tests; zero means all"
+)
+set(DBCSR_LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS
+    64
+    CACHE
+      STRING
+      "Maximum number of libsmm_acc transpose pairs in GPU smoke tests; zero means all"
+)
+set(DBCSR_LIBSMM_ACC_TEST_MPI_RANKS
+    1
+    CACHE STRING "Number of MPI ranks for libsmm_acc GPU smoke tests")
+set(DBCSR_LIBSMM_ACC_TEST_TIMEOUT
+    300
+    CACHE STRING "Timeout in seconds for each libsmm_acc GPU correctness test")
+
+if (DBCSR_LIBSMM_ACC_TEST_MPI_RANKS LESS 1)
+  message(FATAL_ERROR "DBCSR_LIBSMM_ACC_TEST_MPI_RANKS must be at least 1")
+endif ()
+if (DBCSR_LIBSMM_ACC_TEST_TIMEOUT LESS 1)
+  message(FATAL_ERROR "DBCSR_LIBSMM_ACC_TEST_TIMEOUT must be at least 1")
+endif ()
+foreach (libsmm_acc_test_limit
+         DBCSR_LIBSMM_ACC_TEST_SAMPLES DBCSR_LIBSMM_ACC_TEST_MAX_AUTOTUNED
+         DBCSR_LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS)
+  if (${libsmm_acc_test_limit} LESS 0)
+    message(FATAL_ERROR "${libsmm_acc_test_limit} must be non-negative")
+  endif ()
+endforeach ()
+
 # Add custom commands for the test files that need to be generated from a
 # template
 file(RELATIVE_PATH CURRENT_BINARY_DIR_RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/..
@@ -224,6 +260,8 @@ add_custom_target(
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_unittest_multiply.py
     --base_dir ${CMAKE_CURRENT_SOURCE_DIR}/.. --out_dir
     ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU_PARAMS}
+    --nsamples=${DBCSR_LIBSMM_ACC_TEST_SAMPLES}
+    --max-autotuned=${DBCSR_LIBSMM_ACC_TEST_MAX_AUTOTUNED}
   DEPENDS libsmm_acc_unittest_multiply.cpp.template
           generate_libsmm_acc_unittest_multiply.py
   BYPRODUCTS libsmm_acc_unittest_multiply.cpp
@@ -243,6 +281,9 @@ add_custom_target(
   COMMENT "Generate tests/generate_libsmm_acc_timer_multiply.cpp")
 
 if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
+
+  set(LIBSMM_ACC_CORRECTNESS_TESTS libsmm_acc_unittest_multiply
+                                   libsmm_acc_unittest_transpose)
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS
@@ -267,16 +308,41 @@ if (USE_ACCEL STREQUAL "cuda" OR USE_ACCEL STREQUAL "hip")
     if (OpenMP_FOUND)
       target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
     endif ()
+    if (libsmm_acc_test_name IN_LIST LIBSMM_ACC_CORRECTNESS_TESTS)
+      target_include_directories(${libsmm_acc_test_name}
+                                 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+      if (USE_MPI)
+        target_compile_definitions(${libsmm_acc_test_name}
+                                   PRIVATE DBCSR_LIBSMM_ACC_TEST_USE_MPI)
+        target_link_libraries(${libsmm_acc_test_name} MPI::MPI_CXX)
+      endif ()
+    endif ()
   endforeach ()
 
-  # Comment for the moment, they are not parallelized, very slow... Check issue
-  # https://github.com/cp2k/dbcsr/issues/427 add_test(NAME
-  # libsmm_acc_unittest_multiply COMMAND libsmm_acc_unittest_multiply)
-  # add_test(NAME libsmm_acc_unittest_transpose COMMAND
-  # libsmm_acc_unittest_transpose) add_test(NAME
-  # libsmm_acc_timer_multiply-autotuned COMMAND libsmm_acc_timer_multiply
-  # autotuned) add_test(NAME libsmm_acc_timer_multiply-predicted COMMAND
-  # libsmm_acc_timer_multiply predicted)
+  target_compile_definitions(
+    libsmm_acc_unittest_transpose
+    PRIVATE
+      LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS=${DBCSR_LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS}
+  )
+
+  foreach (libsmm_acc_correctness_test ${LIBSMM_ACC_CORRECTNESS_TESTS})
+    if (USE_MPI)
+      separate_arguments(MPIEXEC_PREFLAGS)
+      add_test(
+        NAME ${libsmm_acc_correctness_test}
+        COMMAND
+          ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG}
+          ${DBCSR_LIBSMM_ACC_TEST_MPI_RANKS} ${MPIEXEC_PREFLAGS}
+          $<TARGET_FILE:${libsmm_acc_correctness_test}> ${MPIEXEC_POSTFLAGS})
+    else ()
+      add_test(NAME ${libsmm_acc_correctness_test}
+               COMMAND $<TARGET_FILE:${libsmm_acc_correctness_test}>)
+    endif ()
+    set_tests_properties(
+      ${libsmm_acc_correctness_test}
+      PROPERTIES LABELS "gpu;libsmm_acc" RUN_SERIAL TRUE TIMEOUT
+                 ${DBCSR_LIBSMM_ACC_TEST_TIMEOUT})
+  endforeach ()
 
 endif ()
 
