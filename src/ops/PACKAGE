@@ -1,6 +1,0 @@
-{
-"description": "High level DBCSR operations",
-"archive": "libdbcsr",
-"requires": ["../acc", "../mpi", "../data", "../base", "../dist",
-	     "../block", "../utils", "../core", "../mm", "../work"],
-}
