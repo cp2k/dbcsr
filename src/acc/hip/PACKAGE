@@ -1,5 +1,0 @@
-{
-"description": "HIP backend for accelerator API",
-"archive":"libdbcsr",
-"requires": ["../../base"]
-}
