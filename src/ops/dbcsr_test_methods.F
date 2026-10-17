@@ -333,8 +333,9 @@ CONTAINS
       CHARACTER                                          :: my_symmetry
       INTEGER                                            :: col, error_handle, max_nze, &
                                                             my_data_type, my_proc, ncol, nrow, &
-                                                            numproc, p, row, i, nselected, num_threads
-      INTEGER(KIND=int_8)                                :: ele, increment, nmax
+                                                            numproc, p, row, i, nselected, num_threads, &
+                                                            nworkers, nblks_guess, sizedata_guess
+      INTEGER(KIND=int_8)                                :: ele, increment, nmax, selected_nze
       INTEGER, DIMENSION(4)                              :: jseed
       REAL(kind=real_8)                                  :: my_sparsity
       REAL(kind=real_8), DIMENSION(1)                    :: value
@@ -374,14 +375,6 @@ CONTAINS
       ELSE
          my_sparsity = sparsity
       END IF
-      CALL dbcsr_work_create(matrix, &
-                             nblks_guess=INT(REAL(dbcsr_nblkrows_total(matrix), KIND=dp) &
-                                             *REAL(dbcsr_nblkcols_total(matrix), KIND=dp) &
-                                             *(1.0_dp - sparsity)*1.1_dp/numproc), &
-                             sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
-                                                *REAL(dbcsr_nfullcols_total(matrix), KIND=dp) &
-                                                *(1.0_dp - sparsity)*1.1_dp/numproc), &
-                             work_mutable=.TRUE.)
 
       max_nze = dbcsr_max_row_size(matrix)*dbcsr_max_col_size(matrix)
       nrow = dbcsr_nblkrows_total(matrix)
@@ -390,11 +383,17 @@ CONTAINS
       num_threads = 1
 !$    num_threads = omp_get_max_threads()
       nselected = 0
+      selected_nze = 0
       NULLIFY (selected_blocks)
       ele = -1
       CALL set_larnv_seed(7, 42, 3, 42, randmat_counter, jseed)
 
       IF (num_threads == 1) THEN
+         CALL dbcsr_work_create(matrix, n=1, &
+                                nblks_guess=INT(REAL(nrow, KIND=dp)*ncol*(1.0_dp - my_sparsity)*1.1_dp/numproc), &
+                                sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
+                                                   *dbcsr_nfullcols_total(matrix)*(1.0_dp - my_sparsity)*1.1_dp/numproc), &
+                                work_mutable=.TRUE.)
          CALL dbcsr_data_init(data_values)
          CALL dbcsr_data_new(data_values, my_data_type, data_size=max_nze)
          CALL dbcsr_data_init(data_values_tr)
@@ -429,6 +428,7 @@ CONTAINS
             IF (nselected > SIZE(selected_blocks)) &
                CALL ensure_array_size(selected_blocks, ub=nselected, factor=1.5_dp)
             selected_blocks(nselected) = ele
+            selected_nze = selected_nze + INT(row_blk_sizes(row), int_8)*col_blk_sizes(col)
          END IF
       END DO
 
@@ -436,7 +436,15 @@ CONTAINS
          CALL dbcsr_data_release(data_values)
          CALL dbcsr_data_release(data_values_tr)
       ELSE
-!$OMP        PARALLEL PRIVATE(i, ele, row, col, data_values, data_values_tr)
+         ! The selected blocks are rank-local. Reserve capacity for each worker,
+         ! not the entire rank's matrix for every OpenMP thread.
+         nworkers = MAX(1, MIN(num_threads, nselected/4))
+         nblks_guess = MAX(1, (nselected + nworkers - 1)/nworkers)
+         sizedata_guess = INT(MIN(INT(HUGE(0), int_8), &
+                                  2*((selected_nze + nworkers - 1)/nworkers)))
+         CALL dbcsr_work_create(matrix, n=nworkers, nblks_guess=nblks_guess, &
+                                sizedata_guess=sizedata_guess, work_mutable=.TRUE.)
+!$OMP        PARALLEL NUM_THREADS(nworkers) PRIVATE(i, ele, row, col, data_values, data_values_tr)
          CALL dbcsr_data_init(data_values)
          CALL dbcsr_data_new(data_values, my_data_type, data_size=max_nze)
          CALL dbcsr_data_init(data_values_tr)
