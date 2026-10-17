@@ -145,6 +145,21 @@ foreach (dbcsr_test ${DBCSR_TESTS_FTN})
                              PROCESSORS ${test_processors})
 endforeach ()
 
+# Also exercise single-rank paths when the default MPI test uses multiple ranks.
+if (USE_MPI)
+  foreach (dbcsr_test dbcsr_unittest1 dbcsr_unittest4)
+    add_test(
+      NAME ${dbcsr_test}:single_rank
+      COMMAND
+        ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 1 ${MPIEXEC_PREFLAGS}
+        $<TARGET_FILE:${dbcsr_test}> ${MPIEXEC_POSTFLAGS})
+    set_tests_properties(
+      ${dbcsr_test}:single_rank
+      PROPERTIES ENVIRONMENT OMP_NUM_THREADS=${NUM_THREADS} PROCESSORS
+                 ${NUM_THREADS})
+  endforeach ()
+endif ()
+
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (tests_src ${DBCSR_PERF_SRCS} ${dbcsr_unittest_common_SRCS}
                    ${DBCSR_TESTS_SRCS_FTN})

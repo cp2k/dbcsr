@@ -600,9 +600,9 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_anytype'
 
       INTEGER                                            :: data_type_a, data_type_b, &
-                                                            handle, size_work, iw
+                                                            handle, size_work, iw, ndata, chunk, first, count
       INTEGER(KIND=int_8)                                :: my_flop, local_matrix_size
-      LOGICAL                                            :: do_scale
+      LOGICAL                                            :: do_scale, same_layout
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_scalar_type)                            :: my_beta_scalar
 
@@ -643,6 +643,56 @@ CONTAINS
       IF ((.NOT. dbcsr_scalar_are_equal(my_beta_scalar, &
                                         dbcsr_scalar_zero(data_type_b))) .AND. &
           dbcsr_get_num_blocks(matrix_b) .GT. 0) THEN
+
+         ! Equal, packed CSR layouts can be updated directly. This is entirely
+         ! rank-local, so each rank may independently select the fast path.
+         same_layout = .FALSE.
+         IF (dbcsr_valid_index(matrix_b) .AND. .NOT. ASSOCIATED(matrix_a%wms) .AND. &
+             .NOT. ASSOCIATED(matrix_b%wms) .AND. matrix_a%nblks == matrix_b%nblks .AND. &
+             matrix_a%nze == matrix_b%nze .AND. &
+             matrix_a%nblkrows_total == matrix_b%nblkrows_total .AND. &
+             matrix_a%nblkcols_total == matrix_b%nblkcols_total .AND. &
+             dbcsr_get_matrix_type(matrix_a) == dbcsr_get_matrix_type(matrix_b) .AND. &
+             matrix_a%replication_type == matrix_b%replication_type) THEN
+            ndata = dbcsr_data_get_size_referenced(matrix_a%data_area)
+            IF (ndata == matrix_a%nze .AND. &
+                ndata == dbcsr_data_get_size_referenced(matrix_b%data_area)) THEN
+               same_layout = ALL(matrix_a%row_p == matrix_b%row_p) .AND. &
+                             ALL(matrix_a%col_i(1:matrix_a%nblks) == matrix_b%col_i(1:matrix_b%nblks)) .AND. &
+                             ALL(matrix_a%blk_p(1:matrix_a%nblks) == matrix_b%blk_p(1:matrix_b%nblks)) .AND. &
+                             ALL(array_data(matrix_a%row_blk_size) == array_data(matrix_b%row_blk_size)) .AND. &
+                             ALL(array_data(matrix_a%col_blk_size) == array_data(matrix_b%col_blk_size))
+            END IF
+         END IF
+         IF (same_layout) THEN
+            ! Reuse the existing type-specific AXPY operations without creating
+            ! work matrices or rebuilding the CSR index.
+!$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(chunk, first, count) &
+!$OMP              SHARED(matrix_a, matrix_b, data_type_a, ndata, do_scale, my_beta_scalar) &
+!$OMP              SCHEDULE(STATIC) IF(ndata > 131072)
+            DO chunk = 0, (ndata - 1)/32768
+               first = chunk*32768 + 1
+               count = MIN(32768, ndata - first + 1)
+               SELECT CASE (data_type_a)
+               CASE (dbcsr_type_real_4)
+                  CALL dbcsr_update_contiguous_blocks_s(matrix_a, matrix_b, first, first, count, &
+                                                        do_scale, my_beta_scalar, .TRUE., 1)
+               CASE (dbcsr_type_real_8)
+                  CALL dbcsr_update_contiguous_blocks_d(matrix_a, matrix_b, first, first, count, &
+                                                        do_scale, my_beta_scalar, .TRUE., 1)
+               CASE (dbcsr_type_complex_4)
+                  CALL dbcsr_update_contiguous_blocks_c(matrix_a, matrix_b, first, first, count, &
+                                                        do_scale, my_beta_scalar, .TRUE., 1)
+               CASE (dbcsr_type_complex_8)
+                  CALL dbcsr_update_contiguous_blocks_z(matrix_a, matrix_b, first, first, count, &
+                                                        do_scale, my_beta_scalar, .TRUE., 1)
+               END SELECT
+            END DO
+!$OMP           END PARALLEL DO
+            IF (PRESENT(flop)) flop = flop + 2_int_8*ndata
+            CALL timestop(handle)
+            RETURN
+         END IF
 
          ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
          ! Overestimate for symmetric matrix and multiple threads!
