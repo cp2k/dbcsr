@@ -399,6 +399,20 @@ if (libxsmm_DIR)
   cmake_path(GET _tmp PARENT_PATH _tmp)
   cmake_path(GET _tmp PARENT_PATH LIBXSMMROOT)
 endif ()
+# lib/<target>/cmake/<name> of a GNU Make build is one level deeper
+foreach (_root LIBXSROOT LIBXSTREAMROOT LIBXSMMROOT)
+  if (${_root})
+    cmake_path(GET ${_root} FILENAME _tmp)
+    if (_tmp STREQUAL "lib")
+      cmake_path(GET ${_root} PARENT_PATH ${_root})
+    endif ()
+  endif ()
+endforeach ()
+# OpenCL may have been found via hints (CMPLR_ROOT, CUDA_PATH) a consumer lacks
+if (OpenCL_INCLUDE_DIR AND OpenCL_LIBRARY)
+  set(OPENCL_INCDIR "${OpenCL_INCLUDE_DIR}")
+  cmake_path(GET OpenCL_LIBRARY PARENT_PATH OPENCL_LIBDIR)
+endif ()
 unset(_tmp)
 
 configure_package_config_file(
