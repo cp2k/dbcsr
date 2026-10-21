@@ -529,12 +529,8 @@ CONTAINS
 !$OMP BARRIER
 !$OMP MASTER
       CALL timeset(routineN//"_sizes", handle2)
-      IF (numproc == 1) THEN
-         recv_count(:, :, :, :) = send_count(:, :, :, :)
-      ELSE
-         CALL mp_alltoall(send_count, recv_count, 2*nrow_images*ncol_images, &
-                          mp_group)
-      END IF
+      CALL mp_alltoall(send_count, recv_count, 2*nrow_images*ncol_images, &
+                       mp_group)
       CALL timestop(handle2)
 !$OMP END MASTER
 !$OMP BARRIER
