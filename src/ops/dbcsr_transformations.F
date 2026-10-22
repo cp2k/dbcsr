@@ -28,6 +28,7 @@ MODULE dbcsr_transformations
       dbcsr_data_init, dbcsr_data_new, dbcsr_data_release, dbcsr_data_set_pointer, &
       dbcsr_data_set_size_referenced, dbcsr_get_data, dbcsr_type_1d_to_2d
    USE dbcsr_data_operations, ONLY: dbcsr_copy_sort_data, &
+                                    dbcsr_data_copyall, &
                                     dbcsr_switch_data_area
    USE dbcsr_dist_methods, ONLY: &
       dbcsr_distribution_col_dist, dbcsr_distribution_hold, dbcsr_distribution_local_cols, &
@@ -2021,6 +2022,38 @@ CONTAINS
          IF (MAXVAL(col_dist_new) .NE. UBOUND(pgrid, 2)) &
             DBCSR_WARN('Range of col distribution not equal to processor cols')
       END IF
+      ! On one rank, a compatible global CSR index already has the right ownership.
+      ! Keep the destination distribution, memory types and other matrix attributes.
+      ! Nonempty targets and other index formats still need the general insertion path.
+      IF (numnodes == 1 .AND. dbcsr_mp_numnodes(dbcsr_distribution_mp(matrix%dist)) == 1 &
+          .AND. dbcsr_valid_index(redist) .AND. redist%nblks == 0 .AND. .NOT. ASSOCIATED(redist%wms) &
+          .AND. matrix%replication_type == dbcsr_repl_none .AND. redist%replication_type == dbcsr_repl_none &
+          .AND. .NOT. matrix%local_indexing .AND. .NOT. matrix%list_indexing .AND. .NOT. matrix%bcsc &
+          .AND. .NOT. redist%local_indexing .AND. .NOT. redist%list_indexing .AND. .NOT. redist%bcsc &
+          .AND. data_type == redist%data_type &
+          .AND. dbcsr_get_matrix_type(matrix) == dbcsr_get_matrix_type(redist) &
+          .AND. matrix%nblkrows_total == redist%nblkrows_total &
+          .AND. matrix%nblkcols_total == redist%nblkcols_total) THEN
+         IF (ALL(array_data(matrix%row_blk_size) == row_blk_size_new) &
+             .AND. ALL(array_data(matrix%col_blk_size) == col_blk_size_new) &
+             .AND. ALL(matrix%blk_p(1:matrix%nblks) /= 0)) THEN
+            CALL dbcsr_addto_index_array(redist, dbcsr_slot_row_p, DATA=matrix%row_p, extra=2*matrix%nblks)
+            CALL dbcsr_addto_index_array(redist, dbcsr_slot_col_i, DATA=matrix%col_i(1:matrix%nblks))
+            CALL dbcsr_addto_index_array(redist, dbcsr_slot_blk_p, DATA=matrix%blk_p(1:matrix%nblks))
+            CALL dbcsr_data_ensure_size(redist%data_area, dbcsr_data_get_size_referenced(matrix%data_area), &
+                                        nocopy=.TRUE.)
+            CALL dbcsr_data_copyall(redist%data_area, matrix%data_area)
+            redist%nblks = matrix%nblks
+            redist%nze = matrix%nze
+            redist%index(dbcsr_slot_nblks) = redist%nblks
+            redist%index(dbcsr_slot_nze) = redist%nze
+            redist%sparsity_id = matrix%sparsity_id
+            redist%work_mutable = .FALSE.
+            CALL timestop(handle)
+            RETURN
+         END IF
+      END IF
+
       ALLOCATE (send_count(2, 0:numnodes - 1))
       ALLOCATE (recv_count(2, 0:numnodes - 1))
       ALLOCATE (total_send_count(2, 0:numnodes - 1))

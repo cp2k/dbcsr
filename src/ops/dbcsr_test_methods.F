@@ -58,6 +58,7 @@ MODULE dbcsr_test_methods
    USE dbcsr_work_operations, ONLY: dbcsr_create, &
                                     dbcsr_finalize, &
                                     dbcsr_work_create
+!$ USE OMP_LIB, ONLY: omp_get_max_threads
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -332,14 +333,15 @@ CONTAINS
       CHARACTER                                          :: my_symmetry
       INTEGER                                            :: col, error_handle, max_nze, &
                                                             my_data_type, my_proc, ncol, nrow, &
-                                                            numproc, nze, p, row, s_col, s_row
-      INTEGER(KIND=int_8)                                :: counter, ele, increment, nmax
-      INTEGER, DIMENSION(4)                              :: iseed, jseed
-      LOGICAL                                            :: tr
+                                                            numproc, p, row, i, nselected, num_threads, &
+                                                            nworkers, nblks_guess, sizedata_guess
+      INTEGER(KIND=int_8)                                :: ele, increment, nmax, selected_nze
+      INTEGER, DIMENSION(4)                              :: jseed
       REAL(kind=real_8)                                  :: my_sparsity
       REAL(kind=real_8), DIMENSION(1)                    :: value
       TYPE(dbcsr_data_obj)                               :: data_values, data_values_tr
       TYPE(dbcsr_distribution_obj)                       :: new_dist
+      INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: selected_blocks
 
 !   ---------------------------------------------------------------------------
 
@@ -373,31 +375,33 @@ CONTAINS
       ELSE
          my_sparsity = sparsity
       END IF
-      CALL dbcsr_work_create(matrix, &
-                             nblks_guess=INT(REAL(dbcsr_nblkrows_total(matrix), KIND=dp) &
-                                             *REAL(dbcsr_nblkcols_total(matrix), KIND=dp) &
-                                             *(1.0_dp - sparsity)*1.1_dp/numproc), &
-                             sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
-                                                *REAL(dbcsr_nfullcols_total(matrix), KIND=dp) &
-                                                *(1.0_dp - sparsity)*1.1_dp/numproc), &
-                             work_mutable=.TRUE.)
 
       max_nze = dbcsr_max_row_size(matrix)*dbcsr_max_col_size(matrix)
-      CALL dbcsr_data_init(data_values)
-      CALL dbcsr_data_new(data_values, my_data_type, data_size=max_nze)
-      CALL dbcsr_data_init(data_values_tr)
-      CALL dbcsr_data_new(data_values_tr, my_data_type, data_size=max_nze)
-
       nrow = dbcsr_nblkrows_total(matrix)
       ncol = dbcsr_nblkcols_total(matrix)
       nmax = INT(nrow, KIND=int_8)*INT(ncol, KIND=int_8)
+      num_threads = 1
+!$    num_threads = omp_get_max_threads()
+      nselected = 0
+      selected_nze = 0
+      NULLIFY (selected_blocks)
       ele = -1
-      counter = 0
       CALL set_larnv_seed(7, 42, 3, 42, randmat_counter, jseed)
 
+      IF (num_threads == 1) THEN
+         CALL dbcsr_work_create(matrix, n=1, &
+                                nblks_guess=INT(REAL(nrow, KIND=dp)*ncol*(1.0_dp - my_sparsity)*1.1_dp/numproc), &
+                                sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
+                                                   *dbcsr_nfullcols_total(matrix)*(1.0_dp - my_sparsity)*1.1_dp/numproc), &
+                                work_mutable=.TRUE.)
+         CALL dbcsr_data_init(data_values)
+         CALL dbcsr_data_new(data_values, my_data_type, data_size=max_nze)
+         CALL dbcsr_data_init(data_values_tr)
+         CALL dbcsr_data_new(data_values_tr, my_data_type, data_size=max_nze)
+      END IF
+
+      ! Keep coordinate selection and the random sequence deterministic.
       DO
-         ! find the next block to add, this is given by a geometrically distributed variable
-         ! we number the blocks of the matrix and jump to the next one
          CALL dlarnv(1, jseed, 1, value)
          IF (my_sparsity > 0) THEN
             increment = 1 + FLOOR(LOG(value(1))/LOG(my_sparsity), KIND=int_8)
@@ -406,62 +410,103 @@ CONTAINS
          END IF
          ele = ele + increment
          IF (ele >= nmax) EXIT
-         counter = counter + 1
          row = INT(ele/ncol) + 1
          col = INT(MOD(ele, INT(ncol, KIND=KIND(ele)))) + 1
-
-         ! build the upper matrix if some symmetry, and only deal with the local blocks.
-         s_row = row; s_col = col
+         IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. col < row) CYCLE
          IF (PRESENT(dist)) THEN
-            tr = .FALSE.
-            CALL dbcsr_get_stored_coordinates(matrix, s_row, s_col, p)
-            IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. s_col .LT. s_row) CYCLE
+            CALL dbcsr_get_stored_coordinates(matrix, row, col, p)
             IF (p .NE. my_proc) CYCLE
          ELSE
-            IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. s_col .LT. s_row) CYCLE
+            IF (my_proc .NE. 0) CYCLE
          END IF
-         IF (.NOT. PRESENT(dist) .AND. my_proc .NE. 0) CYCLE
 
-         ! fill based on a block based seed, makes this the same values in parallel
-         CALL set_larnv_seed(row, nrow, col, ncol, randmat_counter, iseed)
-         nze = row_blk_sizes(s_row)*col_blk_sizes(s_col)
-         CALL dbcsr_lapack_larnv(1, iseed, nze, data_values)
-         CALL dbcsr_put_block(matrix, s_row, s_col, data_values)
-         IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. s_col .EQ. s_row) THEN
-            SELECT CASE (my_symmetry)
-            CASE (dbcsr_type_symmetric)
-               CALL dbcsr_block_transpose(data_values_tr, data_values, &
-                                          row_size=row_blk_sizes(s_row), col_size=col_blk_sizes(s_col), lb=1, source_lb=1)
-            CASE (dbcsr_type_antisymmetric)
-               CALL dbcsr_block_transpose(data_values_tr, data_values, &
-                                          row_size=row_blk_sizes(s_row), col_size=col_blk_sizes(s_col), lb=1, source_lb=1, &
-                                          scale=dbcsr_scalar_negative(dbcsr_scalar_one(my_data_type)))
-            CASE (dbcsr_type_hermitian)
-               CALL dbcsr_block_transpose(data_values_tr, data_values, &
-                                          row_size=row_blk_sizes(s_row), col_size=col_blk_sizes(s_col), lb=1, source_lb=1)
-               CALL dbcsr_block_conjg(data_values_tr, row_size=col_blk_sizes(s_col), col_size=row_blk_sizes(s_row), &
-                                      lb=1)
-            CASE (dbcsr_type_antihermitian)
-               CALL dbcsr_block_transpose(data_values_tr, data_values, &
-                                          row_size=row_blk_sizes(s_row), col_size=col_blk_sizes(s_col), lb=1, source_lb=1, &
-                                          scale=dbcsr_scalar_negative(dbcsr_scalar_one(my_data_type)))
-               CALL dbcsr_block_conjg(data_values_tr, row_size=col_blk_sizes(s_col), col_size=row_blk_sizes(s_row), &
-                                      lb=1)
-            CASE DEFAULT
-               DBCSR_ABORT("wrong matrix symmetry")
-            END SELECT
-            CALL dbcsr_put_block(matrix, s_row, s_col, data_values_tr, summation=.TRUE.)
+         IF (num_threads == 1) THEN
+            CALL fill_random_block(row, col, data_values, data_values_tr)
+         ELSE
+            nselected = nselected + 1
+            IF (.NOT. ASSOCIATED(selected_blocks)) CALL ensure_array_size(selected_blocks, ub=1024)
+            IF (nselected > SIZE(selected_blocks)) &
+               CALL ensure_array_size(selected_blocks, ub=nselected, factor=1.5_dp)
+            selected_blocks(nselected) = ele
+            selected_nze = selected_nze + INT(row_blk_sizes(row), int_8)*col_blk_sizes(col)
          END IF
       END DO
 
-      CALL dbcsr_data_release(data_values)
-      CALL dbcsr_data_release(data_values_tr)
+      IF (num_threads == 1) THEN
+         CALL dbcsr_data_release(data_values)
+         CALL dbcsr_data_release(data_values_tr)
+      ELSE
+         ! The selected blocks are rank-local. Reserve capacity for each worker,
+         ! not the entire rank's matrix for every OpenMP thread.
+         nworkers = MAX(1, MIN(num_threads, nselected/4))
+         nblks_guess = MAX(1, (nselected + nworkers - 1)/nworkers)
+         sizedata_guess = INT(MIN(INT(HUGE(0), int_8), &
+                                  2*((selected_nze + nworkers - 1)/nworkers)))
+         CALL dbcsr_work_create(matrix, n=nworkers, nblks_guess=nblks_guess, &
+                                sizedata_guess=sizedata_guess, work_mutable=.TRUE.)
+!$OMP        PARALLEL NUM_THREADS(nworkers) PRIVATE(i, ele, row, col, data_values, data_values_tr)
+         CALL dbcsr_data_init(data_values)
+         CALL dbcsr_data_new(data_values, my_data_type, data_size=max_nze)
+         CALL dbcsr_data_init(data_values_tr)
+         CALL dbcsr_data_new(data_values_tr, my_data_type, data_size=max_nze)
+!$OMP        DO SCHEDULE(STATIC)
+         DO i = 1, nselected
+            ele = selected_blocks(i)
+            row = INT(ele/ncol) + 1
+            col = INT(MOD(ele, INT(ncol, KIND=KIND(ele)))) + 1
+            CALL fill_random_block(row, col, data_values, data_values_tr)
+         END DO
+!$OMP        END DO
+         CALL dbcsr_data_release(data_values)
+         CALL dbcsr_data_release(data_values_tr)
+!$OMP        END PARALLEL
+         IF (ASSOCIATED(selected_blocks)) DEALLOCATE (selected_blocks)
+      END IF
 
       CALL dbcsr_distribution_release(new_dist)
       CALL dbcsr_finalize(matrix)
       CALL dbcsr_verify_matrix(matrix)
       !
       CALL timestop(error_handle)
+   CONTAINS
+
+      SUBROUTINE fill_random_block(brow, bcol, values, values_tr)
+         INTEGER, INTENT(IN)                              :: brow, bcol
+         TYPE(dbcsr_data_obj), INTENT(INOUT)              :: values, values_tr
+         INTEGER                                         :: nze, iseed(4)
+
+         ! fill based on a block based seed, makes this the same values in parallel
+         CALL set_larnv_seed(brow, nrow, bcol, ncol, randmat_counter, iseed)
+         nze = row_blk_sizes(brow)*col_blk_sizes(bcol)
+         CALL dbcsr_lapack_larnv(1, iseed, nze, values)
+         CALL dbcsr_put_block(matrix, brow, bcol, values)
+         IF (my_symmetry .NE. dbcsr_type_no_symmetry .AND. bcol .EQ. brow) THEN
+            SELECT CASE (my_symmetry)
+            CASE (dbcsr_type_symmetric)
+               CALL dbcsr_block_transpose(values_tr, values, &
+                                          row_size=row_blk_sizes(brow), col_size=col_blk_sizes(bcol), lb=1, source_lb=1)
+            CASE (dbcsr_type_antisymmetric)
+               CALL dbcsr_block_transpose(values_tr, values, &
+                                          row_size=row_blk_sizes(brow), col_size=col_blk_sizes(bcol), lb=1, source_lb=1, &
+                                          scale=dbcsr_scalar_negative(dbcsr_scalar_one(my_data_type)))
+            CASE (dbcsr_type_hermitian)
+               CALL dbcsr_block_transpose(values_tr, values, &
+                                          row_size=row_blk_sizes(brow), col_size=col_blk_sizes(bcol), lb=1, source_lb=1)
+               CALL dbcsr_block_conjg(values_tr, row_size=col_blk_sizes(bcol), col_size=row_blk_sizes(brow), &
+                                      lb=1)
+            CASE (dbcsr_type_antihermitian)
+               CALL dbcsr_block_transpose(values_tr, values, &
+                                          row_size=row_blk_sizes(brow), col_size=col_blk_sizes(bcol), lb=1, source_lb=1, &
+                                          scale=dbcsr_scalar_negative(dbcsr_scalar_one(my_data_type)))
+               CALL dbcsr_block_conjg(values_tr, row_size=col_blk_sizes(bcol), col_size=row_blk_sizes(brow), &
+                                      lb=1)
+            CASE DEFAULT
+               DBCSR_ABORT("wrong matrix symmetry")
+            END SELECT
+            CALL dbcsr_put_block(matrix, brow, bcol, values_tr, summation=.TRUE.)
+         END IF
+      END SUBROUTINE fill_random_block
+
    END SUBROUTINE dbcsr_make_random_matrix
 
    SUBROUTINE dbcsr_make_random_block_sizes(block_sizes, size_sum, size_mix)

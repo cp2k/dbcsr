@@ -551,12 +551,19 @@ CONTAINS
          CALL dbcsr_data_new(recv_data_area, data_type, SUM(total_recv_count(2, :)), memory_type=memtype_abpanel_1)
          ! Some MPI implementations have high overhead when encountering a new buffer.
          ! Therefore we also use the memory pool for the send buffer.
-         CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)), memory_type=memtype_abpanel_1)
+         IF (numproc > 1) &
+            CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)), memory_type=memtype_abpanel_1)
       ELSE
          CALL dbcsr_data_new(recv_data_area, data_type, SUM(total_recv_count(2, :)))
-         CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)))
+         IF (numproc > 1) CALL dbcsr_data_new(send_data_area, data_type, SUM(total_send_count(2, :)))
       END IF
-      ALLOCATE (recv_meta(metalen*SUM(total_recv_count(1, :))))
+      IF (numproc == 1) THEN
+         ! Pack directly into the image data area; there is no remote destination.
+         send_data_area = recv_data_area
+         CALL dbcsr_data_hold(send_data_area)
+      ELSE
+         ALLOCATE (recv_meta(metalen*SUM(total_recv_count(1, :))))
+      END IF
       ALLOCATE (send_meta(metalen*SUM(total_send_count(1, :))))
       ! Calculate displacements for processors needed for the exchanges.
       DO dst_p = 1, numproc - 1
@@ -671,15 +678,19 @@ CONTAINS
       ! there are only very few processors that need to exchange data.
       ! The hybrid_alltoall deals with this by doing point to point communication
       CALL timeset(routineN//"_data", handle2)
-      CALL hybrid_alltoall_any(send_data_area, total_send_count(2, :), sd_disp(:) - 1, &
-                               recv_data_area, total_recv_count(2, :), rd_disp(:) - 1, &
-                               mp_obj, &
-                               most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE.)
-      CALL hybrid_alltoall_i1( &
-         send_meta(:), metalen*total_send_count(1, :), sm_disp(:) - 1, &
-         recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:) - 1, &
-         most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE., &
-         mp_env=mp_obj)
+      IF (numproc == 1) THEN
+         CALL MOVE_ALLOC(send_meta, recv_meta)
+      ELSE
+         CALL hybrid_alltoall_any(send_data_area, total_send_count(2, :), sd_disp(:) - 1, &
+                                  recv_data_area, total_recv_count(2, :), rd_disp(:) - 1, &
+                                  mp_obj, &
+                                  most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE.)
+         CALL hybrid_alltoall_i1( &
+            send_meta(:), metalen*total_send_count(1, :), sm_disp(:) - 1, &
+            recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:) - 1, &
+            most_ptp=.TRUE., remainder_ptp=.TRUE., no_hybrid=.FALSE., &
+            mp_env=mp_obj)
+      END IF
       CALL timestop(handle2)
 
       ! Now create the work index and/or copy the relevant data from the
@@ -740,7 +751,8 @@ CONTAINS
       DEALLOCATE (rd_disp, rm_disp)
       DEALLOCATE (all_total_send_offset)
       DEALLOCATE (blk_ps, blks)
-      DEALLOCATE (recv_meta, send_meta)
+      DEALLOCATE (recv_meta)
+      IF (ALLOCATED(send_meta)) DEALLOCATE (send_meta)
 
       CALL dbcsr_data_release(send_data_area)
       CALL dbcsr_data_release(received_data_area)

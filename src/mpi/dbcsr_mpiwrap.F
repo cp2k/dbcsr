@@ -2998,13 +2998,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, ${mpi_type1}$, &
-                           rb, count, ${mpi_type1}$, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, ${mpi_type1}$, &
+                              rb, count, ${mpi_type1}$, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*${bytes1}$)
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
