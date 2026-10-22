@@ -42,8 +42,8 @@ To cite the DBCSR software library, use:
 
 ```latex
 @misc{dbcsr-software,
-	author = {The CP2K Developers Group},
-	title = {{DBCSR: Distributed Block Compressed Sparse Row matrix library}},
+	author = {{The DBCSR Developers Group}},
+	title = {{DBCSR: Distributed Block Compressed Sparse Row Matrix Library}},
 	publisher = {GitHub},
 	journal = {GitHub repository},
 	year = {2022},
