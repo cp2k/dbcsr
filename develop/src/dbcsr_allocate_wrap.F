@@ -23,7 +23,7 @@ MODULE dbcsr_allocate_wrap
 # 19 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 2
 # 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
-   USE dbcsr_kinds, ONLY: real_4, real_8
+   USE dbcsr_kinds, ONLY: real_8, real_4
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
