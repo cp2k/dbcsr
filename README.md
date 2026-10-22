@@ -46,7 +46,7 @@ To cite the DBCSR software library, use:
 	title = {{DBCSR: Distributed Block Compressed Sparse Row Matrix Library}},
 	publisher = {GitHub},
 	journal = {GitHub repository},
-	year = {2022},
+	year = {2001},
 	url = {https://github.com/cp2k/dbcsr}
 }
 ```
