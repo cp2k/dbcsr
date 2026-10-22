@@ -3335,13 +3335,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_INTEGER, &
-                           rb, count, MPI_INTEGER, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_INTEGER, &
+                              rb, count, MPI_INTEGER, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -6125,13 +6129,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_INTEGER8, &
-                           rb, count, MPI_INTEGER8, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_INTEGER8, &
+                              rb, count, MPI_INTEGER8, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -8915,13 +8923,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_DOUBLE_PRECISION, &
-                           rb, count, MPI_DOUBLE_PRECISION, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_DOUBLE_PRECISION, &
+                              rb, count, MPI_DOUBLE_PRECISION, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -11705,13 +11717,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_REAL, &
-                           rb, count, MPI_REAL, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_REAL, &
+                              rb, count, MPI_REAL, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -14495,13 +14511,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_DOUBLE_COMPLEX, &
-                           rb, count, MPI_DOUBLE_COMPLEX, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_DOUBLE_COMPLEX, &
+                              rb, count, MPI_DOUBLE_COMPLEX, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -17285,13 +17305,17 @@ CONTAINS
          CALL timeset(routineN, handle)
 
 #if defined(__parallel)
-         CALL mpi_alltoall(sb, count, MPI_COMPLEX, &
-                           rb, count, MPI_COMPLEX, group%handle, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
-         msglen = 2*count*np
-         CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+         IF (np == 1 .AND. SIZE(sb) == count .AND. ALL(SHAPE(sb) == SHAPE(rb))) THEN
+            rb = sb
+         ELSE
+            CALL mpi_alltoall(sb, count, MPI_COMPLEX, &
+                              rb, count, MPI_COMPLEX, group%handle, ierr)
+            IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
+            msglen = 2*count*np
+            CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+         END IF
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -19905,6 +19929,6 @@ CONTAINS
       END SUBROUTINE mp_free_mem_c
 #endif
 
-# 5622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 5626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

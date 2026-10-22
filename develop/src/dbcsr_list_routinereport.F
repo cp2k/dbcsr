@@ -21,7 +21,7 @@
    !! Have look at list_push(), list_pop() and list_peek().
 
 MODULE dbcsr_list_routinereport
-   USE dbcsr_timings_base_type, ONLY: callstack_entry_type, routine_stat_type, routine_report_type
+   USE dbcsr_timings_base_type, ONLY: routine_stat_type, callstack_entry_type, routine_report_type
 
 
 # 21 "/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinereport.F"
