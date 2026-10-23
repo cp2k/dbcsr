@@ -29,6 +29,7 @@ MODULE dbcsr_data_operations
                           dbcsr_type_real_4, &
                           dbcsr_type_real_8
 #include "base/dbcsr_base_uses.f90"
+!$ USE OMP_LIB, ONLY: omp_in_parallel
 
    IMPLICIT NONE
 
@@ -81,7 +82,7 @@ CONTAINS
          !! shallow copy (default is deep)
 
       INTEGER                                            :: i, n
-      LOGICAL                                            :: shallow_copy
+      LOGICAL                                            :: shallow_copy, parallel_copy
 
 !   ---------------------------------------------------------------------------
 
@@ -100,6 +101,14 @@ CONTAINS
          CALL dbcsr_data_set_size_referenced(target_area, &
                                              dbcsr_data_get_size_referenced(source_area))
          n = dbcsr_data_get_size_referenced(source_area)
+         IF (n == 0) RETURN
+         ! Small blocks and copies within a parallel region do not need a new team.
+         parallel_copy = .FALSE.
+!$       parallel_copy = n >= 131072 .AND. .NOT. omp_in_parallel()
+         IF (.NOT. parallel_copy) THEN
+            CALL dbcsr_data_set(target_area, lb=1, data_size=n, src=source_area)
+            RETURN
+         END IF
          SELECT CASE (target_area%d%data_type)
          CASE (dbcsr_type_real_4)
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)

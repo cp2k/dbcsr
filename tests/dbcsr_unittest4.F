@@ -25,13 +25,17 @@ PROGRAM dbcsr_unittest
                             mp_world_finalize, &
                             mp_world_init, mp_comm_type
    USE dbcsr_block_operations, ONLY: dbcsr_data_clear
+   USE dbcsr_block_access, ONLY: dbcsr_reserve_blocks
+   USE dbcsr_data_methods, ONLY: dbcsr_data_init, dbcsr_data_new, dbcsr_data_release
+   USE dbcsr_data_operations, ONLY: dbcsr_data_convert
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new, dbcsr_distribution_release
    USE dbcsr_dist_util, ONLY: dbcsr_checksum, dbcsr_verify_matrix
+   USE dbcsr_operations, ONLY: dbcsr_clear, dbcsr_copy, dbcsr_copy_into_existing
    USE dbcsr_test_methods, ONLY: dbcsr_make_random_matrix, dbcsr_reset_randmat_seed
    USE dbcsr_transformations, ONLY: dbcsr_redistribute
    USE dbcsr_test_scale_by_vector, ONLY: dbcsr_test_scale_by_vectors
-   USE dbcsr_types, ONLY: dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_type, &
-                          dbcsr_type_real_8, dbcsr_type_complex_8, &
+   USE dbcsr_types, ONLY: dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_type, &
+                          dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_complex_8, &
                           dbcsr_type_no_symmetry, dbcsr_type_hermitian
    USE dbcsr_work_operations, ONLY: dbcsr_create
 #include "base/dbcsr_base_uses.f90"
@@ -80,6 +84,7 @@ PROGRAM dbcsr_unittest
    ! run tests
    success = .TRUE.
 
+   CALL test_copy_into_existing()
    CALL test_local_redistribute()
 
    success = dbcsr_test_scale_by_vectors("scale_by_vector_symmetric", &
@@ -116,6 +121,72 @@ PROGRAM dbcsr_unittest
       ERROR STOP "one or more tests failed"
 
 CONTAINS
+
+   SUBROUTINE test_copy_into_existing()
+      INTEGER, PARAMETER :: types(4) = [dbcsr_type_real_4, dbcsr_type_real_8, &
+                                        dbcsr_type_complex_4, dbcsr_type_complex_8]
+      INTEGER, POINTER, CONTIGUOUS :: sizes(:), row_dist(:), col_dist(:)
+      INTEGER, ALLOCATABLE :: index_before(:)
+      INTEGER :: itype, icase, i
+      TYPE(dbcsr_distribution_obj) :: dist
+      TYPE(dbcsr_type) :: source, target
+      TYPE(dbcsr_data_obj) :: values, reference, actual
+
+      ALLOCATE (sizes(4), row_dist(4), col_dist(4))
+      sizes = [2, 3, 2, 3]
+      row_dist = 0; col_dist = 0
+      CALL dbcsr_distribution_new(dist, mp_env, row_dist, col_dist)
+      CALL dbcsr_data_init(values)
+      CALL dbcsr_data_init(reference)
+      CALL dbcsr_data_init(actual)
+      CALL dbcsr_data_new(values, dbcsr_type_complex_8, data_size=25)
+      CALL dbcsr_data_new(reference, dbcsr_type_complex_8, data_size=25)
+      CALL dbcsr_data_new(actual, dbcsr_type_complex_8, data_size=25)
+      DO itype = 1, SIZE(types)
+         values%d%c_dp(:) = CMPLX([(REAL(i, dp), i=1, 25)], 0.0_dp, dp)
+         IF (itype > 2) values%d%c_dp(:) = values%d%c_dp(:)*CMPLX(1.0_dp, -1.0_dp, dp)
+         CALL dbcsr_create(source, "source", dist, dbcsr_type_no_symmetry, &
+                           row_blk_size=sizes, col_blk_size=sizes, data_type=types(itype))
+         IF (mynode == 0) THEN
+            CALL dbcsr_reserve_blocks(source, [1, 1, 2, 3], [1, 2, 2, 4])
+            CALL dbcsr_data_convert(source%data_area, values)
+         END IF
+         CALL dbcsr_copy(target, source)
+         DO icase = 1, 4
+            ! Equal layouts, different sparsity with equal sizes, transposition, empty source.
+            IF (icase == 2) THEN
+               CALL dbcsr_release(target)
+               CALL dbcsr_create(target, template=source)
+               IF (mynode == 0) CALL dbcsr_reserve_blocks(target, [1, 2, 3, 3], [2, 2, 3, 4])
+            END IF
+            IF (icase == 3 .AND. mynode == 0) source%blk_p(4) = -source%blk_p(4)
+            IF (icase == 4) CALL dbcsr_clear(source)
+            ALLOCATE (index_before, SOURCE=target%index)
+            CALL dbcsr_copy_into_existing(target, source)
+            IF (ANY(target%index /= index_before)) DBCSR_ABORT("Copy changed target sparsity")
+            DEALLOCATE (index_before)
+            IF (mynode == 0) THEN
+               reference%d%c_dp(:) = values%d%c_dp(:)
+               IF (icase > 1) THEN
+                  reference%d%c_dp(1:15) = values%d%c_dp(5:19)
+                  reference%d%c_dp(16:19) = 0.0_dp
+               END IF
+               IF (icase == 3) reference%d%c_dp(20:25) = values%d%c_dp([20, 23, 21, 24, 22, 25])
+               IF (icase == 4) reference%d%c_dp(:) = 0.0_dp
+               CALL dbcsr_data_convert(actual, target%data_area)
+               IF (ANY(ABS(actual%d%c_dp(:) - reference%d%c_dp(:)) > 1.0E-6_dp)) &
+                  DBCSR_ABORT("Copy changed matrix values")
+            END IF
+         END DO
+         CALL dbcsr_release(target)
+         CALL dbcsr_release(source)
+      END DO
+      CALL dbcsr_data_release(values)
+      CALL dbcsr_data_release(reference)
+      CALL dbcsr_data_release(actual)
+      CALL dbcsr_distribution_release(dist)
+      DEALLOCATE (sizes, row_dist, col_dist)
+   END SUBROUTINE test_copy_into_existing
 
    SUBROUTINE test_local_redistribute()
       !! Test the local copy, nonempty-target fallback and independent data ownership.
