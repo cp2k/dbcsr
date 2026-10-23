@@ -602,7 +602,7 @@ CONTAINS
       INTEGER                                            :: data_type_a, data_type_b, &
                                                             handle, size_work, iw, ndata, chunk, first, count
       INTEGER(KIND=int_8)                                :: my_flop, local_matrix_size
-      LOGICAL                                            :: do_scale, same_layout
+      LOGICAL                                            :: do_scale
       TYPE(dbcsr_iterator)                               :: iter
       TYPE(dbcsr_scalar_type)                            :: my_beta_scalar
 
@@ -646,25 +646,8 @@ CONTAINS
 
          ! Equal, packed CSR layouts can be updated directly. This is entirely
          ! rank-local, so each rank may independently select the fast path.
-         same_layout = .FALSE.
-         IF (dbcsr_valid_index(matrix_b) .AND. .NOT. ASSOCIATED(matrix_a%wms) .AND. &
-             .NOT. ASSOCIATED(matrix_b%wms) .AND. matrix_a%nblks == matrix_b%nblks .AND. &
-             matrix_a%nze == matrix_b%nze .AND. &
-             matrix_a%nblkrows_total == matrix_b%nblkrows_total .AND. &
-             matrix_a%nblkcols_total == matrix_b%nblkcols_total .AND. &
-             dbcsr_get_matrix_type(matrix_a) == dbcsr_get_matrix_type(matrix_b) .AND. &
-             matrix_a%replication_type == matrix_b%replication_type) THEN
+         IF (same_data_layout(matrix_a, matrix_b)) THEN
             ndata = dbcsr_data_get_size_referenced(matrix_a%data_area)
-            IF (ndata == matrix_a%nze .AND. &
-                ndata == dbcsr_data_get_size_referenced(matrix_b%data_area)) THEN
-               same_layout = ALL(matrix_a%row_p == matrix_b%row_p) .AND. &
-                             ALL(matrix_a%col_i(1:matrix_a%nblks) == matrix_b%col_i(1:matrix_b%nblks)) .AND. &
-                             ALL(matrix_a%blk_p(1:matrix_a%nblks) == matrix_b%blk_p(1:matrix_b%nblks)) .AND. &
-                             ALL(array_data(matrix_a%row_blk_size) == array_data(matrix_b%row_blk_size)) .AND. &
-                             ALL(array_data(matrix_a%col_blk_size) == array_data(matrix_b%col_blk_size))
-            END IF
-         END IF
-         IF (same_layout) THEN
             ! Reuse the existing type-specific AXPY operations without creating
             ! work matrices or rebuilding the CSR index.
 !$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(chunk, first, count) &
@@ -1382,6 +1365,31 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_copy
 
+   LOGICAL FUNCTION same_data_layout(matrix_a, matrix_b) RESULT(same_layout)
+      !! Whether two matrices have the same packed, globally indexed CSR layout.
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a, matrix_b
+      INTEGER                                            :: ndata
+
+      same_layout = .FALSE.
+      IF (.NOT. dbcsr_valid_index(matrix_a) .OR. .NOT. dbcsr_valid_index(matrix_b)) RETURN
+      IF (matrix_a%nblks == 0) RETURN
+      IF (ASSOCIATED(matrix_a%wms) .OR. ASSOCIATED(matrix_b%wms)) RETURN
+      IF (matrix_a%local_indexing .OR. matrix_b%local_indexing .OR. &
+          matrix_a%list_indexing .OR. matrix_b%list_indexing .OR. matrix_a%bcsc .OR. matrix_b%bcsc) RETURN
+      IF (matrix_a%nblks /= matrix_b%nblks .OR. matrix_a%nze /= matrix_b%nze .OR. &
+          matrix_a%nblkrows_total /= matrix_b%nblkrows_total .OR. &
+          matrix_a%nblkcols_total /= matrix_b%nblkcols_total .OR. &
+          dbcsr_get_matrix_type(matrix_a) /= dbcsr_get_matrix_type(matrix_b) .OR. &
+          matrix_a%replication_type /= matrix_b%replication_type) RETURN
+      ndata = dbcsr_data_get_size_referenced(matrix_a%data_area)
+      IF (ndata /= matrix_a%nze .OR. ndata /= dbcsr_data_get_size_referenced(matrix_b%data_area)) RETURN
+      same_layout = ALL(matrix_a%row_p == matrix_b%row_p) .AND. &
+                    ALL(matrix_a%col_i(1:matrix_a%nblks) == matrix_b%col_i(1:matrix_b%nblks)) .AND. &
+                    ALL(matrix_a%blk_p(1:matrix_a%nblks) == matrix_b%blk_p(1:matrix_b%nblks)) .AND. &
+                    ALL(array_data(matrix_a%row_blk_size) == array_data(matrix_b%row_blk_size)) .AND. &
+                    ALL(array_data(matrix_a%col_blk_size) == array_data(matrix_b%col_blk_size))
+   END FUNCTION same_data_layout
+
    SUBROUTINE dbcsr_copy_into_existing(matrix_b, matrix_a)
       !! copy a matrix, retaining current sparsity
 
@@ -1407,6 +1415,11 @@ CONTAINS
          DBCSR_ABORT("Matrix_b is not valid")
       IF (dbcsr_get_data_type(matrix_b) .NE. dbcsr_get_data_type(matrix_a)) &
          DBCSR_ABORT("Matrices have different data types.")
+      IF (same_data_layout(matrix_b, matrix_a)) THEN
+         CALL dbcsr_data_copyall(matrix_b%data_area, matrix_a%data_area)
+         CALL timestop(handle)
+         RETURN
+      END IF
       data_type = dbcsr_get_data_type(matrix_b)
       neg_real = matrix_b%negate_real
       neg_imag = matrix_b%negate_imaginary

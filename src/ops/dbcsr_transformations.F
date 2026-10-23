@@ -90,6 +90,7 @@ MODULE dbcsr_transformations
    USE dbcsr_work_operations, ONLY: dbcsr_create, &
                                     dbcsr_finalize, &
                                     dbcsr_work_create
+!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_num_threads
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -1572,11 +1573,12 @@ CONTAINS
 
       INTEGER :: blk, blk_col_new, blk_ps, blk_row_new, blks, cnt_fnd, cnt_new, cnt_skip, col, &
                  col_int, col_offset_new, col_offset_old, col_rle, col_size, col_size_new, data_offset_l, &
-                 data_type, dst_p, handle, i, meta_l, numnodes, nze_rle, row, row_int, &
+                 data_type, dst_p, handle, i, meta_l, numnodes, nworkers, nze_rle, row, row_int, &
                  row_offset_new, row_offset_old, row_rle, row_size, row_size_new, src_p, stored_col_new, &
                  stored_row_new
       INTEGER, ALLOCATABLE, DIMENSION(:) :: col_end_new, col_end_old, col_start_new, &
-                                            col_start_old, rd_disp, recv_meta, rm_disp, row_end_new, row_end_old, row_start_new, &
+                                            col_start_old, next_meta, rd_disp, recv_meta, rm_disp, &
+                                            row_end_new, row_end_old, row_first, row_start_new, &
                                             row_start_old, sd_disp, sdp, send_meta, sm_disp, smp
       INTEGER, ALLOCATABLE, DIMENSION(:, :) :: col_reblocks, n_col_reblocks, n_row_reblocks, &
                                                recv_count, row_reblocks, send_count, total_recv_count, total_send_count
@@ -1585,7 +1587,8 @@ CONTAINS
                                                             row_blk_size_old, row_dist_new
       INTEGER, DIMENSION(:, :), POINTER                  :: pgrid
       LOGICAL                                            :: found, my_keep_sparsity, my_summation, &
-                                                            sym, tr, valid_block
+                                                            new_target, parallel_fill, sym, tr, &
+                                                            valid_block, valid_target
       REAL(kind=dp)                                      :: cs1, cs2
       TYPE(dbcsr_data_obj)                               :: buff_data, data_block, recv_data, &
                                                             send_data
@@ -1610,6 +1613,10 @@ CONTAINS
       !
       my_summation = .FALSE.
       IF (PRESENT(summation)) my_summation = summation
+      valid_target = dbcsr_valid_index(redist) .AND. .NOT. ASSOCIATED(redist%wms)
+      new_target = redist%nblks == 0
+      parallel_fill = .FALSE.
+!$    parallel_fill = new_target .AND. omp_get_max_threads() > 1
 
       ! zero blocks that might be present in the target (redist) but not in the source (matrix)
       CALL dbcsr_set(redist, 0.0_dp)
@@ -1718,13 +1725,23 @@ CONTAINS
       CALL dbcsr_iterator_stop(iter)
       !
       !
-      CALL mp_alltoall(send_count, recv_count, 2, mp_group)
+      IF (numnodes == 1) THEN
+         recv_count(:, :) = send_count
+      ELSE
+         CALL mp_alltoall(send_count, recv_count, 2, mp_group)
+      END IF
       ! Allocate data structures needed for data exchange.
       CALL dbcsr_data_init(recv_data)
       CALL dbcsr_data_new(recv_data, data_type, SUM(recv_count(2, :)))
-      ALLOCATE (recv_meta(metalen*SUM(recv_count(1, :))))
       CALL dbcsr_data_init(send_data)
-      CALL dbcsr_data_new(send_data, data_type, SUM(send_count(2, :)))
+      IF (numnodes == 1) THEN
+         ! Pack directly into the receive buffer for a local redistribution.
+         send_data = recv_data
+         CALL dbcsr_data_hold(send_data)
+      ELSE
+         ALLOCATE (recv_meta(metalen*SUM(recv_count(1, :))))
+         CALL dbcsr_data_new(send_data, data_type, SUM(send_count(2, :)))
+      END IF
       ALLOCATE (send_meta(metalen*SUM(send_count(1, :))))
       ! Fill in the meta data structures and copy the data.
       DO dst_p = 0, numnodes - 1
@@ -1809,63 +1826,84 @@ CONTAINS
 
       ! Exchange the data and metadata structures.
       !
-      SELECT CASE (data_type)
-      CASE (dbcsr_type_real_4)
-         CALL hybrid_alltoall_s1( &
-            send_data%d%r_sp(:), total_send_count(2, :), sd_disp(:) - 1, &
-            recv_data%d%r_sp(:), total_recv_count(2, :), rd_disp(:) - 1, &
-            mp_obj_new)
-      CASE (dbcsr_type_real_8)
-         !CALL mp_alltoall(&
-         !     send_data%d%r_dp(:), total_send_count(2,:), sd_disp(:)-1,&
-         !     recv_data%d%r_dp(:), total_recv_count(2,:), rd_disp(:)-1,&
-         !     mp_group)
-         CALL hybrid_alltoall_d1( &
-            send_data%d%r_dp(:), total_send_count(2, :), sd_disp(:) - 1, &
-            recv_data%d%r_dp(:), total_recv_count(2, :), rd_disp(:) - 1, &
-            mp_obj_new)
-      CASE (dbcsr_type_complex_4)
-         CALL hybrid_alltoall_c1( &
-            send_data%d%c_sp(:), total_send_count(2, :), sd_disp(:) - 1, &
-            recv_data%d%c_sp(:), total_recv_count(2, :), rd_disp(:) - 1, &
-            mp_obj_new)
-      CASE (dbcsr_type_complex_8)
-         CALL hybrid_alltoall_z1( &
-            send_data%d%c_dp(:), total_send_count(2, :), sd_disp(:) - 1, &
-            recv_data%d%c_dp(:), total_recv_count(2, :), rd_disp(:) - 1, &
-            mp_obj_new)
-      CASE default
-         DBCSR_ABORT("Invalid matrix type")
-      END SELECT
-      CALL hybrid_alltoall_i1(send_meta(:), metalen*total_send_count(1, :), sm_disp(:) - 1, &
-                              recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:) - 1, mp_obj_new)
+      IF (numnodes == 1) THEN
+         CALL MOVE_ALLOC(send_meta, recv_meta)
+      ELSE
+         SELECT CASE (data_type)
+         CASE (dbcsr_type_real_4)
+            CALL hybrid_alltoall_s1( &
+               send_data%d%r_sp(:), total_send_count(2, :), sd_disp(:) - 1, &
+               recv_data%d%r_sp(:), total_recv_count(2, :), rd_disp(:) - 1, &
+               mp_obj_new)
+         CASE (dbcsr_type_real_8)
+            CALL hybrid_alltoall_d1( &
+               send_data%d%r_dp(:), total_send_count(2, :), sd_disp(:) - 1, &
+               recv_data%d%r_dp(:), total_recv_count(2, :), rd_disp(:) - 1, &
+               mp_obj_new)
+         CASE (dbcsr_type_complex_4)
+            CALL hybrid_alltoall_c1( &
+               send_data%d%c_sp(:), total_send_count(2, :), sd_disp(:) - 1, &
+               recv_data%d%c_sp(:), total_recv_count(2, :), rd_disp(:) - 1, &
+               mp_obj_new)
+         CASE (dbcsr_type_complex_8)
+            CALL hybrid_alltoall_z1( &
+               send_data%d%c_dp(:), total_send_count(2, :), sd_disp(:) - 1, &
+               recv_data%d%c_dp(:), total_recv_count(2, :), rd_disp(:) - 1, &
+               mp_obj_new)
+         CASE default
+            DBCSR_ABORT("Invalid matrix type")
+         END SELECT
+         CALL hybrid_alltoall_i1(send_meta(:), metalen*total_send_count(1, :), sm_disp(:) - 1, &
+                                 recv_meta(:), metalen*total_recv_count(1, :), rm_disp(:) - 1, mp_obj_new)
+      END IF
       !
-      ! Now fill in the data.
-      CALL dbcsr_work_create(redist, &
-                             nblks_guess=SUM(recv_count(1, :)), &
-                             sizedata_guess=SUM(recv_count(2, :)), work_mutable=.TRUE.)
+      ! Group fragments by destination row, preserving their receive order.
+      ! A row belongs to one thread, so fragments of a block never race.
+      ! Serial fills retain the original traversal and its data locality.
+      ALLOCATE (row_first(MERGE(dbcsr_nblkrows_total(redist), 1, parallel_fill)), &
+                next_meta(SUM(recv_count(1, :))))
+      row_first(:) = 0
+      DO src_p = numnodes - 1, 0, -1
+         DO meta_l = recv_count(1, src_p), 1, -1
+            i = rm_disp(src_p) + metalen*(meta_l - 1)
+            row = recv_meta(i)
+            IF (.NOT. parallel_fill) row = 1
+            next_meta((i - 1)/metalen + 1) = row_first(row)
+            row_first(row) = i
+            recv_meta(i + 6) = recv_meta(i + 6) + rd_disp(src_p)
+         END DO
+      END DO
+
+      blk_ps = 0; blks = 0
+      cnt_fnd = 0; cnt_new = 0; cnt_skip = 0
+!$OMP PARALLEL IF(parallel_fill) DEFAULT(NONE) &
+!$OMP SHARED(redist, data_type, row_first, next_meta, recv_meta, recv_data, &
+!$OMP        row_blk_size_new, col_blk_size_new, my_keep_sparsity, my_summation, &
+!$OMP        valid_target, new_target, blk_ps, blks, cnt_fnd, cnt_new, cnt_skip) &
+!$OMP PRIVATE(buff_data, data_block, row, i, nworkers, stored_row_new, stored_col_new, &
+!$OMP         row_offset_new, col_offset_new, row_rle, col_rle, data_offset_l, &
+!$OMP         tr, found, valid_block, nze_rle, row_size_new, col_size_new)
+      ! Mutable blocks live in the trees until finalization; linear storage
+      ! is allocated there according to each thread's actual data size.
+      nworkers = 1
+!$    nworkers = omp_get_num_threads()
+      CALL dbcsr_work_create(redist, n=nworkers, work_mutable=.TRUE.)
+!$OMP BARRIER
       CALL dbcsr_data_init(buff_data)
       CALL dbcsr_data_init(data_block)
-      CALL dbcsr_data_new(buff_data, dbcsr_type_1d_to_2d(data_type), &
-                          redist%max_rbs, redist%max_cbs)
       CALL dbcsr_data_new(data_block, dbcsr_type_1d_to_2d(data_type))
 
-      !blk_p = 1
-      !blk = 1
-      blk_ps = 0
-      blks = 0
-      cnt_fnd = 0; cnt_new = 0; cnt_skip = 0
-      DO src_p = 0, numnodes - 1
-         data_offset_l = rd_disp(src_p)
-         DO meta_l = 1, recv_count(1, src_p)
-            stored_row_new = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1))
-            stored_col_new = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 1)
-            row_offset_new = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 2)
-            col_offset_new = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 3)
-            row_rle = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 4)
-            col_rle = recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 5)
-            data_offset_l = rd_disp(src_p) &
-                            + recv_meta(rm_disp(src_p) + metalen*(meta_l - 1) + 6)
+!$OMP DO SCHEDULE(DYNAMIC) REDUCTION(+:blk_ps, blks, cnt_fnd, cnt_new, cnt_skip)
+      DO row = 1, SIZE(row_first)
+         i = row_first(row)
+         DO WHILE (i /= 0)
+            stored_row_new = recv_meta(i)
+            stored_col_new = recv_meta(i + 1)
+            row_offset_new = recv_meta(i + 2)
+            col_offset_new = recv_meta(i + 3)
+            row_rle = recv_meta(i + 4)
+            col_rle = recv_meta(i + 5)
+            data_offset_l = recv_meta(i + 6)
 
             CALL dbcsr_data_clear_pointer(data_block)
             CALL dbcsr_get_block_p(redist, stored_row_new, stored_col_new, &
@@ -1875,6 +1913,9 @@ CONTAINS
             IF (found) cnt_fnd = cnt_fnd + 1
             IF (.NOT. found .AND. .NOT. my_keep_sparsity) THEN
                ! We have to set up a buffer block
+               IF (cnt_new == 0) &
+                  CALL dbcsr_data_new(buff_data, dbcsr_type_1d_to_2d(data_type), &
+                                      redist%max_rbs, redist%max_cbs)
                CALL dbcsr_data_set_pointer(data_block, &
                                            rsize=row_blk_size_new(stored_row_new), &
                                            csize=col_blk_size_new(stored_col_new), &
@@ -1919,21 +1960,30 @@ CONTAINS
                   WRITE (*, *) routineN//" Reusing block at", &
                   stored_row_new, stored_col_new
             END IF
+            i = next_meta((i - 1)/metalen + 1)
          END DO
       END DO
+!$OMP END DO
 
       CALL dbcsr_data_clear_pointer(data_block)
-      CALL dbcsr_data_release(buff_data)
+      IF (ASSOCIATED(buff_data%d)) CALL dbcsr_data_release(buff_data)
       CALL dbcsr_data_release(data_block)
       !
+!$OMP SINGLE
       IF (dbg) THEN
          WRITE (*, *) routineN//" Declared blocks=", redist%wms(1)%lastblk, &
             "actual=", blks
          WRITE (*, *) routineN//" Declared data size=", redist%wms(1)%datasize, &
             "actual=", blk_ps
       END IF
+      ! Updating existing blocks does not require rebuilding their index.
+      IF (valid_target .AND. cnt_new == 0) redist%valid = .TRUE.
 
-      CALL dbcsr_finalize(redist)
+!$OMP END SINGLE
+      ! New matrices must retain row-wise data order, as required by CSR mappings.
+      CALL dbcsr_finalize(redist, reshuffle=new_target .AND. nworkers > 1)
+!$OMP END PARALLEL
+      DEALLOCATE (row_first, next_meta)
 
       DEALLOCATE (send_count)
       DEALLOCATE (recv_count)
@@ -1946,7 +1996,7 @@ CONTAINS
       CALL dbcsr_data_release(send_data)
 
       DEALLOCATE (recv_meta)
-      DEALLOCATE (send_meta)
+      IF (ALLOCATED(send_meta)) DEALLOCATE (send_meta)
 
       !if (dbg) call dbcsr_print(redist)
       IF (dbg) THEN
