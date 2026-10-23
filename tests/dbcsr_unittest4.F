@@ -26,13 +26,14 @@ PROGRAM dbcsr_unittest
                             mp_world_init, mp_comm_type
    USE dbcsr_block_operations, ONLY: dbcsr_data_clear
    USE dbcsr_block_access, ONLY: dbcsr_reserve_blocks
-   USE dbcsr_data_methods, ONLY: dbcsr_data_init, dbcsr_data_new, dbcsr_data_release
+   USE dbcsr_data_methods, ONLY: dbcsr_data_init, dbcsr_data_new, dbcsr_data_release, &
+                                 dbcsr_data_set_size_referenced
    USE dbcsr_data_operations, ONLY: dbcsr_data_convert
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new, dbcsr_distribution_release
    USE dbcsr_dist_util, ONLY: dbcsr_checksum, dbcsr_verify_matrix
    USE dbcsr_operations, ONLY: dbcsr_clear, dbcsr_copy, dbcsr_copy_into_existing
    USE dbcsr_test_methods, ONLY: dbcsr_make_random_matrix, dbcsr_reset_randmat_seed
-   USE dbcsr_transformations, ONLY: dbcsr_redistribute
+   USE dbcsr_transformations, ONLY: dbcsr_redistribute, dbcsr_complete_redistribute
    USE dbcsr_test_scale_by_vector, ONLY: dbcsr_test_scale_by_vectors
    USE dbcsr_types, ONLY: dbcsr_data_obj, dbcsr_distribution_obj, dbcsr_mp_obj, dbcsr_type, &
                           dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_complex_8, &
@@ -84,6 +85,7 @@ PROGRAM dbcsr_unittest
    ! run tests
    success = .TRUE.
 
+   CALL test_complete_redistribute()
    CALL test_copy_into_existing()
    CALL test_local_redistribute()
 
@@ -121,6 +123,152 @@ PROGRAM dbcsr_unittest
       ERROR STOP "one or more tests failed"
 
 CONTAINS
+
+   SUBROUTINE test_complete_redistribute()
+      INTEGER, PARAMETER :: types(4) = [dbcsr_type_real_4, dbcsr_type_real_8, &
+                                        dbcsr_type_complex_4, dbcsr_type_complex_8]
+      INTEGER, POINTER, CONTIGUOUS :: rbs(:), cbs(:), rd(:), cd(:)
+      INTEGER, POINTER, CONTIGUOUS :: new_rbs(:), new_cbs(:), new_rd(:), new_cd(:)
+      INTEGER :: itype, icase, r, c, i, j, k, n, p, ro, co, offset, nblks_before
+      INTEGER :: rows(16), cols(16)
+      INTEGER, ALLOCATABLE :: index_before(:)
+      TYPE(dbcsr_distribution_obj) :: dist, new_dist
+      TYPE(dbcsr_type) :: source, target
+      TYPE(dbcsr_data_obj) :: values, actual
+      COMPLEX(dp) :: reference(10, 10), expected
+      LOGICAL :: keep
+
+      ALLOCATE (rbs(4), cbs(4), rd(4), cd(4), new_rbs(3), new_cbs(3), new_rd(3), new_cd(3))
+      rbs = [2, 3, 1, 4]; cbs = [3, 1, 2, 4]
+      new_rbs = [3, 4, 3]; new_cbs = [2, 5, 3]
+      rd = [(MOD(i - 1, npdims(1)), i=1, 4)]
+      cd = [(MOD(i - 1, npdims(2)), i=1, 4)]
+      new_rd = [(MOD(i, npdims(1)), i=1, 3)]
+      new_cd = [(MOD(i, npdims(2)), i=1, 3)]
+      CALL dbcsr_distribution_new(dist, mp_env, rd, cd)
+      CALL dbcsr_distribution_new(new_dist, mp_env, new_rd, new_cd)
+      CALL dbcsr_data_init(values)
+      CALL dbcsr_data_init(actual)
+      CALL dbcsr_data_new(values, dbcsr_type_complex_8, data_size=100)
+      CALL dbcsr_data_new(actual, dbcsr_type_complex_8, data_size=100)
+      DO itype = 1, SIZE(types)
+         reference = CMPLX(0.0_dp, 0.0_dp, dp)
+         CALL dbcsr_create(source, "reblock source", dist, dbcsr_type_no_symmetry, &
+                           row_blk_size=rbs, col_blk_size=cbs, data_type=types(itype))
+         n = 0
+         DO r = 1, SIZE(rbs)
+            ro = SUM(rbs(:r - 1))
+            DO c = 1, SIZE(cbs)
+               IF (MOD(r + c, 3) == 0) CYCLE
+               co = SUM(cbs(:c - 1))
+               DO j = 1, cbs(c)
+                  DO i = 1, rbs(r)
+                     reference(ro + i, co + j) = CMPLX(100*(ro + i) + co + j, 0, dp)
+                  END DO
+               END DO
+               CALL mp_cart_rank(group, [rd(r), cd(c)], p)
+               IF (p /= mynode) CYCLE
+               n = n + 1; rows(n) = r; cols(n) = c
+            END DO
+         END DO
+         IF (itype > 2) reference = reference*CMPLX(1.0_dp, -1.0_dp, dp)
+         CALL dbcsr_reserve_blocks(source, rows(:n), cols(:n))
+         DO k = 1, n
+            r = rows(k); c = cols(k)
+            ro = SUM(rbs(:r - 1)); co = SUM(cbs(:c - 1))
+            offset = source%blk_p(k)
+            DO j = 1, cbs(c)
+               DO i = 1, rbs(r)
+                  values%d%c_dp(offset + i - 1 + (j - 1)*rbs(r)) = reference(ro + i, co + j)
+               END DO
+            END DO
+         END DO
+         CALL dbcsr_data_set_size_referenced(values, source%nze)
+         CALL dbcsr_data_convert(source%data_area, values)
+         DO icase = 1, 4
+            ! Empty target, populated target, retained sparsity, and empty source.
+            keep = icase == 3
+            CALL dbcsr_create(target, "reblock target", new_dist, dbcsr_type_no_symmetry, &
+                              row_blk_size=new_rbs, col_blk_size=new_cbs, data_type=types(itype))
+            IF (icase > 1) THEN
+               n = 0
+               DO r = 1, SIZE(new_rbs)
+                  DO c = 1, SIZE(new_cbs)
+                     IF (MOD(r + c, 2) == 0) CYCLE
+                     CALL mp_cart_rank(group, [new_rd(r), new_cd(c)], p)
+                     IF (p /= mynode) CYCLE
+                     n = n + 1; rows(n) = r; cols(n) = c
+                  END DO
+               END DO
+               CALL dbcsr_reserve_blocks(target, rows(:n), cols(:n))
+               values%d%c_dp(:) = CMPLX(-7.0_dp, 0.0_dp, dp)
+               CALL dbcsr_data_set_size_referenced(values, target%nze)
+               CALL dbcsr_data_convert(target%data_area, values)
+            END IF
+            IF (icase == 4) THEN
+               CALL dbcsr_clear(source)
+               reference = CMPLX(0.0_dp, 0.0_dp, dp)
+            END IF
+            nblks_before = target%nblks
+            ALLOCATE (index_before, SOURCE=target%index)
+            CALL dbcsr_complete_redistribute(source, target, keep_sparsity=keep)
+            CALL dbcsr_verify_matrix(target)
+            IF (.NOT. ASSOCIATED(target%dist%d, new_dist%d)) &
+               DBCSR_ABORT("Reblocking changed distribution")
+            IF (keep .AND. target%nblks /= nblks_before) &
+               DBCSR_ABORT("Reblocking changed retained sparsity")
+            IF (keep .OR. icase == 4) THEN
+               IF (ANY(target%index /= index_before)) &
+                  DBCSR_ABORT("Reblocking rebuilt an unchanged index")
+            END IF
+            DEALLOCATE (index_before)
+            IF (icase == 1) THEN
+               ! CSR conversion requires newly built matrices to have packed row-wise data.
+               offset = 1
+               DO r = 1, SIZE(new_rbs)
+                  DO k = target%row_p(r) + 1, target%row_p(r + 1)
+                     IF (target%blk_p(k) /= offset) &
+                        DBCSR_ABORT("Reblocking changed data order")
+                     offset = offset + new_rbs(r)*new_cbs(target%col_i(k))
+                  END DO
+               END DO
+            END IF
+            CALL dbcsr_data_convert(actual, target%data_area)
+            DO r = 1, SIZE(new_rbs)
+               ro = SUM(new_rbs(:r - 1))
+               DO c = 1, SIZE(new_cbs)
+                  CALL mp_cart_rank(group, [new_rd(r), new_cd(c)], p)
+                  IF (p /= mynode) CYCLE
+                  co = SUM(new_cbs(:c - 1))
+                  offset = 0
+                  DO k = target%row_p(r) + 1, target%row_p(r + 1)
+                     IF (target%col_i(k) == c) offset = target%blk_p(k)
+                  END DO
+                  DO j = 1, new_cbs(c)
+                     DO i = 1, new_rbs(r)
+                        expected = reference(ro + i, co + j)
+                        IF (keep .AND. MOD(r + c, 2) == 0) expected = CMPLX(0.0_dp, 0.0_dp, dp)
+                        IF (offset == 0) THEN
+                           IF (ABS(expected) > 1.0E-6_dp) &
+                              DBCSR_ABORT("Reblocking lost a block")
+                        ELSE
+                           IF (ABS(actual%d%c_dp(offset + i - 1 + (j - 1)*new_rbs(r)) - expected) > 1.0E-6_dp) &
+                              DBCSR_ABORT("Reblocking changed matrix values")
+                        END IF
+                     END DO
+                  END DO
+               END DO
+            END DO
+            CALL dbcsr_release(target)
+         END DO
+         CALL dbcsr_release(source)
+      END DO
+      CALL dbcsr_data_release(values)
+      CALL dbcsr_data_release(actual)
+      CALL dbcsr_distribution_release(dist)
+      CALL dbcsr_distribution_release(new_dist)
+      DEALLOCATE (rbs, cbs, rd, cd, new_rbs, new_cbs, new_rd, new_cd)
+   END SUBROUTINE test_complete_redistribute
 
    SUBROUTINE test_copy_into_existing()
       INTEGER, PARAMETER :: types(4) = [dbcsr_type_real_4, dbcsr_type_real_8, &
