@@ -22,7 +22,7 @@ MODULE dbcsr_array_sort
    !! DBCSR:
    !! Please use the interface defined in dbcsr_toollib.F for calling sort().
 
-   USE dbcsr_kinds, ONLY: int_4, int_8, real_4, real_8
+   USE dbcsr_kinds, ONLY: real_8, real_4, int_8, int_4
 # 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
    IMPLICIT NONE

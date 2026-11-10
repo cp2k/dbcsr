@@ -26,7 +26,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, default_string_length, int_8
+      real_8, real_4, default_string_length, int_8
 # 25 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_data_methods, ONLY: dbcsr_scalar

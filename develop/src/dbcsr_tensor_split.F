@@ -49,7 +49,7 @@ MODULE dbcsr_tensor_split
                                  ndims_matrix_column, &
                                  dbcsr_t_filter, &
                                  dbcsr_t_copy_contraction_storage
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_8
 # 48 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
    USE dbcsr_kinds, ONLY: real_4, real_8, dp
 # 49 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_split.F"
