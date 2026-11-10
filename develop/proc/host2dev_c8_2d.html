@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-this~39"></span>
+              <span class="anchor" id="variable-this~53"></span>
               type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stream~21"></span>
+              <span class="anchor" id="variable-stream~45"></span>
               type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),
             </td>
 <td>intent(in)</td>
@@ -238,10 +238,12 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">host2dev_c8_2D</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">hostmem</span><span class="p">,</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
+<span class="cp"># 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"</span>
 <span class="w">      </span><span class="c">!! Transfers 2D fortran-array from host to GPU devmem.</span>
 
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
 <span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">       </span><span class="kd">::</span><span class="w"> </span><span class="n">hostmem</span>
+<span class="cp"># 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">stream</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
@@ -251,6 +253,7 @@
 <span class="w">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">"__DBCSR_ACC not compiled in."</span><span class="p">)</span>
 <span class="cp">#else</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">host2dev_raw</span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">hostmem</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)),</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="o">*</span><span class="n">SIZE</span><span class="p">(</span><span class="n">hostmem</span><span class="p">),</span><span class="w"> </span><span class="n">stream</span><span class="p">)</span>
+<span class="cp"># 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"</span>
 <span class="cp">#endif</span>
 <span class="w">      </span><span class="k">END SUBROUTINE </span><span class="n">host2dev_c8_2D</span>
 </pre></div>

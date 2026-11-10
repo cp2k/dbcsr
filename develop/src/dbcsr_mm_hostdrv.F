@@ -253,6 +253,7 @@ CONTAINS
 # 247 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
 # 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_d (params, &
+# 249 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       stack_size, &
                                                       a_data, b_data, c_data)
      !! Processes MM stack and issues BLAS xGEMM calls
@@ -263,10 +264,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 259 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -275,20 +278,25 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL DGEMM ('N', &
+# 271 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    'N', &
                                    params(p_m, sp), params(p_n, sp), & !m, n
                                    params(p_k, sp), & ! k
                                    1.0_real_8, & ! alpha
+# 275 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    a_data(params(p_a_first, sp)), & ! A
                                    params(p_m, sp), & !lda
                                    b_data(params(p_b_first, sp)), & ! B
                                    params(p_k, sp), & !ldb
                                    1.0_real_8, & ! beta
+# 280 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    c_data(params(p_c_first, sp)), params(p_m, sp))
          END DO
       END SUBROUTINE blas_process_mm_stack_d
+# 283 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE internal_process_mm_stack_d (params, stack_size, &
+# 285 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                           a_data, b_data, c_data)
      !! Processes MM stack and issues internal MM calls.
 
@@ -298,10 +306,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 294 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 298 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -310,6 +320,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL internal_mm_d_nn( &
+# 306 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -318,8 +329,10 @@ CONTAINS
                c_data(params(p_c_first, sp)))
          END DO
       END SUBROUTINE internal_process_mm_stack_d
+# 314 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE smm_process_mm_stack_d (stack_descr, params, &
+# 316 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                      stack_size, &
                                                      a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues SMM library calls
@@ -331,14 +344,17 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 327 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 331 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
          LOGICAL, INTENT(OUT)                      :: used_smm
 
 #if defined(__HAS_smm_dnn)
+# 335 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          INTEGER                                   :: sp
 
@@ -349,6 +365,7 @@ CONTAINS
 #if defined(__HAS_smm_vec)
          IF (stack_descr%defined_mnk) THEN
             CALL smm_vec_dnn(stack_descr%m, stack_descr%n, stack_descr%k, &
+# 345 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                          a_data, b_data, c_data, stack_size, &
                                          dbcsr_ps_width, params, p_a_first, p_b_first, p_c_first)
             RETURN
@@ -357,6 +374,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL smm_dnn( &
+# 353 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -369,13 +387,16 @@ CONTAINS
          ! We do not want to abort here, fall back to BLAS.
          used_smm = .FALSE.
          CALL blas_process_mm_stack_d (params, stack_size, a_data, b_data, c_data)
+# 365 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_d
+# 369 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 #if defined(__LIBXS)
       SUBROUTINE libxs_process_mm_stack_d (stack_descr, params, &
+# 372 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
@@ -384,14 +405,18 @@ CONTAINS
                                  libxs_gemm_dispatch, libxs_gemm_index, &
                                  C_LOC, C_SIZEOF, &
                                  LIBXS_DATATYPE_F64
+# 380 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
             INTENT(IN), TARGET                          :: params
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+# 386 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+# 387 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+# 388 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          LOGICAL, INTENT(OUT)                           :: used_smm
 
 # 391 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
@@ -406,6 +431,7 @@ CONTAINS
                m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
                rc = libxs_gemm_dispatch(config, &
                                         datatype=LIBXS_DATATYPE_F64, &
+# 404 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                         transa='N', transb='N', &
                                         m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
                                         alpha=1D0, beta=1D0)
@@ -422,21 +448,29 @@ CONTAINS
 # 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_d (params, stack_size, &
+# 420 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       a_data, b_data, c_data)
          END IF
       END SUBROUTINE libxs_process_mm_stack_d
+# 423 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
       PURE SUBROUTINE internal_mm_d_nn( &
+# 426 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          M, N, K, A, B, C)
          INTEGER, INTENT(IN)                      :: M, N, K
          REAL(kind=real_8), INTENT(INOUT)                   :: C(M, N)
+# 429 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_8), INTENT(IN)                      :: B(K, N)
+# 430 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_8), INTENT(IN)                      :: A(M, K)
+# 431 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_d_nn
+# 433 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_s (params, &
+# 249 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       stack_size, &
                                                       a_data, b_data, c_data)
      !! Processes MM stack and issues BLAS xGEMM calls
@@ -447,10 +481,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 259 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -459,20 +495,25 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL SGEMM ('N', &
+# 271 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    'N', &
                                    params(p_m, sp), params(p_n, sp), & !m, n
                                    params(p_k, sp), & ! k
                                    1.0_real_4, & ! alpha
+# 275 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    a_data(params(p_a_first, sp)), & ! A
                                    params(p_m, sp), & !lda
                                    b_data(params(p_b_first, sp)), & ! B
                                    params(p_k, sp), & !ldb
                                    1.0_real_4, & ! beta
+# 280 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    c_data(params(p_c_first, sp)), params(p_m, sp))
          END DO
       END SUBROUTINE blas_process_mm_stack_s
+# 283 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE internal_process_mm_stack_s (params, stack_size, &
+# 285 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                           a_data, b_data, c_data)
      !! Processes MM stack and issues internal MM calls.
 
@@ -482,10 +523,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 294 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 298 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -494,6 +537,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL internal_mm_s_nn( &
+# 306 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -502,8 +546,10 @@ CONTAINS
                c_data(params(p_c_first, sp)))
          END DO
       END SUBROUTINE internal_process_mm_stack_s
+# 314 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE smm_process_mm_stack_s (stack_descr, params, &
+# 316 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                      stack_size, &
                                                      a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues SMM library calls
@@ -515,14 +561,17 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          REAL(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 327 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 331 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
          LOGICAL, INTENT(OUT)                      :: used_smm
 
 #if defined(__HAS_smm_snn)
+# 335 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          INTEGER                                   :: sp
 
@@ -533,6 +582,7 @@ CONTAINS
 #if defined(__HAS_smm_vec)
          IF (stack_descr%defined_mnk) THEN
             CALL smm_vec_snn(stack_descr%m, stack_descr%n, stack_descr%k, &
+# 345 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                          a_data, b_data, c_data, stack_size, &
                                          dbcsr_ps_width, params, p_a_first, p_b_first, p_c_first)
             RETURN
@@ -541,6 +591,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL smm_snn( &
+# 353 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -553,13 +604,16 @@ CONTAINS
          ! We do not want to abort here, fall back to BLAS.
          used_smm = .FALSE.
          CALL blas_process_mm_stack_s (params, stack_size, a_data, b_data, c_data)
+# 365 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_s
+# 369 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 #if defined(__LIBXS)
       SUBROUTINE libxs_process_mm_stack_s (stack_descr, params, &
+# 372 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
@@ -568,14 +622,18 @@ CONTAINS
                                  libxs_gemm_dispatch, libxs_gemm_index, &
                                  C_LOC, C_SIZEOF, &
                                  LIBXS_DATATYPE_F32
+# 380 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 381 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          INTEGER, INTENT(IN)                            :: stack_size
          TYPE(stack_descriptor_type), INTENT(IN)        :: stack_descr
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
             INTENT(IN), TARGET                          :: params
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+# 386 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+# 387 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+# 388 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          LOGICAL, INTENT(OUT)                           :: used_smm
 
 # 391 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
@@ -590,6 +648,7 @@ CONTAINS
                m = stack_descr%m; n = stack_descr%n; k = stack_descr%k
                rc = libxs_gemm_dispatch(config, &
                                         datatype=LIBXS_DATATYPE_F32, &
+# 404 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                         transa='N', transb='N', &
                                         m=m, n=n, k=k, lda=m, ldb=k, ldc=m, &
                                         alpha=1D0, beta=1D0)
@@ -606,21 +665,29 @@ CONTAINS
 # 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_s (params, stack_size, &
+# 420 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       a_data, b_data, c_data)
          END IF
       END SUBROUTINE libxs_process_mm_stack_s
+# 423 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
       PURE SUBROUTINE internal_mm_s_nn( &
+# 426 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          M, N, K, A, B, C)
          INTEGER, INTENT(IN)                      :: M, N, K
          REAL(kind=real_4), INTENT(INOUT)                   :: C(M, N)
+# 429 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_4), INTENT(IN)                      :: B(K, N)
+# 430 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          REAL(kind=real_4), INTENT(IN)                      :: A(M, K)
+# 431 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_s_nn
+# 433 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_z (params, &
+# 249 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       stack_size, &
                                                       a_data, b_data, c_data)
      !! Processes MM stack and issues BLAS xGEMM calls
@@ -631,10 +698,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 259 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -643,20 +712,25 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL ZGEMM ('N', &
+# 271 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    'N', &
                                    params(p_m, sp), params(p_n, sp), & !m, n
                                    params(p_k, sp), & ! k
                                    CMPLX(1.0, 0.0, real_8), & ! alpha
+# 275 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    a_data(params(p_a_first, sp)), & ! A
                                    params(p_m, sp), & !lda
                                    b_data(params(p_b_first, sp)), & ! B
                                    params(p_k, sp), & !ldb
                                    CMPLX(1.0, 0.0, real_8), & ! beta
+# 280 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    c_data(params(p_c_first, sp)), params(p_m, sp))
          END DO
       END SUBROUTINE blas_process_mm_stack_z
+# 283 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE internal_process_mm_stack_z (params, stack_size, &
+# 285 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                           a_data, b_data, c_data)
      !! Processes MM stack and issues internal MM calls.
 
@@ -666,10 +740,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 294 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 298 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -678,6 +754,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL internal_mm_z_nn( &
+# 306 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -686,8 +763,10 @@ CONTAINS
                c_data(params(p_c_first, sp)))
          END DO
       END SUBROUTINE internal_process_mm_stack_z
+# 314 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE smm_process_mm_stack_z (stack_descr, params, &
+# 316 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                      stack_size, &
                                                      a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues SMM library calls
@@ -699,14 +778,17 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 327 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 331 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
          LOGICAL, INTENT(OUT)                      :: used_smm
 
 #if defined(__HAS_smm_znn)
+# 335 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          INTEGER                                   :: sp
 
@@ -717,6 +799,7 @@ CONTAINS
 #if defined(__HAS_smm_vec)
          IF (stack_descr%defined_mnk) THEN
             CALL smm_vec_znn(stack_descr%m, stack_descr%n, stack_descr%k, &
+# 345 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                          a_data, b_data, c_data, stack_size, &
                                          dbcsr_ps_width, params, p_a_first, p_b_first, p_c_first)
             RETURN
@@ -725,6 +808,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL smm_znn( &
+# 353 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -737,13 +821,16 @@ CONTAINS
          ! We do not want to abort here, fall back to BLAS.
          used_smm = .FALSE.
          CALL blas_process_mm_stack_z (params, stack_size, a_data, b_data, c_data)
+# 365 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_z
+# 369 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 #if defined(__LIBXS)
       SUBROUTINE libxs_process_mm_stack_z (stack_descr, params, &
+# 372 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
@@ -753,8 +840,11 @@ CONTAINS
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
             INTENT(IN), TARGET                          :: params
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+# 386 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+# 387 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_8), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+# 388 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          LOGICAL, INTENT(OUT)                           :: used_smm
 
 # 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
@@ -766,21 +856,29 @@ CONTAINS
 # 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_z (params, stack_size, &
+# 420 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       a_data, b_data, c_data)
          END IF
       END SUBROUTINE libxs_process_mm_stack_z
+# 423 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
       PURE SUBROUTINE internal_mm_z_nn( &
+# 426 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          M, N, K, A, B, C)
          INTEGER, INTENT(IN)                      :: M, N, K
          COMPLEX(kind=real_8), INTENT(INOUT)                   :: C(M, N)
+# 429 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_8), INTENT(IN)                      :: B(K, N)
+# 430 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_8), INTENT(IN)                      :: A(M, K)
+# 431 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_z_nn
+# 433 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 248 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
       SUBROUTINE blas_process_mm_stack_c (params, &
+# 249 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       stack_size, &
                                                       a_data, b_data, c_data)
      !! Processes MM stack and issues BLAS xGEMM calls
@@ -791,10 +889,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 259 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 263 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -803,20 +903,25 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL CGEMM ('N', &
+# 271 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    'N', &
                                    params(p_m, sp), params(p_n, sp), & !m, n
                                    params(p_k, sp), & ! k
                                    CMPLX(1.0, 0.0, real_4), & ! alpha
+# 275 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    a_data(params(p_a_first, sp)), & ! A
                                    params(p_m, sp), & !lda
                                    b_data(params(p_b_first, sp)), & ! B
                                    params(p_k, sp), & !ldb
                                    CMPLX(1.0, 0.0, real_4), & ! beta
+# 280 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                    c_data(params(p_c_first, sp)), params(p_m, sp))
          END DO
       END SUBROUTINE blas_process_mm_stack_c
+# 283 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE internal_process_mm_stack_c (params, stack_size, &
+# 285 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                           a_data, b_data, c_data)
      !! Processes MM stack and issues internal MM calls.
 
@@ -826,10 +931,12 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 294 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 298 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
 
          INTEGER                                   :: sp
@@ -838,6 +945,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL internal_mm_c_nn( &
+# 306 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -846,8 +954,10 @@ CONTAINS
                c_data(params(p_c_first, sp)))
          END DO
       END SUBROUTINE internal_process_mm_stack_c
+# 314 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
       SUBROUTINE smm_process_mm_stack_c (stack_descr, params, &
+# 316 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                      stack_size, &
                                                      a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues SMM library calls
@@ -859,14 +969,17 @@ CONTAINS
             INTENT(IN)                              :: params
         !! Stack of MM parameters
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)         :: a_data, &
+# 327 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
             b_data
         !! Left-matrix data
         !! Right-matrix data
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
+# 331 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
         !! Product data
          LOGICAL, INTENT(OUT)                      :: used_smm
 
 #if defined(__HAS_smm_cnn)
+# 335 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
          INTEGER                                   :: sp
 
@@ -877,6 +990,7 @@ CONTAINS
 #if defined(__HAS_smm_vec)
          IF (stack_descr%defined_mnk) THEN
             CALL smm_vec_cnn(stack_descr%m, stack_descr%n, stack_descr%k, &
+# 345 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                          a_data, b_data, c_data, stack_size, &
                                          dbcsr_ps_width, params, p_a_first, p_b_first, p_c_first)
             RETURN
@@ -885,6 +999,7 @@ CONTAINS
 
          DO sp = 1, stack_size
             CALL smm_cnn( &
+# 353 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                params(p_m, sp), &
                params(p_n, sp), &
                params(p_k, sp), &
@@ -897,13 +1012,16 @@ CONTAINS
          ! We do not want to abort here, fall back to BLAS.
          used_smm = .FALSE.
          CALL blas_process_mm_stack_c (params, stack_size, a_data, b_data, c_data)
+# 365 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
          MARK_USED(stack_descr)
       END SUBROUTINE smm_process_mm_stack_c
+# 369 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 #if defined(__LIBXS)
       SUBROUTINE libxs_process_mm_stack_c (stack_descr, params, &
+# 372 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                        stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack using LIBXS indexed GEMM batch.
      !! Real types use LIBXS dispatch; complex types fall through to BLAS.
@@ -913,8 +1031,11 @@ CONTAINS
          INTEGER, DIMENSION(dbcsr_ps_width, 1:stack_size), &
             INTENT(IN), TARGET                          :: params
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: a_data
+# 386 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(IN)    :: b_data
+# 387 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_4), DIMENSION(*), TARGET, INTENT(INOUT) :: c_data
+# 388 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          LOGICAL, INTENT(OUT)                           :: used_smm
 
 # 394 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
@@ -926,19 +1047,26 @@ CONTAINS
 # 418 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          IF (.NOT. used_smm) THEN
             CALL blas_process_mm_stack_c (params, stack_size, &
+# 420 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
                                                       a_data, b_data, c_data)
          END IF
       END SUBROUTINE libxs_process_mm_stack_c
+# 423 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 #endif
 
       PURE SUBROUTINE internal_mm_c_nn( &
+# 426 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          M, N, K, A, B, C)
          INTEGER, INTENT(IN)                      :: M, N, K
          COMPLEX(kind=real_4), INTENT(INOUT)                   :: C(M, N)
+# 429 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_4), INTENT(IN)                      :: B(K, N)
+# 430 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
+# 431 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
          C(:, :) = C(:, :) + MATMUL(A, B)
       END SUBROUTINE internal_mm_c_nn
+# 433 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 # 434 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv

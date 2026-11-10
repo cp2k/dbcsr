@@ -1446,6 +1446,7 @@ CONTAINS
 # 1440 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
 # 1441 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &
+# 1442 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
@@ -1458,11 +1459,13 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          REAL(kind=real_8), DIMENSION(:), TARGET, &
+# 1454 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: src_offset, dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_8), DIMENSION(:), TARGET, &
+# 1459 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -1479,6 +1482,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
                                   8, nrow, ncol, src_rs, dst_rs)
+# 1475 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1509,6 +1513,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
                                   8, nrow, ncol, src_cs, dst_cs)
+# 1505 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1520,8 +1525,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_d
+# 1516 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_d (dst, dst_rs, dst_cs, dst_tr, &
+# 1518 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
@@ -1536,11 +1543,13 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          REAL(kind=real_8), DIMENSION(:), TARGET, &
+# 1532 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1537 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -1555,6 +1564,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   8, nrow, ncol, SIZE(src, 1), dst_rs)
+# 1551 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1570,6 +1580,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  8, nrow, ncol, SIZE(src, 1), dst_cs)
+# 1566 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1585,6 +1596,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  8, nrow, ncol, SIZE(src, 2), dst_rs)
+# 1581 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1601,6 +1613,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   8, nrow, ncol, SIZE(src, 2), dst_cs)
+# 1597 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -1612,8 +1625,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_1d2d_d
+# 1608 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_d (dst, dst_tr, &
+# 1610 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_rs, src_cs, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
@@ -1626,10 +1641,12 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          REAL(kind=real_8), DIMENSION(:, :), &
+# 1622 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: src_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_8), DIMENSION(:), &
+# 1626 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -1671,8 +1688,10 @@ CONTAINS
             END DO
          END IF
       END SUBROUTINE block_partial_copy_2d1d_d
+# 1667 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_d (dst, dst_tr, &
+# 1669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
@@ -1686,9 +1705,11 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          REAL(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1685 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -1703,6 +1724,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   8, nrow, ncol, &
+# 1699 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 1), SIZE(dst, 1))
             END IF
 #else
@@ -1719,6 +1741,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  8, nrow, ncol, &
+# 1715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 1), SIZE(dst, 2))
             END IF
 #else
@@ -1735,6 +1758,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  8, nrow, ncol, &
+# 1731 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 2), SIZE(dst, 1))
             END IF
 #else
@@ -1752,6 +1776,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   8, nrow, ncol, &
+# 1748 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 2), SIZE(dst, 2))
             END IF
 #else
@@ -1764,8 +1789,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_2d2d_d
+# 1760 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_d (extent_out, extent_in, n, out_fe, in_fe)
+# 1762 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy a block
 
          INTEGER, INTENT(IN) :: n, out_fe, in_fe
@@ -1773,15 +1800,19 @@ CONTAINS
         !! first element of output
         !! first element of input
          REAL(kind=real_8), DIMENSION(*), INTENT(OUT) :: extent_out
+# 1769 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output data
          REAL(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
+# 1771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input data
 
 !    ---------------------------------------------------------------------------
          extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
       END SUBROUTINE block_copy_d
+# 1776 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_d (extent_out, extent_in, &
+# 1778 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                    rows, columns)
      !! Copy and transpose block.
 
@@ -1789,8 +1820,10 @@ CONTAINS
          USE LIBXS, ONLY: libxs_otrans, C_LOC
 #endif
          REAL(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+# 1785 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET  :: extent_in
+# 1787 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
          INTEGER, INTENT(IN) :: rows, columns
         !! input matrix size
@@ -1800,15 +1833,19 @@ CONTAINS
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1796 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+# 1798 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
                                               RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_d
+# 1803 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d1d_d (extent_out, extent_in, &
+# 1805 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -1816,15 +1853,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1812 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
+# 1814 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows, columns/))
       END SUBROUTINE block_copy_2d1d_d
+# 1819 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d1d_d (extent_out, extent_in, &
+# 1821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -1832,15 +1873,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+# 1828 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+# 1830 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:) = extent_in(:)
       END SUBROUTINE block_copy_1d1d_d
+# 1835 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d2d_d (extent_out, extent_in, &
+# 1837 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -1848,15 +1893,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1844 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+# 1846 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:, :) = extent_in(:, :)
       END SUBROUTINE block_copy_2d2d_d
+# 1851 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_d (extent_out, extent_in, &
+# 1853 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -1867,22 +1916,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+# 1863 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET              :: extent_in
+# 1865 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1871 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+# 1873 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
 #endif
       END SUBROUTINE block_transpose_copy_2d1d_d
+# 1877 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d2d_d (extent_out, extent_in, &
+# 1879 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy and transpose block.
 
@@ -1890,15 +1945,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(:), INTENT(OUT)            :: extent_out
+# 1886 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+# 1888 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows*columns/))
       END SUBROUTINE block_copy_1d2d_d
+# 1893 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_d (extent_out, extent_in, &
+# 1895 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -1909,22 +1968,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET            :: extent_out
+# 1905 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN), TARGET :: extent_in
+# 1907 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1913 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+# 1915 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_1d2d_d
+# 1919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_d (extent, rows, columns)
+# 1921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! In-place block transpose.
 
 #if defined(__LIBXS) && 0
@@ -1934,15 +1999,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+# 1930 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS) && 0
          CALL libxs_otrans(C_LOC(extent), 8, rows, columns, rows)
+# 1935 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_dimatcopy('C', 'T', rows, columns, 1.0_real_8, extent, rows, columns)
+# 1937 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          REAL(kind=real_8), DIMENSION(rows*columns) :: extent_tr
+# 1939 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER :: r, c
          DO r = 1, columns
             DO c = 1, rows
@@ -1956,8 +2025,10 @@ CONTAINS
          END DO
 #endif
       END SUBROUTINE block_transpose_inplace_d
+# 1952 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       SUBROUTINE dbcsr_data_set_ad (dst, lb, data_size, src, source_lb)
+# 1954 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy data from a double real array to a data area
      !! There are no checks done for correctness!
 
@@ -1967,12 +2038,14 @@ CONTAINS
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+# 1963 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! source data array
          INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
          INTEGER                                  :: lb_s, ub, ub_s
 
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+# 1969 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 !    ---------------------------------------------------------------------------
          IF (debug_mod) THEN
@@ -1981,6 +2054,7 @@ CONTAINS
             IF (SIZE(src) .LT. data_size) &
                DBCSR_ABORT("Not enough source data.")
             IF (dst%d%data_type .NE. dbcsr_type_real_8) &
+# 1977 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                DBCSR_ABORT("Data type mismatch.")
          END IF
          ub = lb + data_size - 1
@@ -1992,17 +2066,24 @@ CONTAINS
             ub_s = ub
          END IF
          cont_data => dst%d%r_dp (lb:ub)
+# 1988 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
       END SUBROUTINE dbcsr_data_set_ad
+# 1990 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_add_d (block_a, block_b, len)
+# 1992 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER, INTENT(IN) :: len
          REAL(kind=real_8), DIMENSION(len), INTENT(INOUT) :: block_a
+# 1994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          REAL(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
+# 1995 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_d
+# 1997 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 # 1441 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_s (dst, dst_rs, dst_cs, dst_tr, &
+# 1442 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
@@ -2015,11 +2096,13 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          REAL(kind=real_4), DIMENSION(:), TARGET, &
+# 1454 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: src_offset, dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_4), DIMENSION(:), TARGET, &
+# 1459 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -2036,6 +2119,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
                                   4, nrow, ncol, src_rs, dst_rs)
+# 1475 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2066,6 +2150,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
                                   4, nrow, ncol, src_cs, dst_cs)
+# 1505 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2077,8 +2162,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_s
+# 1516 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_s (dst, dst_rs, dst_cs, dst_tr, &
+# 1518 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
@@ -2093,11 +2180,13 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          REAL(kind=real_4), DIMENSION(:), TARGET, &
+# 1532 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1537 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -2112,6 +2201,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   4, nrow, ncol, SIZE(src, 1), dst_rs)
+# 1551 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2127,6 +2217,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  4, nrow, ncol, SIZE(src, 1), dst_cs)
+# 1566 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2142,6 +2233,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  4, nrow, ncol, SIZE(src, 2), dst_rs)
+# 1581 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2158,6 +2250,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   4, nrow, ncol, SIZE(src, 2), dst_cs)
+# 1597 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2169,8 +2262,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_1d2d_s
+# 1608 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_s (dst, dst_tr, &
+# 1610 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_rs, src_cs, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
@@ -2183,10 +2278,12 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          REAL(kind=real_4), DIMENSION(:, :), &
+# 1622 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: src_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_4), DIMENSION(:), &
+# 1626 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -2228,8 +2325,10 @@ CONTAINS
             END DO
          END IF
       END SUBROUTINE block_partial_copy_2d1d_s
+# 1667 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_s (dst, dst_tr, &
+# 1669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
@@ -2243,9 +2342,11 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          REAL(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          LOGICAL, INTENT(IN)                      :: dst_tr
          REAL(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1685 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -2260,6 +2361,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   4, nrow, ncol, &
+# 1699 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 1), SIZE(dst, 1))
             END IF
 #else
@@ -2276,6 +2378,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  4, nrow, ncol, &
+# 1715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 1), SIZE(dst, 2))
             END IF
 #else
@@ -2292,6 +2395,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  4, nrow, ncol, &
+# 1731 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 2), SIZE(dst, 1))
             END IF
 #else
@@ -2309,6 +2413,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   4, nrow, ncol, &
+# 1748 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 2), SIZE(dst, 2))
             END IF
 #else
@@ -2321,8 +2426,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_2d2d_s
+# 1760 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_s (extent_out, extent_in, n, out_fe, in_fe)
+# 1762 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy a block
 
          INTEGER, INTENT(IN) :: n, out_fe, in_fe
@@ -2330,15 +2437,19 @@ CONTAINS
         !! first element of output
         !! first element of input
          REAL(kind=real_4), DIMENSION(*), INTENT(OUT) :: extent_out
+# 1769 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output data
          REAL(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
+# 1771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input data
 
 !    ---------------------------------------------------------------------------
          extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
       END SUBROUTINE block_copy_s
+# 1776 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_s (extent_out, extent_in, &
+# 1778 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                    rows, columns)
      !! Copy and transpose block.
 
@@ -2346,8 +2457,10 @@ CONTAINS
          USE LIBXS, ONLY: libxs_otrans, C_LOC
 #endif
          REAL(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+# 1785 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET  :: extent_in
+# 1787 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
          INTEGER, INTENT(IN) :: rows, columns
         !! input matrix size
@@ -2357,15 +2470,19 @@ CONTAINS
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            4, rows, columns, rows, columns)
+# 1796 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+# 1798 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
                                               RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_s
+# 1803 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d1d_s (extent_out, extent_in, &
+# 1805 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2373,15 +2490,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1812 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
+# 1814 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows, columns/))
       END SUBROUTINE block_copy_2d1d_s
+# 1819 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d1d_s (extent_out, extent_in, &
+# 1821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2389,15 +2510,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+# 1828 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+# 1830 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:) = extent_in(:)
       END SUBROUTINE block_copy_1d1d_s
+# 1835 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d2d_s (extent_out, extent_in, &
+# 1837 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2405,15 +2530,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1844 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+# 1846 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:, :) = extent_in(:, :)
       END SUBROUTINE block_copy_2d2d_s
+# 1851 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_s (extent_out, extent_in, &
+# 1853 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -2424,22 +2553,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+# 1863 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET              :: extent_in
+# 1865 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            4, rows, columns, rows, columns)
+# 1871 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+# 1873 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
 #endif
       END SUBROUTINE block_transpose_copy_2d1d_s
+# 1877 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d2d_s (extent_out, extent_in, &
+# 1879 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy and transpose block.
 
@@ -2447,15 +2582,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(:), INTENT(OUT)            :: extent_out
+# 1886 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+# 1888 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows*columns/))
       END SUBROUTINE block_copy_1d2d_s
+# 1893 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_s (extent_out, extent_in, &
+# 1895 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -2466,22 +2605,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET            :: extent_out
+# 1905 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN), TARGET :: extent_in
+# 1907 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            4, rows, columns, rows, columns)
+# 1913 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+# 1915 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_1d2d_s
+# 1919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_s (extent, rows, columns)
+# 1921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! In-place block transpose.
 
 #if defined(__LIBXS) && 0
@@ -2491,15 +2636,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          REAL(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+# 1930 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS) && 0
          CALL libxs_otrans(C_LOC(extent), 4, rows, columns, rows)
+# 1935 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_simatcopy('C', 'T', rows, columns, 1.0_real_4, extent, rows, columns)
+# 1937 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          REAL(kind=real_4), DIMENSION(rows*columns) :: extent_tr
+# 1939 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER :: r, c
          DO r = 1, columns
             DO c = 1, rows
@@ -2513,8 +2662,10 @@ CONTAINS
          END DO
 #endif
       END SUBROUTINE block_transpose_inplace_s
+# 1952 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       SUBROUTINE dbcsr_data_set_as (dst, lb, data_size, src, source_lb)
+# 1954 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy data from a double real array to a data area
      !! There are no checks done for correctness!
 
@@ -2524,12 +2675,14 @@ CONTAINS
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+# 1963 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! source data array
          INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
          INTEGER                                  :: lb_s, ub, ub_s
 
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+# 1969 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 !    ---------------------------------------------------------------------------
          IF (debug_mod) THEN
@@ -2538,6 +2691,7 @@ CONTAINS
             IF (SIZE(src) .LT. data_size) &
                DBCSR_ABORT("Not enough source data.")
             IF (dst%d%data_type .NE. dbcsr_type_real_4) &
+# 1977 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                DBCSR_ABORT("Data type mismatch.")
          END IF
          ub = lb + data_size - 1
@@ -2549,17 +2703,24 @@ CONTAINS
             ub_s = ub
          END IF
          cont_data => dst%d%r_sp (lb:ub)
+# 1988 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
       END SUBROUTINE dbcsr_data_set_as
+# 1990 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_add_s (block_a, block_b, len)
+# 1992 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER, INTENT(IN) :: len
          REAL(kind=real_4), DIMENSION(len), INTENT(INOUT) :: block_a
+# 1994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          REAL(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
+# 1995 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_s
+# 1997 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 # 1441 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_z (dst, dst_rs, dst_cs, dst_tr, &
+# 1442 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
@@ -2572,11 +2733,13 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_8), DIMENSION(:), TARGET, &
+# 1454 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: src_offset, dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_8), DIMENSION(:), TARGET, &
+# 1459 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -2593,6 +2756,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
                                   16, nrow, ncol, src_rs, dst_rs)
+# 1475 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2623,6 +2787,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
                                   16, nrow, ncol, src_cs, dst_cs)
+# 1505 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2634,8 +2799,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_z
+# 1516 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_z (dst, dst_rs, dst_cs, dst_tr, &
+# 1518 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
@@ -2650,11 +2817,13 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          COMPLEX(kind=real_8), DIMENSION(:), TARGET, &
+# 1532 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1537 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -2669,6 +2838,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   16, nrow, ncol, SIZE(src, 1), dst_rs)
+# 1551 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2684,6 +2854,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  16, nrow, ncol, SIZE(src, 1), dst_cs)
+# 1566 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2699,6 +2870,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  16, nrow, ncol, SIZE(src, 2), dst_rs)
+# 1581 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2715,6 +2887,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   16, nrow, ncol, SIZE(src, 2), dst_cs)
+# 1597 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -2726,8 +2899,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_1d2d_z
+# 1608 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_z (dst, dst_tr, &
+# 1610 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_rs, src_cs, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
@@ -2740,10 +2915,12 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_8), DIMENSION(:, :), &
+# 1622 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: src_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 1626 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -2785,8 +2962,10 @@ CONTAINS
             END DO
          END IF
       END SUBROUTINE block_partial_copy_2d1d_z
+# 1667 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_z (dst, dst_tr, &
+# 1669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
@@ -2800,9 +2979,11 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          COMPLEX(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_8), DIMENSION(:, :), TARGET, &
+# 1685 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -2817,6 +2998,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   16, nrow, ncol, &
+# 1699 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 1), SIZE(dst, 1))
             END IF
 #else
@@ -2833,6 +3015,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  16, nrow, ncol, &
+# 1715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 1), SIZE(dst, 2))
             END IF
 #else
@@ -2849,6 +3032,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  16, nrow, ncol, &
+# 1731 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 2), SIZE(dst, 1))
             END IF
 #else
@@ -2866,6 +3050,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   16, nrow, ncol, &
+# 1748 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 2), SIZE(dst, 2))
             END IF
 #else
@@ -2878,8 +3063,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_2d2d_z
+# 1760 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_z (extent_out, extent_in, n, out_fe, in_fe)
+# 1762 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy a block
 
          INTEGER, INTENT(IN) :: n, out_fe, in_fe
@@ -2887,15 +3074,19 @@ CONTAINS
         !! first element of output
         !! first element of input
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(OUT) :: extent_out
+# 1769 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output data
          COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
+# 1771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input data
 
 !    ---------------------------------------------------------------------------
          extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
       END SUBROUTINE block_copy_z
+# 1776 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_z (extent_out, extent_in, &
+# 1778 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                    rows, columns)
      !! Copy and transpose block.
 
@@ -2903,8 +3094,10 @@ CONTAINS
          USE LIBXS, ONLY: libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+# 1785 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET  :: extent_in
+# 1787 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
          INTEGER, INTENT(IN) :: rows, columns
         !! input matrix size
@@ -2914,15 +3107,19 @@ CONTAINS
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            16, rows, columns, rows, columns)
+# 1796 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+# 1798 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
                                               RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_z
+# 1803 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d1d_z (extent_out, extent_in, &
+# 1805 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2930,15 +3127,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1812 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
+# 1814 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows, columns/))
       END SUBROUTINE block_copy_2d1d_z
+# 1819 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d1d_z (extent_out, extent_in, &
+# 1821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2946,15 +3147,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+# 1828 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+# 1830 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:) = extent_in(:)
       END SUBROUTINE block_copy_1d1d_z
+# 1835 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d2d_z (extent_out, extent_in, &
+# 1837 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -2962,15 +3167,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1844 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+# 1846 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:, :) = extent_in(:, :)
       END SUBROUTINE block_copy_2d2d_z
+# 1851 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_z (extent_out, extent_in, &
+# 1853 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -2981,22 +3190,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+# 1863 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET              :: extent_in
+# 1865 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            16, rows, columns, rows, columns)
+# 1871 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+# 1873 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
 #endif
       END SUBROUTINE block_transpose_copy_2d1d_z
+# 1877 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d2d_z (extent_out, extent_in, &
+# 1879 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy and transpose block.
 
@@ -3004,15 +3219,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)            :: extent_out
+# 1886 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+# 1888 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows*columns/))
       END SUBROUTINE block_copy_1d2d_z
+# 1893 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_z (extent_out, extent_in, &
+# 1895 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -3023,22 +3242,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET            :: extent_out
+# 1905 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN), TARGET :: extent_in
+# 1907 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            16, rows, columns, rows, columns)
+# 1913 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+# 1915 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_1d2d_z
+# 1919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_z (extent, rows, columns)
+# 1921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! In-place block transpose.
 
 #if defined(__LIBXS) && 0
@@ -3048,15 +3273,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+# 1930 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS) && 0
          CALL libxs_otrans(C_LOC(extent), 16, rows, columns, rows)
+# 1935 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_zimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent, rows, columns)
+# 1937 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          COMPLEX(kind=real_8), DIMENSION(rows*columns) :: extent_tr
+# 1939 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER :: r, c
          DO r = 1, columns
             DO c = 1, rows
@@ -3070,8 +3299,10 @@ CONTAINS
          END DO
 #endif
       END SUBROUTINE block_transpose_inplace_z
+# 1952 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       SUBROUTINE dbcsr_data_set_az (dst, lb, data_size, src, source_lb)
+# 1954 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy data from a double real array to a data area
      !! There are no checks done for correctness!
 
@@ -3081,12 +3312,14 @@ CONTAINS
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+# 1963 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! source data array
          INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
          INTEGER                                  :: lb_s, ub, ub_s
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+# 1969 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 !    ---------------------------------------------------------------------------
          IF (debug_mod) THEN
@@ -3095,6 +3328,7 @@ CONTAINS
             IF (SIZE(src) .LT. data_size) &
                DBCSR_ABORT("Not enough source data.")
             IF (dst%d%data_type .NE. dbcsr_type_complex_8) &
+# 1977 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                DBCSR_ABORT("Data type mismatch.")
          END IF
          ub = lb + data_size - 1
@@ -3106,17 +3340,24 @@ CONTAINS
             ub_s = ub
          END IF
          cont_data => dst%d%c_dp (lb:ub)
+# 1988 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
       END SUBROUTINE dbcsr_data_set_az
+# 1990 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_add_z (block_a, block_b, len)
+# 1992 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER, INTENT(IN) :: len
          COMPLEX(kind=real_8), DIMENSION(len), INTENT(INOUT) :: block_a
+# 1994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          COMPLEX(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
+# 1995 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_z
+# 1997 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 # 1441 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_c (dst, dst_rs, dst_cs, dst_tr, &
+# 1442 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                  src, src_rs, src_cs, src_tr, &
                                                                  dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                  dst_offset, src_offset)
@@ -3129,11 +3370,13 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_4), DIMENSION(:), TARGET, &
+# 1454 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: src_offset, dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_4), DIMENSION(:), TARGET, &
+# 1459 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -3150,6 +3393,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
                                   8, nrow, ncol, src_rs, dst_rs)
+# 1475 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3180,6 +3424,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
                                   8, nrow, ncol, src_cs, dst_cs)
+# 1505 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3191,8 +3436,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_c
+# 1516 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_c (dst, dst_rs, dst_cs, dst_tr, &
+# 1518 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       dst_offset)
@@ -3207,11 +3454,13 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          COMPLEX(kind=real_4), DIMENSION(:), TARGET, &
+# 1532 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
          INTEGER, INTENT(IN)                      :: dst_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1537 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -3226,6 +3475,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   8, nrow, ncol, SIZE(src, 1), dst_rs)
+# 1551 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3241,6 +3491,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  8, nrow, ncol, SIZE(src, 1), dst_cs)
+# 1566 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3256,6 +3507,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  8, nrow, ncol, SIZE(src, 2), dst_rs)
+# 1581 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3272,6 +3524,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   8, nrow, ncol, SIZE(src, 2), dst_cs)
+# 1597 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             END IF
 #else
             DO col = 0, ncol - 1
@@ -3283,8 +3536,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_1d2d_c
+# 1608 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_c (dst, dst_tr, &
+# 1610 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_rs, src_cs, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
                                                                       src_offset)
@@ -3297,10 +3552,12 @@ CONTAINS
          USE LIBXS, ONLY: libxs_matcopy, libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_4), DIMENSION(:, :), &
+# 1622 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          INTEGER, INTENT(IN)                      :: src_offset
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 1626 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          INTEGER, INTENT(IN)                      :: src_rs, src_cs
          LOGICAL, INTENT(IN)                      :: src_tr
@@ -3342,8 +3599,10 @@ CONTAINS
             END DO
          END IF
       END SUBROUTINE block_partial_copy_2d1d_c
+# 1667 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_c (dst, dst_tr, &
+# 1669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                       src, src_tr, &
                                                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
      !! Copies a block subset
@@ -3357,9 +3616,11 @@ CONTAINS
          INTEGER                                  :: col, row
 #endif
          COMPLEX(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(INOUT)                         :: dst
          LOGICAL, INTENT(IN)                      :: dst_tr
          COMPLEX(kind=real_4), DIMENSION(:, :), TARGET, &
+# 1685 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
             INTENT(IN)                            :: src
          LOGICAL, INTENT(IN)                      :: src_tr
          INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
@@ -3374,6 +3635,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                   C_LOC(src(src_r_lb, src_c_lb)), &
                                   8, nrow, ncol, &
+# 1699 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 1), SIZE(dst, 1))
             END IF
 #else
@@ -3390,6 +3652,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                  C_LOC(src(src_r_lb, src_c_lb)), &
                                  8, nrow, ncol, &
+# 1715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 1), SIZE(dst, 2))
             END IF
 #else
@@ -3406,6 +3669,7 @@ CONTAINS
                CALL libxs_otrans(C_LOC(dst(dst_r_lb, dst_c_lb)), &
                                  C_LOC(src(src_c_lb, src_r_lb)), &
                                  8, nrow, ncol, &
+# 1731 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                  SIZE(src, 2), SIZE(dst, 1))
             END IF
 #else
@@ -3423,6 +3687,7 @@ CONTAINS
                CALL libxs_matcopy(C_LOC(dst(dst_c_lb, dst_r_lb)), &
                                   C_LOC(src(src_c_lb, src_r_lb)), &
                                   8, nrow, ncol, &
+# 1748 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                   SIZE(src, 2), SIZE(dst, 2))
             END IF
 #else
@@ -3435,8 +3700,10 @@ CONTAINS
 #endif
          END IF
       END SUBROUTINE block_partial_copy_2d2d_c
+# 1760 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_c (extent_out, extent_in, n, out_fe, in_fe)
+# 1762 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy a block
 
          INTEGER, INTENT(IN) :: n, out_fe, in_fe
@@ -3444,15 +3711,19 @@ CONTAINS
         !! first element of output
         !! first element of input
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(OUT) :: extent_out
+# 1769 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output data
          COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
+# 1771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input data
 
 !    ---------------------------------------------------------------------------
          extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
       END SUBROUTINE block_copy_c
+# 1776 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_c (extent_out, extent_in, &
+# 1778 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                    rows, columns)
      !! Copy and transpose block.
 
@@ -3460,8 +3731,10 @@ CONTAINS
          USE LIBXS, ONLY: libxs_otrans, C_LOC
 #endif
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+# 1785 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET  :: extent_in
+# 1787 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
          INTEGER, INTENT(IN) :: rows, columns
         !! input matrix size
@@ -3471,15 +3744,19 @@ CONTAINS
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1796 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+# 1798 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
                                               RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_c
+# 1803 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d1d_c (extent_out, extent_in, &
+# 1805 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -3487,15 +3764,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1812 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
+# 1814 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows, columns/))
       END SUBROUTINE block_copy_2d1d_c
+# 1819 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d1d_c (extent_out, extent_in, &
+# 1821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -3503,15 +3784,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+# 1828 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+# 1830 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:) = extent_in(:)
       END SUBROUTINE block_copy_1d1d_c
+# 1835 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_2d2d_c (extent_out, extent_in, &
+# 1837 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy a block
 
@@ -3519,15 +3804,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+# 1844 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+# 1846 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out(:, :) = extent_in(:, :)
       END SUBROUTINE block_copy_2d2d_c
+# 1851 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_c (extent_out, extent_in, &
+# 1853 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -3538,22 +3827,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+# 1863 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 2-d array
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET              :: extent_in
+# 1865 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1871 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+# 1873 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
 #endif
       END SUBROUTINE block_transpose_copy_2d1d_c
+# 1877 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_copy_1d2d_c (extent_out, extent_in, &
+# 1879 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                      rows, columns)
      !! Copy and transpose block.
 
@@ -3561,15 +3856,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)            :: extent_out
+# 1886 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+# 1888 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
          extent_out = RESHAPE(extent_in, (/rows*columns/))
       END SUBROUTINE block_copy_1d2d_c
+# 1893 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_c (extent_out, extent_in, &
+# 1895 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                                                                         rows, columns)
      !! Copy and transpose block.
 
@@ -3580,22 +3879,28 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET            :: extent_out
+# 1905 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! output matrix in the form of a 1-d array
          COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN), TARGET :: extent_in
+# 1907 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! input matrix in the form of a 2-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS)
          CALL libxs_otrans(C_LOC(extent_out), C_LOC(extent_in), &
                            8, rows, columns, rows, columns)
+# 1913 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+# 1915 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
 #endif
       END SUBROUTINE block_transpose_copy_1d2d_c
+# 1919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_c (extent, rows, columns)
+# 1921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! In-place block transpose.
 
 #if defined(__LIBXS) && 0
@@ -3605,15 +3910,19 @@ CONTAINS
         !! input matrix size
         !! input matrix size
          COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+# 1930 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! Matrix in the form of a 1-d array
 
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXS) && 0
          CALL libxs_otrans(C_LOC(extent), 8, rows, columns, rows)
+# 1935 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #elif defined(__MKL)
          CALL mkl_cimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent, rows, columns)
+# 1937 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 #else
          COMPLEX(kind=real_4), DIMENSION(rows*columns) :: extent_tr
+# 1939 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER :: r, c
          DO r = 1, columns
             DO c = 1, rows
@@ -3627,8 +3936,10 @@ CONTAINS
          END DO
 #endif
       END SUBROUTINE block_transpose_inplace_c
+# 1952 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       SUBROUTINE dbcsr_data_set_ac (dst, lb, data_size, src, source_lb)
+# 1954 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
      !! Copy data from a double real array to a data area
      !! There are no checks done for correctness!
 
@@ -3638,12 +3949,14 @@ CONTAINS
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+# 1963 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
         !! source data array
          INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
          INTEGER                                  :: lb_s, ub, ub_s
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+# 1969 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 !    ---------------------------------------------------------------------------
          IF (debug_mod) THEN
@@ -3652,6 +3965,7 @@ CONTAINS
             IF (SIZE(src) .LT. data_size) &
                DBCSR_ABORT("Not enough source data.")
             IF (dst%d%data_type .NE. dbcsr_type_complex_4) &
+# 1977 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
                DBCSR_ABORT("Data type mismatch.")
          END IF
          ub = lb + data_size - 1
@@ -3663,15 +3977,21 @@ CONTAINS
             ub_s = ub
          END IF
          cont_data => dst%d%c_sp (lb:ub)
+# 1988 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
       END SUBROUTINE dbcsr_data_set_ac
+# 1990 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
       PURE SUBROUTINE block_add_c (block_a, block_b, len)
+# 1992 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          INTEGER, INTENT(IN) :: len
          COMPLEX(kind=real_4), DIMENSION(len), INTENT(INOUT) :: block_a
+# 1994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
+# 1995 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
          block_a(1:len) = block_a(1:len) + block_b(1:len)
       END SUBROUTINE block_add_c
+# 1997 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 # 1998 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

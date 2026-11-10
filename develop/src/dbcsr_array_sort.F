@@ -22,7 +22,8 @@ MODULE dbcsr_array_sort
    !! DBCSR:
    !! Please use the interface defined in dbcsr_toollib.F for calling sort().
 
-   USE dbcsr_kinds, ONLY: int_8, int_4, real_4, real_8
+   USE dbcsr_kinds, ONLY: int_4, int_8, real_4, real_8
+# 21 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
    IMPLICIT NONE
    PRIVATE
@@ -32,30 +33,37 @@ MODULE dbcsr_array_sort
 
 # 29 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       PUBLIC :: dbcsr_1d_d_sort
+# 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 29 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       PUBLIC :: dbcsr_1d_s_sort
+# 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 29 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       PUBLIC :: dbcsr_1d_i4_sort
+# 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 29 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       PUBLIC :: dbcsr_1d_i8_sort
+# 30 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 31 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
 CONTAINS
 
 # 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       subroutine dbcsr_1d_d_sort(arr, n, indices)
+# 36 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! Sorts an array inplace using a combination of merge- and bubble-sort.
       !! It also returns the indices, which the elements had before the sort.
 
          integer, intent(in)                  :: n
          !! length of array
          REAL(kind=real_8), dimension(1:n), intent(inout) :: arr
+# 42 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(1:n), intent(out)   :: indices
          !! returns elements-indices before the sort
 
          integer :: i
          REAL(kind=real_8), pointer, CONTIGUOUS     :: tmp_arr(:)
+# 48 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
          if (n == 0) return ! for some reason this is a frequent case in cp2k
@@ -66,24 +74,31 @@ CONTAINS
          indices = (/(i, i=1, size(arr))/)
 
          call dbcsr_1d_d_sort_low(arr(1:n), indices, tmp_arr, tmp_idx)
+# 58 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          deallocate (tmp_arr, tmp_idx)
 
       end subroutine dbcsr_1d_d_sort
+# 62 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
       recursive subroutine dbcsr_1d_d_sort_low(arr, indices, tmp_arr, tmp_idx)
+# 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! The actual sort routine.
       !! Only dbcsr_1d_d_sort and itself should call this.
+# 66 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          REAL(kind=real_8), dimension(:), intent(inout) :: arr
+# 68 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(size(arr)), intent(inout) :: indices
          !! elements-indices before the sort
          REAL(kind=real_8), dimension((size(arr) + 1)/2), intent(inout) :: tmp_arr
+# 72 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! scratch space
          integer, dimension((size(arr) + 1)/2), intent(inout) :: tmp_idx
          !! scratch space
          REAL(kind=real_8) :: a
+# 76 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer :: t, m, i, j, k
          LOGICAL :: swapped
          ! a,t:  used during swapping of elements in arr and indices
@@ -96,6 +111,7 @@ CONTAINS
                swapped = .FALSE.
                DO i = 1, j
                   IF (arr(i+1) < arr(i)) THEN
+# 88 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                      ! swap arr(i) with arr(i+1)
                      a = arr(i)
                      arr(i) = arr(i + 1)
@@ -115,11 +131,14 @@ CONTAINS
          ! split list in half and recursively sort both sublists
          m = (size(arr) + 1)/2 ! index where we going to divide the list in two
          call dbcsr_1d_d_sort_low(arr(1:m), indices(1:m), tmp_arr, tmp_idx)
+# 107 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          call dbcsr_1d_d_sort_low(arr(m + 1:), indices(m + 1:), tmp_arr, tmp_idx)
+# 108 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          ! Check for a special case: Can we just concatenate the two sorted sublists?
          ! This leads to O(n) scaling if the input is already sorted.
          if (arr(m+1) < arr(m)) then
+# 112 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
             ! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)
             ! Merge will be performed directly in arr. Need backup of first sublist.
             tmp_arr(1:m) = arr(1:m)
@@ -130,6 +149,7 @@ CONTAINS
 
             do while (i <= m .and. j <= size(arr) - m)
             if (arr(m+j) < tmp_arr(i)) then
+# 122 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                arr(k) = arr(m + j)
                indices(k) = indices(m + j)
                j = j + 1
@@ -155,20 +175,24 @@ CONTAINS
          end if
 
       end subroutine dbcsr_1d_d_sort_low
+# 147 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       subroutine dbcsr_1d_s_sort(arr, n, indices)
+# 36 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! Sorts an array inplace using a combination of merge- and bubble-sort.
       !! It also returns the indices, which the elements had before the sort.
 
          integer, intent(in)                  :: n
          !! length of array
          REAL(kind=real_4), dimension(1:n), intent(inout) :: arr
+# 42 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(1:n), intent(out)   :: indices
          !! returns elements-indices before the sort
 
          integer :: i
          REAL(kind=real_4), pointer, CONTIGUOUS     :: tmp_arr(:)
+# 48 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
          if (n == 0) return ! for some reason this is a frequent case in cp2k
@@ -179,24 +203,31 @@ CONTAINS
          indices = (/(i, i=1, size(arr))/)
 
          call dbcsr_1d_s_sort_low(arr(1:n), indices, tmp_arr, tmp_idx)
+# 58 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          deallocate (tmp_arr, tmp_idx)
 
       end subroutine dbcsr_1d_s_sort
+# 62 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
       recursive subroutine dbcsr_1d_s_sort_low(arr, indices, tmp_arr, tmp_idx)
+# 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! The actual sort routine.
       !! Only dbcsr_1d_s_sort and itself should call this.
+# 66 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          REAL(kind=real_4), dimension(:), intent(inout) :: arr
+# 68 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(size(arr)), intent(inout) :: indices
          !! elements-indices before the sort
          REAL(kind=real_4), dimension((size(arr) + 1)/2), intent(inout) :: tmp_arr
+# 72 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! scratch space
          integer, dimension((size(arr) + 1)/2), intent(inout) :: tmp_idx
          !! scratch space
          REAL(kind=real_4) :: a
+# 76 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer :: t, m, i, j, k
          LOGICAL :: swapped
          ! a,t:  used during swapping of elements in arr and indices
@@ -209,6 +240,7 @@ CONTAINS
                swapped = .FALSE.
                DO i = 1, j
                   IF (arr(i+1) < arr(i)) THEN
+# 88 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                      ! swap arr(i) with arr(i+1)
                      a = arr(i)
                      arr(i) = arr(i + 1)
@@ -228,11 +260,14 @@ CONTAINS
          ! split list in half and recursively sort both sublists
          m = (size(arr) + 1)/2 ! index where we going to divide the list in two
          call dbcsr_1d_s_sort_low(arr(1:m), indices(1:m), tmp_arr, tmp_idx)
+# 107 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          call dbcsr_1d_s_sort_low(arr(m + 1:), indices(m + 1:), tmp_arr, tmp_idx)
+# 108 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          ! Check for a special case: Can we just concatenate the two sorted sublists?
          ! This leads to O(n) scaling if the input is already sorted.
          if (arr(m+1) < arr(m)) then
+# 112 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
             ! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)
             ! Merge will be performed directly in arr. Need backup of first sublist.
             tmp_arr(1:m) = arr(1:m)
@@ -243,6 +278,7 @@ CONTAINS
 
             do while (i <= m .and. j <= size(arr) - m)
             if (arr(m+j) < tmp_arr(i)) then
+# 122 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                arr(k) = arr(m + j)
                indices(k) = indices(m + j)
                j = j + 1
@@ -268,20 +304,24 @@ CONTAINS
          end if
 
       end subroutine dbcsr_1d_s_sort_low
+# 147 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       subroutine dbcsr_1d_i4_sort(arr, n, indices)
+# 36 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! Sorts an array inplace using a combination of merge- and bubble-sort.
       !! It also returns the indices, which the elements had before the sort.
 
          integer, intent(in)                  :: n
          !! length of array
          INTEGER(kind=int_4), dimension(1:n), intent(inout) :: arr
+# 42 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(1:n), intent(out)   :: indices
          !! returns elements-indices before the sort
 
          integer :: i
          INTEGER(kind=int_4), pointer, CONTIGUOUS     :: tmp_arr(:)
+# 48 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
          if (n == 0) return ! for some reason this is a frequent case in cp2k
@@ -292,24 +332,31 @@ CONTAINS
          indices = (/(i, i=1, size(arr))/)
 
          call dbcsr_1d_i4_sort_low(arr(1:n), indices, tmp_arr, tmp_idx)
+# 58 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          deallocate (tmp_arr, tmp_idx)
 
       end subroutine dbcsr_1d_i4_sort
+# 62 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
       recursive subroutine dbcsr_1d_i4_sort_low(arr, indices, tmp_arr, tmp_idx)
+# 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! The actual sort routine.
       !! Only dbcsr_1d_i4_sort and itself should call this.
+# 66 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          INTEGER(kind=int_4), dimension(:), intent(inout) :: arr
+# 68 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(size(arr)), intent(inout) :: indices
          !! elements-indices before the sort
          INTEGER(kind=int_4), dimension((size(arr) + 1)/2), intent(inout) :: tmp_arr
+# 72 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! scratch space
          integer, dimension((size(arr) + 1)/2), intent(inout) :: tmp_idx
          !! scratch space
          INTEGER(kind=int_4) :: a
+# 76 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer :: t, m, i, j, k
          LOGICAL :: swapped
          ! a,t:  used during swapping of elements in arr and indices
@@ -322,6 +369,7 @@ CONTAINS
                swapped = .FALSE.
                DO i = 1, j
                   IF (arr(i+1) < arr(i)) THEN
+# 88 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                      ! swap arr(i) with arr(i+1)
                      a = arr(i)
                      arr(i) = arr(i + 1)
@@ -341,11 +389,14 @@ CONTAINS
          ! split list in half and recursively sort both sublists
          m = (size(arr) + 1)/2 ! index where we going to divide the list in two
          call dbcsr_1d_i4_sort_low(arr(1:m), indices(1:m), tmp_arr, tmp_idx)
+# 107 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          call dbcsr_1d_i4_sort_low(arr(m + 1:), indices(m + 1:), tmp_arr, tmp_idx)
+# 108 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          ! Check for a special case: Can we just concatenate the two sorted sublists?
          ! This leads to O(n) scaling if the input is already sorted.
          if (arr(m+1) < arr(m)) then
+# 112 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
             ! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)
             ! Merge will be performed directly in arr. Need backup of first sublist.
             tmp_arr(1:m) = arr(1:m)
@@ -356,6 +407,7 @@ CONTAINS
 
             do while (i <= m .and. j <= size(arr) - m)
             if (arr(m+j) < tmp_arr(i)) then
+# 122 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                arr(k) = arr(m + j)
                indices(k) = indices(m + j)
                j = j + 1
@@ -381,20 +433,24 @@ CONTAINS
          end if
 
       end subroutine dbcsr_1d_i4_sort_low
+# 147 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 35 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       subroutine dbcsr_1d_i8_sort(arr, n, indices)
+# 36 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! Sorts an array inplace using a combination of merge- and bubble-sort.
       !! It also returns the indices, which the elements had before the sort.
 
          integer, intent(in)                  :: n
          !! length of array
          INTEGER(kind=int_8), dimension(1:n), intent(inout) :: arr
+# 42 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(1:n), intent(out)   :: indices
          !! returns elements-indices before the sort
 
          integer :: i
          INTEGER(kind=int_8), pointer, CONTIGUOUS     :: tmp_arr(:)
+# 48 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
          if (n == 0) return ! for some reason this is a frequent case in cp2k
@@ -405,24 +461,31 @@ CONTAINS
          indices = (/(i, i=1, size(arr))/)
 
          call dbcsr_1d_i8_sort_low(arr(1:n), indices, tmp_arr, tmp_idx)
+# 58 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          deallocate (tmp_arr, tmp_idx)
 
       end subroutine dbcsr_1d_i8_sort
+# 62 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
       recursive subroutine dbcsr_1d_i8_sort_low(arr, indices, tmp_arr, tmp_idx)
+# 64 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
       !! The actual sort routine.
       !! Only dbcsr_1d_i8_sort and itself should call this.
+# 66 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          INTEGER(kind=int_8), dimension(:), intent(inout) :: arr
+# 68 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! the array to sort
          integer, dimension(size(arr)), intent(inout) :: indices
          !! elements-indices before the sort
          INTEGER(kind=int_8), dimension((size(arr) + 1)/2), intent(inout) :: tmp_arr
+# 72 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          !! scratch space
          integer, dimension((size(arr) + 1)/2), intent(inout) :: tmp_idx
          !! scratch space
          INTEGER(kind=int_8) :: a
+# 76 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          integer :: t, m, i, j, k
          LOGICAL :: swapped
          ! a,t:  used during swapping of elements in arr and indices
@@ -435,6 +498,7 @@ CONTAINS
                swapped = .FALSE.
                DO i = 1, j
                   IF (arr(i+1) < arr(i)) THEN
+# 88 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                      ! swap arr(i) with arr(i+1)
                      a = arr(i)
                      arr(i) = arr(i + 1)
@@ -454,11 +518,14 @@ CONTAINS
          ! split list in half and recursively sort both sublists
          m = (size(arr) + 1)/2 ! index where we going to divide the list in two
          call dbcsr_1d_i8_sort_low(arr(1:m), indices(1:m), tmp_arr, tmp_idx)
+# 107 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
          call dbcsr_1d_i8_sort_low(arr(m + 1:), indices(m + 1:), tmp_arr, tmp_idx)
+# 108 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
          ! Check for a special case: Can we just concatenate the two sorted sublists?
          ! This leads to O(n) scaling if the input is already sorted.
          if (arr(m+1) < arr(m)) then
+# 112 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
             ! ...no - let's merge the two sorted sublists arr(:m) and arr(m+1:)
             ! Merge will be performed directly in arr. Need backup of first sublist.
             tmp_arr(1:m) = arr(1:m)
@@ -469,6 +536,7 @@ CONTAINS
 
             do while (i <= m .and. j <= size(arr) - m)
             if (arr(m+j) < tmp_arr(i)) then
+# 122 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
                arr(k) = arr(m + j)
                indices(k) = indices(m + j)
                j = j + 1
@@ -494,6 +562,7 @@ CONTAINS
          end if
 
       end subroutine dbcsr_1d_i8_sort_low
+# 147 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 # 148 "/__w/dbcsr/dbcsr/src/utils/dbcsr_array_sort.F"
 
 END MODULE dbcsr_array_sort

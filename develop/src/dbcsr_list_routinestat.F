@@ -21,7 +21,8 @@
    !! Have look at list_push(), list_pop() and list_peek().
 
 MODULE dbcsr_list_routinestat
-   USE dbcsr_timings_base_type, ONLY: routine_stat_type, routine_report_type, callstack_entry_type
+   USE dbcsr_timings_base_type, ONLY: routine_stat_type, callstack_entry_type, routine_report_type
+# 20 "/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F"
 
 
 # 21 "/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F"
@@ -610,5 +611,6 @@ SUBROUTINE change_capacity_routinestat(list, new_capacity)
 
 # 21 "/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F"
 END SUBROUTINE change_capacity_routinestat
+# 22 "/__w/dbcsr/dbcsr/src/core/dbcsr_list_routinestat.F"
 
 END MODULE dbcsr_list_routinestat

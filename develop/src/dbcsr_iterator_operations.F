@@ -730,6 +730,7 @@ CONTAINS
 # 724 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
 # 725 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
       SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
+# 726 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
@@ -739,6 +740,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          REAL(kind=real_8), DIMENSION(:), POINTER :: block
+# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
@@ -782,8 +784,10 @@ CONTAINS
             IF (PRESENT(block_number)) block_number = 0
          END IF
       END SUBROUTINE iterator_next_1d_block_d
+# 778 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
       SUBROUTINE iterator_next_2d_block_d (iterator, row, column, &
+# 780 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        block, transposed, &
                                                        block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -794,6 +798,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          REAL(kind=real_8), DIMENSION(:, :), &
+# 790 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
             POINTER                                :: block
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
@@ -805,10 +810,12 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_d'
+# 801 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
          INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                      block_row_size, block_col_size
          REAL(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+# 805 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
          INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
@@ -848,8 +855,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE iterator_next_2d_block_d
+# 844 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 # 725 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
       SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
+# 726 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
@@ -859,6 +868,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          REAL(kind=real_4), DIMENSION(:), POINTER :: block
+# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
@@ -902,8 +912,10 @@ CONTAINS
             IF (PRESENT(block_number)) block_number = 0
          END IF
       END SUBROUTINE iterator_next_1d_block_s
+# 778 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
       SUBROUTINE iterator_next_2d_block_s (iterator, row, column, &
+# 780 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        block, transposed, &
                                                        block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -914,6 +926,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          REAL(kind=real_4), DIMENSION(:, :), &
+# 790 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
             POINTER                                :: block
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
@@ -925,10 +938,12 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_s'
+# 801 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
          INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                      block_row_size, block_col_size
          REAL(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+# 805 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
          INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
@@ -968,8 +983,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE iterator_next_2d_block_s
+# 844 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 # 725 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
       SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
+# 726 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
@@ -979,6 +996,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          COMPLEX(kind=real_8), DIMENSION(:), POINTER :: block
+# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
@@ -1022,8 +1040,10 @@ CONTAINS
             IF (PRESENT(block_number)) block_number = 0
          END IF
       END SUBROUTINE iterator_next_1d_block_z
+# 778 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
       SUBROUTINE iterator_next_2d_block_z (iterator, row, column, &
+# 780 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        block, transposed, &
                                                        block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1034,6 +1054,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          COMPLEX(kind=real_8), DIMENSION(:, :), &
+# 790 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
             POINTER                                :: block
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
@@ -1045,10 +1066,12 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_z'
+# 801 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
          INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                      block_row_size, block_col_size
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+# 805 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
          INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
@@ -1088,8 +1111,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE iterator_next_2d_block_z
+# 844 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 # 725 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
       SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
+# 726 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
@@ -1099,6 +1124,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          COMPLEX(kind=real_4), DIMENSION(:), POINTER :: block
+# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
@@ -1142,8 +1168,10 @@ CONTAINS
             IF (PRESENT(block_number)) block_number = 0
          END IF
       END SUBROUTINE iterator_next_1d_block_c
+# 778 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
       SUBROUTINE iterator_next_2d_block_c (iterator, row, column, &
+# 780 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
                                                        block, transposed, &
                                                        block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1154,6 +1182,7 @@ CONTAINS
         !! row of the data block
         !! column of the data block
          COMPLEX(kind=real_4), DIMENSION(:, :), &
+# 790 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
             POINTER                                :: block
         !! pointer to the data block
          LOGICAL, INTENT(OUT)                     :: transposed
@@ -1165,10 +1194,12 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_c'
+# 801 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
          INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                      block_row_size, block_col_size
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+# 805 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
          INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
@@ -1208,6 +1239,7 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE iterator_next_2d_block_c
+# 844 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 # 845 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
 END MODULE dbcsr_iterator_operations

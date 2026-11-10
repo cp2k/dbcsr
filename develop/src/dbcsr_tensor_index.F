@@ -293,6 +293,7 @@ CONTAINS
          !! 2d index
       INTEGER :: i
       INTEGER, DIMENSION(4)                    :: ind_tmp
+# 291 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_index.F"
 
       DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
@@ -316,6 +317,7 @@ CONTAINS
          !! 2d index
       INTEGER :: i
       INTEGER, DIMENSION(4)                    :: ind_tmp
+# 314 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_index.F"
 
       DO i = 1, map%ndim1_2d
          ind_tmp(i) = ind_in(map%map1_2d(i))
@@ -338,6 +340,7 @@ CONTAINS
       INTEGER, DIMENSION(map%ndim_nd)                    :: ind_out
          !! nd index
       INTEGER, DIMENSION(4)                    :: ind_tmp
+# 336 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_index.F"
       INTEGER                                            :: i
 
       ind_tmp(:map%ndim1_2d) = split_tensor_index(ind_in(1), map%dims1_2d)

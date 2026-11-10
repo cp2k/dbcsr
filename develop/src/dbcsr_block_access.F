@@ -665,6 +665,7 @@ CONTAINS
 
 # 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
       SUBROUTINE dbcsr_get_2d_block_p_d (matrix, row, col, block, tr, found, &
+# 661 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                      row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
 
@@ -674,6 +675,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_8), DIMENSION(:, :), POINTER         :: block
+# 670 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-2 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -684,20 +686,25 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_d'
+# 680 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          REAL(kind=real_8), DIMENSION(:), POINTER         :: block_1d
+# 682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: rsize, csize, &
                                                      blk, nze, offset, &
                                                      stored_row, &
                                                      stored_col, iw, nwms
          INTEGER                                  :: error_handle
          TYPE(btree_data_dp2d)          :: data_block
+# 688 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          LOGICAL                                  :: stored_tr
          REAL(kind=real_8), DIMENSION(1, 1), TARGET, SAVE    :: block0
+# 690 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 !   ---------------------------------------------------------------------------
          IF (careful_mod) CALL timeset(routineN, error_handle)
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_real_8) &
+# 694 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -719,6 +726,7 @@ CONTAINS
             ELSE
                block_1d => pointer_view(dbcsr_get_data_p( &
                                         matrix%data_area, 0.0_real_8), offset, offset + nze - 1)
+# 715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                CALL dbcsr_set_block_pointer(matrix, block, rsize, csize, offset)
             END IF
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
@@ -736,6 +744,7 @@ CONTAINS
                END IF
                CALL btree_find( &
                   matrix%wms(iw)%mutable%m%btree_d, &
+# 732 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                   make_coordinate_tuple(stored_row, stored_col), &
                   data_block, found)
                IF (found) THEN
@@ -745,8 +754,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE dbcsr_get_2d_block_p_d
+# 741 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_get_block_p_d (matrix, row, col, block, tr, found, &
+# 743 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   row_size, col_size)
      !! Gets a 1-d block from a dbcsr matrix
 
@@ -756,6 +767,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_8), DIMENSION(:), POINTER           :: block
+# 752 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-1 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -775,6 +787,7 @@ CONTAINS
 
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_real_8) &
+# 771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -793,6 +806,7 @@ CONTAINS
             !
             block => pointer_view( &
                      dbcsr_get_data_p(matrix%data_area, 0.0_real_8), offset, offset + nze - 1 &
+# 789 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      )
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
             IF (.NOT. dbcsr_use_mutable(matrix)) &
@@ -801,8 +815,10 @@ CONTAINS
                DBCSR_ABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
          END IF
       END SUBROUTINE dbcsr_get_block_p_d
+# 797 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, &
+# 799 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                       transposed, existed)
      !! Put a 2-D block in a DBCSR matrix using the btree
 
@@ -812,6 +828,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_8), DIMENSION(:, :), POINTER         :: block
+# 808 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to reserve; added if not NULL
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
         !! the block holds transposed data
@@ -819,12 +836,14 @@ CONTAINS
         !! block already existed
 
          TYPE(btree_data_dp2d)          :: data_block, data_block2
+# 815 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: col_size, row_size, &
                                                      stored_row, stored_col, &
                                                      iw, nwms
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size
          LOGICAL                                  :: found, gift, tr, sym_tr
          REAL(kind=real_8), DIMENSION(:, :), POINTER         :: original_block
+# 821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -870,6 +889,7 @@ CONTAINS
 !$          DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$       iw = omp_get_thread_num() + 1
          CALL btree_add(matrix%wms(iw)%mutable%m%btree_d, &
+# 866 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                         make_coordinate_tuple(stored_row, stored_col), &
                         data_block, found, data_block2)
 
@@ -894,8 +914,10 @@ CONTAINS
          END IF
          IF (PRESENT(existed)) existed = found
       END SUBROUTINE dbcsr_reserve_block2d_d
+# 890 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block2d_d (matrix, row, col, block, lb_row_col, transposed, &
+# 892 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   summation, flop, scale)
      !! Put a 2-D block in a DBCSR matrix
 
@@ -905,6 +927,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_8), DIMENSION(:, :), INTENT(IN), &
+# 901 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             CONTIGUOUS, TARGET                    :: block
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
@@ -913,9 +936,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 909 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the block being added
 
          REAL(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+# 912 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          NULLIFY (block_1d)
 
@@ -923,8 +948,10 @@ CONTAINS
 
          CALL dbcsr_put_block(matrix, row, col, block_1d, lb_row_col, transposed, summation, flop, scale)
       END SUBROUTINE dbcsr_put_block2d_d
+# 919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block_d (matrix, row, col, block, lb_row_col, transposed, &
+# 921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                 summation, flop, scale)
      !! Inserts a block in a dbcsr matrix.
      !! If the block exists, the current data is overwritten.
@@ -935,6 +962,7 @@ CONTAINS
         !! the logical row
         !! the logical column
          REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
+# 931 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -942,9 +970,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 938 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the OBblock being added
 
          TYPE(btree_data_dp2d)          :: data_block, data_block2
+# 941 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: blk, col_size, &
                                                      nze, offset, &
                                                      row_size, blk_p, &
@@ -952,6 +982,7 @@ CONTAINS
                                                      iw, nwms
          LOGICAL                                  :: found, tr, do_sum, tr_diff
          REAL(kind=real_8), DIMENSION(:), POINTER         :: block_1d
+# 948 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -989,24 +1020,29 @@ CONTAINS
             END IF
             block_1d => pointer_view(dbcsr_get_data_p( &
                                      matrix%data_area, 0.0_real_8), offset, offset + nze - 1)
+# 985 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             IF (nze .GT. 0) THEN
                IF (do_sum) THEN
                   IF (tr_diff) &
                      block_1d = RESHAPE(TRANSPOSE(RESHAPE(block_1d, (/col_size, row_size/))), (/nze/))
                   IF (PRESENT(scale)) THEN
                      CALL daxpy(nze, scale, block(1:nze), 1, &
+# 991 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL daxpy(nze, 1.0_real_8, block(1:nze), 1, &
+# 994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                   my_flop = my_flop + nze*2
                ELSE
                   IF (PRESENT(scale)) THEN
                      CALL dcopy(nze, scale*block(1:nze), 1, &
+# 1000 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL dcopy(nze, block(1:nze), 1, &
+# 1003 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                END IF
@@ -1053,6 +1089,7 @@ CONTAINS
                IF (.NOT. do_sum) THEN
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_d, &
+# 1049 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.TRUE.)
                   IF (found) THEN
@@ -1063,11 +1100,13 @@ CONTAINS
                ELSE
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_d, &
+# 1059 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.FALSE.)
                   IF (found) THEN
                      IF (nze > 0) &
                         CALL daxpy(nze, 1.0_real_8, block, 1, &
+# 1064 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                data_block2%p, 1)
                      IF (.NOT. ASSOCIATED(data_block%p)) &
                         DBCSR_WARN("Data was not present in block")
@@ -1086,14 +1125,17 @@ CONTAINS
          END IF
          IF (PRESENT(flop)) flop = flop + my_flop
       END SUBROUTINE dbcsr_put_block_d
+# 1082 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_set_block_pointer_2d_d ( &
+# 1084 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          matrix, pointer_any, rsize, csize, base_offset)
      !! Sets a pointer, possibly using the buffers.
 
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
         !! Matrix to use
          REAL(kind=real_8), DIMENSION(:, :), POINTER         :: pointer_any
+# 1090 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! The pointer to set
          INTEGER, INTENT(IN)                      :: rsize, csize
         !! Row size of block to point to
@@ -1103,9 +1145,11 @@ CONTAINS
 
          CHARACTER(len=*), PARAMETER :: &
             routineN = 'dbcsr_set_block_pointer_2d_d'
+# 1099 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          INTEGER                                  :: error_handler
          REAL(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+# 1102 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -1116,8 +1160,10 @@ CONTAINS
                                   lin_blk_p)
          IF (careful_mod) CALL timestop(error_handler)
       END SUBROUTINE dbcsr_set_block_pointer_2d_d
+# 1112 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 # 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
       SUBROUTINE dbcsr_get_2d_block_p_s (matrix, row, col, block, tr, found, &
+# 661 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                      row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
 
@@ -1127,6 +1173,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_4), DIMENSION(:, :), POINTER         :: block
+# 670 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-2 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -1137,20 +1184,25 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_s'
+# 680 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          REAL(kind=real_4), DIMENSION(:), POINTER         :: block_1d
+# 682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: rsize, csize, &
                                                      blk, nze, offset, &
                                                      stored_row, &
                                                      stored_col, iw, nwms
          INTEGER                                  :: error_handle
          TYPE(btree_data_sp2d)          :: data_block
+# 688 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          LOGICAL                                  :: stored_tr
          REAL(kind=real_4), DIMENSION(1, 1), TARGET, SAVE    :: block0
+# 690 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 !   ---------------------------------------------------------------------------
          IF (careful_mod) CALL timeset(routineN, error_handle)
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_real_4) &
+# 694 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -1172,6 +1224,7 @@ CONTAINS
             ELSE
                block_1d => pointer_view(dbcsr_get_data_p( &
                                         matrix%data_area, 0.0_real_4), offset, offset + nze - 1)
+# 715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                CALL dbcsr_set_block_pointer(matrix, block, rsize, csize, offset)
             END IF
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
@@ -1189,6 +1242,7 @@ CONTAINS
                END IF
                CALL btree_find( &
                   matrix%wms(iw)%mutable%m%btree_s, &
+# 732 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                   make_coordinate_tuple(stored_row, stored_col), &
                   data_block, found)
                IF (found) THEN
@@ -1198,8 +1252,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE dbcsr_get_2d_block_p_s
+# 741 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_get_block_p_s (matrix, row, col, block, tr, found, &
+# 743 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   row_size, col_size)
      !! Gets a 1-d block from a dbcsr matrix
 
@@ -1209,6 +1265,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_4), DIMENSION(:), POINTER           :: block
+# 752 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-1 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -1228,6 +1285,7 @@ CONTAINS
 
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_real_4) &
+# 771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -1246,6 +1304,7 @@ CONTAINS
             !
             block => pointer_view( &
                      dbcsr_get_data_p(matrix%data_area, 0.0_real_4), offset, offset + nze - 1 &
+# 789 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      )
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
             IF (.NOT. dbcsr_use_mutable(matrix)) &
@@ -1254,8 +1313,10 @@ CONTAINS
                DBCSR_ABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
          END IF
       END SUBROUTINE dbcsr_get_block_p_s
+# 797 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, &
+# 799 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                       transposed, existed)
      !! Put a 2-D block in a DBCSR matrix using the btree
 
@@ -1265,6 +1326,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_4), DIMENSION(:, :), POINTER         :: block
+# 808 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to reserve; added if not NULL
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
         !! the block holds transposed data
@@ -1272,12 +1334,14 @@ CONTAINS
         !! block already existed
 
          TYPE(btree_data_sp2d)          :: data_block, data_block2
+# 815 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: col_size, row_size, &
                                                      stored_row, stored_col, &
                                                      iw, nwms
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size
          LOGICAL                                  :: found, gift, tr, sym_tr
          REAL(kind=real_4), DIMENSION(:, :), POINTER         :: original_block
+# 821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -1323,6 +1387,7 @@ CONTAINS
 !$          DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$       iw = omp_get_thread_num() + 1
          CALL btree_add(matrix%wms(iw)%mutable%m%btree_s, &
+# 866 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                         make_coordinate_tuple(stored_row, stored_col), &
                         data_block, found, data_block2)
 
@@ -1347,8 +1412,10 @@ CONTAINS
          END IF
          IF (PRESENT(existed)) existed = found
       END SUBROUTINE dbcsr_reserve_block2d_s
+# 890 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block2d_s (matrix, row, col, block, lb_row_col, transposed, &
+# 892 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   summation, flop, scale)
      !! Put a 2-D block in a DBCSR matrix
 
@@ -1358,6 +1425,7 @@ CONTAINS
         !! the row
         !! the column
          REAL(kind=real_4), DIMENSION(:, :), INTENT(IN), &
+# 901 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             CONTIGUOUS, TARGET                    :: block
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
@@ -1366,9 +1434,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          REAL(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 909 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the block being added
 
          REAL(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+# 912 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          NULLIFY (block_1d)
 
@@ -1376,8 +1446,10 @@ CONTAINS
 
          CALL dbcsr_put_block(matrix, row, col, block_1d, lb_row_col, transposed, summation, flop, scale)
       END SUBROUTINE dbcsr_put_block2d_s
+# 919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block_s (matrix, row, col, block, lb_row_col, transposed, &
+# 921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                 summation, flop, scale)
      !! Inserts a block in a dbcsr matrix.
      !! If the block exists, the current data is overwritten.
@@ -1388,6 +1460,7 @@ CONTAINS
         !! the logical row
         !! the logical column
          REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
+# 931 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -1395,9 +1468,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          REAL(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 938 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the OBblock being added
 
          TYPE(btree_data_sp2d)          :: data_block, data_block2
+# 941 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: blk, col_size, &
                                                      nze, offset, &
                                                      row_size, blk_p, &
@@ -1405,6 +1480,7 @@ CONTAINS
                                                      iw, nwms
          LOGICAL                                  :: found, tr, do_sum, tr_diff
          REAL(kind=real_4), DIMENSION(:), POINTER         :: block_1d
+# 948 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -1442,24 +1518,29 @@ CONTAINS
             END IF
             block_1d => pointer_view(dbcsr_get_data_p( &
                                      matrix%data_area, 0.0_real_4), offset, offset + nze - 1)
+# 985 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             IF (nze .GT. 0) THEN
                IF (do_sum) THEN
                   IF (tr_diff) &
                      block_1d = RESHAPE(TRANSPOSE(RESHAPE(block_1d, (/col_size, row_size/))), (/nze/))
                   IF (PRESENT(scale)) THEN
                      CALL saxpy(nze, scale, block(1:nze), 1, &
+# 991 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL saxpy(nze, 1.0_real_4, block(1:nze), 1, &
+# 994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                   my_flop = my_flop + nze*2
                ELSE
                   IF (PRESENT(scale)) THEN
                      CALL scopy(nze, scale*block(1:nze), 1, &
+# 1000 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL scopy(nze, block(1:nze), 1, &
+# 1003 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                END IF
@@ -1506,6 +1587,7 @@ CONTAINS
                IF (.NOT. do_sum) THEN
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_s, &
+# 1049 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.TRUE.)
                   IF (found) THEN
@@ -1516,11 +1598,13 @@ CONTAINS
                ELSE
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_s, &
+# 1059 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.FALSE.)
                   IF (found) THEN
                      IF (nze > 0) &
                         CALL saxpy(nze, 1.0_real_4, block, 1, &
+# 1064 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                data_block2%p, 1)
                      IF (.NOT. ASSOCIATED(data_block%p)) &
                         DBCSR_WARN("Data was not present in block")
@@ -1539,14 +1623,17 @@ CONTAINS
          END IF
          IF (PRESENT(flop)) flop = flop + my_flop
       END SUBROUTINE dbcsr_put_block_s
+# 1082 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_set_block_pointer_2d_s ( &
+# 1084 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          matrix, pointer_any, rsize, csize, base_offset)
      !! Sets a pointer, possibly using the buffers.
 
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
         !! Matrix to use
          REAL(kind=real_4), DIMENSION(:, :), POINTER         :: pointer_any
+# 1090 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! The pointer to set
          INTEGER, INTENT(IN)                      :: rsize, csize
         !! Row size of block to point to
@@ -1556,9 +1643,11 @@ CONTAINS
 
          CHARACTER(len=*), PARAMETER :: &
             routineN = 'dbcsr_set_block_pointer_2d_s'
+# 1099 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          INTEGER                                  :: error_handler
          REAL(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+# 1102 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -1569,8 +1658,10 @@ CONTAINS
                                   lin_blk_p)
          IF (careful_mod) CALL timestop(error_handler)
       END SUBROUTINE dbcsr_set_block_pointer_2d_s
+# 1112 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 # 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
       SUBROUTINE dbcsr_get_2d_block_p_z (matrix, row, col, block, tr, found, &
+# 661 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                      row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
 
@@ -1580,6 +1671,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: block
+# 670 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-2 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -1590,20 +1682,25 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_z'
+# 680 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: block_1d
+# 682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: rsize, csize, &
                                                      blk, nze, offset, &
                                                      stored_row, &
                                                      stored_col, iw, nwms
          INTEGER                                  :: error_handle
          TYPE(btree_data_zp2d)          :: data_block
+# 688 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          LOGICAL                                  :: stored_tr
          COMPLEX(kind=real_8), DIMENSION(1, 1), TARGET, SAVE    :: block0
+# 690 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 !   ---------------------------------------------------------------------------
          IF (careful_mod) CALL timeset(routineN, error_handle)
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_complex_8) &
+# 694 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -1625,6 +1722,7 @@ CONTAINS
             ELSE
                block_1d => pointer_view(dbcsr_get_data_p( &
                                         matrix%data_area, CMPLX(0.0, 0.0, real_8)), offset, offset + nze - 1)
+# 715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                CALL dbcsr_set_block_pointer(matrix, block, rsize, csize, offset)
             END IF
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
@@ -1642,6 +1740,7 @@ CONTAINS
                END IF
                CALL btree_find( &
                   matrix%wms(iw)%mutable%m%btree_z, &
+# 732 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                   make_coordinate_tuple(stored_row, stored_col), &
                   data_block, found)
                IF (found) THEN
@@ -1651,8 +1750,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE dbcsr_get_2d_block_p_z
+# 741 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_get_block_p_z (matrix, row, col, block, tr, found, &
+# 743 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   row_size, col_size)
      !! Gets a 1-d block from a dbcsr matrix
 
@@ -1662,6 +1763,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: block
+# 752 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-1 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -1681,6 +1783,7 @@ CONTAINS
 
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_complex_8) &
+# 771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -1699,6 +1802,7 @@ CONTAINS
             !
             block => pointer_view( &
                      dbcsr_get_data_p(matrix%data_area, CMPLX(0.0, 0.0, real_8)), offset, offset + nze - 1 &
+# 789 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      )
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
             IF (.NOT. dbcsr_use_mutable(matrix)) &
@@ -1707,8 +1811,10 @@ CONTAINS
                DBCSR_ABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
          END IF
       END SUBROUTINE dbcsr_get_block_p_z
+# 797 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, &
+# 799 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                       transposed, existed)
      !! Put a 2-D block in a DBCSR matrix using the btree
 
@@ -1718,6 +1824,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: block
+# 808 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to reserve; added if not NULL
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
         !! the block holds transposed data
@@ -1725,12 +1832,14 @@ CONTAINS
         !! block already existed
 
          TYPE(btree_data_zp2d)          :: data_block, data_block2
+# 815 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: col_size, row_size, &
                                                      stored_row, stored_col, &
                                                      iw, nwms
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size
          LOGICAL                                  :: found, gift, tr, sym_tr
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: original_block
+# 821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -1776,6 +1885,7 @@ CONTAINS
 !$          DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$       iw = omp_get_thread_num() + 1
          CALL btree_add(matrix%wms(iw)%mutable%m%btree_z, &
+# 866 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                         make_coordinate_tuple(stored_row, stored_col), &
                         data_block, found, data_block2)
 
@@ -1800,8 +1910,10 @@ CONTAINS
          END IF
          IF (PRESENT(existed)) existed = found
       END SUBROUTINE dbcsr_reserve_block2d_z
+# 890 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block2d_z (matrix, row, col, block, lb_row_col, transposed, &
+# 892 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   summation, flop, scale)
      !! Put a 2-D block in a DBCSR matrix
 
@@ -1811,6 +1923,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN), &
+# 901 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             CONTIGUOUS, TARGET                    :: block
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
@@ -1819,9 +1932,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          COMPLEX(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 909 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the block being added
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+# 912 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          NULLIFY (block_1d)
 
@@ -1829,8 +1944,10 @@ CONTAINS
 
          CALL dbcsr_put_block(matrix, row, col, block_1d, lb_row_col, transposed, summation, flop, scale)
       END SUBROUTINE dbcsr_put_block2d_z
+# 919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block_z (matrix, row, col, block, lb_row_col, transposed, &
+# 921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                 summation, flop, scale)
      !! Inserts a block in a dbcsr matrix.
      !! If the block exists, the current data is overwritten.
@@ -1841,6 +1958,7 @@ CONTAINS
         !! the logical row
         !! the logical column
          COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
+# 931 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -1848,9 +1966,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          COMPLEX(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 938 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the OBblock being added
 
          TYPE(btree_data_zp2d)          :: data_block, data_block2
+# 941 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: blk, col_size, &
                                                      nze, offset, &
                                                      row_size, blk_p, &
@@ -1858,6 +1978,7 @@ CONTAINS
                                                      iw, nwms
          LOGICAL                                  :: found, tr, do_sum, tr_diff
          COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: block_1d
+# 948 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -1895,24 +2016,29 @@ CONTAINS
             END IF
             block_1d => pointer_view(dbcsr_get_data_p( &
                                      matrix%data_area, CMPLX(0.0, 0.0, real_8)), offset, offset + nze - 1)
+# 985 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             IF (nze .GT. 0) THEN
                IF (do_sum) THEN
                   IF (tr_diff) &
                      block_1d = RESHAPE(TRANSPOSE(RESHAPE(block_1d, (/col_size, row_size/))), (/nze/))
                   IF (PRESENT(scale)) THEN
                      CALL zaxpy(nze, scale, block(1:nze), 1, &
+# 991 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL zaxpy(nze, CMPLX(1.0, 0.0, real_8), block(1:nze), 1, &
+# 994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                   my_flop = my_flop + nze*2
                ELSE
                   IF (PRESENT(scale)) THEN
                      CALL zcopy(nze, scale*block(1:nze), 1, &
+# 1000 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL zcopy(nze, block(1:nze), 1, &
+# 1003 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                END IF
@@ -1959,6 +2085,7 @@ CONTAINS
                IF (.NOT. do_sum) THEN
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_z, &
+# 1049 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.TRUE.)
                   IF (found) THEN
@@ -1969,11 +2096,13 @@ CONTAINS
                ELSE
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_z, &
+# 1059 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.FALSE.)
                   IF (found) THEN
                      IF (nze > 0) &
                         CALL zaxpy(nze, CMPLX(1.0, 0.0, real_8), block, 1, &
+# 1064 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                data_block2%p, 1)
                      IF (.NOT. ASSOCIATED(data_block%p)) &
                         DBCSR_WARN("Data was not present in block")
@@ -1992,14 +2121,17 @@ CONTAINS
          END IF
          IF (PRESENT(flop)) flop = flop + my_flop
       END SUBROUTINE dbcsr_put_block_z
+# 1082 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_set_block_pointer_2d_z ( &
+# 1084 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          matrix, pointer_any, rsize, csize, base_offset)
      !! Sets a pointer, possibly using the buffers.
 
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
         !! Matrix to use
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER         :: pointer_any
+# 1090 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! The pointer to set
          INTEGER, INTENT(IN)                      :: rsize, csize
         !! Row size of block to point to
@@ -2009,9 +2141,11 @@ CONTAINS
 
          CHARACTER(len=*), PARAMETER :: &
             routineN = 'dbcsr_set_block_pointer_2d_z'
+# 1099 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          INTEGER                                  :: error_handler
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+# 1102 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -2022,8 +2156,10 @@ CONTAINS
                                   lin_blk_p)
          IF (careful_mod) CALL timestop(error_handler)
       END SUBROUTINE dbcsr_set_block_pointer_2d_z
+# 1112 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 # 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
       SUBROUTINE dbcsr_get_2d_block_p_c (matrix, row, col, block, tr, found, &
+# 661 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                      row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
 
@@ -2033,6 +2169,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: block
+# 670 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-2 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -2043,20 +2180,25 @@ CONTAINS
         !! logical column size of block
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_c'
+# 680 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: block_1d
+# 682 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: rsize, csize, &
                                                      blk, nze, offset, &
                                                      stored_row, &
                                                      stored_col, iw, nwms
          INTEGER                                  :: error_handle
          TYPE(btree_data_cp2d)          :: data_block
+# 688 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          LOGICAL                                  :: stored_tr
          COMPLEX(kind=real_4), DIMENSION(1, 1), TARGET, SAVE    :: block0
+# 690 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 !   ---------------------------------------------------------------------------
          IF (careful_mod) CALL timeset(routineN, error_handle)
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_complex_4) &
+# 694 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -2078,6 +2220,7 @@ CONTAINS
             ELSE
                block_1d => pointer_view(dbcsr_get_data_p( &
                                         matrix%data_area, CMPLX(0.0, 0.0, real_4)), offset, offset + nze - 1)
+# 715 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                CALL dbcsr_set_block_pointer(matrix, block, rsize, csize, offset)
             END IF
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
@@ -2095,6 +2238,7 @@ CONTAINS
                END IF
                CALL btree_find( &
                   matrix%wms(iw)%mutable%m%btree_c, &
+# 732 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                   make_coordinate_tuple(stored_row, stored_col), &
                   data_block, found)
                IF (found) THEN
@@ -2104,8 +2248,10 @@ CONTAINS
          END IF
          IF (careful_mod) CALL timestop(error_handle)
       END SUBROUTINE dbcsr_get_2d_block_p_c
+# 741 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_get_block_p_c (matrix, row, col, block, tr, found, &
+# 743 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   row_size, col_size)
      !! Gets a 1-d block from a dbcsr matrix
 
@@ -2115,6 +2261,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: block
+# 752 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to get (rank-1 array)
          LOGICAL, INTENT(OUT)                     :: tr
         !! whether the data is transposed
@@ -2134,6 +2281,7 @@ CONTAINS
 
          IF (debug_mod) THEN
             IF (matrix%data_type /= dbcsr_type_complex_4) &
+# 771 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                DBCSR_ABORT("Data type mismatch for requested block.")
          END IF
 
@@ -2152,6 +2300,7 @@ CONTAINS
             !
             block => pointer_view( &
                      dbcsr_get_data_p(matrix%data_area, CMPLX(0.0, 0.0, real_4)), offset, offset + nze - 1 &
+# 789 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      )
          ELSEIF (ASSOCIATED(matrix%wms)) THEN
             IF (.NOT. dbcsr_use_mutable(matrix)) &
@@ -2160,8 +2309,10 @@ CONTAINS
                DBCSR_ABORT("Can not retrieve rank-1 block pointers from mutable work matrices.")
          END IF
       END SUBROUTINE dbcsr_get_block_p_c
+# 797 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, &
+# 799 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                       transposed, existed)
      !! Put a 2-D block in a DBCSR matrix using the btree
 
@@ -2171,6 +2322,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: block
+# 808 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to reserve; added if not NULL
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
         !! the block holds transposed data
@@ -2178,12 +2330,14 @@ CONTAINS
         !! block already existed
 
          TYPE(btree_data_cp2d)          :: data_block, data_block2
+# 815 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: col_size, row_size, &
                                                      stored_row, stored_col, &
                                                      iw, nwms
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size
          LOGICAL                                  :: found, gift, tr, sym_tr
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: original_block
+# 821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -2229,6 +2383,7 @@ CONTAINS
 !$          DBCSR_ABORT("Number of work matrices not equal to number of threads")
 !$       iw = omp_get_thread_num() + 1
          CALL btree_add(matrix%wms(iw)%mutable%m%btree_c, &
+# 866 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                         make_coordinate_tuple(stored_row, stored_col), &
                         data_block, found, data_block2)
 
@@ -2253,8 +2408,10 @@ CONTAINS
          END IF
          IF (PRESENT(existed)) existed = found
       END SUBROUTINE dbcsr_reserve_block2d_c
+# 890 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block2d_c (matrix, row, col, block, lb_row_col, transposed, &
+# 892 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                   summation, flop, scale)
      !! Put a 2-D block in a DBCSR matrix
 
@@ -2264,6 +2421,7 @@ CONTAINS
         !! the row
         !! the column
          COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN), &
+# 901 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             CONTIGUOUS, TARGET                    :: block
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
@@ -2272,9 +2430,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          COMPLEX(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 909 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the block being added
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+# 912 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          NULLIFY (block_1d)
 
@@ -2282,8 +2442,10 @@ CONTAINS
 
          CALL dbcsr_put_block(matrix, row, col, block_1d, lb_row_col, transposed, summation, flop, scale)
       END SUBROUTINE dbcsr_put_block2d_c
+# 919 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_put_block_c (matrix, row, col, block, lb_row_col, transposed, &
+# 921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                 summation, flop, scale)
      !! Inserts a block in a dbcsr matrix.
      !! If the block exists, the current data is overwritten.
@@ -2294,6 +2456,7 @@ CONTAINS
         !! the logical row
         !! the logical column
          COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
+# 931 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! the block to put
          INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -2301,9 +2464,11 @@ CONTAINS
         !! if block exists, then sum the new block to the old one instead of replacing it
          INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
          COMPLEX(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 938 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! scale the OBblock being added
 
          TYPE(btree_data_cp2d)          :: data_block, data_block2
+# 941 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER                                  :: blk, col_size, &
                                                      nze, offset, &
                                                      row_size, blk_p, &
@@ -2311,6 +2476,7 @@ CONTAINS
                                                      iw, nwms
          LOGICAL                                  :: found, tr, do_sum, tr_diff
          COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: block_1d
+# 948 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -2348,24 +2514,29 @@ CONTAINS
             END IF
             block_1d => pointer_view(dbcsr_get_data_p( &
                                      matrix%data_area, CMPLX(0.0, 0.0, real_4)), offset, offset + nze - 1)
+# 985 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
             IF (nze .GT. 0) THEN
                IF (do_sum) THEN
                   IF (tr_diff) &
                      block_1d = RESHAPE(TRANSPOSE(RESHAPE(block_1d, (/col_size, row_size/))), (/nze/))
                   IF (PRESENT(scale)) THEN
                      CALL caxpy(nze, scale, block(1:nze), 1, &
+# 991 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL caxpy(nze, CMPLX(1.0, 0.0, real_4), block(1:nze), 1, &
+# 994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                   my_flop = my_flop + nze*2
                ELSE
                   IF (PRESENT(scale)) THEN
                      CALL ccopy(nze, scale*block(1:nze), 1, &
+# 1000 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   ELSE
                      CALL ccopy(nze, block(1:nze), 1, &
+# 1003 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                             block_1d, 1)
                   END IF
                END IF
@@ -2412,6 +2583,7 @@ CONTAINS
                IF (.NOT. do_sum) THEN
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_c, &
+# 1049 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.TRUE.)
                   IF (found) THEN
@@ -2422,11 +2594,13 @@ CONTAINS
                ELSE
                   CALL btree_add( &
                      matrix%wms(iw)%mutable%m%btree_c, &
+# 1059 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                      make_coordinate_tuple(stored_row, stored_col), &
                      data_block, found, data_block2, replace=.FALSE.)
                   IF (found) THEN
                      IF (nze > 0) &
                         CALL caxpy(nze, CMPLX(1.0, 0.0, real_4), block, 1, &
+# 1064 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
                                                data_block2%p, 1)
                      IF (.NOT. ASSOCIATED(data_block%p)) &
                         DBCSR_WARN("Data was not present in block")
@@ -2445,14 +2619,17 @@ CONTAINS
          END IF
          IF (PRESENT(flop)) flop = flop + my_flop
       END SUBROUTINE dbcsr_put_block_c
+# 1082 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
       SUBROUTINE dbcsr_set_block_pointer_2d_c ( &
+# 1084 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
          matrix, pointer_any, rsize, csize, base_offset)
      !! Sets a pointer, possibly using the buffers.
 
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
         !! Matrix to use
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER         :: pointer_any
+# 1090 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
         !! The pointer to set
          INTEGER, INTENT(IN)                      :: rsize, csize
         !! Row size of block to point to
@@ -2462,9 +2639,11 @@ CONTAINS
 
          CHARACTER(len=*), PARAMETER :: &
             routineN = 'dbcsr_set_block_pointer_2d_c'
+# 1099 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
          INTEGER                                  :: error_handler
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+# 1102 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -2475,6 +2654,7 @@ CONTAINS
                                   lin_blk_p)
          IF (careful_mod) CALL timestop(error_handler)
       END SUBROUTINE dbcsr_set_block_pointer_2d_c
+# 1112 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 # 1113 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 END MODULE dbcsr_block_access

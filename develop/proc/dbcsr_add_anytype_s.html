@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~36"></span>
+              <span class="anchor" id="variable-matrix_a~108"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~21"></span>
+              <span class="anchor" id="variable-matrix_b~67"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -207,7 +207,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iter~32"></span>
+              <span class="anchor" id="variable-iter~61"></span>
               type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),
             </td>
 <td>intent(inout)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iw~8"></span>
+              <span class="anchor" id="variable-iw~22"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-do_scale~6"></span>
+              <span class="anchor" id="variable-do_scale~8"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-my_flop~3"></span>
+              <span class="anchor" id="variable-my_flop~8"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout)</td>
@@ -298,6 +298,7 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_add_anytype_s</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3101 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                                  </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">my_flop</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b</span>
 
@@ -361,6 +362,7 @@
 <span class="k">               END IF</span>
 <span class="w">               </span><span class="c">! save block chunk</span>
 <span class="w">               </span><span class="k">CALL </span><span class="n">dbcsr_update_contiguous_blocks_s</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                                                  </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">was_found</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">)</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="w">            </span><span class="c">!</span>
@@ -373,6 +375,7 @@
 <span class="w">         </span><span class="c">! save the last block or chunk of blocks</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="w"> </span><span class="p">.</span><span class="n">NE</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            call </span><span class="n">dbcsr_update_contiguous_blocks_s</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">tot_nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3176 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                                               </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">was_found</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 

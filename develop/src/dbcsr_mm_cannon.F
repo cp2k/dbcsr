@@ -3024,6 +3024,7 @@ CONTAINS
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_d (negate_real, negate_imaginary, &
+# 3020 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 iter, row, col, blk, blk_p, bp, &
                                                 row_size, col_size, nze, nsymmetries, symmetry_i, &
                                                 stored_row, stored_col, tr_row_size, tr_col_size, tr, &
@@ -3050,6 +3051,7 @@ CONTAINS
          INTEGER, DIMENSION(:, :), INTENT(IN), CONTIGUOUS, POINTER :: blacs2mpi
          CHARACTER, INTENT(IN)                                   :: predist_type_fwd
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS         :: data_area
+# 3046 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
          TYPE(dbcsr_data_obj), INTENT(INOUT)                     :: send_data_area
          TYPE(dbcsr_scalar_type), INTENT(IN)                     :: scale_neg_one
          TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL           :: scale_value
@@ -3088,20 +3090,27 @@ CONTAINS
                IF (tr) THEN
                   IF (PRESENT(scale_value)) THEN
                      CALL dbcsr_block_transpose(send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1)*scale_value%r_dp, &
+# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 tr_row_size, tr_col_size)
                   ELSE
                      CALL dbcsr_block_transpose(send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3088 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1), &
                                                 tr_row_size, tr_col_size)
                   END IF
                   IF (negate_real .AND. negate_imaginary) THEN
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_dp
+# 3094 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_real) THEN
 # 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3097 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            -send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
 # 3110 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
@@ -3110,9 +3119,12 @@ CONTAINS
                   ! Copy the block
                   IF (PRESENT(scale_value)) THEN
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3115 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         data_area(bp:bp + nze - 1)*scale_value%r_dp
+# 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSE
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = data_area(bp:bp + nze - 1)
+# 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                END IF
 
@@ -3124,10 +3136,12 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_d
+# 3129 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_s (negate_real, negate_imaginary, &
+# 3020 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 iter, row, col, blk, blk_p, bp, &
                                                 row_size, col_size, nze, nsymmetries, symmetry_i, &
                                                 stored_row, stored_col, tr_row_size, tr_col_size, tr, &
@@ -3154,6 +3168,7 @@ CONTAINS
          INTEGER, DIMENSION(:, :), INTENT(IN), CONTIGUOUS, POINTER :: blacs2mpi
          CHARACTER, INTENT(IN)                                   :: predist_type_fwd
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS         :: data_area
+# 3046 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
          TYPE(dbcsr_data_obj), INTENT(INOUT)                     :: send_data_area
          TYPE(dbcsr_scalar_type), INTENT(IN)                     :: scale_neg_one
          TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL           :: scale_value
@@ -3192,20 +3207,27 @@ CONTAINS
                IF (tr) THEN
                   IF (PRESENT(scale_value)) THEN
                      CALL dbcsr_block_transpose(send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1)*scale_value%r_sp, &
+# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 tr_row_size, tr_col_size)
                   ELSE
                      CALL dbcsr_block_transpose(send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3088 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1), &
                                                 tr_row_size, tr_col_size)
                   END IF
                   IF (negate_real .AND. negate_imaginary) THEN
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_sp
+# 3094 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_real) THEN
 # 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3097 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            -send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)
+# 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
 # 3110 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
@@ -3214,9 +3236,12 @@ CONTAINS
                   ! Copy the block
                   IF (PRESENT(scale_value)) THEN
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3115 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         data_area(bp:bp + nze - 1)*scale_value%r_sp
+# 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSE
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = data_area(bp:bp + nze - 1)
+# 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                END IF
 
@@ -3228,10 +3253,12 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_s
+# 3129 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_z (negate_real, negate_imaginary, &
+# 3020 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 iter, row, col, blk, blk_p, bp, &
                                                 row_size, col_size, nze, nsymmetries, symmetry_i, &
                                                 stored_row, stored_col, tr_row_size, tr_col_size, tr, &
@@ -3258,6 +3285,7 @@ CONTAINS
          INTEGER, DIMENSION(:, :), INTENT(IN), CONTIGUOUS, POINTER :: blacs2mpi
          CHARACTER, INTENT(IN)                                   :: predist_type_fwd
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS         :: data_area
+# 3046 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
          TYPE(dbcsr_data_obj), INTENT(INOUT)                     :: send_data_area
          TYPE(dbcsr_scalar_type), INTENT(IN)                     :: scale_neg_one
          TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL           :: scale_value
@@ -3296,37 +3324,51 @@ CONTAINS
                IF (tr) THEN
                   IF (PRESENT(scale_value)) THEN
                      CALL dbcsr_block_transpose(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1)*scale_value%c_dp, &
+# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 tr_row_size, tr_col_size)
                   ELSE
                      CALL dbcsr_block_transpose(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3088 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1), &
                                                 tr_row_size, tr_col_size)
                   END IF
                   IF (negate_real .AND. negate_imaginary) THEN
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_dp
+# 3094 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_real) THEN
 # 3099 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            CMPLX( &
                            -REAL(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_8), &
+# 3102 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            AIMAG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)), &
+# 3103 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            KIND=real_8)
+# 3104 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
 # 3107 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3108 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            CONJG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1))
+# 3109 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3110 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
                   IF (PRESENT(scale_value)) THEN
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3115 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         data_area(bp:bp + nze - 1)*scale_value%c_dp
+# 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSE
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = data_area(bp:bp + nze - 1)
+# 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                END IF
 
@@ -3338,10 +3380,12 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_z
+# 3129 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
       SUBROUTINE prepare_buffers_c (negate_real, negate_imaginary, &
+# 3020 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 iter, row, col, blk, blk_p, bp, &
                                                 row_size, col_size, nze, nsymmetries, symmetry_i, &
                                                 stored_row, stored_col, tr_row_size, tr_col_size, tr, &
@@ -3368,6 +3412,7 @@ CONTAINS
          INTEGER, DIMENSION(:, :), INTENT(IN), CONTIGUOUS, POINTER :: blacs2mpi
          CHARACTER, INTENT(IN)                                   :: predist_type_fwd
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS         :: data_area
+# 3046 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
          TYPE(dbcsr_data_obj), INTENT(INOUT)                     :: send_data_area
          TYPE(dbcsr_scalar_type), INTENT(IN)                     :: scale_neg_one
          TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL           :: scale_value
@@ -3406,37 +3451,51 @@ CONTAINS
                IF (tr) THEN
                   IF (PRESENT(scale_value)) THEN
                      CALL dbcsr_block_transpose(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1)*scale_value%c_sp, &
+# 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 tr_row_size, tr_col_size)
                   ELSE
                      CALL dbcsr_block_transpose(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), &
+# 3088 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                                                 data_area(bp:bp + nze - 1), &
                                                 tr_row_size, tr_col_size)
                   END IF
                   IF (negate_real .AND. negate_imaginary) THEN
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_sp
+# 3094 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_real) THEN
 # 3099 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            CMPLX( &
                            -REAL(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_4), &
+# 3102 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            AIMAG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)), &
+# 3103 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            KIND=real_4)
+# 3104 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSEIF (negate_imaginary) THEN
 # 3107 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3108 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                            CONJG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1))
+# 3109 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3110 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                ELSE
                   ! Copy the block
                   IF (PRESENT(scale_value)) THEN
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
+# 3115 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                         data_area(bp:bp + nze - 1)*scale_value%c_sp
+# 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   ELSE
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = data_area(bp:bp + nze - 1)
+# 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   END IF
                END IF
 
@@ -3448,6 +3507,7 @@ CONTAINS
             END DO
          END DO
       END SUBROUTINE prepare_buffers_c
+# 3129 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 # 3130 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 END MODULE dbcsr_mm_cannon

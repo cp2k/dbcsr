@@ -616,6 +616,7 @@ CONTAINS
 # 610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F" 2
 # 611 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_d1(sb, scount, sdispl, &
+# 612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
       !!
@@ -627,9 +628,11 @@ CONTAINS
       !! see mp_alltoall
 
          REAL(kind=real_8), DIMENSION(:), &
+# 623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(in), TARGET        :: sb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: scount, sdispl
          REAL(kind=real_8), DIMENSION(:), &
+# 626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(INOUT), TARGET     :: rb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: rcount, rdispl
          TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
@@ -648,6 +651,7 @@ CONTAINS
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
+# 644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
          TYPE(dbcsr_mp_obj)                       :: mpe
          TYPE(mp_comm_type)                       :: all_group, grp
          TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
@@ -838,8 +842,10 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_d1
+# 834 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 # 611 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_s1(sb, scount, sdispl, &
+# 612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
       !!
@@ -851,9 +857,11 @@ CONTAINS
       !! see mp_alltoall
 
          REAL(kind=real_4), DIMENSION(:), &
+# 623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(in), TARGET        :: sb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: scount, sdispl
          REAL(kind=real_4), DIMENSION(:), &
+# 626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(INOUT), TARGET     :: rb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: rcount, rdispl
          TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
@@ -872,6 +880,7 @@ CONTAINS
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
+# 644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
          TYPE(dbcsr_mp_obj)                       :: mpe
          TYPE(mp_comm_type)                       :: all_group, grp
          TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
@@ -1062,8 +1071,10 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_s1
+# 834 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 # 611 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_z1(sb, scount, sdispl, &
+# 612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
       !!
@@ -1075,9 +1086,11 @@ CONTAINS
       !! see mp_alltoall
 
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(in), TARGET        :: sb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: scount, sdispl
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(INOUT), TARGET     :: rb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: rcount, rdispl
          TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
@@ -1096,6 +1109,7 @@ CONTAINS
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
+# 644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
          TYPE(dbcsr_mp_obj)                       :: mpe
          TYPE(mp_comm_type)                       :: all_group, grp
          TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
@@ -1286,8 +1300,10 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_z1
+# 834 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 # 611 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
       SUBROUTINE hybrid_alltoall_c1(sb, scount, sdispl, &
+# 612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
                                                 rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
       !!
@@ -1299,9 +1315,11 @@ CONTAINS
       !! see mp_alltoall
 
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(in), TARGET        :: sb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: scount, sdispl
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
             CONTIGUOUS, INTENT(INOUT), TARGET     :: rb
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN) :: rcount, rdispl
          TYPE(dbcsr_mp_obj), INTENT(IN)           :: mp_env
@@ -1320,6 +1338,7 @@ CONTAINS
          LOGICAL                                  :: most_collective, &
                                                      remainder_collective, no_h
          COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, POINTER :: send_data_p, recv_data_p
+# 644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
          TYPE(dbcsr_mp_obj)                       :: mpe
          TYPE(mp_comm_type)                       :: all_group, grp
          TYPE(mp_request_type), ALLOCATABLE, DIMENSION(:) :: all_rr, all_sr, col_rr, col_sr, row_rr, row_sr
@@ -1510,6 +1529,7 @@ CONTAINS
             END DO
          END SUBROUTINE remainder_point_to_point
       END SUBROUTINE hybrid_alltoall_c1
+# 834 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 # 835 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 
 END MODULE dbcsr_mp_operations

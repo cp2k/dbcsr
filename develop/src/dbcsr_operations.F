@@ -203,10 +203,12 @@ CONTAINS
 # 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
 # 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
+# 199 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
 
          REAL(kind=real_8), INTENT(IN)                      :: scalar
+# 203 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
          TYPE(dbcsr_scalar_type)                  :: encapsulated
@@ -223,12 +225,15 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_d
+# 219 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_s (scalar, matrix) RESULT(encapsulated)
+# 199 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
 
          REAL(kind=real_4), INTENT(IN)                      :: scalar
+# 203 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
          TYPE(dbcsr_scalar_type)                  :: encapsulated
@@ -245,12 +250,15 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_s
+# 219 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_z (scalar, matrix) RESULT(encapsulated)
+# 199 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
 
          COMPLEX(kind=real_8), INTENT(IN)                      :: scalar
+# 203 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
          TYPE(dbcsr_scalar_type)                  :: encapsulated
@@ -267,12 +275,15 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_z
+# 219 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 198 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       FUNCTION make_conformant_scalar_c (scalar, matrix) RESULT(encapsulated)
+# 199 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
 
          COMPLEX(kind=real_4), INTENT(IN)                      :: scalar
+# 203 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
          TYPE(dbcsr_scalar_type)                  :: encapsulated
@@ -289,6 +300,7 @@ CONTAINS
          END IF
          CALL dbcsr_scalar_set_type(encapsulated, data_type)
       END FUNCTION make_conformant_scalar_c
+# 219 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 220 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
    SUBROUTINE dbcsr_add_block_node(matrix, block_row, block_col, block)
@@ -2765,14 +2777,17 @@ CONTAINS
 # 2687 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
 # 2688 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_d (matrix_a, trace)
+# 2689 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! traces a DBCSR matrix
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a
          !! DBCSR matrix
          REAL(kind=real_8), INTENT(INOUT)                   :: trace
+# 2694 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the matrix
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_d'
+# 2697 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: a_blk, a_col, a_col_size, &
                                                      a_nze, a_row, a_row_size, i, &
@@ -2780,6 +2795,7 @@ CONTAINS
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size, &
                                                      row_dist, col_dist
          REAL(kind=real_8), DIMENSION(:), POINTER           :: a_data, data_p
+# 2704 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, DIMENSION(:, :), POINTER         :: pgrid
          TYPE(dbcsr_distribution_obj)             :: dist
 
@@ -2789,6 +2805,7 @@ CONTAINS
          row_blk_size => array_data(matrix_a%row_blk_size)
          col_blk_size => array_data(matrix_a%col_blk_size)
          IF (dbcsr_get_data_type(matrix_a) /= dbcsr_type_real_8) &
+# 2713 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
          CALL dbcsr_get_data(matrix_a%data_area, data_p)
          dist = dbcsr_distribution(matrix_a)
@@ -2799,6 +2816,7 @@ CONTAINS
          !
          ! let's go
          trace = REAL(0.0, real_8)
+# 2723 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          DO a_row = 1, matrix_a%nblkrows_total
             a_row_size = row_blk_size(a_row)
             DO a_blk = matrix_a%row_p(a_row) + 1, matrix_a%row_p(a_row + 1)
@@ -2830,14 +2848,17 @@ CONTAINS
 
          CALL timestop(error_handle)
       END SUBROUTINE dbcsr_trace_d
+# 2754 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_dot_d (matrix_a, matrix_b, trace)
+# 2756 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Dot product of DBCSR matrices
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a, matrix_b
          !! DBCSR matrices
          !! DBCSR matrices
          REAL(kind=real_8), INTENT(INOUT)                   :: trace
+# 2762 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the product of the matrices
 
          INTEGER :: a_blk, a_col, a_col_size, a_row_size, b_blk, b_col_size, &
@@ -2847,8 +2868,10 @@ CONTAINS
                                                      a_row_blk_size, &
                                                      b_col_blk_size, b_row_blk_size
          REAL(kind=real_8)                                  :: sym_fac, fac
+# 2771 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
          REAL(kind=real_8), DIMENSION(:), POINTER           :: a_data, b_data
+# 2773 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -2857,12 +2880,14 @@ CONTAINS
             DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
          sym_fac = REAL(1.0, real_8)
+# 2781 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          matrix_a_type = dbcsr_get_matrix_type(matrix_a)
          matrix_b_type = dbcsr_get_matrix_type(matrix_b)
          matrix_a_symm = matrix_a_type == dbcsr_type_symmetric .OR. matrix_a_type == dbcsr_type_antisymmetric
          matrix_b_symm = matrix_b_type == dbcsr_type_symmetric .OR. matrix_b_type == dbcsr_type_antisymmetric
 
          IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = REAL(2.0, real_8)
+# 2787 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
          IF (matrix_a_symm .NEQV. matrix_b_symm) &
@@ -2878,6 +2903,7 @@ CONTAINS
 
          ! let's go
          trace = REAL(0.0, real_8)
+# 2802 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          IF (matrix_a%nblkrows_total .NE. matrix_b%nblkrows_total) &
             DBCSR_ABORT("this combination of transpose is NYI")
          DO row = 1, matrix_a%nblkrows_total
@@ -2909,6 +2935,7 @@ CONTAINS
                      b_beg = ABS(matrix_b%blk_p(b_blk))
                      b_end = b_beg + nze - 1
                      fac = REAL(1.0, real_8)
+# 2833 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                      IF (row .NE. a_col) fac = sym_fac
 
                      trace = trace + fac*SUM(a_data(a_beg:a_end)*b_data(b_beg:b_end))
@@ -2922,14 +2949,18 @@ CONTAINS
          CALL mp_sum(trace, dbcsr_mp_group(dbcsr_distribution_mp(matrix_a%dist)))
 
       END SUBROUTINE dbcsr_dot_d
+# 2846 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_d (matrix_a, alpha_scalar, last_column)
+# 2848 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a scalar
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          REAL(kind=real_8), INTENT(IN)                      :: alpha_scalar
+# 2851 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_d'
+# 2854 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: error_handler
          TYPE(dbcsr_scalar_type)                  :: sc
@@ -2947,42 +2978,53 @@ CONTAINS
          END IF
          CALL timestop(error_handler)
       END SUBROUTINE dbcsr_scale_d
+# 2871 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_by_vector_d (matrix_a, alpha, side)
+# 2873 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a vector
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
+# 2876 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
+# 2878 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
          CALL dbcsr_data_init(enc_alpha_vec)
          CALL dbcsr_data_new(enc_alpha_vec, dbcsr_type_real_8)
+# 2882 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          tmp_p => alpha
          CALL dbcsr_data_set_pointer(enc_alpha_vec, tmp_p)
          CALL dbcsr_scale_by_vector_anytype(matrix_a, enc_alpha_vec, side)
          CALL dbcsr_data_clear_pointer(enc_alpha_vec)
          CALL dbcsr_data_release(enc_alpha_vec)
       END SUBROUTINE dbcsr_scale_by_vector_d
+# 2888 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_d (matrix, alpha)
+# 2890 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for dbcsr_set
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          REAL(kind=real_8), INTENT(IN)                      :: alpha
+# 2893 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set'
 
          INTEGER                                            :: col, handle, row
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2899 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                            :: tr
 
          CALL timeset(routineN, handle)
 
          IF (alpha == 0.0_real_8) THEN
+# 2904 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             CALL dbcsr_zero(matrix)
          ELSE
             IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_8) &
+# 2907 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                DBCSR_ABORT("Incompatible data types")
 
             !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
@@ -2996,20 +3038,26 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_d
+# 2920 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_filter_d (matrix, eps, method, use_absolute, &
+# 2922 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                              filter_diag)
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          REAL(kind=real_8), INTENT(IN)                      :: eps
+# 2925 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: method
          LOGICAL, INTENT(in), OPTIONAL            :: use_absolute, filter_diag
          CALL dbcsr_filter_anytype(matrix, dbcsr_scalar(eps), method, &
                                    use_absolute, filter_diag)
       END SUBROUTINE dbcsr_filter_d
+# 2930 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_diag_d (matrix, diag)
+# 2932 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix
          REAL(kind=real_8), DIMENSION(:), INTENT(IN)          :: diag
+# 2934 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_diag'
 
@@ -3017,10 +3065,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2941 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_8) &
+# 2945 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -3045,10 +3095,13 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_diag_d
+# 2969 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_get_diag_d (matrix, diag)
+# 2971 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)               :: matrix
          REAL(kind=real_8), DIMENSION(:), INTENT(OUT)         :: diag
+# 2973 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_diag'
 
@@ -3056,10 +3109,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2980 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_8) &
+# 2984 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -3069,6 +3124,7 @@ CONTAINS
             DBCSR_ABORT("matrix not quadratic")
 
          diag(:) = 0.0_real_8
+# 2993 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL dbcsr_iterator_start(iter, matrix)
          DO WHILE (dbcsr_iterator_blocks_left(iter))
@@ -3086,13 +3142,16 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_get_diag_d
+# 3010 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_on_diag_d (matrix, alpha)
+# 3012 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! add a constant to the diagonal of a matrix
 
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
          REAL(kind=real_8), INTENT(IN)                                :: alpha
+# 3017 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! scalar
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_on_diag'
@@ -3100,10 +3159,12 @@ CONTAINS
          INTEGER                                            :: handle, mynode, node, irow, i, row_size
          LOGICAL                                            :: found, tr
          REAL(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 3024 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_8) &
+# 3028 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
@@ -3121,6 +3182,7 @@ CONTAINS
             IF (.NOT. found) THEN
                ALLOCATE (block(row_size, row_size))
                block(:, :) = 0.0_real_8
+# 3045 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
 
             DO i = 1, row_size
@@ -3136,8 +3198,10 @@ CONTAINS
          CALL dbcsr_finalize(matrix)
          CALL timestop(handle)
       END SUBROUTINE dbcsr_add_on_diag_d
+# 3060 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_update_contiguous_blocks_d (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
+# 3062 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, found, iw)
       !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
 
@@ -3157,26 +3221,39 @@ CONTAINS
          IF (found) THEN
             IF (do_scale) THEN
                CALL daxpy(nze, my_beta_scalar%r_dp, &
+# 3081 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_b%data_area%d%r_dp (first_lb_b:ub_b), 1, &
+# 3082 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_a%data_area%d%r_dp (first_lb_a:ub_a), 1)
+# 3083 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%data_area%d%r_dp (first_lb_a:ub_a) = &
+# 3085 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_a%data_area%d%r_dp (first_lb_a:ub_a) + &
+# 3086 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_dp (first_lb_b:ub_b)
+# 3087 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          ELSE
             IF (do_scale) THEN
                matrix_a%wms(iw)%data_area%d%r_dp (first_lb_a:ub_a) = &
+# 3091 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   my_beta_scalar%r_dp* &
+# 3092 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_dp (first_lb_b:ub_b)
+# 3093 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%wms(iw)%data_area%d%r_dp (first_lb_a:ub_a) = &
+# 3095 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_dp (first_lb_b:ub_b)
+# 3096 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          END IF
       END SUBROUTINE dbcsr_update_contiguous_blocks_d
+# 3099 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_anytype_d (matrix_a, matrix_b, iter, iw, do_scale, &
+# 3101 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                   my_beta_scalar, my_flop)
       !! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
 
@@ -3240,6 +3317,7 @@ CONTAINS
                END IF
                ! save block chunk
                CALL dbcsr_update_contiguous_blocks_d (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                   do_scale, my_beta_scalar, was_found, iw)
             END IF
             !
@@ -3252,20 +3330,25 @@ CONTAINS
          ! save the last block or chunk of blocks
          IF (first_lb_b .NE. 0) THEN
             call dbcsr_update_contiguous_blocks_d (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3176 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, was_found, iw)
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_d
+# 3180 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 2688 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_s (matrix_a, trace)
+# 2689 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! traces a DBCSR matrix
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a
          !! DBCSR matrix
          REAL(kind=real_4), INTENT(INOUT)                   :: trace
+# 2694 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the matrix
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_s'
+# 2697 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: a_blk, a_col, a_col_size, &
                                                      a_nze, a_row, a_row_size, i, &
@@ -3273,6 +3356,7 @@ CONTAINS
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size, &
                                                      row_dist, col_dist
          REAL(kind=real_4), DIMENSION(:), POINTER           :: a_data, data_p
+# 2704 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, DIMENSION(:, :), POINTER         :: pgrid
          TYPE(dbcsr_distribution_obj)             :: dist
 
@@ -3282,6 +3366,7 @@ CONTAINS
          row_blk_size => array_data(matrix_a%row_blk_size)
          col_blk_size => array_data(matrix_a%col_blk_size)
          IF (dbcsr_get_data_type(matrix_a) /= dbcsr_type_real_4) &
+# 2713 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
          CALL dbcsr_get_data(matrix_a%data_area, data_p)
          dist = dbcsr_distribution(matrix_a)
@@ -3292,6 +3377,7 @@ CONTAINS
          !
          ! let's go
          trace = REAL(0.0, real_4)
+# 2723 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          DO a_row = 1, matrix_a%nblkrows_total
             a_row_size = row_blk_size(a_row)
             DO a_blk = matrix_a%row_p(a_row) + 1, matrix_a%row_p(a_row + 1)
@@ -3323,14 +3409,17 @@ CONTAINS
 
          CALL timestop(error_handle)
       END SUBROUTINE dbcsr_trace_s
+# 2754 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_dot_s (matrix_a, matrix_b, trace)
+# 2756 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Dot product of DBCSR matrices
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a, matrix_b
          !! DBCSR matrices
          !! DBCSR matrices
          REAL(kind=real_4), INTENT(INOUT)                   :: trace
+# 2762 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the product of the matrices
 
          INTEGER :: a_blk, a_col, a_col_size, a_row_size, b_blk, b_col_size, &
@@ -3340,8 +3429,10 @@ CONTAINS
                                                      a_row_blk_size, &
                                                      b_col_blk_size, b_row_blk_size
          REAL(kind=real_4)                                  :: sym_fac, fac
+# 2771 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
          REAL(kind=real_4), DIMENSION(:), POINTER           :: a_data, b_data
+# 2773 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -3350,12 +3441,14 @@ CONTAINS
             DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
          sym_fac = REAL(1.0, real_4)
+# 2781 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          matrix_a_type = dbcsr_get_matrix_type(matrix_a)
          matrix_b_type = dbcsr_get_matrix_type(matrix_b)
          matrix_a_symm = matrix_a_type == dbcsr_type_symmetric .OR. matrix_a_type == dbcsr_type_antisymmetric
          matrix_b_symm = matrix_b_type == dbcsr_type_symmetric .OR. matrix_b_type == dbcsr_type_antisymmetric
 
          IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = REAL(2.0, real_4)
+# 2787 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
          IF (matrix_a_symm .NEQV. matrix_b_symm) &
@@ -3371,6 +3464,7 @@ CONTAINS
 
          ! let's go
          trace = REAL(0.0, real_4)
+# 2802 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          IF (matrix_a%nblkrows_total .NE. matrix_b%nblkrows_total) &
             DBCSR_ABORT("this combination of transpose is NYI")
          DO row = 1, matrix_a%nblkrows_total
@@ -3402,6 +3496,7 @@ CONTAINS
                      b_beg = ABS(matrix_b%blk_p(b_blk))
                      b_end = b_beg + nze - 1
                      fac = REAL(1.0, real_4)
+# 2833 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                      IF (row .NE. a_col) fac = sym_fac
 
                      trace = trace + fac*SUM(a_data(a_beg:a_end)*b_data(b_beg:b_end))
@@ -3415,14 +3510,18 @@ CONTAINS
          CALL mp_sum(trace, dbcsr_mp_group(dbcsr_distribution_mp(matrix_a%dist)))
 
       END SUBROUTINE dbcsr_dot_s
+# 2846 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_s (matrix_a, alpha_scalar, last_column)
+# 2848 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a scalar
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          REAL(kind=real_4), INTENT(IN)                      :: alpha_scalar
+# 2851 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_s'
+# 2854 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: error_handler
          TYPE(dbcsr_scalar_type)                  :: sc
@@ -3440,42 +3539,53 @@ CONTAINS
          END IF
          CALL timestop(error_handler)
       END SUBROUTINE dbcsr_scale_s
+# 2871 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_by_vector_s (matrix_a, alpha, side)
+# 2873 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a vector
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
+# 2876 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
+# 2878 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
          CALL dbcsr_data_init(enc_alpha_vec)
          CALL dbcsr_data_new(enc_alpha_vec, dbcsr_type_real_4)
+# 2882 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          tmp_p => alpha
          CALL dbcsr_data_set_pointer(enc_alpha_vec, tmp_p)
          CALL dbcsr_scale_by_vector_anytype(matrix_a, enc_alpha_vec, side)
          CALL dbcsr_data_clear_pointer(enc_alpha_vec)
          CALL dbcsr_data_release(enc_alpha_vec)
       END SUBROUTINE dbcsr_scale_by_vector_s
+# 2888 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_s (matrix, alpha)
+# 2890 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for dbcsr_set
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          REAL(kind=real_4), INTENT(IN)                      :: alpha
+# 2893 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set'
 
          INTEGER                                            :: col, handle, row
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2899 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                            :: tr
 
          CALL timeset(routineN, handle)
 
          IF (alpha == 0.0_real_4) THEN
+# 2904 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             CALL dbcsr_zero(matrix)
          ELSE
             IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_4) &
+# 2907 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                DBCSR_ABORT("Incompatible data types")
 
             !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
@@ -3489,20 +3599,26 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_s
+# 2920 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_filter_s (matrix, eps, method, use_absolute, &
+# 2922 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                              filter_diag)
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          REAL(kind=real_4), INTENT(IN)                      :: eps
+# 2925 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: method
          LOGICAL, INTENT(in), OPTIONAL            :: use_absolute, filter_diag
          CALL dbcsr_filter_anytype(matrix, dbcsr_scalar(eps), method, &
                                    use_absolute, filter_diag)
       END SUBROUTINE dbcsr_filter_s
+# 2930 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_diag_s (matrix, diag)
+# 2932 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix
          REAL(kind=real_4), DIMENSION(:), INTENT(IN)          :: diag
+# 2934 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_diag'
 
@@ -3510,10 +3626,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2941 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_4) &
+# 2945 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -3538,10 +3656,13 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_diag_s
+# 2969 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_get_diag_s (matrix, diag)
+# 2971 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)               :: matrix
          REAL(kind=real_4), DIMENSION(:), INTENT(OUT)         :: diag
+# 2973 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_diag'
 
@@ -3549,10 +3670,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          REAL(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2980 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_4) &
+# 2984 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -3562,6 +3685,7 @@ CONTAINS
             DBCSR_ABORT("matrix not quadratic")
 
          diag(:) = 0.0_real_4
+# 2993 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL dbcsr_iterator_start(iter, matrix)
          DO WHILE (dbcsr_iterator_blocks_left(iter))
@@ -3579,13 +3703,16 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_get_diag_s
+# 3010 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_on_diag_s (matrix, alpha)
+# 3012 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! add a constant to the diagonal of a matrix
 
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
          REAL(kind=real_4), INTENT(IN)                                :: alpha
+# 3017 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! scalar
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_on_diag'
@@ -3593,10 +3720,12 @@ CONTAINS
          INTEGER                                            :: handle, mynode, node, irow, i, row_size
          LOGICAL                                            :: found, tr
          REAL(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 3024 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_4) &
+# 3028 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
@@ -3614,6 +3743,7 @@ CONTAINS
             IF (.NOT. found) THEN
                ALLOCATE (block(row_size, row_size))
                block(:, :) = 0.0_real_4
+# 3045 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
 
             DO i = 1, row_size
@@ -3629,8 +3759,10 @@ CONTAINS
          CALL dbcsr_finalize(matrix)
          CALL timestop(handle)
       END SUBROUTINE dbcsr_add_on_diag_s
+# 3060 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_update_contiguous_blocks_s (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
+# 3062 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, found, iw)
       !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
 
@@ -3650,26 +3782,39 @@ CONTAINS
          IF (found) THEN
             IF (do_scale) THEN
                CALL saxpy(nze, my_beta_scalar%r_sp, &
+# 3081 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_b%data_area%d%r_sp (first_lb_b:ub_b), 1, &
+# 3082 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_a%data_area%d%r_sp (first_lb_a:ub_a), 1)
+# 3083 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%data_area%d%r_sp (first_lb_a:ub_a) = &
+# 3085 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_a%data_area%d%r_sp (first_lb_a:ub_a) + &
+# 3086 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_sp (first_lb_b:ub_b)
+# 3087 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          ELSE
             IF (do_scale) THEN
                matrix_a%wms(iw)%data_area%d%r_sp (first_lb_a:ub_a) = &
+# 3091 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   my_beta_scalar%r_sp* &
+# 3092 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_sp (first_lb_b:ub_b)
+# 3093 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%wms(iw)%data_area%d%r_sp (first_lb_a:ub_a) = &
+# 3095 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%r_sp (first_lb_b:ub_b)
+# 3096 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          END IF
       END SUBROUTINE dbcsr_update_contiguous_blocks_s
+# 3099 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_anytype_s (matrix_a, matrix_b, iter, iw, do_scale, &
+# 3101 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                   my_beta_scalar, my_flop)
       !! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
 
@@ -3733,6 +3878,7 @@ CONTAINS
                END IF
                ! save block chunk
                CALL dbcsr_update_contiguous_blocks_s (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                   do_scale, my_beta_scalar, was_found, iw)
             END IF
             !
@@ -3745,20 +3891,25 @@ CONTAINS
          ! save the last block or chunk of blocks
          IF (first_lb_b .NE. 0) THEN
             call dbcsr_update_contiguous_blocks_s (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3176 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, was_found, iw)
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_s
+# 3180 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 2688 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_z (matrix_a, trace)
+# 2689 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! traces a DBCSR matrix
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a
          !! DBCSR matrix
          COMPLEX(kind=real_8), INTENT(INOUT)                   :: trace
+# 2694 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the matrix
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_z'
+# 2697 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: a_blk, a_col, a_col_size, &
                                                      a_nze, a_row, a_row_size, i, &
@@ -3766,6 +3917,7 @@ CONTAINS
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size, &
                                                      row_dist, col_dist
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: a_data, data_p
+# 2704 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, DIMENSION(:, :), POINTER         :: pgrid
          TYPE(dbcsr_distribution_obj)             :: dist
 
@@ -3775,6 +3927,7 @@ CONTAINS
          row_blk_size => array_data(matrix_a%row_blk_size)
          col_blk_size => array_data(matrix_a%col_blk_size)
          IF (dbcsr_get_data_type(matrix_a) /= dbcsr_type_complex_8) &
+# 2713 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
          CALL dbcsr_get_data(matrix_a%data_area, data_p)
          dist = dbcsr_distribution(matrix_a)
@@ -3785,6 +3938,7 @@ CONTAINS
          !
          ! let's go
          trace = REAL(0.0, real_8)
+# 2723 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          DO a_row = 1, matrix_a%nblkrows_total
             a_row_size = row_blk_size(a_row)
             DO a_blk = matrix_a%row_p(a_row) + 1, matrix_a%row_p(a_row + 1)
@@ -3816,14 +3970,17 @@ CONTAINS
 
          CALL timestop(error_handle)
       END SUBROUTINE dbcsr_trace_z
+# 2754 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_dot_z (matrix_a, matrix_b, trace)
+# 2756 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Dot product of DBCSR matrices
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a, matrix_b
          !! DBCSR matrices
          !! DBCSR matrices
          COMPLEX(kind=real_8), INTENT(INOUT)                   :: trace
+# 2762 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the product of the matrices
 
          INTEGER :: a_blk, a_col, a_col_size, a_row_size, b_blk, b_col_size, &
@@ -3833,8 +3990,10 @@ CONTAINS
                                                      a_row_blk_size, &
                                                      b_col_blk_size, b_row_blk_size
          COMPLEX(kind=real_8)                                  :: sym_fac, fac
+# 2771 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
          COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: a_data, b_data
+# 2773 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -3843,12 +4002,14 @@ CONTAINS
             DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
          sym_fac = REAL(1.0, real_8)
+# 2781 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          matrix_a_type = dbcsr_get_matrix_type(matrix_a)
          matrix_b_type = dbcsr_get_matrix_type(matrix_b)
          matrix_a_symm = matrix_a_type == dbcsr_type_symmetric .OR. matrix_a_type == dbcsr_type_antisymmetric
          matrix_b_symm = matrix_b_type == dbcsr_type_symmetric .OR. matrix_b_type == dbcsr_type_antisymmetric
 
          IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = REAL(2.0, real_8)
+# 2787 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
          IF (matrix_a_symm .NEQV. matrix_b_symm) &
@@ -3864,6 +4025,7 @@ CONTAINS
 
          ! let's go
          trace = REAL(0.0, real_8)
+# 2802 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          IF (matrix_a%nblkrows_total .NE. matrix_b%nblkrows_total) &
             DBCSR_ABORT("this combination of transpose is NYI")
          DO row = 1, matrix_a%nblkrows_total
@@ -3895,6 +4057,7 @@ CONTAINS
                      b_beg = ABS(matrix_b%blk_p(b_blk))
                      b_end = b_beg + nze - 1
                      fac = REAL(1.0, real_8)
+# 2833 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                      IF (row .NE. a_col) fac = sym_fac
 
                      trace = trace + fac*SUM(a_data(a_beg:a_end)*b_data(b_beg:b_end))
@@ -3908,14 +4071,18 @@ CONTAINS
          CALL mp_sum(trace, dbcsr_mp_group(dbcsr_distribution_mp(matrix_a%dist)))
 
       END SUBROUTINE dbcsr_dot_z
+# 2846 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_z (matrix_a, alpha_scalar, last_column)
+# 2848 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a scalar
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha_scalar
+# 2851 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_z'
+# 2854 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: error_handler
          TYPE(dbcsr_scalar_type)                  :: sc
@@ -3933,42 +4100,53 @@ CONTAINS
          END IF
          CALL timestop(error_handler)
       END SUBROUTINE dbcsr_scale_z
+# 2871 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_by_vector_z (matrix_a, alpha, side)
+# 2873 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a vector
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
+# 2876 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
+# 2878 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
          CALL dbcsr_data_init(enc_alpha_vec)
          CALL dbcsr_data_new(enc_alpha_vec, dbcsr_type_complex_8)
+# 2882 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          tmp_p => alpha
          CALL dbcsr_data_set_pointer(enc_alpha_vec, tmp_p)
          CALL dbcsr_scale_by_vector_anytype(matrix_a, enc_alpha_vec, side)
          CALL dbcsr_data_clear_pointer(enc_alpha_vec)
          CALL dbcsr_data_release(enc_alpha_vec)
       END SUBROUTINE dbcsr_scale_by_vector_z
+# 2888 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_z (matrix, alpha)
+# 2890 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for dbcsr_set
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha
+# 2893 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set'
 
          INTEGER                                            :: col, handle, row
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2899 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                            :: tr
 
          CALL timeset(routineN, handle)
 
          IF (alpha == CMPLX(0.0, 0.0, real_8)) THEN
+# 2904 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             CALL dbcsr_zero(matrix)
          ELSE
             IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_8) &
+# 2907 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                DBCSR_ABORT("Incompatible data types")
 
             !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
@@ -3982,20 +4160,26 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_z
+# 2920 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_filter_z (matrix, eps, method, use_absolute, &
+# 2922 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                              filter_diag)
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          COMPLEX(kind=real_8), INTENT(IN)                      :: eps
+# 2925 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: method
          LOGICAL, INTENT(in), OPTIONAL            :: use_absolute, filter_diag
          CALL dbcsr_filter_anytype(matrix, dbcsr_scalar(eps), method, &
                                    use_absolute, filter_diag)
       END SUBROUTINE dbcsr_filter_z
+# 2930 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_diag_z (matrix, diag)
+# 2932 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)          :: diag
+# 2934 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_diag'
 
@@ -4003,10 +4187,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2941 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_8) &
+# 2945 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -4031,10 +4217,13 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_diag_z
+# 2969 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_get_diag_z (matrix, diag)
+# 2971 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)               :: matrix
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)         :: diag
+# 2973 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_diag'
 
@@ -4042,10 +4231,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 2980 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_8) &
+# 2984 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -4055,6 +4246,7 @@ CONTAINS
             DBCSR_ABORT("matrix not quadratic")
 
          diag(:) = CMPLX(0.0, 0.0, real_8)
+# 2993 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL dbcsr_iterator_start(iter, matrix)
          DO WHILE (dbcsr_iterator_blocks_left(iter))
@@ -4072,13 +4264,16 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_get_diag_z
+# 3010 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_on_diag_z (matrix, alpha)
+# 3012 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! add a constant to the diagonal of a matrix
 
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
          COMPLEX(kind=real_8), INTENT(IN)                                :: alpha
+# 3017 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! scalar
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_on_diag'
@@ -4086,10 +4281,12 @@ CONTAINS
          INTEGER                                            :: handle, mynode, node, irow, i, row_size
          LOGICAL                                            :: found, tr
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER                   :: block
+# 3024 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_8) &
+# 3028 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
@@ -4107,6 +4304,7 @@ CONTAINS
             IF (.NOT. found) THEN
                ALLOCATE (block(row_size, row_size))
                block(:, :) = CMPLX(0.0, 0.0, real_8)
+# 3045 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
 
             DO i = 1, row_size
@@ -4122,8 +4320,10 @@ CONTAINS
          CALL dbcsr_finalize(matrix)
          CALL timestop(handle)
       END SUBROUTINE dbcsr_add_on_diag_z
+# 3060 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_update_contiguous_blocks_z (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
+# 3062 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, found, iw)
       !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
 
@@ -4143,26 +4343,39 @@ CONTAINS
          IF (found) THEN
             IF (do_scale) THEN
                CALL zaxpy(nze, my_beta_scalar%c_dp, &
+# 3081 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_b%data_area%d%c_dp (first_lb_b:ub_b), 1, &
+# 3082 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_a%data_area%d%c_dp (first_lb_a:ub_a), 1)
+# 3083 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%data_area%d%c_dp (first_lb_a:ub_a) = &
+# 3085 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_a%data_area%d%c_dp (first_lb_a:ub_a) + &
+# 3086 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_dp (first_lb_b:ub_b)
+# 3087 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          ELSE
             IF (do_scale) THEN
                matrix_a%wms(iw)%data_area%d%c_dp (first_lb_a:ub_a) = &
+# 3091 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   my_beta_scalar%c_dp* &
+# 3092 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_dp (first_lb_b:ub_b)
+# 3093 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%wms(iw)%data_area%d%c_dp (first_lb_a:ub_a) = &
+# 3095 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_dp (first_lb_b:ub_b)
+# 3096 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          END IF
       END SUBROUTINE dbcsr_update_contiguous_blocks_z
+# 3099 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_anytype_z (matrix_a, matrix_b, iter, iw, do_scale, &
+# 3101 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                   my_beta_scalar, my_flop)
       !! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
 
@@ -4226,6 +4439,7 @@ CONTAINS
                END IF
                ! save block chunk
                CALL dbcsr_update_contiguous_blocks_z (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                   do_scale, my_beta_scalar, was_found, iw)
             END IF
             !
@@ -4238,20 +4452,25 @@ CONTAINS
          ! save the last block or chunk of blocks
          IF (first_lb_b .NE. 0) THEN
             call dbcsr_update_contiguous_blocks_z (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3176 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, was_found, iw)
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_z
+# 3180 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 2688 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       SUBROUTINE dbcsr_trace_c (matrix_a, trace)
+# 2689 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! traces a DBCSR matrix
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a
          !! DBCSR matrix
          COMPLEX(kind=real_4), INTENT(INOUT)                   :: trace
+# 2694 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the matrix
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_c'
+# 2697 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: a_blk, a_col, a_col_size, &
                                                      a_nze, a_row, a_row_size, i, &
@@ -4259,6 +4478,7 @@ CONTAINS
          INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size, &
                                                      row_dist, col_dist
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: a_data, data_p
+# 2704 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, DIMENSION(:, :), POINTER         :: pgrid
          TYPE(dbcsr_distribution_obj)             :: dist
 
@@ -4268,6 +4488,7 @@ CONTAINS
          row_blk_size => array_data(matrix_a%row_blk_size)
          col_blk_size => array_data(matrix_a%col_blk_size)
          IF (dbcsr_get_data_type(matrix_a) /= dbcsr_type_complex_4) &
+# 2713 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
          CALL dbcsr_get_data(matrix_a%data_area, data_p)
          dist = dbcsr_distribution(matrix_a)
@@ -4278,6 +4499,7 @@ CONTAINS
          !
          ! let's go
          trace = REAL(0.0, real_4)
+# 2723 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          DO a_row = 1, matrix_a%nblkrows_total
             a_row_size = row_blk_size(a_row)
             DO a_blk = matrix_a%row_p(a_row) + 1, matrix_a%row_p(a_row + 1)
@@ -4309,14 +4531,17 @@ CONTAINS
 
          CALL timestop(error_handle)
       END SUBROUTINE dbcsr_trace_c
+# 2754 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_dot_c (matrix_a, matrix_b, trace)
+# 2756 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Dot product of DBCSR matrices
 
          TYPE(dbcsr_type), INTENT(IN)               :: matrix_a, matrix_b
          !! DBCSR matrices
          !! DBCSR matrices
          COMPLEX(kind=real_4), INTENT(INOUT)                   :: trace
+# 2762 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! the trace of the product of the matrices
 
          INTEGER :: a_blk, a_col, a_col_size, a_row_size, b_blk, b_col_size, &
@@ -4326,8 +4551,10 @@ CONTAINS
                                                      a_row_blk_size, &
                                                      b_col_blk_size, b_row_blk_size
          COMPLEX(kind=real_4)                                  :: sym_fac, fac
+# 2771 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
          COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: a_data, b_data
+# 2773 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 !   ---------------------------------------------------------------------------
 
@@ -4336,12 +4563,14 @@ CONTAINS
             DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
          sym_fac = REAL(1.0, real_4)
+# 2781 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          matrix_a_type = dbcsr_get_matrix_type(matrix_a)
          matrix_b_type = dbcsr_get_matrix_type(matrix_b)
          matrix_a_symm = matrix_a_type == dbcsr_type_symmetric .OR. matrix_a_type == dbcsr_type_antisymmetric
          matrix_b_symm = matrix_b_type == dbcsr_type_symmetric .OR. matrix_b_type == dbcsr_type_antisymmetric
 
          IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = REAL(2.0, real_4)
+# 2787 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
          IF (matrix_a_symm .NEQV. matrix_b_symm) &
@@ -4357,6 +4586,7 @@ CONTAINS
 
          ! let's go
          trace = REAL(0.0, real_4)
+# 2802 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          IF (matrix_a%nblkrows_total .NE. matrix_b%nblkrows_total) &
             DBCSR_ABORT("this combination of transpose is NYI")
          DO row = 1, matrix_a%nblkrows_total
@@ -4388,6 +4618,7 @@ CONTAINS
                      b_beg = ABS(matrix_b%blk_p(b_blk))
                      b_end = b_beg + nze - 1
                      fac = REAL(1.0, real_4)
+# 2833 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                      IF (row .NE. a_col) fac = sym_fac
 
                      trace = trace + fac*SUM(a_data(a_beg:a_end)*b_data(b_beg:b_end))
@@ -4401,14 +4632,18 @@ CONTAINS
          CALL mp_sum(trace, dbcsr_mp_group(dbcsr_distribution_mp(matrix_a%dist)))
 
       END SUBROUTINE dbcsr_dot_c
+# 2846 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_c (matrix_a, alpha_scalar, last_column)
+# 2848 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a scalar
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha_scalar
+# 2851 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_c'
+# 2854 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          INTEGER                                  :: error_handler
          TYPE(dbcsr_scalar_type)                  :: sc
@@ -4426,42 +4661,53 @@ CONTAINS
          END IF
          CALL timestop(error_handler)
       END SUBROUTINE dbcsr_scale_c
+# 2871 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_scale_by_vector_c (matrix_a, alpha, side)
+# 2873 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for matrix scaling by a vector
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
+# 2876 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
+# 2878 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
          CALL dbcsr_data_init(enc_alpha_vec)
          CALL dbcsr_data_new(enc_alpha_vec, dbcsr_type_complex_4)
+# 2882 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          tmp_p => alpha
          CALL dbcsr_data_set_pointer(enc_alpha_vec, tmp_p)
          CALL dbcsr_scale_by_vector_anytype(matrix_a, enc_alpha_vec, side)
          CALL dbcsr_data_clear_pointer(enc_alpha_vec)
          CALL dbcsr_data_release(enc_alpha_vec)
       END SUBROUTINE dbcsr_scale_by_vector_c
+# 2888 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_c (matrix, alpha)
+# 2890 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! Interface for dbcsr_set
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha
+# 2893 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set'
 
          INTEGER                                            :: col, handle, row
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2899 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          LOGICAL                                            :: tr
 
          CALL timeset(routineN, handle)
 
          IF (alpha == CMPLX(0.0, 0.0, real_4)) THEN
+# 2904 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             CALL dbcsr_zero(matrix)
          ELSE
             IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_4) &
+# 2907 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                DBCSR_ABORT("Incompatible data types")
 
             !TODO: could be speedup by direct assignment to data_area, similar to dbcsr_zero()
@@ -4475,20 +4721,26 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_c
+# 2920 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_filter_c (matrix, eps, method, use_absolute, &
+# 2922 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                              filter_diag)
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix
          COMPLEX(kind=real_4), INTENT(IN)                      :: eps
+# 2925 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          INTEGER, INTENT(IN), OPTIONAL            :: method
          LOGICAL, INTENT(in), OPTIONAL            :: use_absolute, filter_diag
          CALL dbcsr_filter_anytype(matrix, dbcsr_scalar(eps), method, &
                                    use_absolute, filter_diag)
       END SUBROUTINE dbcsr_filter_c
+# 2930 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_set_diag_c (matrix, diag)
+# 2932 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(INOUT)            :: matrix
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)          :: diag
+# 2934 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_diag'
 
@@ -4496,10 +4748,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2941 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_4) &
+# 2945 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -4524,10 +4778,13 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_set_diag_c
+# 2969 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_get_diag_c (matrix, diag)
+# 2971 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          TYPE(dbcsr_type), INTENT(IN)               :: matrix
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)         :: diag
+# 2973 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_diag'
 
@@ -4535,10 +4792,12 @@ CONTAINS
          LOGICAL                                            :: tr
          TYPE(dbcsr_iterator)                               :: iter
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 2980 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_4) &
+# 2984 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
@@ -4548,6 +4807,7 @@ CONTAINS
             DBCSR_ABORT("matrix not quadratic")
 
          diag(:) = CMPLX(0.0, 0.0, real_4)
+# 2993 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL dbcsr_iterator_start(iter, matrix)
          DO WHILE (dbcsr_iterator_blocks_left(iter))
@@ -4565,13 +4825,16 @@ CONTAINS
 
          CALL timestop(handle)
       END SUBROUTINE dbcsr_get_diag_c
+# 3010 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_on_diag_c (matrix, alpha)
+# 3012 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
       !! add a constant to the diagonal of a matrix
 
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
          COMPLEX(kind=real_4), INTENT(IN)                                :: alpha
+# 3017 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
          !! scalar
 
          CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_on_diag'
@@ -4579,10 +4842,12 @@ CONTAINS
          INTEGER                                            :: handle, mynode, node, irow, i, row_size
          LOGICAL                                            :: found, tr
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER                   :: block
+# 3024 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
          CALL timeset(routineN, handle)
 
          IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_4) &
+# 3028 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             DBCSR_ABORT("Incompatible data types")
 
          IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
@@ -4600,6 +4865,7 @@ CONTAINS
             IF (.NOT. found) THEN
                ALLOCATE (block(row_size, row_size))
                block(:, :) = CMPLX(0.0, 0.0, real_4)
+# 3045 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
 
             DO i = 1, row_size
@@ -4615,8 +4881,10 @@ CONTAINS
          CALL dbcsr_finalize(matrix)
          CALL timestop(handle)
       END SUBROUTINE dbcsr_add_on_diag_c
+# 3060 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_update_contiguous_blocks_c (matrix_a, matrix_b, first_lb_a, first_lb_b, nze, &
+# 3062 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, found, iw)
       !! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)
 
@@ -4636,26 +4904,39 @@ CONTAINS
          IF (found) THEN
             IF (do_scale) THEN
                CALL caxpy(nze, my_beta_scalar%c_sp, &
+# 3081 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_b%data_area%d%c_sp (first_lb_b:ub_b), 1, &
+# 3082 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                       matrix_a%data_area%d%c_sp (first_lb_a:ub_a), 1)
+# 3083 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%data_area%d%c_sp (first_lb_a:ub_a) = &
+# 3085 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_a%data_area%d%c_sp (first_lb_a:ub_a) + &
+# 3086 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_sp (first_lb_b:ub_b)
+# 3087 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          ELSE
             IF (do_scale) THEN
                matrix_a%wms(iw)%data_area%d%c_sp (first_lb_a:ub_a) = &
+# 3091 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   my_beta_scalar%c_sp* &
+# 3092 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_sp (first_lb_b:ub_b)
+# 3093 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             ELSE
                matrix_a%wms(iw)%data_area%d%c_sp (first_lb_a:ub_a) = &
+# 3095 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                   matrix_b%data_area%d%c_sp (first_lb_b:ub_b)
+# 3096 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
             END IF
          END IF
       END SUBROUTINE dbcsr_update_contiguous_blocks_c
+# 3099 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
       SUBROUTINE dbcsr_add_anytype_c (matrix_a, matrix_b, iter, iw, do_scale, &
+# 3101 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                   my_beta_scalar, my_flop)
       !! Low level function to sum two matrices (matrix_a = matrix_a + beta*matrix_b
 
@@ -4719,6 +5000,7 @@ CONTAINS
                END IF
                ! save block chunk
                CALL dbcsr_update_contiguous_blocks_c (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                   do_scale, my_beta_scalar, was_found, iw)
             END IF
             !
@@ -4731,10 +5013,12 @@ CONTAINS
          ! save the last block or chunk of blocks
          IF (first_lb_b .NE. 0) THEN
             call dbcsr_update_contiguous_blocks_c (matrix_a, matrix_b, first_lb_a, first_lb_b, tot_nze, &
+# 3176 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
                                                                do_scale, my_beta_scalar, was_found, iw)
          END IF
 
       END SUBROUTINE dbcsr_add_anytype_c
+# 3180 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 # 3181 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations

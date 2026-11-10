@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-negate_real~3"></span>
+              <span class="anchor" id="variable-negate_real~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-negate_imaginary~3"></span>
+              <span class="anchor" id="variable-negate_imaginary~2"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -222,7 +222,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~197"></span>
+              <span class="anchor" id="variable-row~215"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~123"></span>
+              <span class="anchor" id="variable-col~147"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk~83"></span>
+              <span class="anchor" id="variable-blk~95"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -267,7 +267,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-blk_p~54"></span>
+              <span class="anchor" id="variable-blk_p~53"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -297,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_size~94"></span>
+              <span class="anchor" id="variable-row_size~110"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -312,7 +312,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_size~87"></span>
+              <span class="anchor" id="variable-col_size~104"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -327,7 +327,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~56"></span>
+              <span class="anchor" id="variable-nze~70"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -372,7 +372,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stored_row~10"></span>
+              <span class="anchor" id="variable-stored_row~26"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -387,7 +387,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stored_col~9"></span>
+              <span class="anchor" id="variable-stored_col~26"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -432,7 +432,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tr~137"></span>
+              <span class="anchor" id="variable-tr~157"></span>
               logical,
             </td>
 <td>intent(inout)</td>
@@ -642,7 +642,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row_dist~35"></span>
+              <span class="anchor" id="variable-row_dist~33"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -657,7 +657,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col_dist~35"></span>
+              <span class="anchor" id="variable-col_dist~33"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -792,7 +792,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-data_area~13"></span>
+              <span class="anchor" id="variable-data_area~10"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -868,6 +868,7 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">prepare_buffers_s</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="p">,</span><span class="w"> </span><span class="n">negate_imaginary</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3020 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                                                </span><span class="n">iter</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="n">bp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">nsymmetries</span><span class="p">,</span><span class="w"> </span><span class="n">symmetry_i</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="n">tr_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">tr_col_size</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -894,6 +895,7 @@
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">blacs2mpi</span>
 <span class="w">         </span><span class="kt">CHARACTER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">predist_type_fwd</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">data_area</span>
+<span class="cp"># 3046 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">send_data_area</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                     </span><span class="kd">::</span><span class="w"> </span><span class="n">scale_neg_one</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">scale_value</span>
@@ -932,20 +934,27 @@
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">scale_value</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3084 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                                                </span><span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_value</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3085 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                                                </span><span class="n">tr_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">tr_col_size</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">ELSE</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3088 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                                                </span><span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                </span><span class="n">tr_row_size</span><span class="p">,</span><span class="w"> </span><span class="n">tr_col_size</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="w"> </span><span class="p">.</span><span class="nb">AND</span><span class="p">.</span><span class="w"> </span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3093 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">r_sp</span>
+<span class="cp"># 3094 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_real</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="cp"># 3096 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                        </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3097 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                           </span><span class="o">-</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="cp"># 3098 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="cp"># 3105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                  </span><span class="k">ELSEIF</span><span class="w"> </span><span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="cp"># 3110 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
@@ -954,9 +963,12 @@
 <span class="w">                  </span><span class="c">! Copy the block</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">scale_value</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3115 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                        </span><span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_value</span><span class="p">%</span><span class="n">r_sp</span>
+<span class="cp"># 3116 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                  </span><span class="k">ELSE</span>
 <span class="k">                     </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="cp"># 3118 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               END IF</span>
 

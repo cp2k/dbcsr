@@ -183,7 +183,7 @@ see mp_alltoall</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-sb~28"></span>
+              <span class="anchor" id="variable-sb~4"></span>
               real(kind=real_4),
             </td>
 <td>intent(in),</td>
@@ -198,7 +198,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scount~11"></span>
+              <span class="anchor" id="variable-scount~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -213,7 +213,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-sdispl~10"></span>
+              <span class="anchor" id="variable-sdispl~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -228,7 +228,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rb~28"></span>
+              <span class="anchor" id="variable-rb~4"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -243,7 +243,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcount~28"></span>
+              <span class="anchor" id="variable-rcount~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -258,7 +258,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rdispl~28"></span>
+              <span class="anchor" id="variable-rdispl~4"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -273,7 +273,7 @@ see mp_alltoall</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-mp_env~28"></span>
+              <span class="anchor" id="variable-mp_env~29"></span>
               type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),
             </td>
 <td>intent(in)</td>
@@ -355,6 +355,7 @@ Use regular global collective; default is no</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">hybrid_alltoall_s1</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span><span class="w"> </span><span class="n">scount</span><span class="p">,</span><span class="w"> </span><span class="n">sdispl</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"</span>
 <span class="w">                                                </span><span class="n">rb</span><span class="p">,</span><span class="w"> </span><span class="n">rcount</span><span class="p">,</span><span class="w"> </span><span class="n">rdispl</span><span class="p">,</span><span class="w"> </span><span class="n">mp_env</span><span class="p">,</span><span class="w"> </span><span class="n">most_ptp</span><span class="p">,</span><span class="w"> </span><span class="n">remainder_ptp</span><span class="p">,</span><span class="w"> </span><span class="n">no_hybrid</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Row/column and global all-to-all</span>
 <span class="w">      </span><span class="c">!!</span>
@@ -366,9 +367,11 @@ Use regular global collective; default is no</p>
 <span class="w">      </span><span class="c">!! see mp_alltoall</span>
 
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"</span>
 <span class="w">            </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">TARGET</span><span class="w">        </span><span class="kd">::</span><span class="w"> </span><span class="n">sb</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">scount</span><span class="p">,</span><span class="w"> </span><span class="n">sdispl</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"</span>
 <span class="w">            </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">TARGET</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">rb</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">rcount</span><span class="p">,</span><span class="w"> </span><span class="n">rdispl</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">mp_env</span>
@@ -387,6 +390,7 @@ Use regular global collective; default is no</p>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">most_collective</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">remainder_collective</span><span class="p">,</span><span class="w"> </span><span class="n">no_h</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">send_data_p</span><span class="p">,</span><span class="w"> </span><span class="n">recv_data_p</span>
+<span class="cp"># 644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">mpe</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">)</span><span class="w">                       </span><span class="kd">::</span><span class="w"> </span><span class="n">all_group</span><span class="p">,</span><span class="w"> </span><span class="n">grp</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_request_type</span><span class="p">),</span><span class="w"> </span><span class="k">ALLOCATABLE</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">all_rr</span><span class="p">,</span><span class="w"> </span><span class="n">all_sr</span><span class="p">,</span><span class="w"> </span><span class="n">col_rr</span><span class="p">,</span><span class="w"> </span><span class="n">col_sr</span><span class="p">,</span><span class="w"> </span><span class="n">row_rr</span><span class="p">,</span><span class="w"> </span><span class="n">row_sr</span>

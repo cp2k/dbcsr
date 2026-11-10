@@ -26,6 +26,7 @@ MODULE dbcsr_list
    !! @endnote
 
    USE dbcsr_timings_base_type, ONLY: routine_report_type, callstack_entry_type, routine_stat_type
+# 24 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    USE dbcsr_list_callstackentry, ONLY: list_callstackentry_type, list_callstackentry_init, list_callstackentry_push,&
 # 24 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_callstackentry_pop, list_callstackentry_peek, list_callstackentry_insert, list_callstackentry_set,&
@@ -33,6 +34,7 @@ MODULE dbcsr_list
        & list_callstackentry_get, list_callstackentry_del, list_callstackentry_clear, list_callstackentry_size,&
 # 24 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_callstackentry_destroy, list_callstackentry_isready
+# 25 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    USE dbcsr_list_routinereport, ONLY: list_routinereport_type, list_routinereport_init, list_routinereport_push,&
 # 25 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_routinereport_pop, list_routinereport_peek, list_routinereport_insert, list_routinereport_set,&
@@ -40,16 +42,19 @@ MODULE dbcsr_list
        & list_routinereport_get, list_routinereport_del, list_routinereport_clear, list_routinereport_size,&
 # 25 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_routinereport_destroy, list_routinereport_isready
+# 26 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    USE dbcsr_list_routinestat, ONLY: list_routinestat_type, list_routinestat_init, list_routinestat_push, list_routinestat_pop,&
 # 26 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_routinestat_peek, list_routinestat_insert, list_routinestat_set, list_routinestat_get, list_routinestat_del,&
 # 26 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_routinestat_clear, list_routinestat_size, list_routinestat_destroy, list_routinestat_isready
+# 27 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    USE dbcsr_list_timerenv, ONLY: list_timerenv_type, list_timerenv_init, list_timerenv_push, list_timerenv_pop,&
 # 27 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_timerenv_peek, list_timerenv_insert, list_timerenv_set, list_timerenv_get, list_timerenv_del, list_timerenv_clear,&
 # 27 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
        & list_timerenv_size, list_timerenv_destroy, list_timerenv_isready
+# 28 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -62,155 +67,207 @@ MODULE dbcsr_list
 
 # 39 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
       PUBLIC :: list_timerenv_type
+# 40 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 39 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
       PUBLIC :: list_routinestat_type
+# 40 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 39 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
       PUBLIC :: list_routinereport_type
+# 40 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 39 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
       PUBLIC :: list_callstackentry_type
+# 40 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 41 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 
    INTERFACE list_init
 # 44 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_init
+# 45 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 44 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_init
+# 45 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 44 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_init
+# 45 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 44 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_init
+# 45 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 46 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_isready
 # 50 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_isready
+# 51 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 50 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_isready
+# 51 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 50 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_isready
+# 51 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 50 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_isready
+# 51 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 52 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_push
 # 56 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_push
+# 57 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 56 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_push
+# 57 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 56 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_push
+# 57 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 56 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_push
+# 57 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 58 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_pop
 # 62 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_pop
+# 63 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 62 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_pop
+# 63 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 62 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_pop
+# 63 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 62 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_pop
+# 63 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 64 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_peek
 # 68 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_peek
+# 69 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 68 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_peek
+# 69 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 68 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_peek
+# 69 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 68 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_peek
+# 69 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 70 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_insert
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_insert
+# 75 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_insert
+# 75 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_insert
+# 75 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_insert
+# 75 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 76 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_set
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_set
+# 81 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_set
+# 81 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_set
+# 81 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_set
+# 81 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 82 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_get
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_get
+# 87 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_get
+# 87 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_get
+# 87 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_get
+# 87 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 88 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_del
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_del
+# 93 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_del
+# 93 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_del
+# 93 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_del
+# 93 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 94 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_clear
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_clear
+# 99 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_clear
+# 99 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_clear
+# 99 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_clear
+# 99 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 100 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_size
 # 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_size
+# 105 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_size
+# 105 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_size
+# 105 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_size
+# 105 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 106 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 
    INTERFACE list_destroy
 # 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_timerenv_destroy
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinestat_destroy
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_routinereport_destroy
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
          MODULE PROCEDURE list_callstackentry_destroy
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
 # 112 "/__w/dbcsr/dbcsr/src/core/dbcsr_list.F"
    END INTERFACE
 

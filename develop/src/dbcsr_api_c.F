@@ -100,91 +100,163 @@ MODULE dbcsr_api_c
 
 # 95 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_set_d, &
+# 96 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_d, &
+# 97 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_d, &
+# 98 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_by_vector_d, &
+# 99 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_multiply_d, &
+# 100 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_on_diag_d, &
+# 101 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_set_diag_d, &
+# 102 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_diag_d, &
+# 103 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_trace_d, &
+# 104 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_dot_d, &
+# 105 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_p_d, &
+# 106 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_notrans_p_d, &
+# 107 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_reserve_block2d_d, &
+# 108 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_iterator_next_2d_block_d, &
+# 109 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_put_block2d_d, &
+# 110 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_data_d
+# 111 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 95 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_set_s, &
+# 96 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_s, &
+# 97 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_s, &
+# 98 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_by_vector_s, &
+# 99 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_multiply_s, &
+# 100 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_on_diag_s, &
+# 101 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_set_diag_s, &
+# 102 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_diag_s, &
+# 103 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_trace_s, &
+# 104 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_dot_s, &
+# 105 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_p_s, &
+# 106 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_notrans_p_s, &
+# 107 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_reserve_block2d_s, &
+# 108 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_iterator_next_2d_block_s, &
+# 109 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_put_block2d_s, &
+# 110 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_data_s
+# 111 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 95 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_set_z, &
+# 96 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_z, &
+# 97 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_z, &
+# 98 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_by_vector_z, &
+# 99 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_multiply_z, &
+# 100 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_on_diag_z, &
+# 101 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_set_diag_z, &
+# 102 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_diag_z, &
+# 103 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_trace_z, &
+# 104 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_dot_z, &
+# 105 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_p_z, &
+# 106 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_notrans_p_z, &
+# 107 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_reserve_block2d_z, &
+# 108 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_iterator_next_2d_block_z, &
+# 109 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_put_block2d_z, &
+# 110 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_data_z
+# 111 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 95 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_set_c, &
+# 96 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_c, &
+# 97 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_c, &
+# 98 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_scale_by_vector_c, &
+# 99 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_multiply_c, &
+# 100 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_add_on_diag_c, &
+# 101 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_set_diag_c, &
+# 102 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_diag_c, &
+# 103 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_trace_c, &
+# 104 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_dot_c, &
+# 105 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_p_c, &
+# 106 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_block_notrans_p_c, &
+# 107 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_reserve_block2d_c, &
+# 108 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_iterator_next_2d_block_c, &
+# 109 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_put_block2d_c, &
+# 110 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                 c_dbcsr_get_data_c
+# 111 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 112 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 115 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_local_rows
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_local_cols
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_proc_row_dist
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_proc_col_dist
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_row_blk_size
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_col_blk_size
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_row_blk_offset
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 116 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       PUBLIC :: c_dbcsr_get_col_blk_offset
+# 117 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 118 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 CONTAINS
@@ -373,21 +445,33 @@ CONTAINS
 # 303 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 304 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (reuse)
+# 305 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_reuse)) THEN
+# 306 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (reuse)
+# 307 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             reuse = c_reuse
+# 308 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 304 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (reuse_arrays)
+# 305 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_reuse_arrays)) THEN
+# 306 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (reuse_arrays)
+# 307 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             reuse_arrays = c_reuse_arrays
+# 308 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 304 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (mutable_work)
+# 305 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_mutable_work)) THEN
+# 306 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (mutable_work)
+# 307 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             mutable_work = c_mutable_work
+# 308 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 310 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -398,10 +482,13 @@ CONTAINS
 
 # 317 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(reuse)) DEALLOCATE (reuse)
+# 318 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 317 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(reuse_arrays)) DEALLOCATE (reuse_arrays)
+# 318 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 317 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(mutable_work)) DEALLOCATE (mutable_work)
+# 318 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 319 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       c_matrix = c_loc(matrix)
@@ -451,65 +538,85 @@ CONTAINS
 # 365 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 366 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (reuse_arrays)
+# 367 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_reuse_arrays)) THEN
+# 368 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (reuse_arrays)
+# 369 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             reuse_arrays = c_reuse_arrays
+# 370 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 366 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (mutable_work)
+# 367 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_mutable_work)) THEN
+# 368 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (mutable_work)
+# 369 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             mutable_work = c_mutable_work
+# 370 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 372 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 374 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 375 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       
+# 376 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 378 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF(PRESENT(c_row_blk_size) .AND. PRESENT(c_col_blk_size)) THEN 
+# 379 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
                            , row_blk_size = row_blk_size, col_blk_size = col_blk_size, &
+# 382 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                            nze=c_nze, data_type=c_data_type, &
                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                            replication_type=c_replication_type)
 
 # 378 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_col_blk_size) .AND. .NOT. PRESENT(c_row_blk_size)) THEN 
+# 379 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
                            , col_blk_size = col_blk_size, &
+# 382 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                            nze=c_nze, data_type=c_data_type, &
                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                            replication_type=c_replication_type)
 
 # 378 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_row_blk_size) .AND. .NOT. PRESENT(c_col_blk_size)) THEN 
+# 379 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
                            , row_blk_size = row_blk_size, &
+# 382 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                            nze=c_nze, data_type=c_data_type, &
                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                            replication_type=c_replication_type)
 
 # 378 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE
+# 379 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
                            , &
+# 382 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                            nze=c_nze, data_type=c_data_type, &
                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
                            replication_type=c_replication_type)
 
 # 387 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 ENDIF
+# 388 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 390 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(reuse_arrays)) DEALLOCATE (reuse_arrays)
+# 391 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 390 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(mutable_work)) DEALLOCATE (mutable_work)
+# 391 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 392 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       c_matrix = c_loc(matrix)
@@ -533,10 +640,13 @@ ENDIF
 # 412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_set_d (c_matrix, c_alpha) &
+# 414 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_d")
+# 415 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          REAL(kind=c_double), INTENT(IN), VALUE :: c_alpha
+# 418 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -546,10 +656,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_d (c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) &
+# 427 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_d")
+# 428 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          REAL(kind=c_double), INTENT(IN), VALUE :: c_alpha_scalar, c_beta_scalar
+# 431 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -559,10 +672,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_d (c_matrix_a, c_alpha_scalar, c_last_column) &
+# 440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_d")
+# 441 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          REAL(kind=c_double), INTENT(IN), VALUE :: c_alpha_scalar
+# 444 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_last_column
          TYPE(dbcsr_type), POINTER :: matrix_a
 
@@ -572,11 +688,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_by_vector_d (c_matrix_a, c_alpha, c_alpha_size, c_side) &
+# 453 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_by_vector_d")
+# 454 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_alpha_size
          REAL(kind=c_double), INTENT(IN) :: c_alpha(c_alpha_size)
+# 458 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(IN), VALUE :: c_side
          TYPE(dbcsr_type), POINTER :: matrix_a
          CHARACTER(:, kind=c_char), ALLOCATABLE  :: side
@@ -588,14 +707,17 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_multiply_d (c_transa, c_transb, &
+# 469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                 c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, &
                                                 c_first_row, c_last_row, c_first_column, c_last_column, &
                                                 c_first_k, c_last_k, &
                                                 c_retain_sparsity, c_filter_eps, c_flop) &
          BIND(C, name="c_dbcsr_multiply_d")
+# 474 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CHARACTER(kind=c_char), INTENT(in), value :: c_transa, c_transb
          REAL(kind=c_double), INTENT(in), value :: c_alpha, c_beta
+# 477 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(in), VALUE :: c_matrix_a, c_matrix_b, c_matrix_c
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_first_row, c_last_row, &
                                                       c_first_column, c_last_column, &
@@ -611,39 +733,63 @@ ENDIF
 # 490 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_row = c_first_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_row = c_last_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_column = c_first_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_column = c_last_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_k = c_first_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_k = c_last_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 497 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -668,25 +814,34 @@ ENDIF
 
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) DEALLOCATE (first_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) DEALLOCATE (last_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) DEALLOCATE (first_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) DEALLOCATE (last_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) DEALLOCATE (first_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) DEALLOCATE (last_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 520 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_on_diag_d (c_matrix, c_alpha_scalar) &
+# 524 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_on_diag_d")
+# 525 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          REAL(kind=c_double), INTENT(IN) :: c_alpha_scalar
+# 528 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -694,11 +849,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_set_diag_d (c_matrix, c_diag, c_diag_size) &
+# 535 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_diag_d")
+# 536 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          REAL(kind=c_double), INTENT(IN) :: c_diag(c_diag_size)
+# 540 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -706,11 +864,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_diag_d (c_matrix, c_diag, c_diag_size) &
+# 547 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_diag_d")
+# 548 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          REAL(kind=c_double), INTENT(INOUT) :: c_diag(c_diag_size)
+# 552 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -718,10 +879,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_trace_d (c_matrix_a, c_trace) &
+# 559 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_trace_d")
+# 560 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          REAL(kind=c_double), INTENT(OUT) :: c_trace
+# 563 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -729,10 +893,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_dot_d (c_matrix_a, c_matrix_b, c_result) &
+# 570 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_dot_d")
+# 571 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          REAL(kind=c_double), INTENT(INOUT) :: c_result
+# 574 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -741,8 +908,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_p_d (c_matrix, c_row, c_col, c_block, &
+# 582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_tr, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_p_d")
+# 584 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -752,6 +921,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_double), DIMENSION(:), POINTER :: block
+# 593 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: tr, found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -766,8 +936,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_notrans_p_d (c_matrix, c_row, c_col, &
+# 607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                            c_block, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_notrans_p_d")
+# 609 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -777,6 +949,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_double), DIMENSION(:), POINTER :: block
+# 618 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -792,10 +965,13 @@ ENDIF
 # 412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_set_s (c_matrix, c_alpha) &
+# 414 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_s")
+# 415 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          REAL(kind=c_float), INTENT(IN), VALUE :: c_alpha
+# 418 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -805,10 +981,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_s (c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) &
+# 427 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_s")
+# 428 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          REAL(kind=c_float), INTENT(IN), VALUE :: c_alpha_scalar, c_beta_scalar
+# 431 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -818,10 +997,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_s (c_matrix_a, c_alpha_scalar, c_last_column) &
+# 440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_s")
+# 441 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          REAL(kind=c_float), INTENT(IN), VALUE :: c_alpha_scalar
+# 444 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_last_column
          TYPE(dbcsr_type), POINTER :: matrix_a
 
@@ -831,11 +1013,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_by_vector_s (c_matrix_a, c_alpha, c_alpha_size, c_side) &
+# 453 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_by_vector_s")
+# 454 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_alpha_size
          REAL(kind=c_float), INTENT(IN) :: c_alpha(c_alpha_size)
+# 458 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(IN), VALUE :: c_side
          TYPE(dbcsr_type), POINTER :: matrix_a
          CHARACTER(:, kind=c_char), ALLOCATABLE  :: side
@@ -847,14 +1032,17 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_multiply_s (c_transa, c_transb, &
+# 469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                 c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, &
                                                 c_first_row, c_last_row, c_first_column, c_last_column, &
                                                 c_first_k, c_last_k, &
                                                 c_retain_sparsity, c_filter_eps, c_flop) &
          BIND(C, name="c_dbcsr_multiply_s")
+# 474 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CHARACTER(kind=c_char), INTENT(in), value :: c_transa, c_transb
          REAL(kind=c_float), INTENT(in), value :: c_alpha, c_beta
+# 477 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(in), VALUE :: c_matrix_a, c_matrix_b, c_matrix_c
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_first_row, c_last_row, &
                                                       c_first_column, c_last_column, &
@@ -870,39 +1058,63 @@ ENDIF
 # 490 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_row = c_first_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_row = c_last_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_column = c_first_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_column = c_last_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_k = c_first_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_k = c_last_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 497 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -927,25 +1139,34 @@ ENDIF
 
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) DEALLOCATE (first_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) DEALLOCATE (last_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) DEALLOCATE (first_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) DEALLOCATE (last_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) DEALLOCATE (first_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) DEALLOCATE (last_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 520 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_on_diag_s (c_matrix, c_alpha_scalar) &
+# 524 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_on_diag_s")
+# 525 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          REAL(kind=c_float), INTENT(IN) :: c_alpha_scalar
+# 528 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -953,11 +1174,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_set_diag_s (c_matrix, c_diag, c_diag_size) &
+# 535 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_diag_s")
+# 536 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          REAL(kind=c_float), INTENT(IN) :: c_diag(c_diag_size)
+# 540 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -965,11 +1189,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_diag_s (c_matrix, c_diag, c_diag_size) &
+# 547 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_diag_s")
+# 548 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          REAL(kind=c_float), INTENT(INOUT) :: c_diag(c_diag_size)
+# 552 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -977,10 +1204,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_trace_s (c_matrix_a, c_trace) &
+# 559 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_trace_s")
+# 560 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          REAL(kind=c_float), INTENT(OUT) :: c_trace
+# 563 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -988,10 +1218,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_dot_s (c_matrix_a, c_matrix_b, c_result) &
+# 570 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_dot_s")
+# 571 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          REAL(kind=c_float), INTENT(INOUT) :: c_result
+# 574 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1000,8 +1233,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_p_s (c_matrix, c_row, c_col, c_block, &
+# 582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_tr, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_p_s")
+# 584 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1011,6 +1246,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_float), DIMENSION(:), POINTER :: block
+# 593 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: tr, found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1025,8 +1261,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_notrans_p_s (c_matrix, c_row, c_col, &
+# 607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                            c_block, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_notrans_p_s")
+# 609 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1036,6 +1274,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_float), DIMENSION(:), POINTER :: block
+# 618 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1051,10 +1290,13 @@ ENDIF
 # 412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_set_z (c_matrix, c_alpha) &
+# 414 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_z")
+# 415 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          COMPLEX(kind=c_double_complex), INTENT(IN), VALUE :: c_alpha
+# 418 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1064,10 +1306,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_z (c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) &
+# 427 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_z")
+# 428 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          COMPLEX(kind=c_double_complex), INTENT(IN), VALUE :: c_alpha_scalar, c_beta_scalar
+# 431 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1077,10 +1322,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_z (c_matrix_a, c_alpha_scalar, c_last_column) &
+# 440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_z")
+# 441 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          COMPLEX(kind=c_double_complex), INTENT(IN), VALUE :: c_alpha_scalar
+# 444 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_last_column
          TYPE(dbcsr_type), POINTER :: matrix_a
 
@@ -1090,11 +1338,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_by_vector_z (c_matrix_a, c_alpha, c_alpha_size, c_side) &
+# 453 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_by_vector_z")
+# 454 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_alpha_size
          COMPLEX(kind=c_double_complex), INTENT(IN) :: c_alpha(c_alpha_size)
+# 458 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(IN), VALUE :: c_side
          TYPE(dbcsr_type), POINTER :: matrix_a
          CHARACTER(:, kind=c_char), ALLOCATABLE  :: side
@@ -1106,14 +1357,17 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_multiply_z (c_transa, c_transb, &
+# 469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                 c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, &
                                                 c_first_row, c_last_row, c_first_column, c_last_column, &
                                                 c_first_k, c_last_k, &
                                                 c_retain_sparsity, c_filter_eps, c_flop) &
          BIND(C, name="c_dbcsr_multiply_z")
+# 474 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CHARACTER(kind=c_char), INTENT(in), value :: c_transa, c_transb
          COMPLEX(kind=c_double_complex), INTENT(in), value :: c_alpha, c_beta
+# 477 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(in), VALUE :: c_matrix_a, c_matrix_b, c_matrix_c
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_first_row, c_last_row, &
                                                       c_first_column, c_last_column, &
@@ -1129,39 +1383,63 @@ ENDIF
 # 490 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_row = c_first_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_row = c_last_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_column = c_first_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_column = c_last_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_k = c_first_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_k = c_last_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 497 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -1186,25 +1464,34 @@ ENDIF
 
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) DEALLOCATE (first_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) DEALLOCATE (last_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) DEALLOCATE (first_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) DEALLOCATE (last_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) DEALLOCATE (first_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) DEALLOCATE (last_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 520 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_on_diag_z (c_matrix, c_alpha_scalar) &
+# 524 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_on_diag_z")
+# 525 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          COMPLEX(kind=c_double_complex), INTENT(IN) :: c_alpha_scalar
+# 528 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1212,11 +1499,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_set_diag_z (c_matrix, c_diag, c_diag_size) &
+# 535 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_diag_z")
+# 536 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          COMPLEX(kind=c_double_complex), INTENT(IN) :: c_diag(c_diag_size)
+# 540 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1224,11 +1514,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_diag_z (c_matrix, c_diag, c_diag_size) &
+# 547 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_diag_z")
+# 548 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          COMPLEX(kind=c_double_complex), INTENT(INOUT) :: c_diag(c_diag_size)
+# 552 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1236,10 +1529,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_trace_z (c_matrix_a, c_trace) &
+# 559 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_trace_z")
+# 560 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          COMPLEX(kind=c_double_complex), INTENT(OUT) :: c_trace
+# 563 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1247,10 +1543,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_dot_z (c_matrix_a, c_matrix_b, c_result) &
+# 570 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_dot_z")
+# 571 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          COMPLEX(kind=c_double_complex), INTENT(INOUT) :: c_result
+# 574 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1259,8 +1558,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_p_z (c_matrix, c_row, c_col, c_block, &
+# 582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_tr, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_p_z")
+# 584 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1270,6 +1571,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_double_complex), DIMENSION(:), POINTER :: block
+# 593 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: tr, found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1284,8 +1586,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_notrans_p_z (c_matrix, c_row, c_col, &
+# 607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                            c_block, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_notrans_p_z")
+# 609 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1295,6 +1599,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_double_complex), DIMENSION(:), POINTER :: block
+# 618 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1310,10 +1615,13 @@ ENDIF
 # 412 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_set_c (c_matrix, c_alpha) &
+# 414 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_c")
+# 415 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          COMPLEX(kind=c_float_complex), INTENT(IN), VALUE :: c_alpha
+# 418 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1323,10 +1631,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_c (c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar) &
+# 427 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_c")
+# 428 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          COMPLEX(kind=c_float_complex), INTENT(IN), VALUE :: c_alpha_scalar, c_beta_scalar
+# 431 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1336,10 +1647,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_c (c_matrix_a, c_alpha_scalar, c_last_column) &
+# 440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_c")
+# 441 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          COMPLEX(kind=c_float_complex), INTENT(IN), VALUE :: c_alpha_scalar
+# 444 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_last_column
          TYPE(dbcsr_type), POINTER :: matrix_a
 
@@ -1349,11 +1663,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_scale_by_vector_c (c_matrix_a, c_alpha, c_alpha_size, c_side) &
+# 453 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_scale_by_vector_c")
+# 454 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_alpha_size
          COMPLEX(kind=c_float_complex), INTENT(IN) :: c_alpha(c_alpha_size)
+# 458 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(IN), VALUE :: c_side
          TYPE(dbcsr_type), POINTER :: matrix_a
          CHARACTER(:, kind=c_char), ALLOCATABLE  :: side
@@ -1365,14 +1682,17 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_multiply_c (c_transa, c_transb, &
+# 469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                 c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, &
                                                 c_first_row, c_last_row, c_first_column, c_last_column, &
                                                 c_first_k, c_last_k, &
                                                 c_retain_sparsity, c_filter_eps, c_flop) &
          BIND(C, name="c_dbcsr_multiply_c")
+# 474 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CHARACTER(kind=c_char), INTENT(in), value :: c_transa, c_transb
          COMPLEX(kind=c_float_complex), INTENT(in), value :: c_alpha, c_beta
+# 477 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(c_ptr), INTENT(in), VALUE :: c_matrix_a, c_matrix_b, c_matrix_c
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_first_row, c_last_row, &
                                                       c_first_column, c_last_column, &
@@ -1388,39 +1708,63 @@ ENDIF
 # 490 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_row = c_first_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_row)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_row)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_row = c_last_row+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_column = c_first_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_column)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_column)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_column = c_last_column+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (first_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (first_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                first_k = c_first_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (last_k)
+# 492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) THEN
+# 493 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (last_k)
+# 494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                last_k = c_last_k+1
+# 495 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 497 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -1445,25 +1789,34 @@ ENDIF
 
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_row)) DEALLOCATE (first_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_row)) DEALLOCATE (last_row)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_column)) DEALLOCATE (first_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_column)) DEALLOCATE (last_column)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_first_k)) DEALLOCATE (first_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 518 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_last_k)) DEALLOCATE (last_k)
+# 519 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 520 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_add_on_diag_c (c_matrix, c_alpha_scalar) &
+# 524 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_add_on_diag_c")
+# 525 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          COMPLEX(kind=c_float_complex), INTENT(IN) :: c_alpha_scalar
+# 528 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1471,11 +1824,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_set_diag_c (c_matrix, c_diag, c_diag_size) &
+# 535 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_set_diag_c")
+# 536 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          COMPLEX(kind=c_float_complex), INTENT(IN) :: c_diag(c_diag_size)
+# 540 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1483,11 +1839,14 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_diag_c (c_matrix, c_diag, c_diag_size) &
+# 547 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_diag_c")
+# 548 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_diag_size
          COMPLEX(kind=c_float_complex), INTENT(INOUT) :: c_diag(c_diag_size)
+# 552 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1495,10 +1854,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_trace_c (c_matrix_a, c_trace) &
+# 559 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_trace_c")
+# 560 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
          COMPLEX(kind=c_float_complex), INTENT(OUT) :: c_trace
+# 563 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1506,10 +1868,13 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_dot_c (c_matrix_a, c_matrix_b, c_result) &
+# 570 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_dot_c")
+# 571 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b
          COMPLEX(kind=c_float_complex), INTENT(INOUT) :: c_result
+# 574 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b
 
          CALL c_f_pointer(c_matrix_a, matrix_a)
@@ -1518,8 +1883,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_p_c (c_matrix, c_row, c_col, c_block, &
+# 582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_tr, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_p_c")
+# 584 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1529,6 +1896,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_float_complex), DIMENSION(:), POINTER :: block
+# 593 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: tr, found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1543,8 +1911,10 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_block_notrans_p_c (c_matrix, c_row, c_col, &
+# 607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                            c_block, c_found, c_row_size, c_col_size) &
          BIND(C, name="c_dbcsr_get_block_notrans_p_c")
+# 609 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -1554,6 +1924,7 @@ ENDIF
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_float_complex), DIMENSION(:), POINTER :: block
+# 618 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: found
 
          CALL c_f_pointer(c_matrix, matrix)
@@ -1583,15 +1954,23 @@ ENDIF
 # 645 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 646 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (keep_sparsity)
+# 647 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_keep_sparsity)) THEN
+# 648 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (keep_sparsity)
+# 649 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             keep_sparsity = c_keep_sparsity
+# 650 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 646 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (summation)
+# 647 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_summation)) THEN
+# 648 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (summation)
+# 649 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             summation = c_summation
+# 650 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 652 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -1613,22 +1992,32 @@ ENDIF
 # 669 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 670 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (use_absolute)
+# 671 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_use_absolute)) THEN
+# 672 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (use_absolute)
+# 673 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             use_absolute = c_use_absolute
+# 674 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 670 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (filter_diag)
+# 671 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_filter_diag)) THEN
+# 672 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (filter_diag)
+# 673 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             filter_diag = c_filter_diag
+# 674 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 676 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       CALL dbcsr_filter(matrix, c_eps, c_method, use_absolute, filter_diag)
 # 678 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
+# 679 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 678 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(filter_diag)) DEALLOCATE (filter_diag)
+# 679 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 680 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
    END SUBROUTINE
 
@@ -1672,21 +2061,33 @@ ENDIF
 # 720 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 721 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (shallow_data_copy)
+# 722 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_shallow_data_copy)) THEN
+# 723 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (shallow_data_copy)
+# 724 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             shallow_data_copy = c_shallow_data_copy
+# 725 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 721 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (transpose_data)
+# 722 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_transpose_data)) THEN
+# 723 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (transpose_data)
+# 724 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             transpose_data = c_transpose_data
+# 725 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 721 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (transpose_distribution)
+# 722 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_transpose_distribution)) THEN
+# 723 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (transpose_distribution)
+# 724 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             transpose_distribution = c_transpose_distribution
+# 725 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 727 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -1697,10 +2098,13 @@ ENDIF
 
 # 734 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(shallow_data_copy)) DEALLOCATE (shallow_data_copy)
+# 735 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 734 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(transpose_data)) DEALLOCATE (transpose_data)
+# 735 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 734 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(transpose_distribution)) DEALLOCATE (transpose_distribution)
+# 735 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 736 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
    END SUBROUTINE
@@ -1733,21 +2137,33 @@ ENDIF
 # 765 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 766 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (keep_sparsity)
+# 767 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_keep_sparsity)) THEN
+# 768 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (keep_sparsity)
+# 769 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             keep_sparsity = c_keep_sparsity
+# 770 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 766 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (shallow_data)
+# 767 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_shallow_data)) THEN
+# 768 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (shallow_data)
+# 769 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             shallow_data = c_shallow_data
+# 770 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 766 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (keep_imaginary)
+# 767 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_keep_imaginary)) THEN
+# 768 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (keep_imaginary)
+# 769 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             keep_imaginary = c_keep_imaginary
+# 770 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 772 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -1756,10 +2172,13 @@ ENDIF
 
 # 777 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(keep_sparsity)) DEALLOCATE (keep_sparsity)
+# 778 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 777 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(shallow_data)) DEALLOCATE (shallow_data)
+# 778 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 777 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(keep_imaginary)) DEALLOCATE (keep_imaginary)
+# 778 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 779 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       IF (.NOT. C_ASSOCIATED(c_matrix_b)) c_matrix_b = c_loc(matrix_b)
 
@@ -1849,17 +2268,21 @@ ENDIF
 # 865 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_reserve_block2d_d (c_matrix, c_row, c_col, &
+# 867 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                        c_block, c_row_size, c_col_size, c_transposed, c_existed) &
          BIND(C, name="c_dbcsr_reserve_block2d_d")
+# 869 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN) :: c_row, c_col, c_row_size, c_col_size
          REAL(kind=c_double), INTENT(IN), DIMENSION(c_row_size, c_col_size), TARGET :: c_block
+# 873 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_transposed
          LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_existed
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 878 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL, POINTER :: transposed
          LOGICAL, POINTER :: existed
 
@@ -1880,17 +2303,21 @@ ENDIF
 # 865 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_reserve_block2d_s (c_matrix, c_row, c_col, &
+# 867 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                        c_block, c_row_size, c_col_size, c_transposed, c_existed) &
          BIND(C, name="c_dbcsr_reserve_block2d_s")
+# 869 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN) :: c_row, c_col, c_row_size, c_col_size
          REAL(kind=c_float), INTENT(IN), DIMENSION(c_row_size, c_col_size), TARGET :: c_block
+# 873 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_transposed
          LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_existed
 
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 878 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL, POINTER :: transposed
          LOGICAL, POINTER :: existed
 
@@ -1911,17 +2338,21 @@ ENDIF
 # 865 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_reserve_block2d_z (c_matrix, c_row, c_col, &
+# 867 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                        c_block, c_row_size, c_col_size, c_transposed, c_existed) &
          BIND(C, name="c_dbcsr_reserve_block2d_z")
+# 869 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN) :: c_row, c_col, c_row_size, c_col_size
          COMPLEX(kind=c_double_complex), INTENT(IN), DIMENSION(c_row_size, c_col_size), TARGET :: c_block
+# 873 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_transposed
          LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_existed
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 878 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL, POINTER :: transposed
          LOGICAL, POINTER :: existed
 
@@ -1942,17 +2373,21 @@ ENDIF
 # 865 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       SUBROUTINE c_dbcsr_reserve_block2d_c (c_matrix, c_row, c_col, &
+# 867 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                        c_block, c_row_size, c_col_size, c_transposed, c_existed) &
          BIND(C, name="c_dbcsr_reserve_block2d_c")
+# 869 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN) :: c_row, c_col, c_row_size, c_col_size
          COMPLEX(kind=c_float_complex), INTENT(IN), DIMENSION(c_row_size, c_col_size), TARGET :: c_block
+# 873 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_transposed
          LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_existed
 
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 878 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL, POINTER :: transposed
          LOGICAL, POINTER :: existed
 
@@ -2013,33 +2448,53 @@ ENDIF
 # 936 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 937 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (shared)
+# 938 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_shared)) THEN
+# 939 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (shared)
+# 940 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             shared = c_shared
+# 941 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 937 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (dynamic)
+# 938 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_dynamic)) THEN
+# 939 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (dynamic)
+# 940 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             dynamic = c_dynamic
+# 941 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 937 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (dynamic_byrows)
+# 938 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_dynamic_byrows)) THEN
+# 939 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (dynamic_byrows)
+# 940 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             dynamic_byrows = c_dynamic_byrows
+# 941 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 937 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (contiguous_pointers)
+# 938 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_contiguous_pointers)) THEN
+# 939 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (contiguous_pointers)
+# 940 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             contiguous_pointers = c_contiguous_pointers
+# 941 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 937 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (read_only)
+# 938 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_read_only)) THEN
+# 939 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (read_only)
+# 940 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             read_only = c_read_only
+# 941 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 943 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2049,14 +2504,19 @@ ENDIF
       c_iterator = c_loc(iterator)
 # 949 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(shared)) DEALLOCATE (shared)
+# 950 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 949 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(dynamic)) DEALLOCATE (dynamic)
+# 950 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 949 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(dynamic_byrows)) DEALLOCATE (dynamic_byrows)
+# 950 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 949 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(contiguous_pointers)) DEALLOCATE (contiguous_pointers)
+# 950 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 949 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(read_only)) DEALLOCATE (read_only)
+# 950 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 951 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
    END SUBROUTINE
@@ -2091,9 +2551,11 @@ ENDIF
 
 # 983 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_iterator_next_2d_block_d (c_iterator, c_row, c_column, c_block, &
+# 984 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                               c_transposed, c_block_number, &
                                                               c_row_size, c_col_size, c_row_offset, c_col_offset) &
          BIND(C, name="c_dbcsr_iterator_next_2d_block_d")
+# 987 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
          INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column
@@ -2104,6 +2566,7 @@ ENDIF
                                                        c_col_offset
          TYPE(dbcsr_iterator_type), POINTER :: iterator
          REAL(kind=c_double), DIMENSION(:, :), POINTER :: block
+# 997 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: transposed
 
          CALL c_f_pointer(c_iterator, iterator)
@@ -2125,9 +2588,11 @@ ENDIF
       END SUBROUTINE
 # 983 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_iterator_next_2d_block_s (c_iterator, c_row, c_column, c_block, &
+# 984 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                               c_transposed, c_block_number, &
                                                               c_row_size, c_col_size, c_row_offset, c_col_offset) &
          BIND(C, name="c_dbcsr_iterator_next_2d_block_s")
+# 987 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
          INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column
@@ -2138,6 +2603,7 @@ ENDIF
                                                        c_col_offset
          TYPE(dbcsr_iterator_type), POINTER :: iterator
          REAL(kind=c_float), DIMENSION(:, :), POINTER :: block
+# 997 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: transposed
 
          CALL c_f_pointer(c_iterator, iterator)
@@ -2159,9 +2625,11 @@ ENDIF
       END SUBROUTINE
 # 983 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_iterator_next_2d_block_z (c_iterator, c_row, c_column, c_block, &
+# 984 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                               c_transposed, c_block_number, &
                                                               c_row_size, c_col_size, c_row_offset, c_col_offset) &
          BIND(C, name="c_dbcsr_iterator_next_2d_block_z")
+# 987 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
          INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column
@@ -2172,6 +2640,7 @@ ENDIF
                                                        c_col_offset
          TYPE(dbcsr_iterator_type), POINTER :: iterator
          COMPLEX(kind=c_double_complex), DIMENSION(:, :), POINTER :: block
+# 997 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: transposed
 
          CALL c_f_pointer(c_iterator, iterator)
@@ -2193,9 +2662,11 @@ ENDIF
       END SUBROUTINE
 # 983 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_iterator_next_2d_block_c (c_iterator, c_row, c_column, c_block, &
+# 984 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                               c_transposed, c_block_number, &
                                                               c_row_size, c_col_size, c_row_offset, c_col_offset) &
          BIND(C, name="c_dbcsr_iterator_next_2d_block_c")
+# 987 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
          INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column
@@ -2206,6 +2677,7 @@ ENDIF
                                                        c_col_offset
          TYPE(dbcsr_iterator_type), POINTER :: iterator
          COMPLEX(kind=c_float_complex), DIMENSION(:, :), POINTER :: block
+# 997 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL :: transposed
 
          CALL c_f_pointer(c_iterator, iterator)
@@ -2243,14 +2715,18 @@ ENDIF
 
 # 1033 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_put_block2d_d (c_matrix, c_row, c_col, c_block, &
+# 1034 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_row_size, c_col_size, c_summation, c_scale) &
          BIND(C, name="c_dbcsr_put_block2d_d")
+# 1036 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col, c_row_size, c_col_size
          REAL(kind=c_double), INTENT(IN) :: c_block(c_row_size, c_col_size)
+# 1040 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_summation
          REAL(kind=c_double), INTENT(IN), OPTIONAL :: c_scale
+# 1042 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(dbcsr_type), POINTER :: matrix
          LOGICAL :: summation
@@ -2266,30 +2742,42 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_data_d (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) &
+# 1057 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_data_d")
+# 1058 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          TYPE(c_ptr), INTENT(OUT) :: c_data
          INTEGER(kind=c_long_long), INTENT(OUT) :: c_data_size
          REAL(kind=c_double), INTENT(IN) :: c_select_data_type
+# 1063 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
          INTEGER(kind=c_int), POINTER :: lb, ub
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_double), DIMENSION(:), POINTER :: data
+# 1067 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL c_f_pointer(c_matrix, matrix)
 # 1070 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (lb)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_lb)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (lb)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                lb = c_lb+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (ub)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_ub)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (ub)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ub = c_ub+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1077 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2301,14 +2789,18 @@ ENDIF
 
 # 1033 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_put_block2d_s (c_matrix, c_row, c_col, c_block, &
+# 1034 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_row_size, c_col_size, c_summation, c_scale) &
          BIND(C, name="c_dbcsr_put_block2d_s")
+# 1036 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col, c_row_size, c_col_size
          REAL(kind=c_float), INTENT(IN) :: c_block(c_row_size, c_col_size)
+# 1040 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_summation
          REAL(kind=c_float), INTENT(IN), OPTIONAL :: c_scale
+# 1042 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(dbcsr_type), POINTER :: matrix
          LOGICAL :: summation
@@ -2324,30 +2816,42 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_data_s (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) &
+# 1057 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_data_s")
+# 1058 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          TYPE(c_ptr), INTENT(OUT) :: c_data
          INTEGER(kind=c_long_long), INTENT(OUT) :: c_data_size
          REAL(kind=c_float), INTENT(IN) :: c_select_data_type
+# 1063 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
          INTEGER(kind=c_int), POINTER :: lb, ub
          TYPE(dbcsr_type), POINTER :: matrix
          REAL(kind=c_float), DIMENSION(:), POINTER :: data
+# 1067 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL c_f_pointer(c_matrix, matrix)
 # 1070 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (lb)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_lb)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (lb)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                lb = c_lb+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (ub)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_ub)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (ub)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ub = c_ub+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1077 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2359,14 +2863,18 @@ ENDIF
 
 # 1033 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_put_block2d_z (c_matrix, c_row, c_col, c_block, &
+# 1034 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_row_size, c_col_size, c_summation, c_scale) &
          BIND(C, name="c_dbcsr_put_block2d_z")
+# 1036 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col, c_row_size, c_col_size
          COMPLEX(kind=c_double_complex), INTENT(IN) :: c_block(c_row_size, c_col_size)
+# 1040 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_summation
          COMPLEX(kind=c_double_complex), INTENT(IN), OPTIONAL :: c_scale
+# 1042 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(dbcsr_type), POINTER :: matrix
          LOGICAL :: summation
@@ -2382,30 +2890,42 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_data_z (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) &
+# 1057 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_data_z")
+# 1058 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          TYPE(c_ptr), INTENT(OUT) :: c_data
          INTEGER(kind=c_long_long), INTENT(OUT) :: c_data_size
          COMPLEX(kind=c_double_complex), INTENT(IN) :: c_select_data_type
+# 1063 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
          INTEGER(kind=c_int), POINTER :: lb, ub
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_double_complex), DIMENSION(:), POINTER :: data
+# 1067 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL c_f_pointer(c_matrix, matrix)
 # 1070 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (lb)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_lb)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (lb)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                lb = c_lb+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (ub)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_ub)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (ub)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ub = c_ub+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1077 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2417,14 +2937,18 @@ ENDIF
 
 # 1033 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_put_block2d_c (c_matrix, c_row, c_col, c_block, &
+# 1034 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                                    c_row_size, c_col_size, c_summation, c_scale) &
          BIND(C, name="c_dbcsr_put_block2d_c")
+# 1036 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col, c_row_size, c_col_size
          COMPLEX(kind=c_float_complex), INTENT(IN) :: c_block(c_row_size, c_col_size)
+# 1040 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_summation
          COMPLEX(kind=c_float_complex), INTENT(IN), OPTIONAL :: c_scale
+# 1042 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(dbcsr_type), POINTER :: matrix
          LOGICAL :: summation
@@ -2440,30 +2964,42 @@ ENDIF
       END SUBROUTINE
 
       SUBROUTINE c_dbcsr_get_data_c (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) &
+# 1057 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          BIND(C, name="c_dbcsr_get_data_c")
+# 1058 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          TYPE(c_ptr), INTENT(OUT) :: c_data
          INTEGER(kind=c_long_long), INTENT(OUT) :: c_data_size
          COMPLEX(kind=c_float_complex), INTENT(IN) :: c_select_data_type
+# 1063 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
          INTEGER(kind=c_int), POINTER :: lb, ub
          TYPE(dbcsr_type), POINTER :: matrix
          COMPLEX(kind=c_float_complex), DIMENSION(:), POINTER :: data
+# 1067 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL c_f_pointer(c_matrix, matrix)
 # 1070 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (lb)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_lb)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (lb)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                lb = c_lb+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1071 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (ub)
+# 1072 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             IF (PRESENT(c_ub)) THEN
+# 1073 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ALLOCATE (ub)
+# 1074 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                ub = c_ub+1
+# 1075 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END IF
 # 1077 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2596,22 +3132,32 @@ ENDIF
 # 1205 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1206 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (local)
+# 1207 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_local)) THEN
+# 1208 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (local)
+# 1209 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             local = c_local
+# 1210 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1206 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (pos)
+# 1207 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_pos)) THEN
+# 1208 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (pos)
+# 1209 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             pos = c_pos
+# 1210 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1212 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       c_checksum = dbcsr_checksum(matrix, local, pos)
 # 1214 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(local)) DEALLOCATE (local)
+# 1215 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1214 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (ASSOCIATED(pos)) DEALLOCATE (pos)
+# 1215 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1216 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
    END FUNCTION
 
@@ -2818,6 +3364,7 @@ ENDIF
 # 1422 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1423 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       
+# 1424 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1429 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -2828,6 +3375,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. C_ASSOCIATED(c_row_blk_size) .AND. C_ASSOCIATED(c_col_blk_size) .AND.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_row_blk_offset) .AND. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2839,6 +3387,7 @@ ENDIF
                                  & proc_col_dist, row_blk_size = row_blk_size, col_blk_size = col_blk_size, row_blk_offset =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & row_blk_offset, col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2847,6 +3396,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_size) .AND. C_ASSOCIATED(c_row_blk_offset) .AND. C_ASSOCIATED(c_col_blk_offset) .AND. .NOT.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_local_rows) .AND. .NOT. C_ASSOCIATED(c_local_cols)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2856,6 +3406,7 @@ ENDIF
                              , proc_row_dist = proc_row_dist, proc_col_dist = proc_col_dist, row_blk_size = row_blk_size,&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_size = col_blk_size, row_blk_offset = row_blk_offset, col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2864,6 +3415,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_size) .AND. C_ASSOCIATED(c_row_blk_offset) .AND. C_ASSOCIATED(c_col_blk_offset) .AND. .NOT.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_proc_row_dist) .AND. .NOT. C_ASSOCIATED(c_proc_col_dist)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2873,6 +3425,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, row_blk_size = row_blk_size, col_blk_size =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_size, row_blk_offset = row_blk_offset, col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2881,6 +3434,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_offset) .AND. .NOT. C_ASSOCIATED(c_local_rows) .AND. .NOT. C_ASSOCIATED(c_local_cols) .AND.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .NOT. C_ASSOCIATED(c_proc_row_dist) .AND. .NOT. C_ASSOCIATED(c_proc_col_dist)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2890,6 +3444,7 @@ ENDIF
                              , row_blk_size = row_blk_size, col_blk_size = col_blk_size, row_blk_offset = row_blk_offset,&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2898,6 +3453,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. C_ASSOCIATED(c_row_blk_offset) .AND. C_ASSOCIATED(c_col_blk_offset) .AND. .NOT.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2907,6 +3463,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, proc_row_dist = proc_row_dist, proc_col_dist =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & proc_col_dist, row_blk_offset = row_blk_offset, col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2915,6 +3472,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_offset) .AND. .NOT. C_ASSOCIATED(c_local_rows) .AND. .NOT. C_ASSOCIATED(c_local_cols) .AND.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2924,6 +3482,7 @@ ENDIF
                              , proc_row_dist = proc_row_dist, proc_col_dist = proc_col_dist, row_blk_offset = row_blk_offset,&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2932,6 +3491,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_offset) .AND. .NOT. C_ASSOCIATED(c_proc_row_dist) .AND. .NOT. C_ASSOCIATED(c_proc_col_dist)&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .AND. .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2941,6 +3501,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, row_blk_offset = row_blk_offset, col_blk_offset =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2951,6 +3512,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size))&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2958,6 +3520,7 @@ ENDIF
                              c_nfullrows_local, c_nfullcols_local, &
                              c_my_prow, c_my_pcol &
                              , row_blk_offset = row_blk_offset, col_blk_offset = col_blk_offset, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2966,6 +3529,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. C_ASSOCIATED(c_row_blk_size) .AND. C_ASSOCIATED(c_col_blk_size) .AND. .NOT.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2975,6 +3539,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, proc_row_dist = proc_row_dist, proc_col_dist =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & proc_col_dist, row_blk_size = row_blk_size, col_blk_size = col_blk_size, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -2983,6 +3548,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_size) .AND. .NOT. C_ASSOCIATED(c_local_rows) .AND. .NOT. C_ASSOCIATED(c_local_cols) .AND.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -2992,6 +3558,7 @@ ENDIF
                              , proc_row_dist = proc_row_dist, proc_col_dist = proc_col_dist, row_blk_size = row_blk_size,&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_size = col_blk_size, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3000,6 +3567,7 @@ ENDIF
              & C_ASSOCIATED(c_col_blk_size) .AND. .NOT. C_ASSOCIATED(c_proc_row_dist) .AND. .NOT. C_ASSOCIATED(c_proc_col_dist)&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .AND. .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3009,6 +3577,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, row_blk_size = row_blk_size, col_blk_size =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & col_blk_size, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3019,6 +3588,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT.&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3026,6 +3596,7 @@ ENDIF
                              c_nfullrows_local, c_nfullcols_local, &
                              c_my_prow, c_my_pcol &
                              , row_blk_size = row_blk_size, col_blk_size = col_blk_size, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3034,6 +3605,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .AND. .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3043,6 +3615,7 @@ ENDIF
                              , local_rows = local_rows, local_cols = local_cols, proc_row_dist = proc_row_dist, proc_col_dist =&
 # 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                                  & proc_col_dist, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3051,6 +3624,7 @@ ENDIF
              & .NOT. C_ASSOCIATED(c_local_cols) .AND. .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .AND. .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3058,6 +3632,7 @@ ENDIF
                              c_nfullrows_local, c_nfullcols_local, &
                              c_my_prow, c_my_pcol &
                              , proc_row_dist = proc_row_dist, proc_col_dist = proc_col_dist, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3066,6 +3641,7 @@ ENDIF
              & C_ASSOCIATED(c_proc_col_dist) .AND. .NOT. C_ASSOCIATED(c_row_blk_size) .AND. .NOT. C_ASSOCIATED(c_col_blk_size)&
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
              & .AND. .NOT. C_ASSOCIATED(c_row_blk_offset) .AND. .NOT. C_ASSOCIATED(c_col_blk_offset)) THEN 
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3073,10 +3649,12 @@ ENDIF
                              c_nfullrows_local, c_nfullcols_local, &
                              c_my_prow, c_my_pcol &
                              , local_rows = local_rows, local_cols = local_cols, &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1432 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE
+# 1433 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                              c_nfullrows_total, c_nfullcols_total, &
@@ -3084,10 +3662,12 @@ ENDIF
                              c_nfullrows_local, c_nfullcols_local, &
                              c_my_prow, c_my_pcol &
                              , &
+# 1440 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                              matrix_type=c_matrix_type, data_type=c_data_type, &
                              group=c_group)
 # 1443 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 ENDIF
+# 1444 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       ! now take care of name and dist
 
@@ -3107,67 +3687,99 @@ ENDIF
 # 1462 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_local_rows)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_local_rows, f_local_rows, SHAPE(local_rows))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1466 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_local_rows = local_rows-1
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (local_rows)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_local_cols)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_local_cols, f_local_cols, SHAPE(local_cols))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1466 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_local_cols = local_cols-1
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (local_cols)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_proc_row_dist)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_proc_row_dist, f_proc_row_dist, SHAPE(proc_row_dist))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1468 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_proc_row_dist = proc_row_dist
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (proc_row_dist)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_proc_col_dist)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_proc_col_dist, f_proc_col_dist, SHAPE(proc_col_dist))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1468 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_proc_col_dist = proc_col_dist
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (proc_col_dist)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_row_blk_size)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_row_blk_size, f_row_blk_size, SHAPE(row_blk_size))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1468 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_row_blk_size = row_blk_size
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (row_blk_size)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_col_blk_size)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_col_blk_size, f_col_blk_size, SHAPE(col_blk_size))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1468 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_col_blk_size = col_blk_size
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (col_blk_size)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_row_blk_offset)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_row_blk_offset, f_row_blk_offset, SHAPE(row_blk_offset))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1466 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_row_blk_offset = row_blk_offset-1
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (row_blk_offset)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1463 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (C_ASSOCIATED(c_col_blk_offset)) THEN
+# 1464 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             CALL c_f_pointer(c_col_blk_offset, f_col_blk_offset, SHAPE(col_blk_offset))
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1466 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
                f_col_blk_offset = col_blk_offset-1
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1470 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             NULLIFY (col_blk_offset)
+# 1471 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1473 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
@@ -3176,186 +3788,242 @@ ENDIF
 # 1478 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_local_rows (c_matrix, c_local_rows, c_size) BIND(C, name="c_dbcsr_get_local_rows")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_local_rows
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: local_rows
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (local_rows)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, local_rows=local_rows)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_local_rows (i) = local_rows (i) - 1
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (local_rows)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_local_cols (c_matrix, c_local_cols, c_size) BIND(C, name="c_dbcsr_get_local_cols")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_local_cols
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: local_cols
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (local_cols)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, local_cols=local_cols)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_local_cols (i) = local_cols (i) - 1
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (local_cols)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_proc_row_dist (c_matrix, c_proc_row_dist, c_size) BIND(C, name="c_dbcsr_get_proc_row_dist")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_proc_row_dist
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: proc_row_dist
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (proc_row_dist)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, proc_row_dist=proc_row_dist)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_proc_row_dist (i) = proc_row_dist (i)
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (proc_row_dist)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_proc_col_dist (c_matrix, c_proc_col_dist, c_size) BIND(C, name="c_dbcsr_get_proc_col_dist")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_proc_col_dist
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: proc_col_dist
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (proc_col_dist)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, proc_col_dist=proc_col_dist)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_proc_col_dist (i) = proc_col_dist (i)
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (proc_col_dist)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_row_blk_size (c_matrix, c_row_blk_size, c_size) BIND(C, name="c_dbcsr_get_row_blk_size")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_row_blk_size
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: row_blk_size
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (row_blk_size)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, row_blk_size=row_blk_size)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_row_blk_size (i) = row_blk_size (i)
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (row_blk_size)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_col_blk_size (c_matrix, c_col_blk_size, c_size) BIND(C, name="c_dbcsr_get_col_blk_size")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_col_blk_size
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: col_blk_size
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (col_blk_size)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, col_blk_size=col_blk_size)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_col_blk_size (i) = col_blk_size (i)
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (col_blk_size)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_row_blk_offset (c_matrix, c_row_blk_offset, c_size) BIND(C, name="c_dbcsr_get_row_blk_offset")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_row_blk_offset
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: row_blk_offset
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (row_blk_offset)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, row_blk_offset=row_blk_offset)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_row_blk_offset (i) = row_blk_offset (i) - 1
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (row_blk_offset)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       SUBROUTINE c_dbcsr_get_col_blk_offset (c_matrix, c_col_blk_offset, c_size) BIND(C, name="c_dbcsr_get_col_blk_offset")
+# 1480 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
          INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
          INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_col_blk_offset
+# 1484 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          TYPE(dbcsr_type), POINTER :: matrix
          INTEGER(kind=c_int), DIMENSION(:), POINTER :: col_blk_offset
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          INTEGER :: i
 
          CALL c_f_pointer(c_matrix, matrix)
 
          NULLIFY (col_blk_offset)
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          CALL dbcsr_get_info(matrix=matrix, col_blk_offset=col_blk_offset)
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1494 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DO i = 1, c_size
                c_col_blk_offset (i) = col_blk_offset (i) - 1
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             END DO
 # 1502 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (col_blk_offset)
+# 1503 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
       END SUBROUTINE
 # 1506 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
@@ -3434,22 +4102,30 @@ ENDIF
 # 1579 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1580 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (has_threads)
+# 1581 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_has_threads)) THEN
+# 1582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (has_threads)
+# 1583 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1580 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          NULLIFY (subgroups_defined)
+# 1581 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_subgroups_defined)) THEN
+# 1582 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             ALLOCATE (subgroups_defined)
+# 1583 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1585 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1587 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1588 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
       
+# 1589 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF(PRESENT(c_row_dist) .AND. PRESENT(c_col_dist) .AND. PRESENT(c_pgrid)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3458,8 +4134,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , row_dist = row_dist, col_dist = col_dist, pgrid = pgrid)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_col_dist) .AND. PRESENT(c_pgrid) .AND. .NOT. PRESENT(c_row_dist)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3468,8 +4146,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , col_dist = col_dist, pgrid = pgrid)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_row_dist) .AND. PRESENT(c_pgrid) .AND. .NOT. PRESENT(c_col_dist)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3478,8 +4158,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , row_dist = row_dist, pgrid = pgrid)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_pgrid) .AND. .NOT. PRESENT(c_row_dist) .AND. .NOT. PRESENT(c_col_dist)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3488,8 +4170,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , pgrid = pgrid)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_row_dist) .AND. PRESENT(c_col_dist) .AND. .NOT. PRESENT(c_pgrid)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3498,8 +4182,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , row_dist = row_dist, col_dist = col_dist)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_col_dist) .AND. .NOT. PRESENT(c_row_dist) .AND. .NOT. PRESENT(c_pgrid)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3508,8 +4194,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , col_dist = col_dist)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE IF(PRESENT(c_row_dist) .AND. .NOT. PRESENT(c_col_dist) .AND. .NOT. PRESENT(c_pgrid)) THEN 
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3518,8 +4206,10 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      , row_dist = row_dist)
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1591 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          ELSE
+# 1592 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
          CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
                                      has_threads=has_threads, &
@@ -3528,32 +4218,46 @@ ENDIF
                                      subgroups_defined=subgroups_defined, &
                                      prow_group=c_prow_group, pcol_group=c_pcol_group &
                                      )
+# 1600 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1601 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 ENDIF
+# 1602 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 
 # 1604 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_has_threads)) THEN
+# 1605 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             c_has_threads = has_threads
+# 1606 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DEALLOCATE (has_threads)
+# 1607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1604 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_subgroups_defined)) THEN
+# 1605 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             c_subgroups_defined = subgroups_defined
+# 1606 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             DEALLOCATE (subgroups_defined)
+# 1607 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1609 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1610 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 # 1611 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_row_dist)) THEN
+# 1612 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             c_row_dist = c_loc(row_dist)
+# 1613 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1611 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_col_dist)) THEN
+# 1612 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             c_col_dist = c_loc(col_dist)
+# 1613 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1611 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          IF (PRESENT(c_pgrid)) THEN
+# 1612 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
             c_pgrid = c_loc(pgrid)
+# 1613 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
          END IF
 # 1615 "/__w/dbcsr/dbcsr/src/dbcsr_api_c.F"
 

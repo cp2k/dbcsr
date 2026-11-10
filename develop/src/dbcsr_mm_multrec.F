@@ -699,6 +699,7 @@ CONTAINS
 # 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_d (filter_eps, nblks, rowi, coli, blkp, &
+# 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                                                   rbs, cbs, nze, DATA)
      !! Applying in-place filtering on the workspace.
      !! \brief Use Frobenius norm
@@ -708,6 +709,7 @@ CONTAINS
          INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
          INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
          REAL(kind=real_8), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             INTENT(INOUT)                            :: DATA
 
          INTEGER                                    :: blk, lastblk, blk_nze, blk_p
@@ -737,6 +739,7 @@ CONTAINS
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
 # 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                nrm = REAL((DDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 735 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
@@ -753,9 +756,11 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_d
+# 753 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_s (filter_eps, nblks, rowi, coli, blkp, &
+# 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                                                   rbs, cbs, nze, DATA)
      !! Applying in-place filtering on the workspace.
      !! \brief Use Frobenius norm
@@ -765,6 +770,7 @@ CONTAINS
          INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
          INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
          REAL(kind=real_4), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             INTENT(INOUT)                            :: DATA
 
          INTEGER                                    :: blk, lastblk, blk_nze, blk_p
@@ -794,6 +800,7 @@ CONTAINS
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
 # 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                nrm = REAL((SDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 735 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
@@ -810,9 +817,11 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_s
+# 753 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_z (filter_eps, nblks, rowi, coli, blkp, &
+# 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                                                   rbs, cbs, nze, DATA)
      !! Applying in-place filtering on the workspace.
      !! \brief Use Frobenius norm
@@ -822,6 +831,7 @@ CONTAINS
          INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
          INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             INTENT(INOUT)                            :: DATA
 
          INTEGER                                    :: blk, lastblk, blk_nze, blk_p
@@ -850,6 +860,7 @@ CONTAINS
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
 # 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                nrm = REAL((DZNRM2 (blk_nze, data(blk_p), 1)), KIND = real_8)
+# 737 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
@@ -866,9 +877,11 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_z
+# 753 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       SUBROUTINE multrec_filtering_c (filter_eps, nblks, rowi, coli, blkp, &
+# 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                                                   rbs, cbs, nze, DATA)
      !! Applying in-place filtering on the workspace.
      !! \brief Use Frobenius norm
@@ -878,6 +891,7 @@ CONTAINS
          INTEGER, DIMENSION(1:nblks), INTENT(INOUT) :: rowi, coli, blkp
          INTEGER, DIMENSION(:), INTENT(IN)          :: rbs, cbs
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             INTENT(INOUT)                            :: DATA
 
          INTEGER                                    :: blk, lastblk, blk_nze, blk_p
@@ -906,6 +920,7 @@ CONTAINS
             IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
 # 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
                nrm = REAL((SCNRM2 (blk_nze, data(blk_p), 1)), KIND = real_8)
+# 737 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
             IF (nrm .GE. filter_eps_opt) THEN
                ! Keep block
@@ -922,6 +937,7 @@ CONTAINS
          nblks = lastblk
 
       END SUBROUTINE multrec_filtering_c
+# 753 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 # 754 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec

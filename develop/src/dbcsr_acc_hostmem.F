@@ -137,9 +137,11 @@ CONTAINS
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i4 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          INTEGER(kind=int_4), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -149,6 +151,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(int_4_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -157,13 +160,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_i4: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_i4
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i4_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          INTEGER(kind=int_4), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -174,6 +181,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(int_4_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -183,13 +191,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_i4_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_i4_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_i4 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          INTEGER(kind=int_4), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -200,13 +212,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_i4: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i4
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_i4_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          INTEGER(kind=int_4), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -217,15 +233,19 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_i4: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i4_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i8 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          INTEGER(kind=int_8), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -235,6 +255,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(int_8_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -243,13 +264,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_i8: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_i8
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_i8_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          INTEGER(kind=int_8), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -260,6 +285,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(int_8_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -269,13 +295,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_i8_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_i8_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_i8 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          INTEGER(kind=int_8), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -286,13 +316,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_i8: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i8
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_i8_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          INTEGER(kind=int_8), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -303,15 +337,19 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_i8: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_i8_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r4 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          REAL(kind=real_4), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -321,6 +359,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(real_4_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -329,13 +368,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_r4: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_r4
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r4_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -346,6 +389,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(real_4_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -355,13 +399,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_r4_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_r4_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_r4 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          REAL(kind=real_4), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -372,13 +420,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_r4: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r4
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_r4_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -389,15 +441,19 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_r4: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r4_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r8 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          REAL(kind=real_8), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -407,6 +463,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(real_8_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -415,13 +472,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_r8: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_r8
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_r8_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -432,6 +493,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(real_8_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -441,13 +503,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_r8_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_r8_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_r8 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          REAL(kind=real_8), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -458,13 +524,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_r8: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r8
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_r8_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -475,15 +545,19 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_r8: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_r8_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c4 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -493,6 +567,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(2*real_4_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -501,13 +576,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_c4: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_c4
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c4_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -518,6 +597,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(2*real_4_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -527,13 +607,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_c4_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_c4_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_c4 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -544,13 +628,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_c4: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c4
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_c4_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -561,15 +649,19 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_c4: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c4_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 143 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c8 (host_mem, n, stream)
+# 145 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 1D fortan-array as GPU host-pinned memory.
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: host_mem
+# 148 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n
          !! size given in terms of item-count (not bytes!)
@@ -579,6 +671,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(2*real_8_size, KIND=C_SIZE_T)* &
+# 157 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n)/))
@@ -587,13 +680,17 @@ CONTAINS
          MARK_USED(n)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_c8: ACC not compiled in.")
+# 165 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_c8
+# 167 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_alloc_c8_2D(host_mem, n1, n2, stream)
+# 169 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Allocates 2D fortan-array as GPU host-pinned memory.
 
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
+# 172 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          INTEGER, INTENT(IN)                      :: n1, n2
          !! sizes given in terms of item-count (not bytes!)
@@ -604,6 +701,7 @@ CONTAINS
          INTEGER(KIND=C_SIZE_T)                   :: n_bytes
 
          n_bytes = INT(2*real_8_size, KIND=C_SIZE_T)* &
+# 182 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
                    INT(MAX(1, n1), KIND=C_SIZE_T)*INT(MAX(1, n2), KIND=C_SIZE_T)
          CALL acc_hostmem_alloc_raw(host_mem_c_ptr, n_bytes, stream)
          CALL C_F_POINTER(host_mem_c_ptr, host_mem, (/MAX(1, n1), MAX(1, n2)/))
@@ -613,13 +711,17 @@ CONTAINS
          MARK_USED(n2)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_alloc_c8_2D: ACC not compiled in.")
+# 191 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_alloc_c8_2D
+# 193 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_c8 (host_mem, stream)
+# 195 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 1D fortan-array, which is GPU host-pinned memory.
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: host_mem
+# 198 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -630,13 +732,17 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_c8: ACC not compiled in.")
+# 208 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c8
+# 210 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
       SUBROUTINE acc_hostmem_dealloc_c8_2D(host_mem, stream)
+# 212 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
       !! Deallocates a 2D fortan-array, which is GPU host-pinned memory.
 
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
+# 215 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
          !! pointer to array
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
@@ -647,8 +753,10 @@ CONTAINS
          MARK_USED(host_mem)
          MARK_USED(stream)
          DBCSR_ABORT("acc_hostmem_dealloc_c8: ACC not compiled in.")
+# 225 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 #endif
       END SUBROUTINE acc_hostmem_dealloc_c8_2D
+# 227 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 # 229 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 

@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-msg~132"></span>
+              <span class="anchor" id="variable-msg~135"></span>
               real(kind=real_4),
             </td>
 <td>intent(inout),</td>
@@ -196,7 +196,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-gid~156"></span>
+              <span class="anchor" id="variable-gid~157"></span>
               type(<a href='../type/mp_comm_type.html'>mp_comm_type</a>),
             </td>
 <td>intent(in)</td>
@@ -227,16 +227,20 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">mp_sum_rv</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">)</span>
+<span class="cp"># 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 <span class="w">      </span><span class="c">!! Element-wise sum of a rank-1 array on all processes.</span>
 <span class="w">      </span><span class="c">!! @note</span>
 <span class="w">      </span><span class="c">!! see mp_sum_r</span>
+<span class="cp"># 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 <span class="w">      </span><span class="c">!! @endnote</span>
 
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">     </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span><span class="p">(:)</span>
+<span class="cp"># 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 <span class="w">         </span><span class="c">!! Vector to sum and result</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">mp_comm_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">gid</span>
 
 <span class="w">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span><span class="w"> </span><span class="k">PARAMETER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">routineN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'mp_sum_rv'</span>
+<span class="cp"># 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span>
 <span class="cp">#if defined(__parallel)</span>
@@ -250,9 +254,11 @@
 <span class="w">         </span><span class="n">msglen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">msglen</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">msglen</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_REAL</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_SUM</span><span class="p">,</span><span class="w"> </span><span class="n">gid</span><span class="p">%</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">ierr</span><span class="p">)</span>
+<span class="cp"># 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ierr</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span><span class="w"> </span><span class="s2">"mpi_allreduce @ "</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="k">         CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
+<span class="cp"># 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"</span>
 <span class="cp">#else</span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>

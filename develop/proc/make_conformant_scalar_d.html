@@ -193,7 +193,7 @@ type of the matrix.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~78"></span>
+              <span class="anchor" id="variable-matrix~374"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -231,10 +231,12 @@ type of the matrix.</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">FUNCTION </span><span class="n">make_conformant_scalar_d</span><span class="w"> </span><span class="p">(</span><span class="n">scalar</span><span class="p">,</span><span class="w"> </span><span class="n">matrix</span><span class="p">)</span><span class="w"> </span><span class="k">RESULT</span><span class="p">(</span><span class="n">encapsulated</span><span class="p">)</span>
+<span class="cp"># 199 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">      </span><span class="c">!! Encapsulates a given scalar value and makes it conform with the</span>
 <span class="w">      </span><span class="c">!! type of the matrix.</span>
 
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">scalar</span>
+<span class="cp"># 203 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">             </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span><span class="w">                  </span><span class="kd">::</span><span class="w"> </span><span class="n">encapsulated</span>

@@ -58,20 +58,32 @@ CONTAINS
 
 # 55 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 1)) :: proc_dist_1
+# 56 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 1)) :: blk_size_1
+# 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 1)) :: blks_local_1
+# 58 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 55 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 2)) :: proc_dist_2
+# 56 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 2)) :: blk_size_2
+# 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 2)) :: blks_local_2
+# 58 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 55 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 3)) :: proc_dist_3
+# 56 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 3)) :: blk_size_3
+# 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 3)) :: blks_local_3
+# 58 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 55 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 4)) :: proc_dist_4
+# 56 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 4)) :: blk_size_4
+# 57 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          INTEGER, DIMENSION(dbcsr_t_nblks_total(tensor, 4)) :: blks_local_4
+# 58 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 59 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       CHARACTER(len=default_string_length)                     :: name
       INTEGER                                                  :: idim
@@ -85,6 +97,7 @@ CONTAINS
                             blks_local_1, blks_local_2, blks_local_3, blks_local_4, proc_dist_1, proc_dist_2, proc_dist_3,&
 # 68 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                                 & proc_dist_4, blk_size_1, blk_size_2, blk_size_3, blk_size_4, &
+# 69 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                             name=name)
 
       IF (unit_nr_prv > 0) THEN
@@ -109,60 +122,92 @@ CONTAINS
                WRITE (unit_nr_prv, '(T4,A)', advance='no') "Block sizes:"
 # 92 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 1) THEN
+# 93 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 1, ':'
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(blk_size_1)
+# 95 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I2,1X)', advance='no') blk_size_1 (iblk)
+# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 92 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 2) THEN
+# 93 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 2, ':'
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(blk_size_2)
+# 95 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I2,1X)', advance='no') blk_size_2 (iblk)
+# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 92 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 3) THEN
+# 93 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 3, ':'
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(blk_size_3)
+# 95 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I2,1X)', advance='no') blk_size_3 (iblk)
+# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 92 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 4) THEN
+# 93 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 4, ':'
+# 94 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(blk_size_4)
+# 95 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I2,1X)', advance='no') blk_size_4 (iblk)
+# 96 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 99 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                WRITE (unit_nr_prv, '(/T4,A)', advance='no') "Block distribution:"
 # 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 1) THEN
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 1, ':'
+# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(proc_dist_1)
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I3,1X)', advance='no') proc_dist_1 (iblk)
+# 105 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 2) THEN
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 2, ':'
+# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(proc_dist_2)
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I3,1X)', advance='no') proc_dist_2 (iblk)
+# 105 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 3) THEN
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 3, ':'
+# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(proc_dist_3)
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I3,1X)', advance='no') proc_dist_3 (iblk)
+# 105 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 101 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) >= 4) THEN
+# 102 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (unit_nr_prv, '(/T8,A,1X,I1,A,1X)', advance='no') 'Dim', 4, ':'
+# 103 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      DO iblk = 1, SIZE(proc_dist_4)
+# 104 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         WRITE (unit_nr_prv, '(I3,1X)', advance='no') proc_dist_4 (iblk)
+# 105 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END DO
                   END IF
 # 108 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
@@ -234,12 +279,15 @@ CONTAINS
 # 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), ALLOCATABLE, &
             DIMENSION(:,:)                :: blk_values_2
+# 176 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), ALLOCATABLE, &
             DIMENSION(:,:,:)                :: blk_values_3
+# 176 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 174 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), ALLOCATABLE, &
             DIMENSION(:,:,:,:)                :: blk_values_4
+# 176 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 177 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       TYPE(dbcsr_t_iterator_type)                        :: iterator
       INTEGER                                            :: proc, mynode, numnodes
@@ -256,27 +304,39 @@ CONTAINS
          DBCSR_ASSERT(proc .EQ. mynode)
 # 191 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndims_tensor(tensor) == 2) THEN
+# 192 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                CALL dbcsr_t_get_block(tensor, blk_index, blk_values_2, found)
+# 193 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DBCSR_ASSERT(found)
                CALL dbcsr_t_write_block(tensor%name, blk_size, blk_index, proc, io_unit_all, &
                                         blk_values_2=blk_values_2, write_int=write_int)
+# 196 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DEALLOCATE (blk_values_2)
+# 197 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             END IF
 # 191 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndims_tensor(tensor) == 3) THEN
+# 192 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                CALL dbcsr_t_get_block(tensor, blk_index, blk_values_3, found)
+# 193 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DBCSR_ASSERT(found)
                CALL dbcsr_t_write_block(tensor%name, blk_size, blk_index, proc, io_unit_all, &
                                         blk_values_3=blk_values_3, write_int=write_int)
+# 196 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DEALLOCATE (blk_values_3)
+# 197 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             END IF
 # 191 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndims_tensor(tensor) == 4) THEN
+# 192 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                CALL dbcsr_t_get_block(tensor, blk_index, blk_values_4, found)
+# 193 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DBCSR_ASSERT(found)
                CALL dbcsr_t_write_block(tensor%name, blk_size, blk_index, proc, io_unit_all, &
                                         blk_values_4=blk_values_4, write_int=write_int)
+# 196 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                DEALLOCATE (blk_values_4)
+# 197 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             END IF
 # 199 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       END DO
@@ -285,6 +345,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_t_write_block(name, blk_size, blk_index, proc, unit_nr, &
                                   blk_values_2, blk_values_3, blk_values_4, write_int)
+# 205 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       !! Write a tensor block
       CHARACTER(LEN=*), INTENT(IN)                       :: name
          !! tensor name
@@ -295,17 +356,23 @@ CONTAINS
 # 213 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), &
             DIMENSION(blk_size(1), blk_size(2)), &
+# 215 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             INTENT(IN), OPTIONAL                            :: blk_values_2
+# 216 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          !! block values for 2 dimensions
 # 213 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), &
             DIMENSION(blk_size(1), blk_size(2), blk_size(3)), &
+# 215 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             INTENT(IN), OPTIONAL                            :: blk_values_3
+# 216 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          !! block values for 2 dimensions
 # 213 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          REAL(KIND=real_8), &
             DIMENSION(blk_size(1), blk_size(2), blk_size(3), blk_size(4)), &
+# 215 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             INTENT(IN), OPTIONAL                            :: blk_values_4
+# 216 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
          !! block values for 2 dimensions
 # 218 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       LOGICAL, INTENT(IN), OPTIONAL                      :: write_int
@@ -316,6 +383,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: proc
          !! which process am I
       INTEGER                                            :: i_1, i_2, i_3, i_4
+# 226 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
       INTEGER                                            :: ndim
 
       IF (PRESENT(write_int)) THEN
@@ -329,21 +397,30 @@ CONTAINS
       IF (unit_nr > 0) THEN
 # 238 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndim == 2) THEN
+# 239 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_2 = 1, blk_size(2)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_1 = 1, blk_size(1)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 242 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      IF (write_int_prv) THEN
                         WRITE (unit_nr, '(T7,A,T16,A,2I3,1X,A,1X,I3,A,1X,A,2I3,1X,A,1X,I20)') &
+# 244 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, ")", &
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            INT(blk_values_2 (i_1, i_2), KIND=int_8)
+# 247 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      ELSE
                         WRITE (unit_nr, '(T7,A,T16,A,2I3,1X,A,1X,I3,A,1X,A,2I3,1X,A,1X,F10.5)') &
+# 249 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, ")", &
+# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            blk_values_2 (i_1, i_2)
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END IF
 # 254 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         END DO
@@ -353,23 +430,33 @@ CONTAINS
                   END IF
 # 238 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndim == 3) THEN
+# 239 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_3 = 1, blk_size(3)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_2 = 1, blk_size(2)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_1 = 1, blk_size(1)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 242 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      IF (write_int_prv) THEN
                         WRITE (unit_nr, '(T7,A,T16,A,3I3,1X,A,1X,I3,A,1X,A,3I3,1X,A,1X,I20)') &
+# 244 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, i_3, ")", &
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            INT(blk_values_3 (i_1, i_2, i_3), KIND=int_8)
+# 247 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      ELSE
                         WRITE (unit_nr, '(T7,A,T16,A,3I3,1X,A,1X,I3,A,1X,A,3I3,1X,A,1X,F10.5)') &
+# 249 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, i_3, ")", &
+# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            blk_values_3 (i_1, i_2, i_3)
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END IF
 # 254 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         END DO
@@ -381,25 +468,36 @@ CONTAINS
                   END IF
 # 238 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
             IF (ndim == 4) THEN
+# 239 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_4 = 1, blk_size(4)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_3 = 1, blk_size(3)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_2 = 1, blk_size(2)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 240 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   DO i_1 = 1, blk_size(1)
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
 # 242 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      IF (write_int_prv) THEN
                         WRITE (unit_nr, '(T7,A,T16,A,4I3,1X,A,1X,I3,A,1X,A,4I3,1X,A,1X,I20)') &
+# 244 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, i_3, i_4, ")", &
+# 246 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            INT(blk_values_4 (i_1, i_2, i_3, i_4), KIND=int_8)
+# 247 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      ELSE
                         WRITE (unit_nr, '(T7,A,T16,A,4I3,1X,A,1X,I3,A,1X,A,4I3,1X,A,1X,F10.5)') &
+# 249 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            TRIM(name), "(", blk_index, ") @", proc, ':', &
                            "(", i_1, i_2, i_3, i_4, ")", &
+# 251 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                            blk_values_4 (i_1, i_2, i_3, i_4)
+# 252 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      END IF
 # 254 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         END DO
@@ -434,17 +532,23 @@ CONTAINS
                DBCSR_ASSERT(proc .EQ. mynode)
 # 279 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) == 2) THEN
+# 280 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (io_unit_all, '(T7,A,T16,A,2I3,1X,A,1X,I3,A2,2I3)') &
+# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         TRIM(tensor%name), "blk index (", blk_index, ") @", proc, ":", blk_size
                   END IF
 # 279 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) == 3) THEN
+# 280 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (io_unit_all, '(T7,A,T16,A,3I3,1X,A,1X,I3,A2,3I3)') &
+# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         TRIM(tensor%name), "blk index (", blk_index, ") @", proc, ":", blk_size
                   END IF
 # 279 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                   IF (ndims_tensor(tensor) == 4) THEN
+# 280 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                      WRITE (io_unit_all, '(T7,A,T16,A,4I3,1X,A,1X,I3,A2,4I3)') &
+# 281 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"
                         TRIM(tensor%name), "blk index (", blk_index, ") @", proc, ":", blk_size
                   END IF
 # 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_io.F"

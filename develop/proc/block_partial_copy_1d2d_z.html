@@ -181,7 +181,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-dst~20"></span>
+              <span class="anchor" id="variable-dst~26"></span>
               complex(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -241,7 +241,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-src~17"></span>
+              <span class="anchor" id="variable-src~25"></span>
               complex(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -331,7 +331,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrow~11"></span>
+              <span class="anchor" id="variable-nrow~13"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -346,7 +346,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ncol~11"></span>
+              <span class="anchor" id="variable-ncol~12"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -392,6 +392,7 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="n">PURE_BLOCKOPS</span><span class="w"> </span><span class="k">SUBROUTINE </span><span class="n">block_partial_copy_1d2d_z</span><span class="w"> </span><span class="p">(</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="n">dst_rs</span><span class="p">,</span><span class="w"> </span><span class="n">dst_cs</span><span class="p">,</span><span class="w"> </span><span class="n">dst_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1518 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">                                                                      </span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="n">src_tr</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                                      </span><span class="n">dst_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                                      </span><span class="n">dst_offset</span><span class="p">)</span>
@@ -406,11 +407,13 @@
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">row</span>
 <span class="cp">#endif</span>
 <span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">TARGET</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1532 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">                         </span><span class="kd">::</span><span class="w"> </span><span class="n">dst</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dst_rs</span><span class="p">,</span><span class="w"> </span><span class="n">dst_cs</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dst_offset</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dst_tr</span>
 <span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">TARGET</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1537 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                            </span><span class="kd">::</span><span class="w"> </span><span class="n">src</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">src_tr</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">dst_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_r_lb</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -425,6 +428,7 @@
 <span class="k">               CALL </span><span class="n">libxs_matcopy</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dst_r_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dst_c_lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_c_lb</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dst_rs</span><span class="p">)</span>
+<span class="cp"># 1551 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="cp">#else</span>
 <span class="w">            </span><span class="k">DO </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
@@ -440,6 +444,7 @@
 <span class="k">               CALL </span><span class="n">libxs_otrans</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dst_r_lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_cs</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_r_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_c_lb</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dst_cs</span><span class="p">)</span>
+<span class="cp"># 1566 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="cp">#else</span>
 <span class="w">            </span><span class="k">DO </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
@@ -455,6 +460,7 @@
 <span class="k">               CALL </span><span class="n">libxs_otrans</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dst_r_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dst_c_lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_r_lb</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                 </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">dst_rs</span><span class="p">)</span>
+<span class="cp"># 1581 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="cp">#else</span>
 <span class="w">            </span><span class="k">DO </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
@@ -471,6 +477,7 @@
 <span class="k">               CALL </span><span class="n">libxs_matcopy</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dst_c_lb</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">dst_r_lb</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_cs</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_c_lb</span><span class="p">,</span><span class="w"> </span><span class="n">src_r_lb</span><span class="p">)),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                  </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="n">nrow</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="p">,</span><span class="w"> </span><span class="n">SIZE</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">dst_cs</span><span class="p">)</span>
+<span class="cp"># 1597 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="cp">#else</span>
 <span class="w">            </span><span class="k">DO </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">ncol</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>

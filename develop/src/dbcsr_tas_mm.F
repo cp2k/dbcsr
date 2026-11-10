@@ -1480,16 +1480,24 @@ CONTAINS
 
 # 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_r_dp
+# 1479 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_r_dp
+# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
 # 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_r_sp
+# 1479 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_r_sp
+# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
 # 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_c_dp
+# 1479 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_c_dp
+# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
 # 1478 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_c_sp
+# 1479 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_c_sp
+# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
 # 1481 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       LOGICAL                                    :: tr, nodata_prv, found
 
@@ -1521,31 +1529,47 @@ CONTAINS
 
 # 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_real_8) THEN
+# 1511 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_dp, tr)
+# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_dp, tr, found)
+# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   DBCSR_ASSERT(found)
                   block_put_r_dp (1, 1) = SQRT(SUM(block_get_r_dp**2)) ! norm2 works only for real
+# 1515 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                END IF
 # 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_real_4) THEN
+# 1511 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_sp, tr)
+# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_sp, tr, found)
+# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   DBCSR_ASSERT(found)
                   block_put_r_sp (1, 1) = SQRT(SUM(block_get_r_sp**2)) ! norm2 works only for real
+# 1515 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                END IF
 # 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_complex_8) THEN
+# 1511 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_dp, tr)
+# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_dp, tr, found)
+# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   DBCSR_ASSERT(found)
                   block_put_c_dp (1, 1) = SQRT(SUM(block_get_c_dp**2)) ! norm2 works only for real
+# 1515 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                END IF
 # 1510 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                IF (data_type == dbcsr_type_complex_4) THEN
+# 1511 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_sp, tr)
+# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_sp, tr, found)
+# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                   DBCSR_ASSERT(found)
                   block_put_c_sp (1, 1) = SQRT(SUM(block_get_c_sp**2)) ! norm2 works only for real
+# 1515 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
                END IF
 # 1517 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          END DO

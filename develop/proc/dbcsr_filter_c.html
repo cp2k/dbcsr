@@ -176,7 +176,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~115"></span>
+              <span class="anchor" id="variable-matrix~411"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-eps~11"></span>
+              <span class="anchor" id="variable-eps~23"></span>
               complex(kind=real_4),
             </td>
 <td>intent(in)</td>
@@ -206,7 +206,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-method~9"></span>
+              <span class="anchor" id="variable-method~14"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-use_absolute~13"></span>
+              <span class="anchor" id="variable-use_absolute~19"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-filter_diag~5"></span>
+              <span class="anchor" id="variable-filter_diag~7"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -267,9 +267,11 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_filter_c</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">use_absolute</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 2922 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                             </span><span class="n">filter_diag</span><span class="p">)</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">matrix</span>
 <span class="w">         </span><span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">eps</span>
+<span class="cp"># 2925 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">method</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">use_absolute</span><span class="p">,</span><span class="w"> </span><span class="n">filter_diag</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">dbcsr_filter_anytype</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="n">eps</span><span class="p">),</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>

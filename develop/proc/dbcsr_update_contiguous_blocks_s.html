@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_a~35"></span>
+              <span class="anchor" id="variable-matrix_a~107"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix_b~20"></span>
+              <span class="anchor" id="variable-matrix_b~66"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(in)</td>
@@ -237,7 +237,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nze~26"></span>
+              <span class="anchor" id="variable-nze~59"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -252,7 +252,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-do_scale~5"></span>
+              <span class="anchor" id="variable-do_scale~7"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-found~46"></span>
+              <span class="anchor" id="variable-found~135"></span>
               logical,
             </td>
 <td>intent(in)</td>
@@ -297,7 +297,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iw~7"></span>
+              <span class="anchor" id="variable-iw~21"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -328,6 +328,7 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_update_contiguous_blocks_s</span><span class="w"> </span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span><span class="w"> </span><span class="n">matrix_b</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_a</span><span class="p">,</span><span class="w"> </span><span class="n">first_lb_b</span><span class="p">,</span><span class="w"> </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3062 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                                               </span><span class="n">do_scale</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">iw</span><span class="p">)</span>
 <span class="w">      </span><span class="c">!! Low level function to sum contiguous chunks of blocks of the matrices (matrix_a = matrix_a + beta*matrix_b)</span>
 
@@ -347,21 +348,32 @@
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_scale</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">saxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">my_beta_scalar</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3081 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                      </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="p">:</span><span class="n">ub_b</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3082 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                                      </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_a</span><span class="p">:</span><span class="n">ub_a</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="cp"># 3083 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">            </span><span class="k">ELSE</span>
 <span class="k">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_a</span><span class="p">:</span><span class="n">ub_a</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3085 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                  </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_a</span><span class="p">:</span><span class="n">ub_a</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3086 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                  </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="p">:</span><span class="n">ub_b</span><span class="p">)</span>
+<span class="cp"># 3087 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">         ELSE</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_scale</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_a</span><span class="p">:</span><span class="n">ub_a</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3091 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                  </span><span class="n">my_beta_scalar</span><span class="p">%</span><span class="n">r_sp</span><span class="o">*</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3092 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                  </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="p">:</span><span class="n">ub_b</span><span class="p">)</span>
+<span class="cp"># 3093 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">            </span><span class="k">ELSE</span>
 <span class="k">               </span><span class="n">matrix_a</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_a</span><span class="p">:</span><span class="n">ub_a</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 3095 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">                  </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="w"> </span><span class="p">(</span><span class="n">first_lb_b</span><span class="p">:</span><span class="n">ub_b</span><span class="p">)</span>
+<span class="cp"># 3096 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">         END IF</span>
 <span class="k">      END SUBROUTINE </span><span class="n">dbcsr_update_contiguous_blocks_s</span>

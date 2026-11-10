@@ -352,6 +352,7 @@ MODULE dbcsr_mpiwrap
           & mp_bcast_av, mp_bcast_am
 # 339 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_ibcast
 # 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_ibcast_i, mp_ibcast_iv, mp_ibcast_l, mp_ibcast_lv, mp_ibcast_d, mp_ibcast_dv, mp_ibcast_r, mp_ibcast_rv,&
@@ -359,6 +360,7 @@ MODULE dbcsr_mpiwrap
           & mp_ibcast_z, mp_ibcast_zv, mp_ibcast_c, mp_ibcast_cv
 # 340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_sum
       MODULE PROCEDURE mp_sum_i, mp_sum_iv, mp_sum_im, mp_sum_im3, mp_sum_im4, &
@@ -381,6 +383,7 @@ MODULE dbcsr_mpiwrap
       MODULE PROCEDURE mp_isum_iv, mp_isum_lv, mp_isum_dv, mp_isum_rv, mp_isum_zv, mp_isum_cv, mp_isum_bv
 # 358 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_sum_partial
 # 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sum_partial_im, mp_sum_partial_lm, mp_sum_partial_dm, mp_sum_partial_rm, mp_sum_partial_zm,&
@@ -388,6 +391,7 @@ MODULE dbcsr_mpiwrap
           & mp_sum_partial_cm
 # 359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_max
 # 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_max_i, mp_max_iv, mp_max_l, mp_max_lv, mp_max_d, mp_max_dv, mp_max_r, mp_max_rv, mp_max_z, mp_max_zv,&
@@ -395,6 +399,7 @@ MODULE dbcsr_mpiwrap
           & mp_max_c, mp_max_cv
 # 360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_min
 # 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_min_i, mp_min_iv, mp_min_l, mp_min_lv, mp_min_d, mp_min_dv, mp_min_r, mp_min_rv, mp_min_z, mp_min_zv,&
@@ -402,11 +407,13 @@ MODULE dbcsr_mpiwrap
           & mp_min_c, mp_min_cv
 # 361 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_prod
 # 362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_prod_i, mp_prod_l, mp_prod_d, mp_prod_r, mp_prod_z, mp_prod_c
 # 362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_gather
 # 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gather_i, mp_gather_im, mp_gather_iv, mp_gather_l, mp_gather_lm, mp_gather_lv, mp_gather_d,&
@@ -416,11 +423,13 @@ MODULE dbcsr_mpiwrap
           & mp_gather_c, mp_gather_cm, mp_gather_cv
 # 363 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_gatherv
 # 364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_gatherv_iv, mp_gatherv_lv, mp_gatherv_dv, mp_gatherv_rv, mp_gatherv_zv, mp_gatherv_cv
 # 364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 365 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_allgather
      !! @todo move allgatherv to a separate declaration
@@ -511,6 +520,7 @@ MODULE dbcsr_mpiwrap
           & mp_alltoall_c, mp_alltoall_c22, mp_alltoall_c44, mp_alltoall_c11v
 # 444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 445 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_send
 # 446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
@@ -519,6 +529,7 @@ MODULE dbcsr_mpiwrap
           & mp_send_zv, mp_send_c, mp_send_cv
 # 446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_recv
 # 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_recv_i, mp_recv_iv, mp_recv_l, mp_recv_lv, mp_recv_d, mp_recv_dv, mp_recv_r, mp_recv_rv, mp_recv_z,&
@@ -526,11 +537,13 @@ MODULE dbcsr_mpiwrap
           & mp_recv_zv, mp_recv_c, mp_recv_cv
 # 447 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_sendrecv
 # 448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_sendrecv_iv, mp_sendrecv_lv, mp_sendrecv_dv, mp_sendrecv_rv, mp_sendrecv_zv, mp_sendrecv_cv
 # 448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_isendrecv
 # 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_isendrecv_i, mp_isendrecv_iv, mp_isendrecv_l, mp_isendrecv_lv, mp_isendrecv_d, mp_isendrecv_dv,&
@@ -538,6 +551,7 @@ MODULE dbcsr_mpiwrap
           & mp_isendrecv_r, mp_isendrecv_rv, mp_isendrecv_z, mp_isendrecv_zv, mp_isendrecv_c, mp_isendrecv_cv
 # 449 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 450 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_isend
 # 451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
@@ -546,6 +560,7 @@ MODULE dbcsr_mpiwrap
           & mp_isend_zv, mp_isend_zm2, mp_isend_cv, mp_isend_cm2, mp_isend_bv, mp_isend_custom
 # 451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_irecv
 # 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_irecv_iv, mp_irecv_im2, mp_irecv_lv, mp_irecv_lm2, mp_irecv_dv, mp_irecv_dm2, mp_irecv_rv, mp_irecv_rm2,&
@@ -553,27 +568,32 @@ MODULE dbcsr_mpiwrap
           & mp_irecv_zv, mp_irecv_zm2, mp_irecv_cv, mp_irecv_cm2, mp_irecv_bv, mp_irecv_custom
 # 452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_win_create
 # 454 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_win_create_iv, mp_win_create_lv, mp_win_create_dv, mp_win_create_rv, mp_win_create_zv, mp_win_create_cv
 # 454 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 455 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_rget
 # 455 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_rget_iv, mp_rget_lv, mp_rget_dv, mp_rget_rv, mp_rget_zv, mp_rget_cv
 # 455 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_allocate
 # 456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_allocate_i, mp_allocate_l, mp_allocate_d, mp_allocate_r, mp_allocate_z, mp_allocate_c
 # 456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_deallocate
 # 457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_deallocate_i, mp_deallocate_l, mp_deallocate_d, mp_deallocate_r, mp_deallocate_z, mp_deallocate_c
 # 457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 458 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_type_make
 # 459 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
@@ -582,6 +602,7 @@ MODULE dbcsr_mpiwrap
           & mp_type_make_struct
 # 459 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    INTERFACE mp_file_write_at
 # 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
@@ -592,6 +613,7 @@ MODULE dbcsr_mpiwrap
           & mp_file_write_at_c, mp_file_write_at_cv, mp_file_write_at_ch
 # 461 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_file_write_at_all
 # 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_write_at_all_i, mp_file_write_at_all_iv, mp_file_write_at_all_l, mp_file_write_at_all_lv,&
@@ -603,6 +625,7 @@ MODULE dbcsr_mpiwrap
           & mp_file_write_at_all_ch
 # 462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_file_read_at_all
 # 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_file_read_at_all_i, mp_file_read_at_all_iv, mp_file_read_at_all_l, mp_file_read_at_all_lv,&
@@ -612,6 +635,7 @@ MODULE dbcsr_mpiwrap
           & mp_file_read_at_all_zv, mp_file_read_at_all_c, mp_file_read_at_all_cv, mp_file_read_at_all_ch
 # 463 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
    INTERFACE mp_alloc_mem
@@ -619,11 +643,13 @@ MODULE dbcsr_mpiwrap
       MODULE PROCEDURE mp_alloc_mem_i, mp_alloc_mem_l, mp_alloc_mem_d, mp_alloc_mem_r, mp_alloc_mem_z, mp_alloc_mem_c
 # 466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    INTERFACE mp_free_mem
 # 467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_free_mem_i, mp_free_mem_l, mp_free_mem_d, mp_free_mem_r, mp_free_mem_z, mp_free_mem_c
 # 467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+# 468 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 ! Type declarations
@@ -707,229 +733,329 @@ CONTAINS
 # 551 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       ELEMENTAL INTEGER FUNCTION mp_get_comm_handle(comm)
+# 553 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_comm_type), INTENT(IN) :: comm
+# 554 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_get_comm_handle = comm%handle%mpi_val
+# 557 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_get_comm_handle = comm%handle
+# 559 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_get_comm_handle
+# 562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL SUBROUTINE mp_set_comm_handle(comm, handle)
+# 564 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_comm_type), INTENT(INOUT) :: comm
+# 565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          comm%handle%mpi_val = handle
+# 569 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          comm%handle = handle
+# 571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END SUBROUTINE mp_set_comm_handle
+# 574 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_comm_op_eq(comm1, comm2)
+# 576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+# 577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_comm_op_eq = (comm1%handle%mpi_val .EQ. comm2%handle%mpi_val)
+# 580 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_comm_op_eq = (comm1%handle .EQ. comm2%handle)
+# 582 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_comm_op_eq
+# 585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_comm_op_ne(comm1, comm2)
+# 587 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_comm_type), INTENT(IN) :: comm1, comm2
+# 588 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_comm_op_ne = (comm1%handle%mpi_val .NE. comm2%handle%mpi_val)
+# 591 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_comm_op_ne = (comm1%handle .NE. comm2%handle)
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_comm_op_ne
+# 596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       ELEMENTAL INTEGER FUNCTION mp_get_request_handle(request)
+# 553 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_request_type), INTENT(IN) :: request
+# 554 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_get_request_handle = request%handle%mpi_val
+# 557 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_get_request_handle = request%handle
+# 559 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_get_request_handle
+# 562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL SUBROUTINE mp_set_request_handle(request, handle)
+# 564 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_request_type), INTENT(INOUT) :: request
+# 565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          request%handle%mpi_val = handle
+# 569 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          request%handle = handle
+# 571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END SUBROUTINE mp_set_request_handle
+# 574 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_request_op_eq(request1, request2)
+# 576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_request_type), INTENT(IN) :: request1, request2
+# 577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_request_op_eq = (request1%handle%mpi_val .EQ. request2%handle%mpi_val)
+# 580 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_request_op_eq = (request1%handle .EQ. request2%handle)
+# 582 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_request_op_eq
+# 585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_request_op_ne(request1, request2)
+# 587 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_request_type), INTENT(IN) :: request1, request2
+# 588 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_request_op_ne = (request1%handle%mpi_val .NE. request2%handle%mpi_val)
+# 591 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_request_op_ne = (request1%handle .NE. request2%handle)
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_request_op_ne
+# 596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       ELEMENTAL INTEGER FUNCTION mp_get_win_handle(win)
+# 553 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_win_type), INTENT(IN) :: win
+# 554 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_get_win_handle = win%handle%mpi_val
+# 557 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_get_win_handle = win%handle
+# 559 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_get_win_handle
+# 562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL SUBROUTINE mp_set_win_handle(win, handle)
+# 564 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_win_type), INTENT(INOUT) :: win
+# 565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          win%handle%mpi_val = handle
+# 569 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          win%handle = handle
+# 571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END SUBROUTINE mp_set_win_handle
+# 574 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_win_op_eq(win1, win2)
+# 576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_win_type), INTENT(IN) :: win1, win2
+# 577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_win_op_eq = (win1%handle%mpi_val .EQ. win2%handle%mpi_val)
+# 580 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_win_op_eq = (win1%handle .EQ. win2%handle)
+# 582 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_win_op_eq
+# 585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_win_op_ne(win1, win2)
+# 587 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_win_type), INTENT(IN) :: win1, win2
+# 588 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_win_op_ne = (win1%handle%mpi_val .NE. win2%handle%mpi_val)
+# 591 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_win_op_ne = (win1%handle .NE. win2%handle)
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_win_op_ne
+# 596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       ELEMENTAL INTEGER FUNCTION mp_get_file_handle(file)
+# 553 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_file_type), INTENT(IN) :: file
+# 554 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_get_file_handle = file%handle%mpi_val
+# 557 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_get_file_handle = file%handle
+# 559 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_get_file_handle
+# 562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL SUBROUTINE mp_set_file_handle(file, handle)
+# 564 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_file_type), INTENT(INOUT) :: file
+# 565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          file%handle%mpi_val = handle
+# 569 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          file%handle = handle
+# 571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END SUBROUTINE mp_set_file_handle
+# 574 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_file_op_eq(file1, file2)
+# 576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_file_type), INTENT(IN) :: file1, file2
+# 577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_file_op_eq = (file1%handle%mpi_val .EQ. file2%handle%mpi_val)
+# 580 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_file_op_eq = (file1%handle .EQ. file2%handle)
+# 582 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_file_op_eq
+# 585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_file_op_ne(file1, file2)
+# 587 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_file_type), INTENT(IN) :: file1, file2
+# 588 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_file_op_ne = (file1%handle%mpi_val .NE. file2%handle%mpi_val)
+# 591 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_file_op_ne = (file1%handle .NE. file2%handle)
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_file_op_ne
+# 596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 552 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       ELEMENTAL INTEGER FUNCTION mp_get_info_handle(info)
+# 553 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_info_type), INTENT(IN) :: info
+# 554 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_get_info_handle = info%handle%mpi_val
+# 557 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_get_info_handle = info%handle
+# 559 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_get_info_handle
+# 562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL SUBROUTINE mp_set_info_handle(info, handle)
+# 564 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_info_type), INTENT(INOUT) :: info
+# 565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN) :: handle
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          info%handle%mpi_val = handle
+# 569 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          info%handle = handle
+# 571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END SUBROUTINE mp_set_info_handle
+# 574 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_info_op_eq(info1, info2)
+# 576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_info_type), INTENT(IN) :: info1, info2
+# 577 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_info_op_eq = (info1%handle%mpi_val .EQ. info2%handle%mpi_val)
+# 580 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_info_op_eq = (info1%handle .EQ. info2%handle)
+# 582 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_info_op_eq
+# 585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       ELEMENTAL IMPURE LOGICAL FUNCTION mp_info_op_ne(info1, info2)
+# 587 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CLASS(mp_info_type), INTENT(IN) :: info1, info2
+# 588 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel) && defined(__USE_MPI_F08)
          mp_info_op_ne = (info1%handle%mpi_val .NE. info2%handle%mpi_val)
+# 591 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          mp_info_op_ne = (info1%handle .NE. info2%handle)
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       END FUNCTION mp_info_op_ne
+# 596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 # 597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
    SUBROUTINE mp_world_init(mp_comm)
@@ -3167,6 +3293,7 @@ CONTAINS
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -3180,11 +3307,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -3193,6 +3322,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_i11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3206,10 +3336,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_INTEGER, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_INTEGER, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -3222,8 +3355,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_i11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_i (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -3238,8 +3373,10 @@ CONTAINS
       !! mpi_alltoall
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -3247,6 +3384,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_i'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3258,12 +3396,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_INTEGER, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_INTEGER, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -3272,19 +3413,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_i
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_i22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_i
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_i22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3296,12 +3443,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_INTEGER, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_INTEGER, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -3310,21 +3460,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_i22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_i44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_i
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          INTEGER(KIND=int_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_i44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3341,10 +3497,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_INTEGER, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_INTEGER, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*int_4_size)
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -3354,14 +3513,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_i44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_i (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          INTEGER(KIND=int_4)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -3370,6 +3532,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_i'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3379,8 +3542,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_INTEGER, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*int_4_size)
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -3391,19 +3556,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_i
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_iv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_i
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_iv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3413,8 +3583,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_INTEGER, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*int_4_size)
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -3425,14 +3597,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_iv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_i (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -3441,6 +3616,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_i'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -3453,8 +3629,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_INTEGER, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_4_size)
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -3467,19 +3645,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_i
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_iv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_i
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_iv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -3492,8 +3675,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_INTEGER, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_4_size)
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -3506,14 +3691,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_iv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_i (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          INTEGER(KIND=int_4)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -3521,6 +3709,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_i'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3530,8 +3719,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_4_size)
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -3539,14 +3730,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_i
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_i (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          INTEGER(KIND=int_4)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -3555,6 +3749,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_i'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3564,8 +3759,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_INTEGER, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*int_4_size)
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -3574,19 +3771,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_i
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_iv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_i1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_iv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3596,28 +3798,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_4_size)
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_iv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_iv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_i1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_iv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3627,8 +3836,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_INTEGER, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*int_4_size)
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -3636,14 +3847,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_iv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_im(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_i1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -3658,27 +3873,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_4_size)
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_im
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_i3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_i1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_i3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -3688,27 +3910,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_4_size)
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_i3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_i (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_4), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_i'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -3718,26 +3946,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_i
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_iv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_i
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_iv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3751,28 +3986,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_iv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_iv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_i
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_iv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3786,11 +4028,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*int_4_size)
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -3798,18 +4042,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_iv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_im(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_i
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_im'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -3829,28 +4078,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*int_4_size)
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_im
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_im3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_i
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_im3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -3861,26 +4117,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_im3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_im4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_i
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_im4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -3892,16 +4155,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_im4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_iv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -3909,17 +4176,20 @@ CONTAINS
       !! mpi_reduce
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_iv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          INTEGER(KIND=int_4), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -3933,6 +4203,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_INTEGER, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -3941,21 +4212,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_iv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_im(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_iv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -3966,6 +4242,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          INTEGER(KIND=int_4), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -3980,6 +4257,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_INTEGER, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -3987,24 +4265,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_im
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_im(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_im'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -4020,9 +4304,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_INTEGER, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -4030,19 +4316,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_im
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_i (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_i'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4052,27 +4342,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_i
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_iv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_i
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_iv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4082,26 +4379,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_iv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_i (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_i'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4111,16 +4414,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_i
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_iv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -4128,13 +4435,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_i
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_iv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4144,15 +4454,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_iv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_i (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -4160,11 +4474,13 @@ CONTAINS
       !! mpi_allreduce
 
          INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_i'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4174,24 +4490,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_4_size)
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_i
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_i (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -4199,6 +4521,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_i'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4208,9 +4531,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_INTEGER, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_INTEGER, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_4_size)
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -4219,16 +4545,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_i
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_iv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -4236,6 +4566,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_iv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4245,9 +4576,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_INTEGER, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_INTEGER, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_4_size)
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -4256,17 +4590,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_iv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_iv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -4274,6 +4612,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_iv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -4282,9 +4621,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_INTEGER, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_INTEGER, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_4_size)
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -4296,16 +4638,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_iv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_i (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          INTEGER(KIND=int_4), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -4313,6 +4659,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_i'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4322,9 +4669,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_4_size)
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -4332,8 +4682,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_i
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_iv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -4343,15 +4695,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_i
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_iv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4361,9 +4717,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_4_size)
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -4371,8 +4730,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_iv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_im(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -4382,15 +4743,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_i
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_im'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -4400,9 +4765,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_4_size)
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -4410,8 +4778,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_im
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_iv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -4424,8 +4794,10 @@ CONTAINS
       !! mpi_gather
 
          INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -4436,6 +4808,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_iv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4448,11 +4821,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_INTEGER, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_INTEGER, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*int_4_size)
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -4461,8 +4837,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_iv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -4473,13 +4851,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4493,7 +4874,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4502,8 +4885,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -4514,13 +4899,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4534,7 +4922,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4543,8 +4933,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -4555,14 +4947,17 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4576,7 +4971,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4586,8 +4983,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -4601,13 +5000,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4621,7 +5023,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4630,20 +5034,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4657,7 +5067,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4666,20 +5078,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4693,7 +5111,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4702,20 +5122,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_i22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4729,7 +5155,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -4738,21 +5166,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_i22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4766,7 +5200,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4776,21 +5212,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4804,7 +5246,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4814,21 +5258,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4842,7 +5292,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4852,21 +5304,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4880,7 +5338,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4890,21 +5350,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_i33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_i12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_i33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4918,7 +5384,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -4928,8 +5396,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_i33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_iv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -4946,8 +5416,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -4956,6 +5428,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_iv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -4968,7 +5441,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_INTEGER, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_INTEGER, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -4978,8 +5453,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_iv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_iv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -4996,8 +5473,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -5007,6 +5486,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_iv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -5020,6 +5500,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_iv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -5031,8 +5512,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_iv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_iv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -5049,8 +5532,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -5060,6 +5545,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_iv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -5073,6 +5559,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_iv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -5084,14 +5571,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_iv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_iv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -5099,19 +5590,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_INTEGER, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_INTEGER, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_iv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_iv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -5119,6 +5616,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_iv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -5135,10 +5633,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_INTEGER, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_INTEGER, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*int_4_size/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -5147,8 +5648,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_iv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_i (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -5156,10 +5659,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          INTEGER(KIND=int_4)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          INTEGER(KIND=int_4)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -5172,6 +5677,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_i'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -5186,14 +5692,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_INTEGER, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_INTEGER, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*int_4_size)
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -5205,8 +5714,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_i
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_iv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -5217,10 +5728,12 @@ CONTAINS
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -5233,11 +5746,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_iv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_4)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5250,9 +5765,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -5260,15 +5777,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*int_4_size)
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -5280,26 +5800,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_iv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_iv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_iv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_iv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_4)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5312,14 +5838,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*int_4_size)
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -5332,27 +5861,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_iv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_im2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_iv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_iv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_im2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_4)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5365,14 +5901,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*int_4_size)
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -5385,26 +5924,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_im2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_iv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_iv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_iv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_4)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5417,14 +5962,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*int_4_size)
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -5436,27 +5984,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_iv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_im2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_iv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_iv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_im2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_4)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5469,14 +6024,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*int_4_size)
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -5488,23 +6046,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_im2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_iv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_iv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          INTEGER(KIND=int_4)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -5513,10 +6076,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*int_4_size
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, int_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, int_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -5526,8 +6092,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_iv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_iv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -5535,14 +6103,17 @@ CONTAINS
       !! @endnote
 
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_iv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -5563,12 +6134,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_INTEGER
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_INTEGER
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -5598,6 +6171,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*int_4_size)
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -5616,16 +6190,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_iv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_i (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_i'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -5634,6 +6211,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_INTEGER, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -5642,6 +6220,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 17
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -5653,11 +6232,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_i
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_i (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -5665,6 +6247,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_i'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -5684,15 +6267,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_i
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_i (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_i'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -5713,8 +6300,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_i
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_iv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -5723,6 +6312,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          INTEGER(KIND=int_4), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -5739,39 +6329,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_iv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_iv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_iv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_i (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_4), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_i'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_i @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_i
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_iv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -5780,6 +6381,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          INTEGER(KIND=int_4), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -5790,42 +6392,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_iv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_iv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_iv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_i (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_4), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_i'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_i @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_i
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_iv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -5834,6 +6447,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          INTEGER(KIND=int_4), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -5845,50 +6459,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_iv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_iv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_iv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_i (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_4), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_i'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_i @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_i
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_i (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          INTEGER(KIND=int_4), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_i'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -5897,26 +6524,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_INTEGER
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 17
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_i => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_i
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_i (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -5931,6 +6564,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_INTEGER, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -5940,14 +6574,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_i
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_i (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          INTEGER(KIND=int_4), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -5957,10 +6594,12 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_i
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -5974,11 +6613,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -5987,6 +6628,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_l11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6000,10 +6642,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_INTEGER8, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_INTEGER8, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -6016,8 +6661,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_l11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_l (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -6032,8 +6679,10 @@ CONTAINS
       !! mpi_alltoall
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -6041,6 +6690,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_l'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6052,12 +6702,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_INTEGER8, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_INTEGER8, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -6066,19 +6719,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_l
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_l22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_l
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_l22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6090,12 +6749,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_INTEGER8, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_INTEGER8, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -6104,21 +6766,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_l22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_l44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_l
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          INTEGER(KIND=int_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_l44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6135,10 +6803,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_INTEGER8, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_INTEGER8, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*int_8_size)
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -6148,14 +6819,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_l44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_l (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          INTEGER(KIND=int_8)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -6164,6 +6838,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_l'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6173,8 +6848,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_INTEGER8, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*int_8_size)
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -6185,19 +6862,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_l
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_lv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_l
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_lv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6207,8 +6889,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_INTEGER8, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*int_8_size)
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -6219,14 +6903,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_lv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_l (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -6235,6 +6922,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_l'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -6247,8 +6935,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_INTEGER8, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_8_size)
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -6261,19 +6951,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_l
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_lv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_l
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_lv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -6286,8 +6981,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_INTEGER8, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*int_8_size)
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -6300,14 +6997,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_lv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_l (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          INTEGER(KIND=int_8)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -6315,6 +7015,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_l'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6324,8 +7025,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER8, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_8_size)
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -6333,14 +7036,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_l
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_l (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          INTEGER(KIND=int_8)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -6349,6 +7055,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_l'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6358,8 +7065,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_INTEGER8, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*int_8_size)
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -6368,19 +7077,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_l
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_lv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_l1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_lv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6390,28 +7104,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER8, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_8_size)
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_lv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_lv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_l1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_lv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6421,8 +7142,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_INTEGER8, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*int_8_size)
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -6430,14 +7153,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_lv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_lm(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_l1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -6452,27 +7179,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER8, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_8_size)
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_lm
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_l3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_l1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_l3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6482,27 +7216,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_INTEGER8, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*int_8_size)
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_l3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_l (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_8), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_l'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -6512,26 +7252,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_l
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_lv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_l
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_lv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6545,28 +7292,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_lv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_lv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_l
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_lv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6580,11 +7334,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*int_8_size)
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -6592,18 +7348,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_lv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_lm(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_l
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_lm'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -6623,28 +7384,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*int_8_size)
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_lm
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_lm3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_l
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_lm3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -6655,26 +7423,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_lm3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_lm4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_l
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_lm4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -6686,16 +7461,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_lm4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_lv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -6703,17 +7482,20 @@ CONTAINS
       !! mpi_reduce
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_lv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          INTEGER(KIND=int_8), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -6727,6 +7509,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_INTEGER8, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -6735,21 +7518,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_lv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_lm(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_lv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -6760,6 +7548,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          INTEGER(KIND=int_8), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -6774,6 +7563,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_INTEGER8, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -6781,24 +7571,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_lm
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_lm(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_lm'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -6814,9 +7610,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_INTEGER8, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -6824,19 +7622,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_lm
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_l (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_l'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6846,27 +7648,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_l
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_lv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_l
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_lv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6876,26 +7685,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_lv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_l (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_l'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6905,16 +7720,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_l
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_lv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -6922,13 +7741,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_l
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_lv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6938,15 +7760,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_lv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_l (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -6954,11 +7780,13 @@ CONTAINS
       !! mpi_allreduce
 
          INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_l'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -6968,24 +7796,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_INTEGER8, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*int_8_size)
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_l
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_l (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -6993,6 +7827,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_l'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -7002,9 +7837,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_INTEGER8, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_INTEGER8, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_8_size)
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -7013,16 +7851,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_l
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_lv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -7030,6 +7872,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_lv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -7039,9 +7882,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_INTEGER8, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_INTEGER8, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_8_size)
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -7050,17 +7896,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_lv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_lv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -7068,6 +7918,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_lv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -7076,9 +7927,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_INTEGER8, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_INTEGER8, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*int_8_size)
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -7090,16 +7944,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_lv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_l (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          INTEGER(KIND=int_8), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -7107,6 +7965,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_l'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -7116,9 +7975,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER8, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER8, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_8_size)
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -7126,8 +7988,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_l
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_lv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -7137,15 +8001,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_l
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_lv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -7155,9 +8023,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER8, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER8, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_8_size)
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -7165,8 +8036,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_lv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_lm(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -7176,15 +8049,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_l
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_lm'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -7194,9 +8071,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_INTEGER8, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_INTEGER8, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*int_8_size)
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -7204,8 +8084,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_lm
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_lv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -7218,8 +8100,10 @@ CONTAINS
       !! mpi_gather
 
          INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -7230,6 +8114,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_lv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7242,11 +8127,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_INTEGER8, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_INTEGER8, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*int_8_size)
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -7255,8 +8143,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_lv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -7267,13 +8157,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7287,7 +8180,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7296,8 +8191,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -7308,13 +8205,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7328,7 +8228,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7337,8 +8239,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -7349,14 +8253,17 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7370,7 +8277,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7380,8 +8289,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -7395,13 +8306,16 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7415,7 +8329,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7424,20 +8340,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7451,7 +8373,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7460,20 +8384,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7487,7 +8417,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7496,20 +8428,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_l22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7523,7 +8461,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_INTEGER8, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -7532,21 +8472,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_l22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7560,7 +8506,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7570,21 +8518,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7598,7 +8552,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7608,21 +8564,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7636,7 +8598,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7646,21 +8610,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7674,7 +8644,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7684,21 +8656,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_l33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_l12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_l33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7712,7 +8690,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_INTEGER8, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_INTEGER8, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -7722,8 +8702,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_l33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_lv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -7740,8 +8722,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -7750,6 +8734,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_lv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7762,7 +8747,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_INTEGER8, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_INTEGER8, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -7772,8 +8759,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_lv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_lv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -7790,8 +8779,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -7801,6 +8792,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_lv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7814,6 +8806,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_lv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -7825,8 +8818,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_lv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_lv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -7843,8 +8838,10 @@ CONTAINS
       !! mpi_allgather
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -7854,6 +8851,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_lv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7867,6 +8865,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_lv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -7878,14 +8877,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_lv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_lv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -7893,19 +8896,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_INTEGER8, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_INTEGER8, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_lv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_lv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -7913,6 +8922,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_lv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7929,10 +8939,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_INTEGER8, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_INTEGER8, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*int_8_size/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -7941,8 +8954,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_lv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_l (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -7950,10 +8965,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          INTEGER(KIND=int_8)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          INTEGER(KIND=int_8)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -7966,6 +8983,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_l'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -7980,14 +8998,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_INTEGER8, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_INTEGER8, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*int_8_size)
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -7999,8 +9020,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_l
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_lv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -8011,10 +9034,12 @@ CONTAINS
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -8027,11 +9052,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_lv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_8)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8044,9 +9071,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -8054,15 +9083,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*int_8_size)
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -8074,26 +9106,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_lv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_lv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_lv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_lv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_8)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8106,14 +9144,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*int_8_size)
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -8126,27 +9167,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_lv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_lm2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_lv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_lv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_lm2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_8)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8159,14 +9207,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_INTEGER8, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_INTEGER8, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*int_8_size)
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -8179,26 +9230,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_lm2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_lv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_lv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_lv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_8)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8211,14 +9268,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*int_8_size)
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -8230,27 +9290,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_lv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_lm2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_lv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_lv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_lm2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          INTEGER(KIND=int_8)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8263,14 +9330,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_INTEGER8, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_INTEGER8, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*int_8_size)
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -8282,23 +9352,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_lm2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_lv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_lv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          INTEGER(KIND=int_8)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -8307,10 +9382,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*int_8_size
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, int_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, int_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -8320,8 +9398,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_lv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_lv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -8329,14 +9409,17 @@ CONTAINS
       !! @endnote
 
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_lv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -8357,12 +9440,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_INTEGER8
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_INTEGER8
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -8392,6 +9477,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*int_8_size)
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -8410,16 +9496,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_lv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_l (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_l'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -8428,6 +9517,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_INTEGER8, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -8436,6 +9526,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 19
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -8447,11 +9538,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_l
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_l (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -8459,6 +9553,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_l'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -8478,15 +9573,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_l
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_l (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_l'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -8507,8 +9606,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_l
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_lv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -8517,6 +9618,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          INTEGER(KIND=int_8), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -8533,39 +9635,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_lv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_lv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_lv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_l (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_8), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_l'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_l @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_l
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_lv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -8574,6 +9687,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          INTEGER(KIND=int_8), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -8584,42 +9698,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_lv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_lv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_lv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_l (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_8), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_l'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_l @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_l
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_lv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -8628,6 +9753,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          INTEGER(KIND=int_8), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -8639,50 +9765,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_lv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_lv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_lv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_l (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER(KIND=int_8), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_l'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_l @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_l
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_l (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          INTEGER(KIND=int_8), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_l'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -8691,26 +9830,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_INTEGER8
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 19
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_l => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_l
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_l (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -8725,6 +9870,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_INTEGER8, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -8734,14 +9880,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_l
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_l (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          INTEGER(KIND=int_8), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -8751,10 +9900,12 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_l
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -8768,11 +9919,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -8781,6 +9934,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_d11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -8794,10 +9948,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_DOUBLE_PRECISION, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_DOUBLE_PRECISION, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -8810,8 +9967,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_d11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_d (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -8826,8 +9985,10 @@ CONTAINS
       !! mpi_alltoall
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -8835,6 +9996,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_d'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -8846,12 +10008,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_DOUBLE_PRECISION, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_DOUBLE_PRECISION, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -8860,19 +10025,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_d
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_d22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_d
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_d22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -8884,12 +10055,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_DOUBLE_PRECISION, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_DOUBLE_PRECISION, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -8898,21 +10072,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_d22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_d44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_d
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          REAL(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_d44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -8929,10 +10109,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_DOUBLE_PRECISION, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_DOUBLE_PRECISION, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*real_8_size)
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -8942,14 +10125,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_d44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_d (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          REAL(kind=real_8)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -8958,6 +10144,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_d'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -8967,8 +10154,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_DOUBLE_PRECISION, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*real_8_size)
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -8979,19 +10168,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_d
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_dv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_d
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_dv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9001,8 +10195,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_DOUBLE_PRECISION, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*real_8_size)
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -9013,14 +10209,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_dv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_d (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          REAL(kind=real_8), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -9029,6 +10228,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_d'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -9041,8 +10241,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_PRECISION, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_8_size)
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -9055,19 +10257,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_d
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_dv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_d
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_dv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -9080,8 +10287,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_PRECISION, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_8_size)
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -9094,14 +10303,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_dv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_d (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          REAL(kind=real_8)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -9109,6 +10321,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_d'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9118,8 +10331,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_8_size)
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -9127,14 +10342,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_d
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_d (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          REAL(kind=real_8)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -9143,6 +10361,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_d'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9152,8 +10371,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*real_8_size)
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -9162,19 +10383,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_d
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_dv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_d1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_dv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9184,28 +10410,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_8_size)
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_dv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_dv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_d1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_dv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9215,8 +10448,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*real_8_size)
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -9224,14 +10459,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_dv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_dm(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_d1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -9246,27 +10485,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_8_size)
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_dm
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_d3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_d1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_d3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9276,27 +10522,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_PRECISION, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_8_size)
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_d3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_d (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_8), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_d'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -9306,26 +10558,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_d
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_dv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_d
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_dv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -9339,28 +10598,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_dv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_dv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_d
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_dv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -9374,11 +10640,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*real_8_size)
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -9386,18 +10654,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_dv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_dm(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_d
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_dm'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -9417,28 +10690,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*real_8_size)
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_dm
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_dm3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_d
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_dm3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -9449,26 +10729,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_dm3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_dm4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_d
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_dm4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -9480,16 +10767,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_dm4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_dv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -9497,17 +10788,20 @@ CONTAINS
       !! mpi_reduce
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_dv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          REAL(kind=real_8), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -9521,6 +10815,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -9529,21 +10824,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_dv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_dm(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_dv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -9554,6 +10854,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          REAL(kind=real_8), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -9568,6 +10869,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -9575,24 +10877,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_dm
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_dm(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_dm'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -9608,9 +10916,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_DOUBLE_PRECISION, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -9618,19 +10928,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_dm
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_d (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_8), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_d'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9640,27 +10954,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_d
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_dv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_d
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_dv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9670,26 +10991,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_dv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_d (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_8), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_d'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9699,16 +11026,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_d
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_dv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -9716,13 +11047,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_d
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_dv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9732,15 +11066,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_dv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_d (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -9748,11 +11086,13 @@ CONTAINS
       !! mpi_allreduce
 
          REAL(kind=real_8), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_d'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9762,24 +11102,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_PRECISION, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_8_size)
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_d
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_d (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          REAL(kind=real_8), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -9787,6 +11133,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_d'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9796,9 +11143,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_DOUBLE_PRECISION, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_DOUBLE_PRECISION, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_8_size)
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -9807,16 +11157,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_d
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_dv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -9824,6 +11178,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_dv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9833,9 +11188,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_DOUBLE_PRECISION, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_DOUBLE_PRECISION, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_8_size)
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -9844,17 +11202,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_dv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_dv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -9862,6 +11224,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_dv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -9870,9 +11233,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_DOUBLE_PRECISION, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_DOUBLE_PRECISION, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_8_size)
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -9884,16 +11250,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_dv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_d (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          REAL(kind=real_8), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -9901,6 +11271,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_d'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9910,9 +11281,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_PRECISION, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_PRECISION, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_8_size)
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -9920,8 +11294,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_d
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_dv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -9931,15 +11307,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_d
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_dv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9949,9 +11329,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_PRECISION, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_PRECISION, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_8_size)
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -9959,8 +11342,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_dv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_dm(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -9970,15 +11355,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_d
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_dm'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -9988,9 +11377,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_PRECISION, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_PRECISION, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_8_size)
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -9998,8 +11390,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_dm
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_dv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -10012,8 +11406,10 @@ CONTAINS
       !! mpi_gather
 
          REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -10024,6 +11420,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_dv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10036,11 +11433,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_DOUBLE_PRECISION, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_DOUBLE_PRECISION, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*real_8_size)
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -10049,8 +11449,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_dv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -10061,13 +11463,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10081,7 +11486,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10090,8 +11497,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -10102,13 +11511,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10122,7 +11534,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10131,8 +11545,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -10143,14 +11559,17 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10164,7 +11583,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10174,8 +11595,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -10189,13 +11612,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10209,7 +11635,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10218,20 +11646,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10245,7 +11679,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10254,20 +11690,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10281,7 +11723,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10290,20 +11734,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_d22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10317,7 +11767,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -10326,21 +11778,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_d22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10354,7 +11812,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10364,21 +11824,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10392,7 +11858,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10402,21 +11870,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10430,7 +11904,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10440,21 +11916,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10468,7 +11950,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10478,21 +11962,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_d33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_d12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_d33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10506,7 +11996,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_PRECISION, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_PRECISION, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -10516,8 +12008,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_d33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_dv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -10534,8 +12028,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -10544,6 +12040,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_dv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10556,7 +12053,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_DOUBLE_PRECISION, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_DOUBLE_PRECISION, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -10566,8 +12065,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_dv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_dv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -10584,8 +12085,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -10595,6 +12098,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_dv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10608,6 +12112,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_dv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -10619,8 +12124,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_dv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_dv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -10637,8 +12144,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -10648,6 +12157,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_dv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10661,6 +12171,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_dv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -10672,14 +12183,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_dv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_dv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -10687,19 +12202,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_DOUBLE_PRECISION, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_DOUBLE_PRECISION, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_dv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_dv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -10707,6 +12228,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_dv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10723,10 +12245,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_DOUBLE_PRECISION, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_DOUBLE_PRECISION, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*real_8_size/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -10735,8 +12260,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_dv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_d (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -10744,10 +12271,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          REAL(kind=real_8)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          REAL(kind=real_8)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -10760,6 +12289,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_d'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -10774,14 +12304,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*real_8_size)
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -10793,8 +12326,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_d
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_dv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -10805,10 +12340,12 @@ CONTAINS
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -10821,11 +12358,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_dv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_8)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -10838,9 +12377,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -10848,15 +12389,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*real_8_size)
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -10868,26 +12412,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_dv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_dv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_dv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_dv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_8)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -10900,14 +12450,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*real_8_size)
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -10920,27 +12473,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_dv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_dm2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_dv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_dv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_dm2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_8)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -10953,14 +12513,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_PRECISION, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*real_8_size)
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -10973,26 +12536,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_dm2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_dv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_dv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_dv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_8)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -11005,14 +12574,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*real_8_size)
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -11024,27 +12596,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_dv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_dm2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_dv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_dv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_dm2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_8)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -11057,14 +12636,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_PRECISION, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*real_8_size)
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -11076,23 +12658,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_dm2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_dv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_dv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          REAL(kind=real_8)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -11101,10 +12688,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*real_8_size
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, real_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, real_8_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -11114,8 +12704,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_dv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_dv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -11123,14 +12715,17 @@ CONTAINS
       !! @endnote
 
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_dv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -11151,12 +12746,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_DOUBLE_PRECISION
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_DOUBLE_PRECISION
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -11186,6 +12783,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*real_8_size)
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -11204,16 +12802,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_dv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_d (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_d'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -11222,6 +12823,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_DOUBLE_PRECISION, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -11230,6 +12832,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 3
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -11241,11 +12844,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_d
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_d (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -11253,6 +12859,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_d'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -11272,15 +12879,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_d
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_d (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_d'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -11301,8 +12912,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_d
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_dv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -11311,6 +12924,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          REAL(kind=real_8), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -11327,39 +12941,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_dv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_dv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_dv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_d (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_8), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_d'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_d @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_d
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_dv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -11368,6 +12993,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          REAL(kind=real_8), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -11378,42 +13004,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_dv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_dv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_dv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_d (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_8), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_d'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_d @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_d
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_dv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -11422,6 +13059,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          REAL(kind=real_8), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -11433,50 +13071,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_dv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_dv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_dv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_d (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_8), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_d'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_d @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_d
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_d (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          REAL(kind=real_8), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_d'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -11485,26 +13136,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_DOUBLE_PRECISION
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 3
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_d => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_d
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_d (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -11519,6 +13176,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_DOUBLE_PRECISION, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -11528,14 +13186,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_d
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_d (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          REAL(kind=real_8), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -11545,10 +13206,12 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_d
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -11562,11 +13225,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -11575,6 +13240,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_r11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -11588,10 +13254,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_REAL, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_REAL, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -11604,8 +13273,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_r11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_r (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -11620,8 +13291,10 @@ CONTAINS
       !! mpi_alltoall
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -11629,6 +13302,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_r'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -11640,12 +13314,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_REAL, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_REAL, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -11654,19 +13331,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_r
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_r22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_r
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_r22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -11678,12 +13361,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_REAL, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_REAL, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -11692,21 +13378,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_r22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_r44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_r
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          REAL(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_r44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -11723,10 +13415,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_REAL, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_REAL, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*real_4_size)
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -11736,14 +13431,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_r44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_r (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          REAL(kind=real_4)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -11752,6 +13450,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_r'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -11761,8 +13460,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_REAL, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*real_4_size)
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -11773,19 +13474,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_r
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_rv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_r
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_rv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -11795,8 +13501,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_REAL, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*real_4_size)
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -11807,14 +13515,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_rv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_r (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          REAL(kind=real_4), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -11823,6 +13534,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_r'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -11835,8 +13547,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_REAL, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_4_size)
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -11849,19 +13563,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_r
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_rv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_r
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_rv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -11874,8 +13593,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_REAL, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*real_4_size)
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -11888,14 +13609,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_rv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_r (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          REAL(kind=real_4)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -11903,6 +13627,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_r'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -11912,8 +13637,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_REAL, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_4_size)
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -11921,14 +13648,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_r
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_r (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          REAL(kind=real_4)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -11937,6 +13667,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_r'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -11946,8 +13677,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_REAL, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*real_4_size)
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -11956,19 +13689,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_r
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_rv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_r1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_rv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -11978,28 +13716,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_REAL, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_4_size)
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_rv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_rv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_r1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_rv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12009,8 +13754,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_REAL, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*real_4_size)
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -12018,14 +13765,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_rv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_rm(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_r1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -12040,27 +13791,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_REAL, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_4_size)
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_rm
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_r3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_r1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_r3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12070,27 +13828,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_REAL, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*real_4_size)
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_r3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_r (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_4), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_r'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -12100,26 +13864,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_r
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_rv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_r
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_rv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12133,28 +13904,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_rv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_rv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_r
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_rv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12168,11 +13946,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*real_4_size)
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -12180,18 +13960,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_rv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_rm(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_r
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_rm'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12211,28 +13996,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*real_4_size)
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_rm
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_rm3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_r
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_rm3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -12243,26 +14035,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_rm3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_rm4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_r
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_rm4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -12274,16 +14073,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_rm4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_rv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -12291,17 +14094,20 @@ CONTAINS
       !! mpi_reduce
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_rv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          REAL(kind=real_4), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -12315,6 +14121,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_REAL, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -12323,21 +14130,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_rv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_rm(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_rv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -12348,6 +14160,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          REAL(kind=real_4), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -12362,6 +14175,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_REAL, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -12369,24 +14183,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_rm
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_rm(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_rm'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -12402,9 +14222,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_REAL, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -12412,19 +14234,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_rm
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_r (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_4), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_r'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12434,27 +14260,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_r
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_rv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_r
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_rv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12464,26 +14297,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_rv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_r (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          REAL(kind=real_4), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_r'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12493,16 +14332,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_r
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_rv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -12510,13 +14353,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_r
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_rv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12526,15 +14372,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_rv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_r (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -12542,11 +14392,13 @@ CONTAINS
       !! mpi_allreduce
 
          REAL(kind=real_4), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_r'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12556,24 +14408,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_REAL, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*real_4_size)
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_r
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_r (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          REAL(kind=real_4), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -12581,6 +14439,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_r'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12590,9 +14449,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_REAL, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_REAL, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_4_size)
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -12601,16 +14463,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_r
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_rv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -12618,6 +14484,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_rv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12627,9 +14494,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_REAL, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_REAL, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_4_size)
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -12638,17 +14508,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_rv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_rv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -12656,6 +14530,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_rv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -12664,9 +14539,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_REAL, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_REAL, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*real_4_size)
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -12678,16 +14556,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_rv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_r (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          REAL(kind=real_4), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -12695,6 +14577,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_r'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12704,9 +14587,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_REAL, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_REAL, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_4_size)
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -12714,8 +14600,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_r
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_rv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -12725,15 +14613,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_r
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_rv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12743,9 +14635,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_REAL, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_REAL, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_4_size)
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -12753,8 +14648,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_rv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_rm(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -12764,15 +14661,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_r
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_rm'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -12782,9 +14683,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_REAL, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_REAL, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*real_4_size)
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -12792,8 +14696,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_rm
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_rv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -12806,8 +14712,10 @@ CONTAINS
       !! mpi_gather
 
          REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -12818,6 +14726,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_rv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12830,11 +14739,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_REAL, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_REAL, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*real_4_size)
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -12843,8 +14755,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_rv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -12855,13 +14769,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12875,7 +14792,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -12884,8 +14803,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -12896,13 +14817,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12916,7 +14840,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -12925,8 +14851,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -12937,14 +14865,17 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -12958,7 +14889,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -12968,8 +14901,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -12983,13 +14918,16 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13003,7 +14941,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -13012,20 +14952,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13039,7 +14985,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -13048,20 +14996,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13075,7 +15029,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -13084,20 +15040,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_r22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13111,7 +15073,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_REAL, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_REAL, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -13120,21 +15084,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_r22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13148,7 +15118,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -13158,21 +15130,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13186,7 +15164,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -13196,21 +15176,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13224,7 +15210,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -13234,21 +15222,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13262,7 +15256,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -13272,21 +15268,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_r33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_r12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_r33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13300,7 +15302,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_REAL, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_REAL, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -13310,8 +15314,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_r33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_rv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -13328,8 +15334,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -13338,6 +15346,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_rv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13350,7 +15359,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_REAL, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_REAL, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -13360,8 +15371,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_rv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_rv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -13378,8 +15391,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -13389,6 +15404,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_rv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13402,6 +15418,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_rv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -13413,8 +15430,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_rv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_rv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -13431,8 +15450,10 @@ CONTAINS
       !! mpi_allgather
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -13442,6 +15463,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_rv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13455,6 +15477,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_rv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -13466,14 +15489,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_rv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_rv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -13481,19 +15508,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_REAL, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_REAL, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_rv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_rv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -13501,6 +15534,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_rv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13517,10 +15551,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_REAL, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_REAL, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*real_4_size/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -13529,8 +15566,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_rv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_r (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -13538,10 +15577,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          REAL(kind=real_4)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          REAL(kind=real_4)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -13554,6 +15595,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_r'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -13568,14 +15610,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_REAL, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_REAL, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*real_4_size)
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -13587,8 +15632,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_r
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_rv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -13599,10 +15646,12 @@ CONTAINS
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -13615,11 +15664,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_rv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_4)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13632,9 +15683,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -13642,15 +15695,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*real_4_size)
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -13662,26 +15718,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_rv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_rv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_rv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_rv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_4)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13694,14 +15756,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*real_4_size)
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -13714,27 +15779,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_rv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_rm2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_rv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_rv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_rm2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_4)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13747,14 +15819,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_REAL, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_REAL, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*real_4_size)
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -13767,26 +15842,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_rm2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_rv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_rv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_rv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_4)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13799,14 +15880,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*real_4_size)
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -13818,27 +15902,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_rv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_rm2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_rv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_rv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_rm2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          REAL(kind=real_4)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13851,14 +15942,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_REAL, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_REAL, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*real_4_size)
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -13870,23 +15964,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_rm2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_rv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_rv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          REAL(kind=real_4)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -13895,10 +15994,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*real_4_size
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, real_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, real_4_size, MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -13908,8 +16010,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_rv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_rv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -13917,14 +16021,17 @@ CONTAINS
       !! @endnote
 
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_rv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -13945,12 +16052,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_REAL
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_REAL
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -13980,6 +16089,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*real_4_size)
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -13998,16 +16108,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_rv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_r (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_r'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -14016,6 +16129,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_REAL, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -14024,6 +16138,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 1
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -14035,11 +16150,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_r
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_r (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -14047,6 +16165,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_r'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -14066,15 +16185,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_r
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_r (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_r'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -14095,8 +16218,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_r
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_rv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -14105,6 +16230,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          REAL(kind=real_4), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -14121,39 +16247,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_rv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_rv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_rv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_r (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_4), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_r'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_r @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_r
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_rv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -14162,6 +16299,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          REAL(kind=real_4), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -14172,42 +16310,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_rv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_rv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_rv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_r (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_4), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_r'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_r @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_r
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_rv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -14216,6 +16365,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          REAL(kind=real_4), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -14227,50 +16377,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_rv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_rv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_rv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_r (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          REAL(kind=real_4), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_r'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_r @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_r
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_r (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          REAL(kind=real_4), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_r'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -14279,26 +16442,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_REAL
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 1
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_r => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_r
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_r (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -14313,6 +16482,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_REAL, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -14322,14 +16492,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_r
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_r (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          REAL(kind=real_4), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -14339,10 +16512,12 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_r
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -14356,11 +16531,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -14369,6 +16546,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_z11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14382,10 +16560,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_DOUBLE_COMPLEX, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_DOUBLE_COMPLEX, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -14398,8 +16579,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_z11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_z (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -14414,8 +16597,10 @@ CONTAINS
       !! mpi_alltoall
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -14423,6 +16608,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_z'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14434,12 +16620,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_DOUBLE_COMPLEX, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_DOUBLE_COMPLEX, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -14448,19 +16637,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_z
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_z22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_z
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_z22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14472,12 +16667,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_DOUBLE_COMPLEX, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_DOUBLE_COMPLEX, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -14486,21 +16684,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_z22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_z44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_z
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          COMPLEX(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_z44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14517,10 +16721,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_DOUBLE_COMPLEX, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_DOUBLE_COMPLEX, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*(2*real_8_size))
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -14530,14 +16737,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_z44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_z (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          COMPLEX(kind=real_8)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -14546,6 +16756,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_z'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14555,8 +16766,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_DOUBLE_COMPLEX, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*(2*real_8_size))
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -14567,19 +16780,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_z
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_zv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_z
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_zv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14589,8 +16807,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_DOUBLE_COMPLEX, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*(2*real_8_size))
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -14601,14 +16821,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_zv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_z (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -14617,6 +16840,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_z'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -14629,8 +16853,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_COMPLEX, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_8_size))
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -14643,19 +16869,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_z
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_zv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_z
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_zv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -14668,8 +16899,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_DOUBLE_COMPLEX, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_8_size))
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -14682,14 +16915,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_zv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_z (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          COMPLEX(kind=real_8)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -14697,6 +16933,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_z'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14706,8 +16943,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_8_size))
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -14715,14 +16954,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_z
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_z (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          COMPLEX(kind=real_8)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -14731,6 +16973,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_z'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14740,8 +16983,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*(2*real_8_size))
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -14750,19 +16995,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_z
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_zv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_z1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_zv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14772,28 +17022,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_8_size))
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_zv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_zv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_z1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_zv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14803,8 +17060,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*(2*real_8_size))
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -14812,14 +17071,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_zv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_zm(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_z1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -14834,27 +17097,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_8_size))
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_zm
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_z3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_z1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_z3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -14864,27 +17134,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_DOUBLE_COMPLEX, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_8_size))
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_z3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_z (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_8), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_z'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -14894,26 +17170,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_z
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_zv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_z
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_zv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14927,28 +17210,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_zv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_zv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_z
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_zv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -14962,11 +17252,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*(2*real_8_size))
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -14974,18 +17266,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_zv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_zm(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_z
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_zm'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15005,28 +17302,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*(2*real_8_size))
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_zm
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_zm3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_z
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_zm3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -15037,26 +17341,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_zm3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_zm4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_z
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_zm4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -15068,16 +17379,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_zm4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_zv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -15085,17 +17400,20 @@ CONTAINS
       !! mpi_reduce
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_zv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          COMPLEX(kind=real_8), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -15109,6 +17427,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -15117,21 +17436,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_zv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_zm(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_zv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -15142,6 +17466,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          COMPLEX(kind=real_8), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -15156,6 +17481,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -15163,24 +17489,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_zm
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_zm(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_zm'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -15196,9 +17528,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_DOUBLE_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -15206,19 +17540,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_zm
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_z (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_z'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15228,27 +17566,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_z
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_zv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_z
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_zv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15258,26 +17603,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_zv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_z (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_z'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15287,16 +17638,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_z
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_zv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -15304,13 +17659,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_z
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_zv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15320,15 +17678,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_zv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_z (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -15336,11 +17698,13 @@ CONTAINS
       !! mpi_allreduce
 
          COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_z'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15350,24 +17714,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_DOUBLE_COMPLEX, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_8_size))
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_z
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_z (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -15375,6 +17745,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_z'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15384,9 +17755,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_DOUBLE_COMPLEX, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_DOUBLE_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_8_size))
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -15395,16 +17769,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_z
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_zv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -15412,6 +17790,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_zv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15421,9 +17800,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_DOUBLE_COMPLEX, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_DOUBLE_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_8_size))
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -15432,17 +17814,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_zv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_zv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -15450,6 +17836,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_zv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -15458,9 +17845,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_DOUBLE_COMPLEX, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_DOUBLE_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_8_size))
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -15472,16 +17862,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_zv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_z (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          COMPLEX(kind=real_8), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -15489,6 +17883,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_z'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15498,9 +17893,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_COMPLEX, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_COMPLEX, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_8_size))
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -15508,8 +17906,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_z
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_zv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -15519,15 +17919,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_z
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_zv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15537,9 +17941,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_COMPLEX, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_COMPLEX, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_8_size))
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -15547,8 +17954,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_zv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_zm(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -15558,15 +17967,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_z
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_zm'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -15576,9 +17989,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_DOUBLE_COMPLEX, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_DOUBLE_COMPLEX, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_8_size))
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -15586,8 +18002,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_zm
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_zv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -15600,8 +18018,10 @@ CONTAINS
       !! mpi_gather
 
          COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -15612,6 +18032,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_zv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15624,11 +18045,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_DOUBLE_COMPLEX, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_DOUBLE_COMPLEX, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*(2*real_8_size))
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -15637,8 +18061,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_zv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -15649,13 +18075,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15669,7 +18098,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15678,8 +18109,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -15690,13 +18123,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15710,7 +18146,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15719,8 +18157,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -15731,14 +18171,17 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15752,7 +18195,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -15762,8 +18207,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -15777,13 +18224,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15797,7 +18247,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15806,20 +18258,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15833,7 +18291,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15842,20 +18302,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15869,7 +18335,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15878,20 +18346,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_z22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15905,7 +18379,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -15914,21 +18390,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_z22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15942,7 +18424,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -15952,21 +18436,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -15980,7 +18470,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -15990,21 +18482,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16018,7 +18516,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -16028,21 +18528,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16056,7 +18562,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -16066,21 +18574,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_z33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_z12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_z33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16094,7 +18608,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_DOUBLE_COMPLEX, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_DOUBLE_COMPLEX, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -16104,8 +18620,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_z33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_zv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -16122,8 +18640,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -16132,6 +18652,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_zv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16144,7 +18665,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_DOUBLE_COMPLEX, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_DOUBLE_COMPLEX, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -16154,8 +18677,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_zv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_zv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -16172,8 +18697,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -16183,6 +18710,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_zv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16196,6 +18724,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_zv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -16207,8 +18736,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_zv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -16225,8 +18756,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -16236,6 +18769,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_zv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16249,6 +18783,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_zv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -16260,14 +18795,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_zv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_zv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -16275,19 +18814,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_DOUBLE_COMPLEX, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_DOUBLE_COMPLEX, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_zv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_zv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -16295,6 +18840,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_zv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16311,10 +18857,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_DOUBLE_COMPLEX, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_DOUBLE_COMPLEX, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*(2*real_8_size)/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -16323,8 +18872,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_zv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_z (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -16332,10 +18883,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          COMPLEX(kind=real_8)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          COMPLEX(kind=real_8)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -16348,6 +18901,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_z'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -16362,14 +18916,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*(2*real_8_size))
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -16381,8 +18938,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_z
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_zv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -16393,10 +18952,12 @@ CONTAINS
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -16409,11 +18970,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_zv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_8)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16426,9 +18989,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -16436,15 +19001,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*(2*real_8_size))
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -16456,26 +19024,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_zv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_zv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_zv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_zv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_8)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16488,14 +19062,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*(2*real_8_size))
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -16508,27 +19085,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_zv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_zm2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_zv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_zv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_zm2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_8)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16541,14 +19125,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_DOUBLE_COMPLEX, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*(2*real_8_size))
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -16561,26 +19148,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_zm2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_zv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_zv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_zv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_8)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16593,14 +19186,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*(2*real_8_size))
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -16612,27 +19208,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_zv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_zm2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_zv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_zv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_zm2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_8)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16645,14 +19248,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_DOUBLE_COMPLEX, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*(2*real_8_size))
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -16664,23 +19270,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_zm2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_zv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_zv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          COMPLEX(kind=real_8)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -16689,10 +19300,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*(2*real_8_size)
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, (2*real_8_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, (2*real_8_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -16702,8 +19316,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_zv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_zv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -16711,14 +19327,17 @@ CONTAINS
       !! @endnote
 
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_zv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -16739,12 +19358,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_DOUBLE_COMPLEX
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_DOUBLE_COMPLEX
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -16774,6 +19395,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*(2*real_8_size))
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -16792,16 +19414,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_zv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_z (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_z'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -16810,6 +19435,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_DOUBLE_COMPLEX, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -16818,6 +19444,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 7
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -16829,11 +19456,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_z
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_z (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -16841,6 +19471,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_z'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -16860,15 +19491,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_z
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_z (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_z'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -16889,8 +19524,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_z
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_zv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -16899,6 +19536,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          COMPLEX(kind=real_8), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -16915,39 +19553,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_zv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_zv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_zv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_z (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_8), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_z'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_z @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_z
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_zv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -16956,6 +19605,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          COMPLEX(kind=real_8), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -16966,42 +19616,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_zv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_zv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_zv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_z (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_8), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_z'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_z @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_z
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_zv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -17010,6 +19671,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          COMPLEX(kind=real_8), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -17021,50 +19683,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_zv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_zv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_zv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_z (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_8), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_z'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_z @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_z
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_z (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          COMPLEX(kind=real_8), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_z'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -17073,26 +19748,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_DOUBLE_COMPLEX
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 7
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_z => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_z
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_z (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -17107,6 +19788,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_DOUBLE_COMPLEX, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -17116,14 +19798,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_z
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_z (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -17133,10 +19818,12 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_z
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 2832 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
+# 2833 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
       !! MPI mapping
@@ -17150,11 +19837,13 @@ CONTAINS
       !! Values in sdispl and rdispl start with 0.
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2846 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, CONTIGUOUS, INTENT(IN)          :: scount(:), sdispl(:)
          !! Data counts for data sent to other processes
          !! Respective data offsets for data sent to process
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: rb(:)
+# 2851 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Buffer into which to receive data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          !! Data counts for data received from other processes
@@ -17163,6 +19852,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_c11v'
+# 2859 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17176,10 +19866,13 @@ CONTAINS
          ierr = 0
 #if defined(__parallel)
          CALL mpi_alltoallv(sb, scount, sdispl, MPI_COMPLEX, &
+# 2872 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             rb, rcount, rdispl, MPI_COMPLEX, group%handle, ierr)
+# 2873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoallv @ "//routineN)
          msglen = SUM(scount) + SUM(rcount)
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+# 2876 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(group)
          MARK_USED(scount)
@@ -17192,8 +19885,10 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_c11v
+# 2888 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_c (sb, rb, count, group)
+# 2890 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 1 arrays, equal sizes
       !!
       !! Index meaning
@@ -17208,8 +19903,10 @@ CONTAINS
       !! mpi_alltoall
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:)
+# 2904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array with data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:)
+# 2906 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! array into which data is received
          INTEGER, INTENT(IN)                      :: count
          !! number of elements to send/receive (product of the extents of the first two dimensions)
@@ -17217,6 +19914,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_c'
+# 2913 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17228,12 +19926,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_COMPLEX, &
+# 2924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_COMPLEX, group%handle, ierr)
+# 2925 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*count*np
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+# 2930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -17242,19 +19943,25 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_c
+# 2938 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_c22(sb, rb, count, group)
+# 2940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank-2 arrays, equal sizes
       !! @note
       !! see mp_alltoall_c
+# 2943 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: sb(:, :)
+# 2946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: rb(:, :)
+# 2947 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_c22'
+# 2951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17266,12 +19973,15 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_alltoall(sb, count, MPI_COMPLEX, &
+# 2962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            rb, count, MPI_COMPLEX, group%handle, ierr)
+# 2963 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
          CALL mpi_comm_size(group%handle, np, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
          msglen = 2*SIZE(sb)*np
          CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+# 2968 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(count)
          MARK_USED(group)
@@ -17280,21 +19990,27 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_c22
+# 2976 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_alltoall_c44(sb, rb, count, group)
+# 2978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note
       !! see mp_alltoall_c
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2984 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(IN)                            :: sb
          COMPLEX(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
+# 2986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTENT(OUT)                           :: rb
          INTEGER, INTENT(IN)                      :: count
          TYPE(mp_comm_type), INTENT(IN)           :: group
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_alltoall_c44'
+# 2991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17311,10 +20027,13 @@ CONTAINS
             rb = sb
          ELSE
             CALL mpi_alltoall(sb, count, MPI_COMPLEX, &
+# 3007 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rb, count, MPI_COMPLEX, group%handle, ierr)
+# 3008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_alltoall @ "//routineN)
             msglen = 2*count*np
             CALL add_perf(perf_id=6, msg_size=msglen*(2*real_4_size))
+# 3011 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
 #else
          MARK_USED(count)
@@ -17324,14 +20043,17 @@ CONTAINS
          CALL timestop(handle)
 
       END SUBROUTINE mp_alltoall_c44
+# 3020 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_c (msg, dest, tag, gid)
+# 3022 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send one datum to another process
       !!
       !! MPI mapping
       !! mpi_send
 
          COMPLEX(kind=real_4)                                :: msg
+# 3028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar to send
          INTEGER                                  :: dest, tag
          !! Destination process
@@ -17340,6 +20062,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_c'
+# 3036 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17349,8 +20072,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_COMPLEX, dest, tag, gid%handle, ierr)
+# 3045 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*(2*real_4_size))
+# 3047 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -17361,19 +20086,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_c
+# 3057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_send_cv(msg, dest, tag, gid)
+# 3059 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Send rank-1 data to another process
       !! @note
       !! see mp_send_c
+# 3062 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3065 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          INTEGER                                  :: dest, tag
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_send_cv'
+# 3070 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17383,8 +20113,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_send(msg, msglen, MPI_COMPLEX, dest, tag, gid%handle, ierr)
+# 3079 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_send @ "//routineN)
          CALL add_perf(perf_id=13, msg_size=msglen*(2*real_4_size))
+# 3081 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(dest)
@@ -17395,14 +20127,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_send_cv
+# 3091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_c (msg, source, tag, gid)
+# 3093 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive one datum from another process
       !!
       !! MPI mapping
       !! mpi_send
 
          COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
+# 3099 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this variable
          INTEGER, INTENT(INOUT)                   :: source, tag
          !! Process to receive from
@@ -17411,6 +20146,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_c'
+# 3107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -17423,8 +20159,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_COMPLEX, source, tag, gid%handle, status, ierr)
+# 3119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_4_size))
+# 3121 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -17437,19 +20175,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_c
+# 3133 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_recv_cv(msg, source, tag, gid)
+# 3135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Receive rank-1 data from another process
       !! @note
       !! see mp_recv_c
+# 3138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Place received data into this rank-1 array
          INTEGER, INTENT(INOUT)                   :: source, tag
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_recv_cv'
+# 3146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
@@ -17462,8 +20205,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_recv(msg, msglen, MPI_COMPLEX, source, tag, gid%handle, status, ierr)
+# 3158 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_recv @ "//routineN)
          CALL add_perf(perf_id=14, msg_size=msglen*(2*real_4_size))
+# 3160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          source = status MPI_STATUS_EXTRACT(MPI_SOURCE)
          tag = status MPI_STATUS_EXTRACT(MPI_TAG)
 #else
@@ -17476,14 +20221,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_recv_cv
+# 3172 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_c (msg, source, gid)
+# 3174 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          COMPLEX(kind=real_4)                                :: msg
+# 3180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -17491,6 +20239,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_c'
+# 3187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17500,8 +20249,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_COMPLEX, source, gid%handle, ierr)
+# 3196 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_4_size))
+# 3198 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -17509,14 +20260,17 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_c
+# 3205 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_c (msg, source, gid, request)
+# 3207 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts a datum to all processes.
       !!
       !! MPI mapping
       !! mpi_bcast
 
          COMPLEX(kind=real_4)                                :: msg
+# 3213 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to broadcast
          INTEGER                                  :: source
          !! Processes which broadcasts
@@ -17525,6 +20279,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_c'
+# 3221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17534,8 +20289,10 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_COMPLEX, source, gid%handle, request%handle, ierr)
+# 3230 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*(2*real_4_size))
+# 3232 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(source)
@@ -17544,19 +20301,24 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_c
+# 3240 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_cv(msg, source, gid)
+# 3242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_c1
+# 3245 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3248 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_cv'
+# 3253 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17566,28 +20328,35 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_COMPLEX, source, gid%handle, ierr)
+# 3262 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_4_size))
+# 3264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_cv
+# 3270 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_ibcast_cv(msg, source, gid, request)
+# 3272 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-1 data to all processes
       !! @note
       !! see mp_bcast_c1
+# 3275 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
+# 3278 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_ibcast_cv'
+# 3284 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17597,8 +20366,10 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_ibcast(msg, msglen, MPI_COMPLEX, source, gid%handle, request%handle, ierr)
+# 3293 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_ibcast @ "//routineN)
          CALL add_perf(perf_id=22, msg_size=msglen*(2*real_4_size))
+# 3295 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
@@ -17606,14 +20377,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_ibcast_cv
+# 3302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_cm(msg, source, gid)
+# 3304 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-2 data to all processes
       !! @note
       !! see mp_bcast_c1
+# 3307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:, :)
+# 3310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -17628,27 +20403,34 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_COMPLEX, source, gid%handle, ierr)
+# 3324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_4_size))
+# 3326 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_cm
+# 3332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_bcast_c3(msg, source, gid)
+# 3334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Broadcasts rank-3 data to all processes
       !! @note
       !! see mp_bcast_c1
+# 3337 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:, :, :)
+# 3340 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to broadcast
          INTEGER                                  :: source
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_c3'
+# 3345 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -17658,27 +20440,33 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_bcast(msg, msglen, MPI_COMPLEX, source, gid%handle, ierr)
+# 3354 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_bcast @ "//routineN)
          CALL add_perf(perf_id=2, msg_size=msglen*(2*real_4_size))
+# 3356 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_bcast_c3
+# 3362 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_c (msg, gid)
+# 3364 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sums a datum from all processes with result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_4), INTENT(INOUT)    :: msg
+# 3370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to sum (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)         :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_c'
+# 3375 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                     :: handle, ierr, msglen
 
@@ -17688,26 +20476,33 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3384 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3386 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_c
+# 3392 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_cv(msg, gid)
+# 3394 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_c
+# 3397 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3400 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_cv'
+# 3404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17721,28 +20516,35 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3417 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_cv
+# 3426 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isum_cv(msg, gid, request)
+# 3428 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note
       !! see mp_sum_c
+# 3431 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3434 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum and result
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isum_cv'
+# 3439 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17756,11 +20558,13 @@ CONTAINS
          msglen = SIZE(msg)
          IF (msglen > 0) THEN
             CALL mpi_iallreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, request%handle, ierr)
+# 3452 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallreduce @ "//routineN)
          ELSE
             request = mp_request_null
          END IF
          CALL add_perf(perf_id=23, msg_size=msglen*(2*real_4_size))
+# 3457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
@@ -17768,18 +20572,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isum_cv
+# 3464 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_cm(msg, gid)
+# 3466 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-2 array on all processes.
       !! @note
       !! see mp_sum_c
+# 3469 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_cm'
+# 3476 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -17799,28 +20608,35 @@ CONTAINS
             msglensum = msglensum + msglen
             IF (msglen > 0) THEN
                CALL mpi_allreduce(MPI_IN_PLACE, msg(LBOUND(msg, 1), m1), msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
             END IF
          END DO
          CALL add_perf(perf_id=3, msg_size=msglensum*(2*real_4_size))
+# 3499 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_cm
+# 3505 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_cm3(msg, gid)
+# 3507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-3 array on all processes.
       !! @note
       !! see mp_sum_c
+# 3510 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :)
+# 3513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_cm3'
+# 3517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -17831,26 +20647,33 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3530 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_cm3
+# 3535 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_cm4(msg, gid)
+# 3537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of a rank-4 array on all processes.
       !! @note
       !! see mp_sum_c
+# 3540 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :, :, :)
+# 3543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Array to sum and result
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_cm4'
+# 3547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, &
                                                      msglen
@@ -17862,16 +20685,20 @@ CONTAINS
 #if defined(__parallel)
          IF (msglen > 0) THEN
             CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3561 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_cm4
+# 3566 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_cv(msg, root, gid)
+# 3568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !!
@@ -17879,17 +20706,20 @@ CONTAINS
       !! mpi_reduce
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3575 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_root_cv'
+# 3581 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 #if defined(__parallel)
          INTEGER                                  :: m1, taskid
          COMPLEX(kind=real_4), ALLOCATABLE                     :: res(:)
+# 3586 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -17903,6 +20733,7 @@ CONTAINS
             m1 = SIZE(msg, 1)
             ALLOCATE (res(m1))
             CALL mpi_reduce(msg, res, msglen, MPI_COMPLEX, MPI_SUM, &
+# 3599 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             root, gid%handle, ierr)
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
@@ -17911,21 +20742,26 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3607 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_cv
+# 3613 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_root_cm(msg, root, gid)
+# 3615 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Element-wise sum of data from all processes with result left only on
       !! one.
       !! @note
       !! see mp_sum_root_cv
+# 3619 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:, :)
+# 3622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input) and (only on process root) result (output)
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -17936,6 +20772,7 @@ CONTAINS
 #if defined(__parallel)
          INTEGER                                  :: m1, m2, taskid
          COMPLEX(kind=real_4), ALLOCATABLE                     :: res(:, :)
+# 3632 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -17950,6 +20787,7 @@ CONTAINS
             m2 = SIZE(msg, 2)
             ALLOCATE (res(m1, m2))
             CALL mpi_reduce(msg, res, msglen, MPI_COMPLEX, MPI_SUM, root, gid%handle, ierr)
+# 3646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce @ "//routineN)
             IF (taskid == root) THEN
                msg = res
@@ -17957,24 +20795,30 @@ CONTAINS
             DEALLOCATE (res)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3653 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_root_cm
+# 3659 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_sum_partial_cm(msg, res, gid)
+# 3661 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Partial sum of data from all processes with result on each process.
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)  :: msg(:, :)
+# 3664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix to sum (input)
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT) :: res(:, :)
+# 3666 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Matrix containing result (output)
          TYPE(mp_comm_type), INTENT(IN)                :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER        :: routineN = 'mp_sum_partial_cm'
+# 3671 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                            :: handle, ierr, msglen
 #if defined(__parallel)
@@ -17990,9 +20834,11 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
          IF (msglen > 0) THEN
             CALL mpi_scan(msg, res, msglen, MPI_COMPLEX, MPI_SUM, gid%handle, ierr)
+# 3686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scan @ "//routineN)
          END IF
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3689 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ! perf_id is same as for other summation routines
 #else
          res = msg
@@ -18000,19 +20846,23 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sum_partial_cm
+# 3696 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_c (msg, gid)
+# 3698 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the maximum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
+# 3704 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_c'
+# 3709 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18022,27 +20872,34 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_MAX, gid%handle, ierr)
+# 3718 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3720 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_c
+# 3726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_max_cv(msg, gid)
+# 3728 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise maximum of a vector with the result left on
       !! all processes.
       !! @note
       !! see mp_max_c
+# 3732 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3735 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find maximum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_max_cv'
+# 3739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18052,26 +20909,32 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_MAX, gid%handle, ierr)
+# 3748 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_max_cv
+# 3755 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_c (msg, gid)
+# 3757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the minimum of a datum with the result left on all processes.
       !!
       !! MPI mapping
       !! mpi_allreduce
 
          COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
+# 3763 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_c'
+# 3768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18081,16 +20944,20 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_MIN, gid%handle, ierr)
+# 3777 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3779 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_c
+# 3785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_min_cv(msg, gid)
+# 3787 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Finds the element-wise minimum of vector with the result left on
       !! all processes.
       !!
@@ -18098,13 +20965,16 @@ CONTAINS
       !! mpi_allreduce
       !! @note
       !! see mp_min_c
+# 3794 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3797 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Find minimum among these data (input) and maximum (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_min_cv'
+# 3801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18114,15 +20984,19 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_MIN, gid%handle, ierr)
+# 3810 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3812 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_min_cv
+# 3817 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_prod_c (msg, gid)
+# 3819 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Multiplies a set of numbers scattered across a number of processes,
       !! then replicates the result.
       !!
@@ -18130,11 +21004,13 @@ CONTAINS
       !! mpi_allreduce
 
          COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
+# 3826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! a number to multiply (input) and result (output)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_c'
+# 3831 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18144,24 +21020,30 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_allreduce(MPI_IN_PLACE, msg, msglen, MPI_COMPLEX, MPI_PROD, gid%handle, ierr)
+# 3840 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allreduce @ "//routineN)
          CALL add_perf(perf_id=3, msg_size=msglen*(2*real_4_size))
+# 3842 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msg)
          MARK_USED(gid)
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_prod_c
+# 3848 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_c (msg_scatter, msg, root, gid, request)
+# 3850 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
+# 3858 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -18169,6 +21051,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_c'
+# 3865 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18178,9 +21061,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_COMPLEX, msg, &
+# 3874 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_4_size))
+# 3877 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -18189,16 +21075,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_c
+# 3885 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatter_cv2(msg_scatter, msg, root, gid, request)
+# 3887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
+# 3893 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3895 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -18206,6 +21096,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatter_cv2'
+# 3902 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18215,9 +21106,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_iscatter(msg_scatter, msglen, MPI_COMPLEX, msg, &
+# 3911 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen, MPI_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3912 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatter @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_4_size))
+# 3914 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -18226,17 +21120,21 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatter_cv2
+# 3922 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iscatterv_cv(msg_scatter, sendcounts, displs, msg, recvcount, root, gid, request)
+# 3924 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Scatters data from one processes to all others
       !!
       !! MPI mapping
       !! mpi_scatter
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
+# 3930 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to scatter (for root process)
          INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+# 3933 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: recvcount, root
          !! Process which scatters data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -18244,6 +21142,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)                   :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iscatterv_cv'
+# 3940 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 
@@ -18252,9 +21151,12 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_iscatterv(msg_scatter, sendcounts, displs, MPI_COMPLEX, msg, &
+# 3948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             recvcount, MPI_COMPLEX, root, gid%handle, request%handle, ierr)
+# 3949 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iscatterv @ "//routineN)
          CALL add_perf(perf_id=24, msg_size=1*(2*real_4_size))
+# 3951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(sendcounts)
          MARK_USED(displs)
@@ -18266,16 +21168,20 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iscatterv_cv
+# 3962 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_c (msg, msg_gather, root, gid)
+# 3964 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes to one
       !!
       !! MPI mapping
       !! mpi_gather
 
          COMPLEX(kind=real_4), INTENT(IN)                    :: msg
+# 3970 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 3972 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, INTENT(IN)                      :: root
          !! Process which gathers the data
@@ -18283,6 +21189,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_c'
+# 3979 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18292,9 +21199,12 @@ CONTAINS
          msglen = 1
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_COMPLEX, msg_gather, &
+# 3988 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_COMPLEX, root, gid%handle, ierr)
+# 3989 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_4_size))
+# 3991 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -18302,8 +21212,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_c
+# 3998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_cv(msg, msg_gather, root, gid)
+# 4000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -18313,15 +21225,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_c
+# 4009 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
+# 4012 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
+# 4014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_cv'
+# 4018 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18331,9 +21247,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_COMPLEX, msg_gather, &
+# 4027 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_COMPLEX, root, gid%handle, ierr)
+# 4028 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_4_size))
+# 4030 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -18341,8 +21260,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_cv
+# 4037 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gather_cm(msg, msg_gather, root, gid)
+# 4039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one
       !!
       !! Data length
@@ -18352,15 +21273,19 @@ CONTAINS
       !! mpi_gather
       !! @note
       !! see mp_gather_c
+# 4048 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
+# 4051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send to root
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
+# 4053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: root
          TYPE(mp_comm_type), INTENT(IN)           :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_cm'
+# 4057 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr, msglen
 
@@ -18370,9 +21295,12 @@ CONTAINS
          msglen = SIZE(msg)
 #if defined(__parallel)
          CALL mpi_gather(msg, msglen, MPI_COMPLEX, msg_gather, &
+# 4066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                          msglen, MPI_COMPLEX, root, gid%handle, ierr)
+# 4067 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gather @ "//routineN)
          CALL add_perf(perf_id=4, msg_size=msglen*(2*real_4_size))
+# 4069 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(root)
          MARK_USED(gid)
@@ -18380,8 +21308,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gather_cm
+# 4076 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_gatherv_cv(sendbuf, recvbuf, recvcounts, displs, root, comm)
+# 4078 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers data from all processes to one.
       !!
       !! Data length
@@ -18394,8 +21324,10 @@ CONTAINS
       !! mpi_gather
 
          COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
+# 4090 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send to root
          COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
+# 4092 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data (on root)
          INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
@@ -18406,6 +21338,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gatherv_cv'
+# 4102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18418,11 +21351,14 @@ CONTAINS
 #if defined(__parallel)
          sendcount = SIZE(sendbuf)
          CALL mpi_gatherv(sendbuf, sendcount, MPI_COMPLEX, &
+# 4114 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           recvbuf, recvcounts, displs, MPI_COMPLEX, &
+# 4115 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                           root, comm%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_gatherv @ "//routineN)
          CALL add_perf(perf_id=4, &
                        msg_size=sendcount*(2*real_4_size))
+# 4119 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(recvcounts)
          MARK_USED(root)
@@ -18431,8 +21367,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_gatherv_cv
+# 4127 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c (msgout, msgin, gid)
+# 4129 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -18443,13 +21381,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
+# 4139 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4141 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c'
+# 4146 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18463,7 +21404,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4159 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4160 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18472,8 +21415,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c
+# 4168 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c2(msgout, msgin, gid)
+# 4170 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -18484,13 +21429,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
+# 4180 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4182 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c2'
+# 4187 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18504,7 +21452,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4200 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18513,8 +21463,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c2
+# 4209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c (msgout, msgin, gid, request)
+# 4211 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers a datum from all processes and all processes receive the
       !! same data
       !!
@@ -18525,14 +21477,17 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
+# 4221 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Datum to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4223 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          !! Message passing environment identifier
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c'
+# 4229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18546,7 +21501,9 @@ CONTAINS
          scount = 1
          rcount = 1
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4242 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4243 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18556,8 +21513,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c
+# 4252 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c12(msgout, msgin, gid)
+# 4254 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -18571,13 +21530,16 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4267 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4269 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c12'
+# 4274 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18591,7 +21553,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4287 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4288 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18600,20 +21564,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c12
+# 4296 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c23(msgout, msgin, gid)
+# 4298 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers matrix data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4302 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4305 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4307 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c23'
+# 4310 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18627,7 +21597,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4323 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18636,20 +21608,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c23
+# 4332 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c34(msgout, msgin, gid)
+# 4334 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4338 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4341 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4343 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c34'
+# 4346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18663,7 +21641,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4360 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18672,20 +21652,26 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c34
+# 4368 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgather_c22(msgout, msgin, gid)
+# 4370 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4374 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4377 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c22'
+# 4382 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18699,7 +21685,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_ALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4395 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             msgin, rcount, MPI_COMPLEX, &
+# 4396 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                             gid%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgather @ "//routineN)
 #else
@@ -18708,21 +21696,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgather_c22
+# 4404 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c11(msgout, msgin, gid, request)
+# 4406 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-1 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c11
+# 4410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4413 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c11'
+# 4419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18736,7 +21730,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4433 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18746,21 +21742,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c11
+# 4442 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c13(msgout, msgin, gid, request)
+# 4444 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4448 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4451 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4453 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c13'
+# 4457 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18774,7 +21776,9 @@ CONTAINS
          scount = SIZE(msgout(:))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4470 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18784,21 +21788,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c13
+# 4480 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c22(msgout, msgin, gid, request)
+# 4482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4486 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4489 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
+# 4491 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c22'
+# 4495 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18812,7 +21822,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4508 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4509 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18822,21 +21834,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c22
+# 4518 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c24(msgout, msgin, gid, request)
+# 4520 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-2 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4524 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
+# 4527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-2 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
+# 4529 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c24'
+# 4533 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18850,7 +21868,9 @@ CONTAINS
          scount = SIZE(msgout(:, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4546 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18860,21 +21880,27 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c24
+# 4556 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgather_c33(msgout, msgin, gid, request)
+# 4558 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers rank-3 data from all processes and all processes receive the
       !! same data
       !! @note
       !! see mp_allgather_c12
+# 4562 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
+# 4565 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-3 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
+# 4567 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)           :: gid
          TYPE(mp_request_type), INTENT(OUT)       :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgather_c33'
+# 4571 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18888,7 +21914,9 @@ CONTAINS
          scount = SIZE(msgout(:, :, :))
          rcount = scount
          CALL MPI_IALLGATHER(msgout, scount, MPI_COMPLEX, &
+# 4584 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              msgin, rcount, MPI_COMPLEX, &
+# 4585 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              gid%handle, request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgather @ "//routineN)
 #else
@@ -18898,8 +21926,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgather_c33
+# 4594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allgatherv_cv(msgout, msgin, rcount, rdispl, gid)
+# 4596 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -18916,8 +21946,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4612 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)                      :: gid
@@ -18926,6 +21958,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgatherv_cv'
+# 4622 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18938,7 +21971,9 @@ CONTAINS
 #if defined(__parallel)
          scount = SIZE(msgout)
          CALL MPI_ALLGATHERV(msgout, scount, MPI_COMPLEX, msgin, rcount, &
+# 4634 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                              rdispl, MPI_COMPLEX, gid%handle, ierr)
+# 4635 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_allgatherv @ "//routineN)
 #else
          MARK_USED(rcount)
@@ -18948,8 +21983,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_allgatherv_cv
+# 4644 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_cv(msgout, msgin, rcount, rdispl, gid, request)
+# 4646 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -18966,8 +22003,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
+# 4662 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4664 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -18977,6 +22016,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_cv'
+# 4673 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -18990,6 +22030,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_cv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4686 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -19001,8 +22042,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_cv
+# 4697 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_iallgatherv_cv2(msgout, msgin, rcount, rdispl, gid, request)
+# 4699 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Gathers vector data from all processes and all processes receive the
       !! same data
       !!
@@ -19019,8 +22062,10 @@ CONTAINS
       !! mpi_allgather
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
+# 4715 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Rank-1 data to send
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
+# 4717 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -19030,6 +22075,7 @@ CONTAINS
          TYPE(mp_request_type), INTENT(INOUT)     :: request
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_iallgatherv_cv2'
+# 4726 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -19043,6 +22089,7 @@ CONTAINS
          scount = SIZE(msgout)
          rsize = SIZE(rcount)
          CALL mp_iallgatherv_cv_internal(msgout, scount, msgin, rsize, rcount, &
+# 4739 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                                      rdispl, gid, request, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_iallgatherv @ "//routineN)
 #else
@@ -19054,14 +22101,18 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_iallgatherv_cv2
+# 4750 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_iallgatherv_cv_internal(msgout, scount, msgin, rsize, rcount, rdispl, gid, request, ierr)
+# 4753 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+# 4757 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
+# 4758 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: rsize
          INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), scount
          TYPE(mp_comm_type), INTENT(IN)           :: gid
@@ -19069,19 +22120,25 @@ CONTAINS
          INTEGER, INTENT(INOUT)                   :: ierr
 
          CALL MPI_IALLGATHERV(msgout, scount, MPI_COMPLEX, msgin, rcount, &
+# 4765 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                               rdispl, MPI_COMPLEX, gid%handle, request%handle, ierr)
+# 4766 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       END SUBROUTINE mp_iallgatherv_cv_internal
+# 4768 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
       SUBROUTINE mp_sendrecv_cv(msgin, dest, msgout, source, comm)
+# 4771 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Sends and receives vector data
 
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
+# 4774 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
          COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
+# 4778 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Received data
          INTEGER, INTENT(IN)                      :: source
          !! Process from which to receive
@@ -19089,6 +22146,7 @@ CONTAINS
          !! Message passing environment identifier
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sendrecv_cv'
+# 4785 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -19105,10 +22163,13 @@ CONTAINS
          send_tag = 0 ! cannot think of something better here, this might be dangerous
          recv_tag = 0 ! cannot think of something better here, this might be dangerous
          CALL mpi_sendrecv(msgin, msglen_in, MPI_COMPLEX, dest, send_tag, msgout, &
+# 4801 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            msglen_out, MPI_COMPLEX, source, recv_tag, comm%handle, MPI_STATUS_IGNORE, ierr)
+# 4802 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_sendrecv @ "//routineN)
          CALL add_perf(perf_id=7, &
                        msg_size=(msglen_in + msglen_out)*(2*real_4_size)/2)
+# 4805 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -19117,8 +22178,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_sendrecv_cv
+# 4813 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_c (msgin, dest, msgout, source, comm, send_request, &
+# 4815 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a scalar
       !!
@@ -19126,10 +22189,12 @@ CONTAINS
       !! Calls mpi_isend and mpi_irecv.
 
          COMPLEX(kind=real_4)                                :: msgin
+# 4822 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Scalar data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          COMPLEX(kind=real_4)                                :: msgout
+# 4826 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -19142,6 +22207,7 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_c'
+# 4838 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
@@ -19156,14 +22222,17 @@ CONTAINS
          IF (PRESENT(tag)) my_tag = tag
 
          CALL mpi_irecv(msgout, 1, MPI_COMPLEX, source, my_tag, &
+# 4852 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, recv_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL mpi_isend(msgin, 1, MPI_COMPLEX, dest, my_tag, &
+# 4856 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                         comm%handle, send_request%handle, ierr)
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=8, msg_size=2*(2*real_4_size))
+# 4860 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -19175,8 +22244,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_c
+# 4871 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isendrecv_cv(msgin, dest, msgout, source, comm, send_request, &
+# 4873 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                              recv_request, tag)
       !! Non-blocking send and receive of a vector
       !!
@@ -19187,10 +22258,12 @@ CONTAINS
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4883 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Vector data to send
          INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 4887 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! Receive data into this pointer
          INTEGER, INTENT(IN)                      :: source
          !! Process to receive from
@@ -19203,11 +22276,13 @@ CONTAINS
          !! tag to differentiate requests
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isendrecv_cv'
+# 4899 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_4)                                :: foo
+# 4904 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19220,9 +22295,11 @@ CONTAINS
          msglen = SIZE(msgout, 1)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
+# 4916 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
+# 4919 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, recv_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
@@ -19230,15 +22307,18 @@ CONTAINS
          msglen = SIZE(msgin, 1)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
+# 4926 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
+# 4929 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, send_request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          msglen = (msglen + SIZE(msgout, 1) + 1)/2
          CALL add_perf(perf_id=8, msg_size=msglen*(2*real_4_size))
+# 4935 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(dest)
          MARK_USED(source)
@@ -19250,26 +22330,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isendrecv_cv
+# 4946 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_cv(msgin, dest, comm, request, tag)
+# 4948 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of vector data
       !! @note
       !! see mp_isendrecv_cv
+# 4951 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
+# 4955 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_cv'
+# 4961 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_4)                                :: foo(1)
+# 4966 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19282,14 +22368,17 @@ CONTAINS
          msglen = SIZE(msgin)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
+# 4978 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
+# 4981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*(2*real_4_size))
+# 4986 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -19302,27 +22391,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_cv
+# 4998 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_isend_cm2(msgin, dest, comm, request, tag)
+# 5000 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking send of matrix data
       !! @note
       !! see mp_isendrecv_cv
+# 5003 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_isend_cv
+# 5004 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
+# 5008 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: dest
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_cm2'
+# 5014 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_4)                                :: foo(1)
+# 5019 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19335,14 +22431,17 @@ CONTAINS
          msglen = SIZE(msgin, 1)*SIZE(msgin, 2)
          IF (msglen > 0) THEN
             CALL mpi_isend(msgin, msglen, MPI_COMPLEX, dest, my_tag, &
+# 5031 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_isend(foo, msglen, MPI_COMPLEX, dest, my_tag, &
+# 5034 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
 
          CALL add_perf(perf_id=11, msg_size=msglen*(2*real_4_size))
+# 5039 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgin)
          MARK_USED(dest)
@@ -19355,26 +22454,32 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_isend_cm2
+# 5051 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_cv(msgout, source, comm, request, tag)
+# 5053 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of vector data
       !! @note
       !! see mp_isendrecv_cv
+# 5056 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
+# 5060 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_cv'
+# 5066 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_4)                                :: foo(1)
+# 5071 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19387,14 +22492,17 @@ CONTAINS
          msglen = SIZE(msgout)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
+# 5083 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
+# 5086 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*(2*real_4_size))
+# 5091 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          DBCSR_ABORT("mp_irecv called in non parallel case")
          MARK_USED(msgout)
@@ -19406,27 +22514,34 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_cv
+# 5102 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_irecv_cm2(msgout, source, comm, request, tag)
+# 5104 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Non-blocking receive of matrix data
       !! @note
       !! see mp_isendrecv_cv
+# 5107 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! see mp_irecv_cv
+# 5108 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
+# 5112 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                      :: source
          TYPE(mp_comm_type), INTENT(IN)           :: comm
          TYPE(mp_request_type), INTENT(out)       :: request
          INTEGER, INTENT(in), OPTIONAL            :: tag
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_cm2'
+# 5118 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: handle, ierr
 #if defined(__parallel)
          INTEGER                                  :: msglen, my_tag
          COMPLEX(kind=real_4)                                :: foo(1)
+# 5123 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19439,14 +22554,17 @@ CONTAINS
          msglen = SIZE(msgout, 1)*SIZE(msgout, 2)
          IF (msglen > 0) THEN
             CALL mpi_irecv(msgout, msglen, MPI_COMPLEX, source, my_tag, &
+# 5135 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          ELSE
             CALL mpi_irecv(foo, msglen, MPI_COMPLEX, source, my_tag, &
+# 5138 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                            comm%handle, request%handle, ierr)
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_irecv @ "//routineN)
 
          CALL add_perf(perf_id=12, msg_size=msglen*(2*real_4_size))
+# 5143 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(msgout)
          MARK_USED(source)
@@ -19458,23 +22576,28 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_irecv_cm2
+# 5154 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_win_create_cv(base, comm, win)
+# 5156 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Window initialization function for vector data
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:) :: base
+# 5162 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_comm_type), INTENT(IN)      :: comm
          TYPE(mp_win_type), INTENT(OUT)      :: win
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_win_create_cv'
+# 5166 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                        :: ierr, handle
 #if defined(__parallel)
          INTEGER(kind=mpi_address_kind) :: len
          COMPLEX(kind=real_4)                      :: foo(1)
+# 5171 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
          ierr = 0
@@ -19483,10 +22606,13 @@ CONTAINS
 #if defined(__parallel)
 
          len = SIZE(base)*(2*real_4_size)
+# 5179 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (len > 0) THEN
             CALL mpi_win_create(base, len, (2*real_4_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5181 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          ELSE
             CALL mpi_win_create(foo, len, (2*real_4_size), MPI_INFO_NULL, comm%handle, win%handle, ierr)
+# 5183 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END IF
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_win_create @ "//routineN)
 #else
@@ -19496,8 +22622,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_win_create_cv
+# 5192 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_rget_cv(base, source, win, win_data, myproc, disp, request, &
+# 5194 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                         origin_datatype, target_datatype)
       !! Single-sided get function for vector data
       !! @note
@@ -19505,14 +22633,17 @@ CONTAINS
       !! @endnote
 
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: base
+# 5201 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN)                                 :: source
          TYPE(mp_win_type), INTENT(IN)                       :: win
          COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
+# 5204 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
          TYPE(mp_request_type), INTENT(OUT)                  :: request
          TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rget_cv'
+# 5209 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                  :: ierr, handle
 #if defined(__parallel)
@@ -19533,12 +22664,14 @@ CONTAINS
             disp_aint = INT(disp, KIND=mpi_address_kind)
          END IF
          handle_origin_datatype = MPI_COMPLEX
+# 5229 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          origin_len = len
          IF (PRESENT(origin_datatype)) THEN
             handle_origin_datatype = origin_datatype%type_handle
             origin_len = 1
          END IF
          handle_target_datatype = MPI_COMPLEX
+# 5235 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          target_len = len
          IF (PRESENT(target_datatype)) THEN
             handle_target_datatype = target_datatype%type_handle
@@ -19568,6 +22701,7 @@ CONTAINS
          IF (ierr /= 0) CALL mp_stop(ierr, "mpi_rget @ "//routineN)
 
          CALL add_perf(perf_id=25, msg_size=SIZE(base)*(2*real_4_size))
+# 5264 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          MARK_USED(source)
          MARK_USED(win)
@@ -19586,16 +22720,19 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_rget_cv
+# 5282 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! ***************************************************************************
       FUNCTION mp_type_indexed_make_c (count, lengths, displs) &
+# 5286 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          RESULT(type_descriptor)
          INTEGER, INTENT(IN)                              :: count
          INTEGER, DIMENSION(1:count), INTENT(IN), TARGET  :: lengths, displs
          TYPE(mp_type_descriptor_type)                    :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_indexed_make_c'
+# 5292 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr, handle
 
@@ -19604,6 +22741,7 @@ CONTAINS
 
 #if defined(__parallel)
          CALL mpi_type_indexed(count, lengths, displs, MPI_COMPLEX, &
+# 5300 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                type_descriptor%type_handle, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Type_Indexed @ "//routineN)
@@ -19612,6 +22750,7 @@ CONTAINS
             DBCSR_ABORT("MPI_Type_commit @ "//routineN)
 #else
          type_descriptor%type_handle = 5
+# 5308 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%length = count
          NULLIFY (type_descriptor%subtype)
@@ -19623,11 +22762,14 @@ CONTAINS
          CALL timestop(handle)
 
       END FUNCTION mp_type_indexed_make_c
+# 5319 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_allocate_c (DATA, len, stat)
+# 5321 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates special parallel memory
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5324 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to integer array to allocate
          INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -19635,6 +22777,7 @@ CONTAINS
          !! allocation status result
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allocate_c'
+# 5331 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -19654,15 +22797,19 @@ CONTAINS
          IF (PRESENT(stat)) stat = ierr
          CALL timestop(handle)
       END SUBROUTINE mp_allocate_c
+# 5350 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_deallocate_c (DATA, stat)
+# 5352 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates special parallel memory
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5355 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! pointer to special memory to deallocate
          INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_deallocate_c'
+# 5359 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                             :: ierr, handle
 
@@ -19683,8 +22830,10 @@ CONTAINS
 #endif
          CALL timestop(handle)
       END SUBROUTINE mp_deallocate_c
+# 5379 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_cv(fh, offset, msg, msglen)
+# 5381 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking individual file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -19693,6 +22842,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          COMPLEX(kind=real_4), INTENT(IN)                      :: msg(:)
+# 5389 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data to be written to the file
          TYPE(mp_file_type), INTENT(IN)             :: fh
          !! file handle (file storage unit)
@@ -19709,39 +22859,50 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_cv'
+# 5405 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER :: ierr
             ierr = 0
             CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5408 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_cv @ "//routineN)
+# 5410 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_cv
+# 5415 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_c (fh, offset, msg)
+# 5419 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_4), INTENT(IN)                      :: msg
+# 5420 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_c'
+# 5425 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT(fh%handle, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5430 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_c @ "//routineN)
+# 5432 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_c
+# 5436 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
       SUBROUTINE mp_file_write_at_all_cv(fh, offset, msg, msglen)
+# 5438 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file write using explicit offsets
       !! (serial) Unformatted stream write
       !!
@@ -19750,6 +22911,7 @@ CONTAINS
       !! STREAM-I/O mapping   WRITE
 
          COMPLEX(kind=real_4), INTENT(IN)                      :: msg(:)
+# 5446 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER                                    :: msg_len
@@ -19760,42 +22922,53 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_cv'
+# 5456 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5460 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_write_at_all_cv @ "//routineN)
+# 5462 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_write_at_all_cv
+# 5467 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_write_at_all_c (fh, offset, msg)
+# 5471 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_4), INTENT(IN)                      :: msg
+# 5472 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_c'
+# 5477 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_WRITE_AT_ALL(fh%handle, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5482 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_write_at_all_c @ "//routineN)
+# 5484 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          WRITE (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_write_at_all_c
+# 5488 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_cv(fh, offset, msg, msglen)
+# 5492 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
       !!
@@ -19804,6 +22977,7 @@ CONTAINS
       !! STREAM-I/O mapping   READ
 
          COMPLEX(kind=real_4), INTENT(OUT)                     :: msg(:)
+# 5500 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER, INTENT(IN), OPTIONAL              :: msglen
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
@@ -19815,50 +22989,63 @@ CONTAINS
 #if defined(__parallel)
          BLOCK
             CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_cv'
+# 5511 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             INTEGER                                    :: ierr
             ierr = 0
 
             CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5515 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             IF (ierr .NE. 0) &
                DBCSR_ABORT("mpi_file_read_at_all_cv @ "//routineN)
+# 5517 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          END BLOCK
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg(1:msg_len)
 #endif
       END SUBROUTINE mp_file_read_at_all_cv
+# 5522 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       SUBROUTINE mp_file_read_at_all_c (fh, offset, msg)
+# 5526 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          COMPLEX(kind=real_4), INTENT(OUT)                     :: msg
+# 5527 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          TYPE(mp_file_type), INTENT(IN)             :: fh
          INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
 #if defined(__parallel)
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_c'
+# 5532 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER                                    :: ierr
 
          ierr = 0
          CALL MPI_FILE_READ_AT_ALL(fh%handle, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+# 5537 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (ierr .NE. 0) &
             DBCSR_ABORT("mpi_file_read_at_all_c @ "//routineN)
+# 5539 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #else
          READ (UNIT=fh%handle, POS=offset + 1) msg
 #endif
       END SUBROUTINE mp_file_read_at_all_c
+# 5543 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 ! *****************************************************************************
 ! *****************************************************************************
       FUNCTION mp_type_make_c (ptr, &
+# 5547 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
                                            vector_descriptor, index_descriptor) &
          RESULT(type_descriptor)
          COMPLEX(kind=real_4), DIMENSION(:), POINTER                  :: ptr
+# 5550 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL       :: vector_descriptor
          TYPE(mp_indexing_meta_type), INTENT(IN), OPTIONAL :: index_descriptor
          TYPE(mp_type_descriptor_type)                     :: type_descriptor
 
          CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_make_c'
+# 5555 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
          INTEGER :: ierr
 
@@ -19867,26 +23054,32 @@ CONTAINS
          type_descriptor%length = SIZE(ptr)
 #if defined(__parallel)
          type_descriptor%type_handle = MPI_COMPLEX
+# 5563 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          CALL MPI_Get_address(ptr, type_descriptor%base, ierr)
          IF (ierr /= 0) &
             DBCSR_ABORT("MPI_Get_address @ "//routineN)
 #else
          type_descriptor%type_handle = 5
+# 5568 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
          type_descriptor%vector_descriptor(1:2) = 1
          type_descriptor%has_indexing = .FALSE.
          type_descriptor%data_c => ptr
+# 5572 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          IF (PRESENT(vector_descriptor) .OR. PRESENT(index_descriptor)) THEN
             DBCSR_ABORT(routineN//": Vectors and indices NYI")
          END IF
       END FUNCTION mp_type_make_c
+# 5576 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 #if defined(__parallel)
       SUBROUTINE mp_alloc_mem_c (DATA, len, stat)
+# 5579 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
+# 5583 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          !! data array to allocate
          INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -19901,6 +23094,7 @@ CONTAINS
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(MPI_COMPLEX, size, ierr)
+# 5597 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
          mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
@@ -19910,14 +23104,17 @@ CONTAINS
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_c
+# 5606 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 #if defined(__parallel)
       SUBROUTINE mp_free_mem_c (DATA, stat)
+# 5610 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
 
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 5614 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
             POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
          INTEGER, INTENT(OUT), OPTIONAL           :: stat
@@ -19927,6 +23124,7 @@ CONTAINS
          CALL MPI_FREE_MEM(DATA, mp_res)
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_c
+# 5623 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 #endif
 
 # 5626 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"

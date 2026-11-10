@@ -701,6 +701,7 @@ CONTAINS
 # 695 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
 # 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_d (norms, nblks, &
+# 697 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
          REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
@@ -708,6 +709,7 @@ CONTAINS
          INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
          INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
          REAL(kind=real_8), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
             INTENT(IN)                            :: DATA
 
          INTEGER                                  :: blk, bp, bpe, row, col
@@ -732,13 +734,16 @@ CONTAINS
 # 726 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = rbs(row)*cbs(col)
                norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
+# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_d
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_s (norms, nblks, &
+# 697 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
          REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
@@ -746,6 +751,7 @@ CONTAINS
          INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
          INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
          REAL(kind=real_4), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
             INTENT(IN)                            :: DATA
 
          INTEGER                                  :: blk, bp, bpe, row, col
@@ -770,13 +776,16 @@ CONTAINS
 # 726 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                bpe = rbs(row)*cbs(col)
                norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
+# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          END DO
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_s
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_z (norms, nblks, &
+# 697 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
          REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
@@ -784,6 +793,7 @@ CONTAINS
          INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
          INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
          COMPLEX(kind=real_8), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
             INTENT(IN)                            :: DATA
 
          INTEGER                                  :: blk, bp, bpe, row, col
@@ -813,8 +823,10 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_z
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 696 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       SUBROUTINE calc_norms_c (norms, nblks, &
+# 697 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
                                            blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
          REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
@@ -822,6 +834,7 @@ CONTAINS
          INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
          INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
          COMPLEX(kind=real_4), DIMENSION(:), &
+# 704 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
             INTENT(IN)                            :: DATA
 
          INTEGER                                  :: blk, bp, bpe, row, col
@@ -851,6 +864,7 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
       END SUBROUTINE calc_norms_c
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 # 737 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common

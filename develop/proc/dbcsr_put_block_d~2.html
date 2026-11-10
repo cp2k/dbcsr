@@ -179,7 +179,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~402"></span>
+              <span class="anchor" id="variable-matrix~196"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -194,7 +194,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~210"></span>
+              <span class="anchor" id="variable-row~121"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -210,7 +210,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~136"></span>
+              <span class="anchor" id="variable-col~72"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -226,7 +226,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~207"></span>
+              <span class="anchor" id="variable-block~155"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -241,7 +241,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lb_row_col~4"></span>
+              <span class="anchor" id="variable-lb_row_col~3"></span>
               integer,
             </td>
 <td>intent(inout),</td>
@@ -256,7 +256,7 @@ the logical column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~64"></span>
+              <span class="anchor" id="variable-transposed~46"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -272,7 +272,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-summation~65"></span>
+              <span class="anchor" id="variable-summation~43"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -288,7 +288,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-flop~26"></span>
+              <span class="anchor" id="variable-flop~13"></span>
               integer(kind=int_8),
             </td>
 <td>intent(inout),</td>
@@ -303,7 +303,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-scale~37"></span>
+              <span class="anchor" id="variable-scale~33"></span>
               real(kind=real_8),
             </td>
 <td>intent(in),</td>
@@ -334,6 +334,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_put_block_d</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="n">lb_row_col</span><span class="p">,</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 921 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                                </span><span class="n">summation</span><span class="p">,</span><span class="w"> </span><span class="n">flop</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!! Inserts a block in a dbcsr matrix.</span>
 <span class="w">     </span><span class="c">!! If the block exists, the current data is overwritten.</span>
@@ -344,6 +345,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">        </span><span class="c">!! the logical row</span>
 <span class="w">        </span><span class="c">!! the logical column</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">CONTIGUOUS</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
+<span class="cp"># 931 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">        </span><span class="c">!! the block to put</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">lb_row_col</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">summation</span>
@@ -351,9 +353,11 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">        </span><span class="c">!! if block exists, then sum the new block to the old one instead of replacing it</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">flop</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="nb">scale</span>
+<span class="cp"># 938 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">        </span><span class="c">!! scale the OBblock being added</span>
 
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_dp2d</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span>
+<span class="cp"># 941 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="n">blk_p</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
@@ -361,6 +365,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">                                                     </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">nwms</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">do_sum</span><span class="p">,</span><span class="w"> </span><span class="n">tr_diff</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">block_1d</span>
+<span class="cp"># 948 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">my_flop</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
@@ -398,24 +403,29 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">            </span><span class="n">block_1d</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">pointer_view</span><span class="p">(</span><span class="n">dbcsr_get_data_p</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0_real_8</span><span class="p">),</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="cp"># 985 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="p">.</span><span class="n">GT</span><span class="p">.</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="n">do_sum</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="n">tr_diff</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">block_1d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">RESHAPE</span><span class="p">(</span><span class="nb">TRANSPOSE</span><span class="p">(</span><span class="nb">RESHAPE</span><span class="p">(</span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="o">/</span><span class="p">))),</span><span class="w"> </span><span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">))</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 991 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">ELSE</span>
 <span class="k">                     CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 994 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">                  </span><span class="n">my_flop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_flop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nze</span><span class="o">*</span><span class="mi">2</span>
 <span class="w">               </span><span class="k">ELSE</span>
 <span class="k">                  IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">scale</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="nb">scale</span><span class="o">*</span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1000 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">ELSE</span>
 <span class="k">                     CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1003 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                            </span><span class="n">block_1d</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                  </span><span class="k">END IF</span>
 <span class="k">               END IF</span>
@@ -462,6 +472,7 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="k">               IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">do_sum</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">btree_add</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1049 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                     </span><span class="n">make_coordinate_tuple</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -472,11 +483,13 @@ if block exists, then sum the new block to the old one instead of replacing it</
 <span class="k">               ELSE</span>
 <span class="k">                  CALL </span><span class="n">btree_add</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1059 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                     </span><span class="n">make_coordinate_tuple</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                     </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
 <span class="w">                  </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">found</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                     IF</span><span class="w"> </span><span class="p">(</span><span class="n">nze</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="k">CALL </span><span class="n">daxpy</span><span class="p">(</span><span class="n">nze</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0_real_8</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 1064 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                               </span><span class="n">data_block2</span><span class="p">%</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
 <span class="w">                     </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">data_block</span><span class="p">%</span><span class="n">p</span><span class="p">))</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">"Data was not present in block"</span><span class="p">)</span>

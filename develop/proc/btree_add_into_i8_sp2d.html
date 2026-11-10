@@ -206,7 +206,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-key~23"></span>
+              <span class="anchor" id="variable-key~25"></span>
               integer(kind=keyt),
             </td>
 <td>intent(in)</td>
@@ -221,7 +221,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-value~24"></span>
+              <span class="anchor" id="variable-value~47"></span>
               type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),
             </td>
 <td>intent(in)</td>
@@ -236,7 +236,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-before"></span>
+              <span class="anchor" id="variable-before~2"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -282,22 +282,32 @@
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">RECURSIVE SUBROUTINE </span><span class="n">btree_add_into_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">before</span><span class="p">,</span><span class="w"> </span><span class="n">subtree</span><span class="p">)</span>
+<span class="cp"># 225 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">tree</span>
+<span class="cp"># 226 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">node</span>
+<span class="cp"># 227 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">key</span>
+<span class="cp"># 228 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="k">value</span>
-<span class="k">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">before</span>
+<span class="cp"># 229 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
+<span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">before</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="p">,</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">subtree</span>
+<span class="cp"># 231 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="c">!</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_node_i8_sp2d</span><span class="p">),</span><span class="w"> </span><span class="k">POINTER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">new_node</span>
+<span class="cp"># 233 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">keyt</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upgrade_key</span>
+<span class="cp"># 234 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">split_pos</span>
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_sp2d</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">upgrade_value</span>
+<span class="cp"># 236 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">leaf</span>
 <span class="w">         </span><span class="c">!</span>
 <span class="w">         </span><span class="c">! Root is special</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">btree_new_root_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">)</span>
+<span class="cp"># 241 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">node</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">subtree</span>
 <span class="w">               </span><span class="n">subtree</span><span class="p">%</span><span class="n">parent</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
@@ -309,20 +319,24 @@
 <span class="k">            </span><span class="n">ge_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">before</span>
 <span class="w">         </span><span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">btree_node_find_gt_pos_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
+<span class="cp"># 252 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">         </span><span class="k">END IF</span>
 <span class="w">         </span><span class="c">! Addition is easy if the node has enough space.</span>
 <span class="w">         </span><span class="n">leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="p">.</span><span class="n">LT</span><span class="p">.</span><span class="w"> </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">btree_simple_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">subtree</span><span class="p">)</span>
+<span class="cp"># 258 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">            </span><span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">btree_simple_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="n">ge_pos</span><span class="p">)</span>
+<span class="cp"># 260 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="k">            RETURN</span>
 <span class="k">         ELSE</span>
 <span class="k">            </span><span class="n">split_pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="c">! I assert that split_pos &lt;= SIZE(node%keys)</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">btree_new_node_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">)</span>
+<span class="cp"># 266 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">            </span><span class="c">! The key to be added falls in the left node</span>
 <span class="w">            </span><span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">split_pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ge_pos</span><span class="w"> </span><span class="p">.</span><span class="n">LE</span><span class="p">.</span><span class="w"> </span><span class="n">split_pos</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
@@ -335,10 +349,13 @@
 <span class="w">               </span><span class="k">END IF</span>
 <span class="k">               IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">btree_left_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 278 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">                                                          </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">split_pos</span><span class="p">,</span><span class="w"> </span><span class="n">subtree</span><span class="p">)</span>
 <span class="w">                  </span><span class="c">!CALL btree_adopt_subtrees_i8_sp2d (new_node)</span>
+<span class="cp"># 280 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">               </span><span class="k">ELSE</span>
 <span class="k">                  CALL </span><span class="n">btree_left_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 282 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">                                                          </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">split_pos</span><span class="p">)</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="w">               </span><span class="c">!</span>
@@ -347,10 +364,13 @@
 <span class="w">               </span><span class="n">upgrade_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">split_pos</span><span class="p">)</span>
 <span class="w">               </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">btree_right_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 290 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">                                                           </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">split_pos</span><span class="p">,</span><span class="w"> </span><span class="n">subtree</span><span class="p">)</span>
 <span class="w">                  </span><span class="c">!CALL btree_adopt_subtrees_i8_sp2d (new_node)</span>
+<span class="cp"># 292 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">               </span><span class="k">ELSE</span>
 <span class="k">                  CALL </span><span class="n">btree_right_insertion_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="n">new_node</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 294 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">                                                           </span><span class="n">ge_pos</span><span class="p">,</span><span class="w"> </span><span class="n">split_pos</span><span class="p">)</span>
 <span class="w">               </span><span class="k">END IF</span>
 <span class="w">               </span><span class="c">!</span>
@@ -360,9 +380,11 @@
 <span class="w">            </span><span class="c">!</span>
 <span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span><span class="w"> </span><span class="n">leaf</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">btree_adopt_subtrees_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
+<span class="cp"># 303 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">            </span><span class="k">END IF</span>
 <span class="w">            </span><span class="c">!</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">btree_add_into_i8_sp2d</span><span class="w"> </span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">%</span><span class="n">parent</span><span class="p">,</span><span class="w"> </span><span class="n">upgrade_key</span><span class="p">,</span><span class="w"> </span><span class="n">upgrade_value</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 306 "/__w/dbcsr/dbcsr/src/utils/dbcsr_btree.F"</span>
 <span class="w">                                              </span><span class="n">subtree</span><span class="o">=</span><span class="n">new_node</span><span class="p">)</span>
 <span class="w">            </span><span class="c">!</span>
 <span class="w">         </span><span class="k">END IF</span>

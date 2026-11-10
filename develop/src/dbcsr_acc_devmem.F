@@ -507,10 +507,12 @@ CONTAINS
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_4), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -520,14 +522,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), int_4_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_i4_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i4_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_4), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -537,14 +543,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), int_4_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_i4_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_i4_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_4), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -554,16 +564,20 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), int_4_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_i4_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_8), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -573,14 +587,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), int_8_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_i8_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_i8_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_8), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -590,14 +608,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), int_8_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_i8_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_i8_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          INTEGER(kind=int_8), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -607,16 +629,20 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), int_8_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_i8_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_4), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -626,14 +652,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), real_4_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_r4_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r4_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_4), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -643,14 +673,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), real_4_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_r4_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_r4_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_4), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -660,16 +694,20 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), real_4_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_r4_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_8), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -679,14 +717,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), real_8_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_r8_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_r8_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_8), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -696,14 +738,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), real_8_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_r8_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_r8_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          REAL(kind=real_8), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -713,16 +759,20 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), real_8_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_r8_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -732,14 +782,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), 2*real_4_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_c4_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c4_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -749,14 +803,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), 2*real_4_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_c4_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_c4_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -766,16 +824,20 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), 2*real_4_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_c4_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 512 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
+# 514 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 1D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: hostmem
+# 518 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -785,14 +847,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1)), 2*real_8_size*SIZE(hostmem), stream)
+# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_c8_1D
+# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE host2dev_c8_2D(this, hostmem, stream)
+# 531 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers 2D fortran-array from host to GPU devmem.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER       :: hostmem
+# 535 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -802,14 +868,18 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL host2dev_raw(this, C_LOC(hostmem(1, 1)), 2*real_8_size*SIZE(hostmem), stream)
+# 544 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE host2dev_c8_2D
+# 546 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
       SUBROUTINE dev2host_c8_1D(this, hostmem, stream)
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
       !! Transfers GPU devmem to 1D fortran-array.
 
          TYPE(acc_devmem_type), INTENT(IN)        :: this
          COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: hostmem
+# 552 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
          TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
@@ -819,8 +889,10 @@ CONTAINS
          DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
          CALL dev2host_raw(this, C_LOC(hostmem(1)), 2*real_8_size*SIZE(hostmem), stream)
+# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 #endif
       END SUBROUTINE dev2host_c8_1D
+# 563 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 # 565 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 

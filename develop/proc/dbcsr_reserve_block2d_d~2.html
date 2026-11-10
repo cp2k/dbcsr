@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-matrix~400"></span>
+              <span class="anchor" id="variable-matrix~194"></span>
               type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),
             </td>
 <td>intent(inout)</td>
@@ -192,7 +192,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-row~208"></span>
+              <span class="anchor" id="variable-row~119"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-col~134"></span>
+              <span class="anchor" id="variable-col~70"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -224,7 +224,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-block~205"></span>
+              <span class="anchor" id="variable-block~153"></span>
               real(kind=real_8),
             </td>
 <td></td>
@@ -239,7 +239,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transposed~62"></span>
+              <span class="anchor" id="variable-transposed~44"></span>
               logical,
             </td>
 <td>intent(in),</td>
@@ -254,7 +254,7 @@ the column</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-existed~10"></span>
+              <span class="anchor" id="variable-existed~5"></span>
               logical,
             </td>
 <td>intent(out),</td>
@@ -285,6 +285,7 @@ the column</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">dbcsr_reserve_block2d_d</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="k">block</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 799 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                                                      </span><span class="n">transposed</span><span class="p">,</span><span class="w"> </span><span class="n">existed</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!! Put a 2-D block in a DBCSR matrix using the btree</span>
 
@@ -294,6 +295,7 @@ the column</p>
 <span class="w">        </span><span class="c">!! the row</span>
 <span class="w">        </span><span class="c">!! the column</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="k">block</span>
+<span class="cp"># 808 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">        </span><span class="c">!! the block to reserve; added if not NULL</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span><span class="w"> </span><span class="k">OPTIONAL</span><span class="w">            </span><span class="kd">::</span><span class="w"> </span><span class="n">transposed</span>
 <span class="w">        </span><span class="c">!! the block holds transposed data</span>
@@ -301,12 +303,14 @@ the column</p>
 <span class="w">        </span><span class="c">!! block already existed</span>
 
 <span class="w">         </span><span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_dp2d</span><span class="p">)</span><span class="w">          </span><span class="kd">::</span><span class="w"> </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span>
+<span class="cp"># 815 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">col_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">iw</span><span class="p">,</span><span class="w"> </span><span class="n">nwms</span>
 <span class="w">         </span><span class="kt">INTEGER</span><span class="p">,</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">           </span><span class="kd">::</span><span class="w"> </span><span class="n">col_blk_size</span><span class="p">,</span><span class="w"> </span><span class="n">row_blk_size</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="w">                                  </span><span class="kd">::</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">gift</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">sym_tr</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(:,</span><span class="w"> </span><span class="p">:),</span><span class="w"> </span><span class="k">POINTER</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">original_block</span>
+<span class="cp"># 821 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
@@ -352,6 +356,7 @@ the column</p>
 <span class="c">!$          DBCSR_ABORT("Number of work matrices not equal to number of threads")</span>
 <span class="c">!$       iw = omp_get_thread_num() + 1</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">btree_add</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 866 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"</span>
 <span class="w">                        </span><span class="n">make_coordinate_tuple</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span><span class="w"> </span><span class="n">stored_col</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                        </span><span class="n">data_block</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">,</span><span class="w"> </span><span class="n">data_block2</span><span class="p">)</span>
 

@@ -177,7 +177,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stack_descr~3"></span>
+              <span class="anchor" id="variable-stack_descr~2"></span>
               type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),
             </td>
 <td>intent(in)</td>
@@ -254,7 +254,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c_data~7"></span>
+              <span class="anchor" id="variable-c_data~3"></span>
               real(kind=real_8),
             </td>
 <td>intent(inout),</td>
@@ -269,7 +269,7 @@ Right-matrix data</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-used_smm~3"></span>
+              <span class="anchor" id="variable-used_smm~2"></span>
               logical,
             </td>
 <td>intent(out)</td>
@@ -300,6 +300,7 @@ Right-matrix data</p>
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="hl codehilite"><pre><span></span><span class="w">      </span><span class="k">SUBROUTINE </span><span class="n">smm_process_mm_stack_d</span><span class="w"> </span><span class="p">(</span><span class="n">stack_descr</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 316 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="w">                                                     </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                                     </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">,</span><span class="w"> </span><span class="n">used_smm</span><span class="p">)</span>
 <span class="w">     </span><span class="c">!! Processes MM stack and issues SMM library calls</span>
@@ -311,14 +312,17 @@ Right-matrix data</p>
 <span class="w">            </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">                              </span><span class="kd">::</span><span class="w"> </span><span class="n">params</span>
 <span class="w">        </span><span class="c">!! Stack of MM parameters</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span><span class="w">         </span><span class="kd">::</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 327 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="w">            </span><span class="n">b_data</span>
 <span class="w">        </span><span class="c">!! Left-matrix data</span>
 <span class="w">        </span><span class="c">!! Right-matrix data</span>
 <span class="w">         </span><span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span><span class="w"> </span><span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span><span class="w">      </span><span class="kd">::</span><span class="w"> </span><span class="n">c_data</span>
+<span class="cp"># 331 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="w">        </span><span class="c">!! Product data</span>
 <span class="w">         </span><span class="kt">LOGICAL</span><span class="p">,</span><span class="w"> </span><span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span><span class="w">                      </span><span class="kd">::</span><span class="w"> </span><span class="n">used_smm</span>
 
 <span class="cp">#if defined(__HAS_smm_dnn)</span>
+<span class="cp"># 335 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 
 <span class="w">         </span><span class="kt">INTEGER</span><span class="w">                                   </span><span class="kd">::</span><span class="w"> </span><span class="n">sp</span>
 
@@ -329,6 +333,7 @@ Right-matrix data</p>
 <span class="cp">#if defined(__HAS_smm_vec)</span>
 <span class="w">         </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">smm_vec_dnn</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">stack_descr</span><span class="p">%</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 345 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="w">                                         </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">                                         </span><span class="n">dbcsr_ps_width</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">p_a_first</span><span class="p">,</span><span class="w"> </span><span class="n">p_b_first</span><span class="p">,</span><span class="w"> </span><span class="n">p_c_first</span><span class="p">)</span>
 <span class="w">            </span><span class="k">RETURN</span>
@@ -337,6 +342,7 @@ Right-matrix data</p>
 
 <span class="w">         </span><span class="k">DO </span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span>
 <span class="w">            </span><span class="k">CALL </span><span class="n">smm_dnn</span><span class="p">(</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="cp"># 353 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">               </span><span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">),</span><span class="w"> </span><span class="p">&amp;</span>
@@ -349,6 +355,7 @@ Right-matrix data</p>
 <span class="w">         </span><span class="c">! We do not want to abort here, fall back to BLAS.</span>
 <span class="w">         </span><span class="n">used_smm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="w">         </span><span class="k">CALL </span><span class="n">blas_process_mm_stack_d</span><span class="w"> </span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="w"> </span><span class="n">stack_size</span><span class="p">,</span><span class="w"> </span><span class="n">a_data</span><span class="p">,</span><span class="w"> </span><span class="n">b_data</span><span class="p">,</span><span class="w"> </span><span class="n">c_data</span><span class="p">)</span>
+<span class="cp"># 365 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"</span>
 <span class="cp">#endif</span>
 
 <span class="w">         </span><span class="n">MARK_USED</span><span class="p">(</span><span class="n">stack_descr</span><span class="p">)</span>

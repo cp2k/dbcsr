@@ -1843,24 +1843,32 @@ CONTAINS
 # 1837 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
 # 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_d (wm)
+# 1839 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
      !! Converts mutable data to linear (array) type.
 
          USE dbcsr_btree, &
             ONLY: btree_2d_data_d => btree_data_dp2d, &
+# 1843 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_destroy_d => btree_delete, &
+# 1844 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_size_d => btree_get_entries
+# 1845 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
          CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_d'
+# 1849 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
          INTEGER                                  :: blk, blk_p, treesize, &
                                                      error_handler, needed_size
          INTEGER(KIND=int_8), ALLOCATABLE, &
             DIMENSION(:)                           :: keys
          REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+# 1855 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
+# 1856 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(btree_2d_data_d), ALLOCATABLE, &
+# 1857 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
             DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
@@ -1868,10 +1876,12 @@ CONTAINS
          CALL timeset(routineN, error_handler)
          ! srt = .TRUE. ! Not needed because of the copy
          treesize = btree_size_d (wm%mutable%m%btree_d)
+# 1864 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          IF (wm%lastblk .NE. treesize) &
             DBCSR_ABORT("Mismatch in number of blocks")
          ALLOCATE (keys(treesize), values(treesize))
          CALL btree_destroy_d (wm%mutable%m%btree_d, keys, values)
+# 1868 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          CALL ensure_array_size(wm%row_i, ub=treesize)
          CALL ensure_array_size(wm%col_i, ub=treesize)
          CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
@@ -1889,6 +1899,7 @@ CONTAINS
          CALL dbcsr_data_ensure_size(wm%data_area, &
                                      wm%datasize)
          target_data => dbcsr_get_data_p_d (wm%data_area)
+# 1885 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          blk_p = 1
          DO blk = 1, treesize
             block_2d => values(blk)%p
@@ -1898,6 +1909,7 @@ CONTAINS
                wm%blk_p(blk) = -blk_p
             END IF
             CALL block_copy_d (target_data, block_2d, &
+# 1894 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                                            SIZE(block_2d), blk_p, 1)
             blk_p = blk_p + SIZE(block_2d)
             DEALLOCATE (block_2d)
@@ -1906,27 +1918,36 @@ CONTAINS
          CALL dbcsr_mutable_release(wm%mutable)
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_d
+# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 # 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_s (wm)
+# 1839 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
      !! Converts mutable data to linear (array) type.
 
          USE dbcsr_btree, &
             ONLY: btree_2d_data_s => btree_data_sp2d, &
+# 1843 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_destroy_s => btree_delete, &
+# 1844 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_size_s => btree_get_entries
+# 1845 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
          CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_s'
+# 1849 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
          INTEGER                                  :: blk, blk_p, treesize, &
                                                      error_handler, needed_size
          INTEGER(KIND=int_8), ALLOCATABLE, &
             DIMENSION(:)                           :: keys
          REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+# 1855 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
+# 1856 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(btree_2d_data_s), ALLOCATABLE, &
+# 1857 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
             DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
@@ -1934,10 +1955,12 @@ CONTAINS
          CALL timeset(routineN, error_handler)
          ! srt = .TRUE. ! Not needed because of the copy
          treesize = btree_size_s (wm%mutable%m%btree_s)
+# 1864 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          IF (wm%lastblk .NE. treesize) &
             DBCSR_ABORT("Mismatch in number of blocks")
          ALLOCATE (keys(treesize), values(treesize))
          CALL btree_destroy_s (wm%mutable%m%btree_s, keys, values)
+# 1868 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          CALL ensure_array_size(wm%row_i, ub=treesize)
          CALL ensure_array_size(wm%col_i, ub=treesize)
          CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
@@ -1955,6 +1978,7 @@ CONTAINS
          CALL dbcsr_data_ensure_size(wm%data_area, &
                                      wm%datasize)
          target_data => dbcsr_get_data_p_s (wm%data_area)
+# 1885 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          blk_p = 1
          DO blk = 1, treesize
             block_2d => values(blk)%p
@@ -1964,6 +1988,7 @@ CONTAINS
                wm%blk_p(blk) = -blk_p
             END IF
             CALL block_copy_s (target_data, block_2d, &
+# 1894 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                                            SIZE(block_2d), blk_p, 1)
             blk_p = blk_p + SIZE(block_2d)
             DEALLOCATE (block_2d)
@@ -1972,27 +1997,36 @@ CONTAINS
          CALL dbcsr_mutable_release(wm%mutable)
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_s
+# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 # 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_z (wm)
+# 1839 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
      !! Converts mutable data to linear (array) type.
 
          USE dbcsr_btree, &
             ONLY: btree_2d_data_z => btree_data_zp2d, &
+# 1843 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_destroy_z => btree_delete, &
+# 1844 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_size_z => btree_get_entries
+# 1845 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
          CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_z'
+# 1849 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
          INTEGER                                  :: blk, blk_p, treesize, &
                                                      error_handler, needed_size
          INTEGER(KIND=int_8), ALLOCATABLE, &
             DIMENSION(:)                           :: keys
          COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+# 1855 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
+# 1856 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(btree_2d_data_z), ALLOCATABLE, &
+# 1857 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
             DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
@@ -2000,10 +2034,12 @@ CONTAINS
          CALL timeset(routineN, error_handler)
          ! srt = .TRUE. ! Not needed because of the copy
          treesize = btree_size_z (wm%mutable%m%btree_z)
+# 1864 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          IF (wm%lastblk .NE. treesize) &
             DBCSR_ABORT("Mismatch in number of blocks")
          ALLOCATE (keys(treesize), values(treesize))
          CALL btree_destroy_z (wm%mutable%m%btree_z, keys, values)
+# 1868 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          CALL ensure_array_size(wm%row_i, ub=treesize)
          CALL ensure_array_size(wm%col_i, ub=treesize)
          CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
@@ -2021,6 +2057,7 @@ CONTAINS
          CALL dbcsr_data_ensure_size(wm%data_area, &
                                      wm%datasize)
          target_data => dbcsr_get_data_p_z (wm%data_area)
+# 1885 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          blk_p = 1
          DO blk = 1, treesize
             block_2d => values(blk)%p
@@ -2030,6 +2067,7 @@ CONTAINS
                wm%blk_p(blk) = -blk_p
             END IF
             CALL block_copy_z (target_data, block_2d, &
+# 1894 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                                            SIZE(block_2d), blk_p, 1)
             blk_p = blk_p + SIZE(block_2d)
             DEALLOCATE (block_2d)
@@ -2038,27 +2076,36 @@ CONTAINS
          CALL dbcsr_mutable_release(wm%mutable)
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_z
+# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 # 1838 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
       SUBROUTINE tree_to_linear_c (wm)
+# 1839 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
      !! Converts mutable data to linear (array) type.
 
          USE dbcsr_btree, &
             ONLY: btree_2d_data_c => btree_data_cp2d, &
+# 1843 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_destroy_c => btree_delete, &
+# 1844 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                   btree_size_c => btree_get_entries
+# 1845 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
          CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_c'
+# 1849 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
          INTEGER                                  :: blk, blk_p, treesize, &
                                                      error_handler, needed_size
          INTEGER(KIND=int_8), ALLOCATABLE, &
             DIMENSION(:)                           :: keys
          COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
+# 1855 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
+# 1856 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          TYPE(btree_2d_data_c), ALLOCATABLE, &
+# 1857 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
             DIMENSION(:)                           :: values
 
 !   ---------------------------------------------------------------------------
@@ -2066,10 +2113,12 @@ CONTAINS
          CALL timeset(routineN, error_handler)
          ! srt = .TRUE. ! Not needed because of the copy
          treesize = btree_size_c (wm%mutable%m%btree_c)
+# 1864 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          IF (wm%lastblk .NE. treesize) &
             DBCSR_ABORT("Mismatch in number of blocks")
          ALLOCATE (keys(treesize), values(treesize))
          CALL btree_destroy_c (wm%mutable%m%btree_c, keys, values)
+# 1868 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          CALL ensure_array_size(wm%row_i, ub=treesize)
          CALL ensure_array_size(wm%col_i, ub=treesize)
          CALL dbcsr_unpack_i8_2i4(keys, wm%row_i, &
@@ -2087,6 +2136,7 @@ CONTAINS
          CALL dbcsr_data_ensure_size(wm%data_area, &
                                      wm%datasize)
          target_data => dbcsr_get_data_p_c (wm%data_area)
+# 1885 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
          blk_p = 1
          DO blk = 1, treesize
             block_2d => values(blk)%p
@@ -2096,6 +2146,7 @@ CONTAINS
                wm%blk_p(blk) = -blk_p
             END IF
             CALL block_copy_c (target_data, block_2d, &
+# 1894 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
                                            SIZE(block_2d), blk_p, 1)
             blk_p = blk_p + SIZE(block_2d)
             DEALLOCATE (block_2d)
@@ -2104,6 +2155,7 @@ CONTAINS
          CALL dbcsr_mutable_release(wm%mutable)
          CALL timestop(error_handler)
       END SUBROUTINE tree_to_linear_c
+# 1902 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 # 1904 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 

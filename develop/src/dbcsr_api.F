@@ -1253,22 +1253,27 @@ CONTAINS
 # 1247 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
 # 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1252 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
          LOGICAL, INTENT(OUT), OPTIONAL           :: existed
 
          CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
                                         transposed, existed)
       END SUBROUTINE dbcsr_reserve_block2d_d
+# 1258 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_d (iterator, row, column, block, &
+# 1260 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1265 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: transposed
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
@@ -1277,13 +1282,16 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
                                             block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_2d_block_d
+# 1273 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_notrans_d (iterator, row, column, block, &
+# 1275 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1280 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
                                                      col_offset
@@ -1294,15 +1302,18 @@ CONTAINS
                                             block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_d
+# 1290 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_d (iterator, row, column, block, &
+# 1294 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1299 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: transposed
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
@@ -1311,15 +1322,18 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
                                             transposed, block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_1d_block_d
+# 1307 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_notrans_d (iterator, row, column, block, &
+# 1311 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1316 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
                                                       col_offset
@@ -1330,44 +1344,58 @@ CONTAINS
                                             tr, block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_d
+# 1326 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block2d_d (matrix, row, col, block, &
+# 1328 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                   summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_8), DIMENSION(:, :), INTENT(IN)     :: block
+# 1332 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 1334 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block2d_d
+# 1337 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block_d (matrix, row, col, block, &
+# 1339 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                 summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_8), DIMENSION(:), INTENT(IN)        :: block
+# 1343 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 1345 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block_d
+# 1348 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_p_d (matrix, row, col, block, tr, found, row_size, col_size)
+# 1350 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1353 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: tr
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_2d_block_p_d
+# 1359 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_notrans_p_d (matrix, row, col, block, found, row_size, col_size)
+# 1361 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1364 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
@@ -1376,22 +1404,28 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_2d_block_notrans_p_d
+# 1372 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_p_d (matrix, row, col, block, tr, found, row_size, col_size)
+# 1374 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1377 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: tr
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_block_p_d
+# 1383 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_notrans_p_d (matrix, row, col, block, found, row_size, col_size)
+# 1385 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          REAL(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1388 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
@@ -1400,35 +1434,46 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_block_notrans_p_d
+# 1396 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_trace_d (matrix_a, trace)
+# 1398 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
          REAL(kind=real_8), INTENT(OUT)                     :: trace
+# 1400 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_trace_prv(matrix_a%prv, trace)
       END SUBROUTINE dbcsr_trace_d
+# 1403 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_dot_d (matrix_a, matrix_b, result)
+# 1405 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
          REAL(kind=real_8), INTENT(INOUT)                  :: result
+# 1407 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
       END SUBROUTINE dbcsr_dot_d
+# 1410 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_multiply_d (transa, transb, &
+# 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                alpha, matrix_a, matrix_b, beta, matrix_c, &
                                                first_row, last_row, first_column, last_column, first_k, last_k, &
                                                retain_sparsity, filter_eps, flop)
          CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
          REAL(kind=real_8), INTENT(IN)                      :: alpha
+# 1417 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
          REAL(kind=real_8), INTENT(IN)                      :: beta
+# 1419 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
          INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
                                                      first_column, last_column, &
                                                      first_k, last_k
          LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
          REAL(kind=real_8), INTENT(IN), OPTIONAL :: filter_eps
+# 1425 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
 
          CALL dbcsr_multiply_prv(transa, transb, &
@@ -1438,95 +1483,130 @@ CONTAINS
                                  filter_eps=filter_eps, &
                                  flop=flop)
       END SUBROUTINE dbcsr_multiply_d
+# 1434 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_by_vector_d (matrix_a, alpha, side)
+# 1436 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET :: alpha
+# 1438 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
 
          CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
       END SUBROUTINE dbcsr_scale_by_vector_d
+# 1442 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_d (matrix_a, alpha_scalar, last_column)
+# 1444 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          REAL(kind=real_8), INTENT(IN)                      :: alpha_scalar
+# 1446 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
       END SUBROUTINE dbcsr_scale_d
+# 1450 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_d (matrix, alpha)
+# 1452 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
          REAL(kind=real_8), INTENT(IN)                      :: alpha
+# 1454 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_prv(matrix%prv, alpha)
       END SUBROUTINE dbcsr_set_d
+# 1457 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_d (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+# 1459 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
          REAL(kind=real_8), INTENT(IN)                      :: alpha_scalar, beta_scalar
+# 1462 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
       END SUBROUTINE dbcsr_add_d
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_on_diag_d (matrix, alpha_scalar)
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          REAL(kind=real_8), INTENT(IN)                                :: alpha_scalar
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
       END SUBROUTINE dbcsr_add_on_diag_d
+# 1472 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_diag_d (matrix, diag)
+# 1474 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          REAL(kind=real_8), DIMENSION(:), INTENT(IN)                  :: diag
+# 1476 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_set_diag_d
+# 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_diag_d (matrix, diag)
+# 1481 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          REAL(kind=real_8), DIMENSION(:), INTENT(OUT)                 :: diag
+# 1483 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_get_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_get_diag_d
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_wms_data_d (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1488 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          INTEGER, INTENT(IN)              :: index_matrix
          REAL(kind=real_8), INTENT(IN)              :: select_data_type
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          REAL(kind=real_8), DIMENSION(:), POINTER   :: DATA
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_wms_data_d
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_data_d (matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          REAL(kind=real_8), INTENT(IN)              :: select_data_type
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          REAL(kind=real_8), DIMENSION(:), POINTER   :: DATA
+# 1501 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_d
+# 1505 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 # 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1252 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
          LOGICAL, INTENT(OUT), OPTIONAL           :: existed
 
          CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
                                         transposed, existed)
       END SUBROUTINE dbcsr_reserve_block2d_s
+# 1258 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_s (iterator, row, column, block, &
+# 1260 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1265 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: transposed
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
@@ -1535,13 +1615,16 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
                                             block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_2d_block_s
+# 1273 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_notrans_s (iterator, row, column, block, &
+# 1275 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1280 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
                                                      col_offset
@@ -1552,15 +1635,18 @@ CONTAINS
                                             block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_s
+# 1290 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_s (iterator, row, column, block, &
+# 1294 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          REAL(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1299 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: transposed
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
@@ -1569,15 +1655,18 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
                                             transposed, block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_1d_block_s
+# 1307 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_notrans_s (iterator, row, column, block, &
+# 1311 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          REAL(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1316 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
                                                       col_offset
@@ -1588,44 +1677,58 @@ CONTAINS
                                             tr, block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_s
+# 1326 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block2d_s (matrix, row, col, block, &
+# 1328 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                   summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_4), DIMENSION(:, :), INTENT(IN)     :: block
+# 1332 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          REAL(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 1334 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block2d_s
+# 1337 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block_s (matrix, row, col, block, &
+# 1339 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                 summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_4), DIMENSION(:), INTENT(IN)        :: block
+# 1343 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          REAL(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 1345 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block_s
+# 1348 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_p_s (matrix, row, col, block, tr, found, row_size, col_size)
+# 1350 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1353 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: tr
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_2d_block_p_s
+# 1359 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_notrans_p_s (matrix, row, col, block, found, row_size, col_size)
+# 1361 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1364 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
@@ -1634,22 +1737,28 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_2d_block_notrans_p_s
+# 1372 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_p_s (matrix, row, col, block, tr, found, row_size, col_size)
+# 1374 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          REAL(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1377 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: tr
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_block_p_s
+# 1383 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_notrans_p_s (matrix, row, col, block, found, row_size, col_size)
+# 1385 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          REAL(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1388 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
@@ -1658,35 +1767,46 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_block_notrans_p_s
+# 1396 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_trace_s (matrix_a, trace)
+# 1398 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
          REAL(kind=real_4), INTENT(OUT)                     :: trace
+# 1400 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_trace_prv(matrix_a%prv, trace)
       END SUBROUTINE dbcsr_trace_s
+# 1403 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_dot_s (matrix_a, matrix_b, result)
+# 1405 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
          REAL(kind=real_4), INTENT(INOUT)                  :: result
+# 1407 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
       END SUBROUTINE dbcsr_dot_s
+# 1410 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_multiply_s (transa, transb, &
+# 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                alpha, matrix_a, matrix_b, beta, matrix_c, &
                                                first_row, last_row, first_column, last_column, first_k, last_k, &
                                                retain_sparsity, filter_eps, flop)
          CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
          REAL(kind=real_4), INTENT(IN)                      :: alpha
+# 1417 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
          REAL(kind=real_4), INTENT(IN)                      :: beta
+# 1419 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
          INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
                                                      first_column, last_column, &
                                                      first_k, last_k
          LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
          REAL(kind=real_8), INTENT(IN), OPTIONAL :: filter_eps
+# 1425 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
 
          CALL dbcsr_multiply_prv(transa, transb, &
@@ -1696,95 +1816,130 @@ CONTAINS
                                  filter_eps=filter_eps, &
                                  flop=flop)
       END SUBROUTINE dbcsr_multiply_s
+# 1434 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_by_vector_s (matrix_a, alpha, side)
+# 1436 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET :: alpha
+# 1438 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
 
          CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
       END SUBROUTINE dbcsr_scale_by_vector_s
+# 1442 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_s (matrix_a, alpha_scalar, last_column)
+# 1444 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          REAL(kind=real_4), INTENT(IN)                      :: alpha_scalar
+# 1446 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
       END SUBROUTINE dbcsr_scale_s
+# 1450 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_s (matrix, alpha)
+# 1452 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
          REAL(kind=real_4), INTENT(IN)                      :: alpha
+# 1454 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_prv(matrix%prv, alpha)
       END SUBROUTINE dbcsr_set_s
+# 1457 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_s (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+# 1459 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
          REAL(kind=real_4), INTENT(IN)                      :: alpha_scalar, beta_scalar
+# 1462 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
       END SUBROUTINE dbcsr_add_s
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_on_diag_s (matrix, alpha_scalar)
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          REAL(kind=real_4), INTENT(IN)                                :: alpha_scalar
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
       END SUBROUTINE dbcsr_add_on_diag_s
+# 1472 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_diag_s (matrix, diag)
+# 1474 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          REAL(kind=real_4), DIMENSION(:), INTENT(IN)                  :: diag
+# 1476 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_set_diag_s
+# 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_diag_s (matrix, diag)
+# 1481 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          REAL(kind=real_4), DIMENSION(:), INTENT(OUT)                 :: diag
+# 1483 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_get_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_get_diag_s
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_wms_data_s (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1488 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          INTEGER, INTENT(IN)              :: index_matrix
          REAL(kind=real_4), INTENT(IN)              :: select_data_type
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          REAL(kind=real_4), DIMENSION(:), POINTER   :: DATA
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_wms_data_s
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_data_s (matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          REAL(kind=real_4), INTENT(IN)              :: select_data_type
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          REAL(kind=real_4), DIMENSION(:), POINTER   :: DATA
+# 1501 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_s
+# 1505 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 # 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1252 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
          LOGICAL, INTENT(OUT), OPTIONAL           :: existed
 
          CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
                                         transposed, existed)
       END SUBROUTINE dbcsr_reserve_block2d_z
+# 1258 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_z (iterator, row, column, block, &
+# 1260 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1265 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: transposed
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
@@ -1793,13 +1948,16 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
                                             block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_2d_block_z
+# 1273 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_notrans_z (iterator, row, column, block, &
+# 1275 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1280 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
                                                      col_offset
@@ -1810,15 +1968,18 @@ CONTAINS
                                             block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_z
+# 1290 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_z (iterator, row, column, block, &
+# 1294 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          COMPLEX(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1299 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: transposed
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
@@ -1827,15 +1988,18 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
                                             transposed, block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_1d_block_z
+# 1307 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_notrans_z (iterator, row, column, block, &
+# 1311 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          COMPLEX(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1316 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
                                                       col_offset
@@ -1846,44 +2010,58 @@ CONTAINS
                                             tr, block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_z
+# 1326 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block2d_z (matrix, row, col, block, &
+# 1328 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                   summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_8), DIMENSION(:, :), INTENT(IN)     :: block
+# 1332 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          COMPLEX(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 1334 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block2d_z
+# 1337 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block_z (matrix, row, col, block, &
+# 1339 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                 summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)        :: block
+# 1343 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          COMPLEX(kind=real_8), INTENT(IN), OPTIONAL            :: scale
+# 1345 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block_z
+# 1348 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_p_z (matrix, row, col, block, tr, found, row_size, col_size)
+# 1350 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1353 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: tr
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_2d_block_p_z
+# 1359 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_notrans_p_z (matrix, row, col, block, found, row_size, col_size)
+# 1361 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block
+# 1364 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
@@ -1892,22 +2070,28 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_2d_block_notrans_p_z
+# 1372 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_p_z (matrix, row, col, block, tr, found, row_size, col_size)
+# 1374 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          COMPLEX(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1377 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: tr
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_block_p_z
+# 1383 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_notrans_p_z (matrix, row, col, block, found, row_size, col_size)
+# 1385 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          COMPLEX(kind=real_8), DIMENSION(:), POINTER            :: block
+# 1388 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
@@ -1916,35 +2100,46 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_block_notrans_p_z
+# 1396 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_trace_z (matrix_a, trace)
+# 1398 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
          COMPLEX(kind=real_8), INTENT(OUT)                     :: trace
+# 1400 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_trace_prv(matrix_a%prv, trace)
       END SUBROUTINE dbcsr_trace_z
+# 1403 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_dot_z (matrix_a, matrix_b, result)
+# 1405 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
          COMPLEX(kind=real_8), INTENT(INOUT)                  :: result
+# 1407 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
       END SUBROUTINE dbcsr_dot_z
+# 1410 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_multiply_z (transa, transb, &
+# 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                alpha, matrix_a, matrix_b, beta, matrix_c, &
                                                first_row, last_row, first_column, last_column, first_k, last_k, &
                                                retain_sparsity, filter_eps, flop)
          CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha
+# 1417 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
          COMPLEX(kind=real_8), INTENT(IN)                      :: beta
+# 1419 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
          INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
                                                      first_column, last_column, &
                                                      first_k, last_k
          LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
          REAL(kind=real_8), INTENT(IN), OPTIONAL :: filter_eps
+# 1425 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
 
          CALL dbcsr_multiply_prv(transa, transb, &
@@ -1954,95 +2149,130 @@ CONTAINS
                                  filter_eps=filter_eps, &
                                  flop=flop)
       END SUBROUTINE dbcsr_multiply_z
+# 1434 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_by_vector_z (matrix_a, alpha, side)
+# 1436 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET :: alpha
+# 1438 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
 
          CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
       END SUBROUTINE dbcsr_scale_by_vector_z
+# 1442 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_z (matrix_a, alpha_scalar, last_column)
+# 1444 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha_scalar
+# 1446 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
       END SUBROUTINE dbcsr_scale_z
+# 1450 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_z (matrix, alpha)
+# 1452 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha
+# 1454 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_prv(matrix%prv, alpha)
       END SUBROUTINE dbcsr_set_z
+# 1457 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_z (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+# 1459 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
          COMPLEX(kind=real_8), INTENT(IN)                      :: alpha_scalar, beta_scalar
+# 1462 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
       END SUBROUTINE dbcsr_add_z
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_on_diag_z (matrix, alpha_scalar)
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          COMPLEX(kind=real_8), INTENT(IN)                                :: alpha_scalar
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
       END SUBROUTINE dbcsr_add_on_diag_z
+# 1472 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_diag_z (matrix, diag)
+# 1474 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)                  :: diag
+# 1476 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_set_diag_z
+# 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_diag_z (matrix, diag)
+# 1481 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)                 :: diag
+# 1483 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_get_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_get_diag_z
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_wms_data_z (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1488 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          INTEGER, INTENT(IN)              :: index_matrix
          COMPLEX(kind=real_8), INTENT(IN)              :: select_data_type
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          COMPLEX(kind=real_8), DIMENSION(:), POINTER   :: DATA
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_wms_data_z
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_data_z (matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          COMPLEX(kind=real_8), INTENT(IN)              :: select_data_type
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          COMPLEX(kind=real_8), DIMENSION(:), POINTER   :: DATA
+# 1501 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_z
+# 1505 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 # 1248 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
       SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)
+# 1249 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1252 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: transposed
          LOGICAL, INTENT(OUT), OPTIONAL           :: existed
 
          CALL dbcsr_reserve_block2d_prv(matrix%prv, row, col, block, &
                                         transposed, existed)
       END SUBROUTINE dbcsr_reserve_block2d_c
+# 1258 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_c (iterator, row, column, block, &
+# 1260 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1265 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: transposed
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
@@ -2051,13 +2281,16 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, transposed, &
                                             block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_2d_block_c
+# 1273 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_iterator_next_2d_block_notrans_c (iterator, row, column, block, &
+# 1275 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT) :: iterator
          INTEGER, INTENT(OUT)                     :: row, column
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1280 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL           :: block_number, row_size, &
                                                      col_size, row_offset, &
                                                      col_offset
@@ -2068,15 +2301,18 @@ CONTAINS
                                             block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_2d_block_notrans_c
+# 1290 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_c (iterator, row, column, block, &
+# 1294 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                              transposed, block_number, &
                                                              row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          COMPLEX(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1299 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: transposed
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
@@ -2085,15 +2321,18 @@ CONTAINS
          CALL dbcsr_iterator_next_block_prv(iterator%prv, row, column, block, &
                                             transposed, block_number, row_size, col_size, row_offset, col_offset)
       END SUBROUTINE dbcsr_iterator_next_1d_block_c
+# 1307 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 ! **************************************************************************************************
 ! *************************************************************************************************
       SUBROUTINE dbcsr_iterator_next_1d_block_notrans_c (iterator, row, column, block, &
+# 1311 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                                      block_number, &
                                                                      row_size, col_size, row_offset, col_offset)
          TYPE(dbcsr_iterator_type), INTENT(INOUT)  :: iterator
          INTEGER, INTENT(OUT)                      :: row, column
          COMPLEX(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1316 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(OUT), OPTIONAL            :: block_number, row_size, &
                                                       col_size, row_offset, &
                                                       col_offset
@@ -2104,44 +2343,58 @@ CONTAINS
                                             tr, block_number, row_size, col_size, row_offset, col_offset)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_iterator_next_1d_block_notrans_c
+# 1326 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block2d_c (matrix, row, col, block, &
+# 1328 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                   summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_4), DIMENSION(:, :), INTENT(IN)     :: block
+# 1332 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          COMPLEX(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 1334 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block2d_c
+# 1337 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_put_block_c (matrix, row, col, block, &
+# 1339 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                 summation, scale)
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)        :: block
+# 1343 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(IN), OPTIONAL            :: summation
          COMPLEX(kind=real_4), INTENT(IN), OPTIONAL            :: scale
+# 1345 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_put_block_prv(matrix%prv, row, col, block, summation=summation, scale=scale)
       END SUBROUTINE dbcsr_put_block_c
+# 1348 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_p_c (matrix, row, col, block, tr, found, row_size, col_size)
+# 1350 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1353 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: tr
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_2d_block_p_c
+# 1359 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_2d_block_notrans_p_c (matrix, row, col, block, found, row_size, col_size)
+# 1361 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
          INTEGER, INTENT(IN)                      :: row, col
          COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block
+# 1364 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                     :: found
          INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size
 
@@ -2150,22 +2403,28 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_2d_block_notrans_p_c
+# 1372 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_p_c (matrix, row, col, block, tr, found, row_size, col_size)
+# 1374 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          COMPLEX(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1377 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: tr
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
       END SUBROUTINE dbcsr_get_block_p_c
+# 1383 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_block_notrans_p_c (matrix, row, col, block, found, row_size, col_size)
+# 1385 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix
          INTEGER, INTENT(IN)                       :: row, col
          COMPLEX(kind=real_4), DIMENSION(:), POINTER            :: block
+# 1388 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          LOGICAL, INTENT(OUT)                      :: found
          INTEGER, INTENT(OUT), OPTIONAL            :: row_size, col_size
 
@@ -2174,35 +2433,46 @@ CONTAINS
          CALL dbcsr_get_block_p_prv(matrix%prv, row, col, block, tr, found, row_size, col_size)
          IF (tr) DBCSR_ABORT("Block is transposed!")
       END SUBROUTINE dbcsr_get_block_notrans_p_c
+# 1396 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_trace_c (matrix_a, trace)
+# 1398 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a
          COMPLEX(kind=real_4), INTENT(OUT)                     :: trace
+# 1400 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_trace_prv(matrix_a%prv, trace)
       END SUBROUTINE dbcsr_trace_c
+# 1403 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_dot_c (matrix_a, matrix_b, result)
+# 1405 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)              :: matrix_a, matrix_b
          COMPLEX(kind=real_4), INTENT(INOUT)                  :: result
+# 1407 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_dot_prv(matrix_a%prv, matrix_b%prv, result)
       END SUBROUTINE dbcsr_dot_c
+# 1410 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_multiply_c (transa, transb, &
+# 1412 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
                                                alpha, matrix_a, matrix_b, beta, matrix_c, &
                                                first_row, last_row, first_column, last_column, first_k, last_k, &
                                                retain_sparsity, filter_eps, flop)
          CHARACTER(LEN=1), INTENT(IN)             :: transa, transb
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha
+# 1417 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_a, matrix_b
          COMPLEX(kind=real_4), INTENT(IN)                      :: beta
+# 1419 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_c
          INTEGER, INTENT(IN), OPTIONAL            :: first_row, last_row, &
                                                      first_column, last_column, &
                                                      first_k, last_k
          LOGICAL, INTENT(IN), OPTIONAL            :: retain_sparsity
          REAL(kind=real_8), INTENT(IN), OPTIONAL :: filter_eps
+# 1425 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER(int_8), INTENT(OUT), OPTIONAL    :: flop
 
          CALL dbcsr_multiply_prv(transa, transb, &
@@ -2212,77 +2482,107 @@ CONTAINS
                                  filter_eps=filter_eps, &
                                  flop=flop)
       END SUBROUTINE dbcsr_multiply_c
+# 1434 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_by_vector_c (matrix_a, alpha, side)
+# 1436 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)           :: matrix_a
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET :: alpha
+# 1438 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          CHARACTER(LEN=*), INTENT(IN)              :: side
 
          CALL dbcsr_scale_by_vector_prv(matrix_a%prv, alpha, side)
       END SUBROUTINE dbcsr_scale_by_vector_c
+# 1442 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_scale_c (matrix_a, alpha_scalar, last_column)
+# 1444 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha_scalar
+# 1446 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
          CALL dbcsr_scale_prv(matrix_a%prv, alpha_scalar, last_column)
       END SUBROUTINE dbcsr_scale_c
+# 1450 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_c (matrix, alpha)
+# 1452 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)       :: matrix
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha
+# 1454 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_prv(matrix%prv, alpha)
       END SUBROUTINE dbcsr_set_c
+# 1457 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_c (matrix_a, matrix_b, alpha_scalar, beta_scalar)
+# 1459 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)          :: matrix_a
          TYPE(dbcsr_type), INTENT(IN)             :: matrix_b
          COMPLEX(kind=real_4), INTENT(IN)                      :: alpha_scalar, beta_scalar
+# 1462 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_prv(matrix_a%prv, matrix_b%prv, alpha_scalar, beta_scalar)
       END SUBROUTINE dbcsr_add_c
+# 1465 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_add_on_diag_c (matrix, alpha_scalar)
+# 1467 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          COMPLEX(kind=real_4), INTENT(IN)                                :: alpha_scalar
+# 1469 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_add_on_diag_prv(matrix%prv, alpha_scalar)
       END SUBROUTINE dbcsr_add_on_diag_c
+# 1472 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_set_diag_c (matrix, diag)
+# 1474 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)                  :: diag
+# 1476 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_set_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_set_diag_c
+# 1479 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       SUBROUTINE dbcsr_get_diag_c (matrix, diag)
+# 1481 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)                       :: matrix
          COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)                 :: diag
+# 1483 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
          CALL dbcsr_get_diag_prv(matrix%prv, diag)
       END SUBROUTINE dbcsr_get_diag_c
+# 1486 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_wms_data_c (matrix, index_matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1488 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          INTEGER, INTENT(IN)              :: index_matrix
          COMPLEX(kind=real_4), INTENT(IN)              :: select_data_type
+# 1491 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          COMPLEX(kind=real_4), DIMENSION(:), POINTER   :: DATA
+# 1492 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%wms(index_matrix)%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_wms_data_c
+# 1496 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
       FUNCTION dbcsr_get_data_c (matrix, select_data_type, lb, ub) RESULT(DATA)
+# 1498 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          TYPE(dbcsr_type), INTENT(IN)     :: matrix
          COMPLEX(kind=real_4), INTENT(IN)              :: select_data_type
+# 1500 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          COMPLEX(kind=real_4), DIMENSION(:), POINTER   :: DATA
+# 1501 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
          INTEGER, INTENT(IN), OPTIONAL    :: lb, ub
 
          DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
       END FUNCTION dbcsr_get_data_c
+# 1505 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 # 1506 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api
