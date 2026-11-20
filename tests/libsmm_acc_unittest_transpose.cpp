@@ -15,6 +15,11 @@
 #include <utility>
 #include "libsmm_acc_benchmark.h"
 #include "libsmm_acc.h"
+#include "libsmm_acc_test_runtime.h"
+
+#if !defined(LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS)
+#  define LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS 0
+#endif
 
 
 /****************************************************************************\
@@ -22,8 +27,8 @@
 \****************************************************************************/
 
 int main(int argc, char** argv) {
-  DBCSR_MARK_USED(argc);
-  DBCSR_MARK_USED(argv);
+  libsmm_acc_test_runtime runtime;
+  if (libsmm_acc_test_runtime_init(&argc, &argv, &runtime) != 0) return 1;
 
   TransposeLauncher launcher_tr = libsmm_acc_transpose_d;
 
@@ -60,8 +65,23 @@ int main(int argc, char** argv) {
   });
   auto last = std::unique(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end());
   libsmm_acc_transpose_pairs.erase(last, libsmm_acc_transpose_pairs.end());
+
+  const int max_pairs = LIBSMM_ACC_TEST_MAX_TRANSPOSE_PAIRS;
+  if (0 < max_pairs && max_pairs < static_cast<int>(libsmm_acc_transpose_pairs.size())) {
+    const std::vector<std::pair<int, int>> all_pairs = libsmm_acc_transpose_pairs;
+    libsmm_acc_transpose_pairs.clear();
+    if (max_pairs == 1) {
+      libsmm_acc_transpose_pairs.push_back(all_pairs[all_pairs.size() / 2]);
+    }
+    else {
+      for (int i = 0; i < max_pairs; ++i) {
+        const size_t index = i * (all_pairs.size() - 1) / (max_pairs - 1);
+        libsmm_acc_transpose_pairs.push_back(all_pairs[index]);
+      }
+    }
+  }
   int n_pairs = libsmm_acc_transpose_pairs.size();
-  printf("# libsmm_acc has %d blocksizes for transposition\n", n_pairs);
+  if (runtime.rank == 0) printf("# libsmm_acc has %d blocksizes for transposition\n", n_pairs);
 
   // Sort (m,n) pairs in growing order
   std::sort(
@@ -75,7 +95,7 @@ int main(int argc, char** argv) {
     });
 
   int errors = 0;
-  for (int i = 0; i < n_pairs; i++) {
+  for (int i = runtime.rank; i < n_pairs; i += runtime.nranks) {
     int m = libsmm_acc_transpose_pairs[i].first;
     int n = libsmm_acc_transpose_pairs[i].second;
     sprintf(buffer, "%d x %d", m, n);
@@ -83,6 +103,8 @@ int main(int argc, char** argv) {
   }
   libsmm_acc_benchmark_finalize(handle);
 
-  printf("# Done, found %d transpose errors.\n", errors);
-  return errors;
+  errors = libsmm_acc_test_runtime_finalize(errors);
+
+  if (runtime.rank == 0) printf("# Done, found %d transpose errors.\n", errors);
+  return errors == 0 ? 0 : 1;
 }
