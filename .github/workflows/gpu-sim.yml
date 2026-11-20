@@ -1,0 +1,97 @@
+name: CUDA tests (simulated H100)
+
+# Optional, non-required check. The hosted runners have no GPU, so this builds
+# DBCSR with USE_ACCEL=cuda and runs the accelerator tests (the ACC interface
+# test, the libsmm_acc kernel tests and the Fortran unit tests) on a simulated
+# NVIDIA H100 (https://github.com/pantheongpu/pantheonsim). A simulator cannot
+# reproduce hardware-specific behavior or timing, so it complements real-GPU
+# testing and does not replace it.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - ".github/workflows/gpu-sim.yml"
+
+concurrency:
+  group: gpu-sim-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  cuda-sim:
+    name: USE_ACCEL=cuda, simulated H100
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - name: Set up the simulated GPU and CUDA toolkit
+        uses: pantheongpu/setup-pantheonsim@ca87fe3143b29166822b923d6050945c5179408c # v0.1.5
+        with:
+          gpu: nvidia/h100
+          cuda-toolkit: "13.0"
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gfortran libopenblas-dev liblapack-dev ninja-build
+
+      # WITH_GPU=H100 selects the H100 kernel parameters and compiles for
+      # sm_90 with embedded PTX, which is what the simulator runs. It needs a
+      # shared CUDA runtime. CUDA 13 deprecates cuFuncSetSharedMemConfig, so
+      # that warning must not be an error. MPI is off because the ACC
+      # interface test is only registered in non-MPI builds.
+      - name: Configure
+        run: |
+          cmake -B build -S . -GNinja \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DBUILD_TESTING=ON \
+                -DUSE_MPI=OFF \
+                -DUSE_OPENMP=ON \
+                -DUSE_ACCEL=cuda \
+                -DWITH_GPU=H100 \
+                -DWITH_EXAMPLES=OFF \
+                -DCMAKE_CUDA_COMPILER=/usr/local/cuda-13.0/bin/nvcc \
+                -DCUDAToolkit_ROOT=/usr/local/cuda-13.0 \
+                -DCMAKE_CUDA_RUNTIME_LIBRARY=Shared \
+                -DCMAKE_CXX_FLAGS="-Wno-error=deprecated-declarations"
+
+      - name: Build
+        run: |
+          cmake --build build -j3 --target \
+            dbcsr_acc_test \
+            libsmm_acc_unittest_transpose \
+            libsmm_acc_unittest_multiply \
+            dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_unittest4 \
+            dbcsr_test_csr_conversions
+
+      - name: Run the ACC interface and libsmm_acc kernel tests
+        working-directory: build/tests
+        run: |
+          for t in dbcsr_acc_test libsmm_acc_unittest_transpose libsmm_acc_unittest_multiply; do
+            echo "::group::$t"
+            vgpu run ./$t
+            echo "::endgroup::"
+          done
+
+      - name: Run the Fortran unit tests
+        working-directory: build/tests
+        env:
+          OMP_NUM_THREADS: "2"
+        run: |
+          for t in dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_unittest4 dbcsr_test_csr_conversions; do
+            echo "::group::$t"
+            vgpu run ./$t
+            echo "::endgroup::"
+          done
