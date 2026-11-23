@@ -20,7 +20,7 @@ MODULE dbcsr_dict
    !! size will be allocated and the items are then copied over.
    !! This ensures that the dictionary will perform operations in O(1).
 
-   USE dbcsr_kinds, ONLY: int_8, int_4, default_string_length
+   USE dbcsr_kinds, ONLY: int_4, default_string_length, int_8
 # 19 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    USE dbcsr_timings_base_type, ONLY: call_stat_type
 # 20 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
