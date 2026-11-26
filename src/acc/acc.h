@@ -15,7 +15,7 @@
 #define DBCSR_CONCATENATE(A, B) DBCSR_CONCATENATE2(A, B)
 
 /** used to mark variables used */
-#define DBCSR_MARK_USED(x) (void)(x)
+#define DBCSR_MARK_USED(X) (void)(X)
 
 #if defined(__OPENCL) || defined(__OFFLOAD_OPENCL)
 /* ACC interface provided by LIBXSTREAM */

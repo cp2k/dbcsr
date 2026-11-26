@@ -13,6 +13,12 @@ MODULE dbcsr_mem_methods
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_equal, &
                                acc_stream_type
+#if defined(__parallel) && defined(__LIBXS)
+   USE dbcsr_config, ONLY: dbcsr_cfg
+#endif
+#if defined(__LIBXSTREAM)
+   USE ISO_C_BINDING, ONLY: C_INT
+#endif
    USE dbcsr_data_methods_low, ONLY: dbcsr_data_exists, &
                                      dbcsr_data_get_size, &
                                      internal_data_deallocate
@@ -35,6 +41,16 @@ MODULE dbcsr_mem_methods
    PUBLIC :: dbcsr_mempool_get, dbcsr_mempool_add, dbcsr_mempool_limit_capacity
    PUBLIC :: dbcsr_mempool_destruct, dbcsr_mempool_clear
    PUBLIC :: dbcsr_memtype_setup, dbcsr_memtype_equal
+
+#if defined(__LIBXSTREAM)
+   INTERFACE
+      FUNCTION libxstream_mem_pooled() BIND(C, name="libxstream_mem_pooled")
+         !! Memory pooled by LIBXSTREAM: bit 0 host (acc_hostalloc), bit 1 device (acc_devalloc)
+         IMPORT :: C_INT
+         INTEGER(KIND=C_INT)                            :: libxstream_mem_pooled
+      END FUNCTION libxstream_mem_pooled
+   END INTERFACE
+#endif
 
 CONTAINS
 
@@ -210,7 +226,11 @@ CONTAINS
       REAL(KIND=dp), OPTIONAL                            :: oversize_factor
       LOGICAL, INTENT(IN), OPTIONAL                      :: has_pool
 
-      LOGICAL                                            :: is_ok, my_has_pool
+#if defined(__LIBXSTREAM)
+      INTEGER                                            :: pooled
+#endif
+      LOGICAL                                            :: dev_pooled, host_pooled, is_ok, &
+                                                            my_has_pool
       TYPE(dbcsr_memtype_type)                           :: aim
 
 ! variable aim is initialized with default values from type definition
@@ -220,6 +240,22 @@ CONTAINS
       IF (PRESENT(acc_hostalloc)) aim%acc_hostalloc = acc_hostalloc
       IF (PRESENT(acc_devalloc)) aim%acc_devalloc = acc_devalloc
       IF (PRESENT(mpi)) aim%mpi = mpi
+
+      ! no pool on top of memory that is pooled already (held twice otherwise): a data area
+      ! holds host memory (accelerator, MPI, or ALLOCATE) and device memory (acc_devalloc)
+      host_pooled = .FALSE.
+      dev_pooled = .NOT. aim%acc_devalloc
+#if defined(__LIBXSTREAM)
+      IF (aim%acc_hostalloc .OR. aim%acc_devalloc) THEN
+         pooled = INT(libxstream_mem_pooled())
+         IF (aim%acc_hostalloc) host_pooled = BTEST(pooled, 0)
+         IF (aim%acc_devalloc) dev_pooled = BTEST(pooled, 1)
+      END IF
+#endif
+#if defined(__parallel) && defined(__LIBXS)
+      IF (.NOT. aim%acc_hostalloc .AND. aim%mpi .AND. dbcsr_cfg%use_mpi_allocator%val) host_pooled = .TRUE.
+#endif
+      IF (host_pooled .AND. dev_pooled) my_has_pool = .FALSE.
       IF (PRESENT(acc_stream)) aim%acc_stream = acc_stream
       IF (PRESENT(oversize_factor)) aim%oversize_factor = oversize_factor
 

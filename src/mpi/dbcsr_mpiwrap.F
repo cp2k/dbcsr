@@ -11,6 +11,18 @@ MODULE dbcsr_mpiwrap
    !! Interface to the message passing library MPI
    USE ISO_C_BINDING, ONLY: C_F_POINTER, &
                             C_PTR
+#if defined(__parallel) && defined(__LIBXS)
+   USE ISO_C_BINDING, ONLY: C_ASSOCIATED, &
+                            C_FUNLOC, &
+                            C_LOC, &
+                            C_NULL_PTR, &
+                            C_SIZE_T
+   USE LIBXS, ONLY: LIBXS_MALLOC_NATIVE, &
+                    libxs_free, &
+                    libxs_free_pool, &
+                    libxs_malloc, &
+                    libxs_malloc_pool
+#endif
    USE dbcsr_kinds, ONLY: &
       dp, int_4, int_4_size, int_8, int_8_size, real_4, real_4_size, real_8, &
       real_8_size
@@ -115,6 +127,10 @@ MODULE dbcsr_mpiwrap
    INTEGER, PARAMETER, PUBLIC :: mp_proc_null = MPI_PROC_NULL
    ! Set max allocatable memory by MPI to 2 GiByte
    INTEGER(KIND=MPI_ADDRESS_KIND), PARAMETER, PRIVATE :: mp_max_memory_size = HUGE(INT(1, KIND=int_4))
+#if defined(__LIBXS)
+   ! LIBXS pool on top of MPI_ALLOC_MEM (created at first use): the memory stays MPI's
+   TYPE(C_PTR), SAVE, PRIVATE :: mp_mem_pool = C_NULL_PTR
+#endif
 
    INTEGER, PARAMETER, PUBLIC :: mp_max_library_version_string = MPI_MAX_LIBRARY_VERSION_STRING
 
@@ -270,7 +286,7 @@ MODULE dbcsr_mpiwrap
    PUBLIC :: mp_send, mp_recv
 
    ! Memory management
-   PUBLIC :: mp_allocate, mp_deallocate
+   PUBLIC :: mp_allocate, mp_deallocate, mp_mem_pool_release
 
    ! MPI re-ordering
    PUBLIC :: mp_reordering
@@ -544,6 +560,44 @@ MODULE dbcsr_mpiwrap
    INTEGER, SAVE, PRIVATE :: last_mp_perf_env_id = 0
 
 CONTAINS
+
+#if defined(__parallel) && defined(__LIBXS)
+   FUNCTION mp_mem_alloc(nbytes) BIND(C, name="dbcsr_mp_mem_alloc") RESULT(memory)
+      !! Allocates memory for the LIBXS pool (MPI_ALLOC_MEM)
+      INTEGER(KIND=C_SIZE_T), VALUE                      :: nbytes
+      TYPE(C_PTR)                                        :: memory
+
+      INTEGER                                            :: mp_res
+      INTEGER(KIND=MPI_ADDRESS_KIND)                     :: mp_size
+      MPI_INFO_TYPE                                      :: mp_info
+
+      mp_size = INT(nbytes, KIND=MPI_ADDRESS_KIND)
+      mp_info = MPI_INFO_NULL
+      CALL MPI_ALLOC_MEM(mp_size, mp_info, memory, mp_res)
+      IF (mp_res /= 0) memory = C_NULL_PTR
+   END FUNCTION mp_mem_alloc
+
+   SUBROUTINE mp_mem_free(memory) BIND(C, name="dbcsr_mp_mem_free")
+      !! Deallocates memory of the LIBXS pool (MPI_FREE_MEM)
+      TYPE(C_PTR), VALUE                                 :: memory
+
+      INTEGER(KIND=int_4), DIMENSION(:), POINTER         :: base
+      INTEGER                                            :: mp_res
+
+      CALL C_F_POINTER(memory, base, (/1/))
+      CALL MPI_FREE_MEM(base, mp_res)
+   END SUBROUTINE mp_mem_free
+#endif
+
+   SUBROUTINE mp_mem_pool_release()
+      !! Releases the memory pooled for mp_allocate (no allocation may be pending)
+#if defined(__parallel) && defined(__LIBXS)
+!$OMP CRITICAL(dbcsr_mp_mem_pool)
+      IF (C_ASSOCIATED(mp_mem_pool)) CALL libxs_free_pool(mp_mem_pool)
+      mp_mem_pool = C_NULL_PTR
+!$OMP END CRITICAL(dbcsr_mp_mem_pool)
+#endif
+   END SUBROUTINE mp_mem_pool_release
 
    #:mute
       #:set types = ["comm", "request", "win", "file", "info"]
@@ -5590,7 +5644,9 @@ CONTAINS
                                                      mp_res
          INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
          TYPE(C_PTR)                              :: mp_baseptr
+#if !defined(__LIBXS)
          MPI_INFO_TYPE                            :: mp_info
+#endif
 
          length = MAX(len, 1)
          CALL MPI_TYPE_SIZE(${mpi_type1}$, size, ierr)
@@ -5598,8 +5654,17 @@ CONTAINS
          IF (mp_size .GT. mp_max_memory_size) THEN
             DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
          END IF
+#if defined(__LIBXS)
+!$OMP CRITICAL(dbcsr_mp_mem_pool)
+         IF (.NOT. C_ASSOCIATED(mp_mem_pool)) mp_mem_pool = libxs_malloc_pool(C_FUNLOC(mp_mem_alloc), C_FUNLOC(mp_mem_free))
+!$OMP END CRITICAL(dbcsr_mp_mem_pool)
+         ! native pointer: the memory as returned by MPI_ALLOC_MEM
+         mp_baseptr = libxs_malloc(mp_mem_pool, INT(mp_size, KIND=C_SIZE_T), LIBXS_MALLOC_NATIVE)
+         mp_res = MERGE(0, 1, C_ASSOCIATED(mp_baseptr))
+#else
          mp_info = MPI_INFO_NULL
          CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
+#endif
          CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_alloc_mem_${nametype1}$
@@ -5617,7 +5682,12 @@ CONTAINS
          !! allocation status result
 
          INTEGER                                  :: mp_res
+#if defined(__LIBXS)
+         CALL libxs_free(C_LOC(DATA))
+         mp_res = 0
+#else
          CALL MPI_FREE_MEM(DATA, mp_res)
+#endif
          IF (PRESENT(stat)) stat = mp_res
       END SUBROUTINE mp_free_mem_${nametype1}$
 #endif
