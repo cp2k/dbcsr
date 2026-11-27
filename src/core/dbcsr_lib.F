@@ -27,7 +27,8 @@ MODULE dbcsr_lib
                             mp_environ, mp_cart_rank, &
                             rm_mp_perf_env, &
                             mp_comm_free, &
-                            mp_get_comm_count, mp_comm_type, mp_comm_null
+                            mp_get_comm_count, mp_comm_type, mp_comm_null, &
+                            mp_mem_pool_release
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_lib_finalize, &
                        dbcsr_multiply_lib_init, &
@@ -226,15 +227,25 @@ CONTAINS
       CALL libxs_init()
 #endif
 
+      ! Without a device, the host runs what the GPU backend would
+      IF (use_acc() .AND. .NOT. PRESENT(accdrv_active_device_id)) THEN
+         IF (dbcsr_acc_get_ndevices() <= 0) THEN
+            CALL dbcsr_set_config(run_on_gpu=.FALSE.) ! also the CPU defaults
+            IF (use_acc()) THEN ! enforced by the environment
+               DBCSR_ABORT("dbcsr_init_lib: No recognized GPU devices")
+            ELSE IF (mynode .EQ. 0) THEN
+               DBCSR_WARN("dbcsr_init_lib: No recognized GPU devices, running on the host")
+            END IF
+         END IF
+      END IF
+
       ! Initialize Acc and set active device
       IF (use_acc()) THEN
          IF (PRESENT(accdrv_active_device_id)) THEN
             CALL set_accdrv_active_device_id(accdrv_active_device_id)
-         ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
+         ELSE
             ! Use round-robin assignment per rank
             CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
-         ELSE
-            DBCSR_ABORT("dbcsr_init_lib: No recognized GPU devices")
          END IF
          CALL acc_init()
 #if defined(__DBCSR_ACC)
@@ -326,6 +337,7 @@ CONTAINS
       NULLIFY (dbcsr_warn_hook)
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
+      CALL mp_mem_pool_release()
 #if defined(__LIBXS)
       CALL libxs_finalize()
 #endif
